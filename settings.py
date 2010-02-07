@@ -1,6 +1,6 @@
 """
 Note about this ``settings.py``:
-    This file contains all the usual default django settings
+    This file contains all the usual default django settings.
     However, to make this more extensible and to hide certain settings
     from the public in the github project. A file called environment.py
     must be created at the root level of this project. With a series of needed

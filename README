@@ -1,0 +1,28 @@
+== Project Description ==
+This is a community project to turn the successful facebook group "Secret London" into a website.
+
+Please get in contact [tim at onefinestay dot com] if you want to get involved!
+
+
+== Original Description ==
+"This group is for Londoners to inspire Londoners by sharing the secrets of the city."
+
+"Keep on sharing London's secrets - post any lesser known great places to see in London. Please give details of how we can locate it and what makes it a hidden gem. We also want to hear about any shows, readings, gigs and events going on in London. London is brimming with unknown talent and we want to know about it!"
+
+
+== Links ==
+Blog http://secretlondonblog.onefinestay.com/
+Twitter http://twitter.com/secret_london
+Facebook http://www.facebook.com/group.php?gid=259068995911
+
+
+== LICENSE ==
+See LICENSE for details
+
+
+== Dependancies ==
+Django http://www.djangoproject.com/
+
+=== Django Modules ===
+See INSTALLED_APPS in settings.py
+url of module will be included as comment
