@@ -2,7 +2,7 @@
 Note about this ``settings.py``:
     This file contains all the usual default django settings.
     However, to make this more extensible and to hide certain settings
-    from the public in the github project. A file called environment.py
+    from the public in the github project. A file called ``environment.py``
     must be created at the root level of this project. With a series of needed
     settings. See below for details
     
@@ -76,11 +76,19 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    # django
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    # internal
+    'contrib',
+    'secret',
+    # dependancies
+    'south',            # http://south.aeracode.org
 )
 
+# see top of document for notes
 from environment import *
-# see above for notes
+
+
