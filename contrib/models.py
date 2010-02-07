@@ -5,18 +5,13 @@ import datetime
 
 
 class HandleManager(models.Manager):
+    """ Adds extra cool helpers. See tests.py """
     def get_or_404(self, *args, **kwargs):
         return get_object_or_404(self.model, *args, **kwargs)
 
 
 class UserContentManager(HandleManager):
-    """
-    >>> from django.contrib.auth.models import User
-    >>> staff = User.objects.create(username='staff', password='x', is_staff=True)
-    >>> ordinary = User.objects.create(username='ord', password='x', is_staff=False)
-    >>> secret = Secret.objects.create()
-    # Tests...
-    """
+    """ Allow permission management. See tests.py """
     
     def editable(self, user):
         # staff can see anything
@@ -24,7 +19,7 @@ class UserContentManager(HandleManager):
             return self.get_query_set()
         # otherwise you have to be the owner
         else:
-            return self.filter(user=user)
+            return self.filter(created_by=user)
     
     def viewable(self, user=None):
         # staff can see anything
@@ -32,13 +27,11 @@ class UserContentManager(HandleManager):
             return self.get_query_set()
         # owners can see deleted, everyone else can only see non-deleted
         else:
-            return self.filter(models.Q(user=user) | models.Q(deleted=False))
+            return self.filter(models.Q(created_by=user) | models.Q(deleted=False))
 
 
 class UserContent(models.Model):
-    """
-    An abstract model which deals with permissions around User generated content
-    """
+    """ An abstract model which deals with permissions around User generated content """
     created_by      = models.ForeignKey(User, related_name='creator')
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
@@ -52,12 +45,13 @@ class UserContent(models.Model):
     class Meta:
         abstract = True
     
-    def mark_deleted(self, user=None):
-        self.deleted = True
-        self.deleted_at = datetime.datetime.now()
-        if user:
+    def mark_deleted(self, user):
+        "marks an object as deleted - if have correct permissions"
+        if user.is_staff or user.is_superuser or user == self.created_by:
+            self.deleted = True
+            self.deleted_at = datetime.datetime.now()
             self.deleted_by = user
-        self.save()
+            self.save()
         return self
 
 

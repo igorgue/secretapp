@@ -22,7 +22,7 @@ def edit(request, pk):
             secret = form.save(request)
             # success and ajax
             if request.is_ajax():
-                return context_reponse(request, 'secret/ajax_success.html', {'secret': secret })
+                return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
             # success redirect to instance page
             else:
                 return HttpResponseRedirect(secret.get_absolute_url())
@@ -32,7 +32,7 @@ def edit(request, pk):
         context = {'secret': secret }
         # is ajax creating / editing / failure
         if request.is_ajax():
-            return context_response(request, 'secret/snippets/list.html', context)
+            return context_response(request, 'secret/ajax.html', context)
         # otherwise
         else:
             return context_response(request, 'secret/edit.html', context)
