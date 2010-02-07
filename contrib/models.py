@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 import datetime
 
 
-class HandleManager(models.Model):
+class HandleManager(models.Manager):
     def get_or_404(self, *args, **kwargs):
         return get_object_or_404(self.model, *args, **kwargs)
 
@@ -39,13 +39,13 @@ class UserContent(models.Model):
     """
     An abstract model which deals with permissions around User generated content
     """
-    user            = models.ForeignKey(User)
-    ip              = models.IPAddressField(blank=True, null=True)
+    created_by      = models.ForeignKey(User, related_name='creator')
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
     deleted_at      = models.DateTimeField(blank=True, null=True)
     deleted         = models.BooleanField(default=False)
-    deleted_by      = models.ForeignKey(User, blank=True, null=True)
+    deleted_by      = models.ForeignKey(User, blank=True, null=True, related_name='deletor')
+    ip              = models.IPAddressField(blank=True, null=True)
     
     objects         = UserContentManager()
     
