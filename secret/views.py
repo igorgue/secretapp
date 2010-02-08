@@ -5,6 +5,7 @@ from models import *
 def search(request):
     # TODO: solr
 
+
 def view(request, pk):
     return context_response(request, 'secret/view.html', {
                 'secret': Secret.objects.viewable(request.user).get_or_404(pk=pk),
@@ -24,7 +25,7 @@ def edit(request, pk, discussion=False):
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
                 if discussion:
-                    return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
+                    return context_reponse(request, 'secret/snippets/comment.html', {'secret': secret })
                 # otherwise creating it randomly somewhere else
                 else:
                     return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
@@ -34,11 +35,19 @@ def edit(request, pk, discussion=False):
     else:
         form = SecretForm(instance=secret)
         
-        context = {'secret': secret }
-        # is ajax creating / editing / failure
-        if request.is_ajax():
-            return context_response(request, 'secret/ajax.html', context)
-        # otherwise
-        else:
-            return context_response(request, 'secret/edit.html', context)
+    # set the url
+    form.set_url(secret)
+    
+    context = {
+        'form': form,
+        'secret': secret,
+    }
+    # is ajax creating / editing / failure
+    if request.is_ajax():
+        return context_response(request, 'secret/ajax.html', context)
+    # otherwise
+    else:
+        return context_response(request, 'secret/edit.html', context)
+
+
 
