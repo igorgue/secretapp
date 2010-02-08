@@ -19,8 +19,8 @@ class Discussion(UserContent):
         return DiscussionComments.objects.viewable().filter(discussion=self)
     
     def safe_title(self):
-        # TODO: make this more robust
-        return self.title.replace(' ', '+')
+        from contrib.utils import safe_title
+        return safe_title(self.title)
     
     def get_absolute_url(self):
         # gets absolute url - with seo string attached
@@ -31,8 +31,7 @@ class Discussion(UserContent):
         lastpage = (len(comments)/self.comments_per_page) + 1
         return "%s?page=%s" % (self.get_absolute_url(), lastpage)
     
-    def get_secretpage_url(self, secret):
-        # gets the page of a discussion which a certain secret was mentioned on
+    def __page_of_secret(self, secret):
         from comment.models import SecretComment
         comments = self.comments()
         count = 0
@@ -41,7 +40,15 @@ class Discussion(UserContent):
             if c.secret = secret:
                 break
             count += 1
-        page = (count/self.comments_per_page) + 1
-        return "%s?page=%s" (self.get_absolute_url(), page)
+        return (count/self.comments_per_page) + 1
+    
+    def set_page_by_secret(self, secret):
+        # sets the discussion page by its secret
+        self.page = self.__page_of_secret(secret)
+        return self
+    
+    def get_secretpage_url(self, secret):
+        # gets the page of a discussion which a certain secret was mentioned on
+        return "%s?page=%s" (self.get_absolute_url(), self.__page_of_secret(secret))
 
 

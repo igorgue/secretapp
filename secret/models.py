@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from contrib.models import UserContent
@@ -14,6 +15,12 @@ class Secret(UserContent):
     google_reff     = models.CharField(max_length=250, blank=True, null=True)
     url             = models.URLField(blank=True, null=True)
     
+    def safe_title(self):
+        from contrib.utils import safe_title
+        return safe_title(self.title)
+    
+    def get_asbolute_url(self):
+        return "%s%s/" % (reverse('view_secret', {'pk':self.pk}), self.safe_title())
     
     def __unicode__(self):
         return self.title
