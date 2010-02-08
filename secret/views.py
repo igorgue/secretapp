@@ -11,7 +11,7 @@ def view(request, pk):
             })
 
 
-def edit(request, pk):
+def edit(request, pk, discussion=False):
     user = request.user
     # get object
     secret = Secret.objects.editable(user).get_or_404(pk=pk)
@@ -22,7 +22,12 @@ def edit(request, pk):
             secret = form.save(request)
             # success and ajax
             if request.is_ajax():
-                return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
+                # if creating a secret as part of a discussion reply (need to return different template)
+                if discussion:
+                    return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
+                # otherwise creating it randomly somewhere else
+                else:
+                    return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
             # success redirect to instance page
             else:
                 return HttpResponseRedirect(secret.get_absolute_url())
