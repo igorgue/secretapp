@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^', include('comment.urls')),
     (r'^', include('contrib.urls')),
     (r'^', include('discussion.urls')),
     (r'^', include('secret.urls')),

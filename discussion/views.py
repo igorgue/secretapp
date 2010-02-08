@@ -5,7 +5,7 @@ from models import *
 
 def search(request):
     # TODO: make solr
-
+    pass
 
 def view(request, pk):
     # view a discussion

@@ -5,7 +5,7 @@ from models import *
 
 def search(request):
     # TODO: solr
-
+    pass
 
 def view(request, pk):
     return context_response(request, 'secret/view.html', {

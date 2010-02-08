@@ -1,5 +1,5 @@
 from contrib.shortcuts import context_response
-from dicussion.models import Discussion
+from discussion.models import Discussion
 from secret.models import Secret
 from forms import *
 from models import *
