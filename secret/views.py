@@ -42,7 +42,7 @@ def edit(request, pk=None, discussion_id=None):
     else:
         form = SecretForm(instance=secret)
         
-    # set the url
+    # set the urlG
     form.set_url(secret=secret, discussion=discussion_id)
     
     context = {

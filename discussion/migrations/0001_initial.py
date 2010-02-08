@@ -1,55 +1,34 @@
 
 from south.db import db
 from django.db import models
-from secret.models import *
+from discussion.models import *
 
 class Migration:
     
     def forwards(self, orm):
         
-        # Changing field 'Secret.google_reff'
-        # (to signature: django.db.models.fields.CharField(max_length=250, null=True, blank=True))
-        db.alter_column('secret_secret', 'google_reff', orm['secret.secret:google_reff'])
-        
-        # Changing field 'Secret.description'
-        # (to signature: django.db.models.fields.TextField(null=True, blank=True))
-        db.alter_column('secret_secret', 'description', orm['secret.secret:description'])
-        
-        # Changing field 'Secret.longitude'
-        # (to signature: django.db.models.fields.FloatField(null=True, blank=True))
-        db.alter_column('secret_secret', 'longitude', orm['secret.secret:longitude'])
-        
-        # Changing field 'Secret.latitude'
-        # (to signature: django.db.models.fields.FloatField(null=True, blank=True))
-        db.alter_column('secret_secret', 'latitude', orm['secret.secret:latitude'])
-        
-        # Changing field 'Secret.location'
-        # (to signature: django.db.models.fields.CharField(max_length=250, null=True, blank=True))
-        db.alter_column('secret_secret', 'location', orm['secret.secret:location'])
+        # Adding model 'Discussion'
+        db.create_table('discussion_discussion', (
+            ('id', orm['discussion.Discussion:id']),
+            ('created_by', orm['discussion.Discussion:created_by']),
+            ('deleted_by_id', orm['discussion.Discussion:deleted_by_id']),
+            ('created_at', orm['discussion.Discussion:created_at']),
+            ('updated_at', orm['discussion.Discussion:updated_at']),
+            ('deleted_at', orm['discussion.Discussion:deleted_at']),
+            ('deleted', orm['discussion.Discussion:deleted']),
+            ('ip', orm['discussion.Discussion:ip']),
+            ('title', orm['discussion.Discussion:title']),
+            ('text', orm['discussion.Discussion:text']),
+            ('pinned', orm['discussion.Discussion:pinned']),
+        ))
+        db.send_create_signal('discussion', ['Discussion'])
         
     
     
     def backwards(self, orm):
         
-        # Changing field 'Secret.google_reff'
-        # (to signature: django.db.models.fields.CharField(max_length=250))
-        db.alter_column('secret_secret', 'google_reff', orm['secret.secret:google_reff'])
-        
-        # Changing field 'Secret.description'
-        # (to signature: django.db.models.fields.TextField())
-        db.alter_column('secret_secret', 'description', orm['secret.secret:description'])
-        
-        # Changing field 'Secret.longitude'
-        # (to signature: django.db.models.fields.FloatField())
-        db.alter_column('secret_secret', 'longitude', orm['secret.secret:longitude'])
-        
-        # Changing field 'Secret.latitude'
-        # (to signature: django.db.models.fields.FloatField())
-        db.alter_column('secret_secret', 'latitude', orm['secret.secret:latitude'])
-        
-        # Changing field 'Secret.location'
-        # (to signature: django.db.models.fields.CharField(max_length=250))
-        db.alter_column('secret_secret', 'location', orm['secret.secret:location'])
+        # Deleting model 'Discussion'
+        db.delete_table('discussion_discussion')
         
     
     
@@ -88,23 +67,19 @@ class Migration:
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'secret.secret': {
+        'discussion.discussion': {
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'creator'", 'to': "orm['auth.User']"}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'deleted_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'deletor'", 'blank': 'True', 'null': 'True', 'to': "orm['auth.User']"}),
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'google_reff': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
-            'latitude': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'location': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
-            'longitude': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'pinned': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'text': ('django.db.models.fields.TextField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         }
     }
     
-    complete_apps = ['secret']
+    complete_apps = ['discussion']

@@ -1,4 +1,5 @@
 from contrib.models import UserContent
+from django.db import models
 from discussion.models import Discussion
 from secret.models import Secret
 
@@ -20,5 +21,5 @@ class SecretComment(AbstractComment):
 
 class DiscussionComment(AbstractComment):
     """ A comment on a discussion. Could have secrets associated with it. """
-    discussion      = models.ForiegnKey(Discussion)
+    discussion      = models.ForeignKey(Discussion)
     secrets         = models.ManyToManyField(Secret)

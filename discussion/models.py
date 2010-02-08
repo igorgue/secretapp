@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from contrib.models import UserContent
 
@@ -37,7 +38,7 @@ class Discussion(UserContent):
         count = 0
         # ugly but works well with cache (and not used much)
         for c in len(comments):
-            if c.secret = secret:
+            if c.secret == secret:
                 break
             count += 1
         return (count/self.comments_per_page) + 1

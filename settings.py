@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     # internal
+    'comment',
     'contrib',
     'discussion',
     'secret',
