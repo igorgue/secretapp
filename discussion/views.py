@@ -11,7 +11,9 @@ def view(request, pk):
     # view a discussion
     discussion = Discussion.objects.viewable(request.user).get_or_404(pk=pk)
     
-    #TODO: work out page stuff
+    if request.GET.has_key('page'):
+        discussion.page = request.page['page']
+    
     return context_response(request, 'discussion/view.html', {
                 'discussion': discussion,
             })
@@ -25,8 +27,9 @@ def edit(request, pk=None):
         if form.is_valid():
             discussion = form.save(request)
             return HttpResponseRedirect(discussion.get_absolute_url())
-    else:
-        form = DiscussionForm(instance=discussion)
-        return context_response(request, 'discussion/edit.html', {
-                    'discussion': discussion,
-                })
+    
+    form = DiscussionForm(instance=discussion)
+    return context_response(request, 'discussion/edit.html', {
+                'form': form,
+                'discussion': discussion,
+            })

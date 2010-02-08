@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^', include('contrib.urls')),
+    (r'^', include('discussion.urls')),
     (r'^', include('secret.urls')),
     
     # Uncomment the next line to enable the admin:

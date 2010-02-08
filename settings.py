@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     # internal
     'contrib',
+    'discussion',
     'secret',
     # dependancies
     'south',            # http://south.aeracode.org
