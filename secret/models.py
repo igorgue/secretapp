@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from contrib.models import UserContent
+from perm.models import UserContent
 
 class Secret(UserContent):
     """
@@ -15,8 +15,10 @@ class Secret(UserContent):
     google_reff     = models.CharField(max_length=250, blank=True, null=True)
     url             = models.URLField(blank=True, null=True)
     
+    edit_permission = 'Keeper'
+    
     def safe_title(self):
-        from contrib.utils import safe_title
+        from perm.utils import safe_title
         return safe_title(self.title)
     
     def get_asbolute_url(self):

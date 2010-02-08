@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from contrib.models import UserContent
+from perm.models import UserContent
 
 class Discussion(UserContent):
     """
@@ -11,6 +11,7 @@ class Discussion(UserContent):
     text        = models.TextField()
     pinned      = models.BooleanField(default=False, help_text=_("Will remain at top of discussion board."))
     
+    edit_permission = 'Seneschal'
     comments_per_page = 10
     page = 1
     
@@ -20,7 +21,7 @@ class Discussion(UserContent):
         return DiscussionComments.objects.viewable().filter(discussion=self)
     
     def safe_title(self):
-        from contrib.utils import safe_title
+        from perm.utils import safe_title
         return safe_title(self.title)
     
     def get_absolute_url(self):

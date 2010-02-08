@@ -1,4 +1,4 @@
-from contrib.forms import UserContentForm
+from perm.forms import UserContentForm
 
 def SecretCommentForm(UserContentForm):
     class Meta:

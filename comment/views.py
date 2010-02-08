@@ -1,4 +1,4 @@
-from contrib.shortcuts import context_response
+from perm.shortcuts import context_response
 from discussion.models import Discussion
 from secret.models import Secret
 from forms import *

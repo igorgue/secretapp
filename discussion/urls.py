@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from contrib.views import delete
+from perm.views import delete
 from models import *
 from views import *
 
