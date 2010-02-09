@@ -1,0 +1,11 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+    {% form form %}
+        {% for f in form %}
+            {% field f %}
+        {% endfor %}
+    {% endform %}
+
+{% endblock %}

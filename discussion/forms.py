@@ -1,6 +1,7 @@
 from perm.forms import UserContentForm
+from models import *
 
-def DiscussionForm(UserContentForm):
+class DiscussionForm(UserContentForm):
     class Meta:
         model = Discussion
         fields = ('title', 'text',)
