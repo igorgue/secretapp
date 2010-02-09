@@ -1,4 +1,5 @@
-from utils.shortcuts import context_response
+from django.http import HttpResponseRedirect
+from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
 
 from forms import *
 from models import *
@@ -9,7 +10,7 @@ def search(request):
 
 def view(request, pk):
     # view a discussion
-    discussion = Discussion.objects.viewable(request.user).get_or_404(pk=pk)
+    discussion = get_viewable_or_raise(Discussion, request.user)
     
     if request.GET.has_key('page'):
         discussion.page = request.page['page']
@@ -20,7 +21,7 @@ def view(request, pk):
 
 
 def edit(request, pk=None):
-    discussion = Discussion.objects.editable(request.user).get_or_404(pk=pk) if pk else Discussion()
+    discussion = get_editable_or_raise(Discussion, request.user, pk=pk) if pk else Discussion()
     
     if request.method == 'POST':
         form = DiscussionForm(request.POST, instance=discussion)

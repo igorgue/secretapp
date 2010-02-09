@@ -24,8 +24,8 @@ class SecretForm(UserContentForm):
         
         # handle options
         if discussion_id and not secret_id:
-            self.Meta.url = reverse('new_secret_for_discussion', {'discussion_id': discussion_id})
+            self.Meta.url = reverse('new_secret_for_discussion', kwargs={'discussion_id': discussion_id})
         elif not discussion_id and secret_id:
-            self.Meta.url = reverse('edit_secret', {'pk': secret_id })
+            self.Meta.url = reverse('edit_secret', kwargs={'pk': secret_id })
         else:
             self.Meta.url = reverse('new_secret')

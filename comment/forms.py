@@ -8,10 +8,10 @@ def SecretCommentForm(UserContentForm):
     def set_url(secret, discussion=None):
         if discussion:
             self.Meta.url = reverse('create_discussion_secret_comment', \
-                                    {'discussion_id': discussion.id, 'secret_id': secret.id })
+                                    kwargs={'discussion_id': discussion.id, 'secret_id': secret.id })
         else:
             self.Meta.url = reverse('create_secret_comment', \
-                                    {'secret_id': secret.id })
+                                    kwargs={'secret_id': secret.id })
 
 
 def DiscussionCommentForm(UserContentForm):
@@ -22,11 +22,11 @@ def DiscussionCommentForm(UserContentForm):
         fields = ('text',)
     
     def set_url(discussion):
-        self.Meta.url = reverse('create_discussion_comment', {'discussion_id': dicussion.id })
+        self.Meta.url = reverse('create_discussion_comment', kwargs={'discussion_id': dicussion.id })
     
     def save(self, request):
         instance = super(DiscussionCommentForm, self).save(request)
-        secrets = Secret.objects.viewable(request.user).filter(pk__in=self.cleaned_data['secrets'])
+        secrets = Secret.viewable.filter(pk__in=self.cleaned_data['secrets'])
         for s in secrets:
             instance.add(s)
         return instance

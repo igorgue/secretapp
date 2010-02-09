@@ -1,10 +1,11 @@
-from utils.shortcuts import context_response
+from django.http import HttpResponseRedirect
+from utils.shortcuts import context_response, get_editable_or_raise
 
 
 def delete(request, pk, model):
     if request.method == 'POST':
         # get instance
-        instance = model.objects.editable(request.user).get_or_404(pk=pk)
+        instance = get_editable_or_raise(model, request.user, pk=pk)
         # mark deleted
         instance.mark_deleted(request.user)
         # return

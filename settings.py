@@ -74,9 +74,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'secretapp.perm.middleware.ExtendedUserMiddleware',
 )
 
-ROOT_URLCONF = 'secretapp.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     "%s/templates/" % CWD,

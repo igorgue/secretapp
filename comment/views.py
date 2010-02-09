@@ -1,12 +1,13 @@
+from django.http import HttpResponseRedirect
 from discussion.models import Discussion
 from secret.models import Secret
-from utils.shortcuts import context_response
+from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
 from forms import *
 from models import *
 
 def create_secret_comment(request, secret_id):
     """ Comment directly on a Secret """
-    secret = Secret.objects.viewable(request.user).get_or_404(pk=secret_id)
+    secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
     
     if request.method == 'POST':
         form = SecretCommentForm(request.POST)
@@ -43,7 +44,7 @@ def create_secret_comment(request, secret_id):
 
 def create_discussion_comment(request, discussion_id):
     """ Comment directly on a Discussion """
-    discussion = Discussion.objects.viewable(request.user).get_or_404(pk=discussion_id)
+    discussion = get_viewable_or_raise(Discussion, request.user, pk=discussion_id)
     
     if request.method == 'POST':
         form = DiscussionCommentForm(request.POST)
@@ -72,8 +73,8 @@ def create_discussion_comment(request, discussion_id):
 
 def create_discussion_secret_comment(request, discussion_id, secret_id):
     """ Comment on a Secret on a Discussion """
-    discussion = Discussion.objects.viewable(request.user).get_or_404(pk=discussion_id)
-    secret = Secret.objects.viewable(request.user).get_or_404(pk=secret_id)
+    discussion = get_viewable_or_raise(Discussion, request.user, pk=discussion_id)
+    secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
     
     if request.method == 'POST':
         form = SecretCommentForm(request.POST)

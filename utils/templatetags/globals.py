@@ -18,7 +18,6 @@ def form(form):
             url = 'some/url/to/'
             method = 'GET'
     """
-    print dir(form)
     return { 'form': form }
 
 
@@ -33,7 +32,6 @@ def field(field, classes=None):
     The 'left short' are classes which you want to apply to
     the containing div class
     """
-    print dir(field)
     return { 'field': field, 'classes': classes }
 
 

@@ -22,7 +22,7 @@ class Secret(UserContent):
         return safe_title(self.title)
     
     def get_asbolute_url(self):
-        return "%s%s/" % (reverse('view_secret', {'pk':self.pk}), self.safe_title())
+        return "%s%s/" % (reverse('view_secret', kwargs={'pk':self.pk}), self.safe_title())
     
     def __unicode__(self):
         return self.title

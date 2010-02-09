@@ -54,32 +54,32 @@ True
 ...    u.permission_level = permission_level(calculate_permission_name(u))
 
 # superusers can edit all secrets
->>> Secret.objects.editable(user).filter(title='test')
-[<Secret: test>]
+>>> secret.is_editable(user)
+True
 
 # owners can edit their secrets
->>> Secret.objects.editable(owner).filter(title='test')
-[<Secret: test>]
+>>> secret.is_editable(owner)
+True
 
 # members can't do anything
->>> Secret.objects.editable(member).filter(title='test')
-[]
+>>> secret.is_editable(member)
+False
 
 # owners and superusers can delete (same as edit permissions)
 >>> secret.mark_deleted(user).deleted
 True
 
 # superusers can see deleted objects
->>> Secret.objects.viewable(user).filter(title='test')
-[<Secret: test>]
+>>> secret.is_viewable(user)
+True
 
 # owners cannot see deleted items
->>> Secret.objects.viewable(owner).filter(title='test')
-[]
+>>> secret.is_viewable(owner)
+False
 
 # normal members cannot see deleted items
->>> Secret.objects.viewable(member).filter(title='test')
-[]
+>>> secret.is_viewable(member)
+False
 
 """}
 

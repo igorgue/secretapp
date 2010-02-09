@@ -1,4 +1,4 @@
-from utils import permission_level, calculate_permission_name, PERMISSION_SESSION_NAME, PERMISSION_LEVELS
+from tools import permission_level, calculate_permission_name, PERMISSION_SESSION_NAME, PERMISSION_LEVELS
 
 class ExtendedUserMiddleware(object):
     def process_request(self, request):

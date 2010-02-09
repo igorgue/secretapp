@@ -26,7 +26,7 @@ class Discussion(UserContent):
     
     def get_absolute_url(self):
         # gets absolute url - with seo string attached
-        return "%s%s/" % (reverse('view_discussion', {'pk': self.pk }), self.safe_title())
+        return "%s%s/" % (reverse('view_discussion', kwargs={'pk': self.pk }), self.safe_title())
     
     def get_lastpage_url(self):
         # gets the last page of the discussion

@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.shortcuts import get_object_or_404
 from tools import *
 import datetime
 
@@ -52,31 +51,9 @@ The users group level is assigned and saved in a middleware.
 
 """
 
-class HandleManager(models.Manager):
-    """ Adds extra cool helpers. See tests.py """
-    def get_or_404(self, *args, **kwargs):
-        # this isn't ideal, should return a PermissionError in some usecases
-        return get_object_or_404(self.model, *args, **kwargs)
-
-
-class UserContentManager(HandleManager):
-    """ Allow permission management. See tests.py """
-    
-    def editable(self, user):
-        # staff can see anything
-        if user.permission_level >= permission_level(self.model.edit_permission):
-            return self.get_query_set()
-        # otherwise you have to be the owner
-        else:
-            return self.filter(created_by=user)
-    
-    def viewable(self, user=None):
-        # superusers can see anything
-        if user and user.permission_level >= permission_level('Secretary'):
-            return self.get_query_set()
-        # otherwise you cannot see deleted items
-        else:
-            return self.filter(deleted=False)
+class UserContentManager(models.Manager):
+    def get_query_set(self):
+        return self.filter(deleted=False)
 
 
 class UserContent(models.Model):
@@ -93,7 +70,8 @@ class UserContent(models.Model):
     deleted         = models.BooleanField(default=False)
     ip              = models.IPAddressField(blank=True, null=True)
     
-    objects         = UserContentManager()
+    viewable        = UserContentManager()
+    objects         = models.Manager()
     
     # see above for details
     # make edit_permission default to highest
@@ -101,6 +79,15 @@ class UserContent(models.Model):
     
     class Meta:
         abstract = True
+    
+    def is_editable(self, user):
+        # editable if has permissions or is owner
+        return user.permission_level >= permission_level(self.edit_permission) \
+                or self.created_by == user
+    
+    def is_viewable(self, user=None):
+        # viewable if not deleted or are superuser
+        return not self.deleted or (user is not None and user.is_superuser)
     
     @property
     def deleted_by(self):
@@ -112,7 +99,7 @@ class UserContent(models.Model):
     
     def mark_deleted(self, user):
         "marks an object as deleted - if have correct permissions"
-        if user.permission_level >= permission_level(self.edit_permission):
+        if self.is_editable(user):
             self.deleted = True
             self.deleted_at = datetime.datetime.now()
             # would make this nicer - but only used for refference in emergency

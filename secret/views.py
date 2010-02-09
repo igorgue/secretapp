@@ -1,5 +1,6 @@
+from django.http import HttpResponseRedirect
 from discussion.models import Discussion
-from utils.shortcuts import context_response
+from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
 from forms import *
 from models import *
 
@@ -11,14 +12,14 @@ def search(request):
 
 def view(request, pk):
     return context_response(request, 'secret/view.html', {
-                'secret': Secret.objects.viewable(request.user).get_or_404(pk=pk),
+                'secret': get_viewable_or_raise(Secret, request.user, pk=pk),
             })
 
 
 def edit(request, pk=None, discussion_id=None):
     user = request.user
     # get object
-    secret = Secret.objects.editable(user).get_or_404(pk=pk) if pk else Secret()
+    secret = get_editable_or_raise(Secret, user, pk=pk) if pk else Secret()
     
     if request.method == 'POST':
         form = SecretForm(request.POST, instance=secret)
@@ -37,7 +38,7 @@ def edit(request, pk=None, discussion_id=None):
                 # if creating as part of a discussion, redirect back to discussion
                 if discussion_id:
                     # this is a serious failure if this happeneds - but try best to recover
-                    return HttpResponseRedirect(reverse('view_discussion', {'pk': discussion_id }))
+                    return HttpResponseRedirect(reverse('view_discussion', kwargs={'pk': discussion_id }))
                 # otherwise send to new page
                 else:
                     return HttpResponseRedirect(secret.get_absolute_url())
