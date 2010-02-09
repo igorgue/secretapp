@@ -26,6 +26,41 @@ Django http://www.djangoproject.com/
 pyfacebook http://github.com/sciyoshi/pyfacebook/
        (debian: apt-get install python-facebook)
 
+django-socialregistration
+        http://github.com/flashingpumpkin/django-socialregistration
+        This required modification, to work!  see below
+
 === Django Modules ===
 See INSTALLED_APPS in settings.py
 url of module will be included as comment
+
+=== Django socialregistration ===
+
+before installing on debian, to stop ezzhtools from messing about,
+downloading django 1.1 when it was already installed, the ezzhtools
+install_requires line was removed and apt-get install python-oauth
+and apt-get install python-paste had already been done and were now
+not interfered with.
+
+however, it appears that there is a problem with python-openid on
+debian, so that was installed manually from the site:
+http://openidenabled.com/python-openid/
+
+Also, django socialregistration, in order to actually, like... work,
+required zip_safe=False to be added, so that the templates folder
+was accessible.
+
++++ b/setup.py
+@@ -11,8 +11,9 @@ METADATA = dict(
+     keywords='django facebook twitter oauth openid registration',
+ )
+ SETUPTOOLS_METADATA = dict(
+-    install_requires=['setuptools', 'django', 'oauth', 'python-openid'],
++    #install_requires=['setuptools', 'django', 'oauth', 'python-openid'],
+     include_package_data=True,
++    zip_safe=False,
+     classifiers=[
+         'Development Status :: 4 - Beta',
+         'Intended Audience :: Developers',
+
+
