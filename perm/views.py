@@ -1,4 +1,4 @@
-from contrib.shortcuts import context_response
+from utils.shortcuts import context_response
 
 
 def delete(request, pk, model):

@@ -1,6 +1,6 @@
-from perm.shortcuts import context_response
 from discussion.models import Discussion
 from secret.models import Secret
+from utils.shortcuts import context_response
 from forms import *
 from models import *
 

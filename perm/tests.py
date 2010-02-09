@@ -13,16 +13,6 @@ True
 
 
 ##
-## safe_title
-##
->>> from utils import safe_title
->>> safe_title("Where can I buy good cheese ")
-'Where-can-I-buy-good-cheese'
->>> safe_title("Is 12 fish  enough $!}{} pur-ple monkey")
-'Is-12-fish-enough-pur-ple-monkey'
-
-
-##
 ## calculate_permission_name
 ##
 >>> from utils import calculate_permission_name

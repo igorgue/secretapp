@@ -21,7 +21,7 @@ class Discussion(UserContent):
         return DiscussionComments.objects.viewable().filter(discussion=self)
     
     def safe_title(self):
-        from perm.utils import safe_title
+        from utils.manipulators import safe_title
         return safe_title(self.title)
     
     def get_absolute_url(self):

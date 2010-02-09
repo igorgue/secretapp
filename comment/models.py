@@ -6,6 +6,8 @@ from secret.models import Secret
 class AbstractComment(UserContent):
     """ Helper abstract model. Pretty useless now. May add more later. """
     text = models.TextField()
+    
+    # see perm.models for details
     edit_permission = 'Keeper'
     
     class Meta:

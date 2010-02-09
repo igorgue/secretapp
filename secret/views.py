@@ -1,11 +1,13 @@
-from perm.shortcuts import context_response
 from discussion.models import Discussion
+from utils.shortcuts import context_response
 from forms import *
 from models import *
+
 
 def search(request):
     # TODO: solr
     pass
+
 
 def view(request, pk):
     return context_response(request, 'secret/view.html', {

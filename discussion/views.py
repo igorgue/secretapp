@@ -1,4 +1,4 @@
-from perm.shortcuts import context_response
+from utils.shortcuts import context_response
 
 from forms import *
 from models import *
