@@ -21,6 +21,10 @@ See LICENSE for details
 
 == Dependancies ==
 Django http://www.djangoproject.com/
+       (debian: apt-get install python-django)
+
+pyfacebook http://github.com/sciyoshi/pyfacebook/
+       (debian: apt-get install python-facebook)
 
 === Django Modules ===
 See INSTALLED_APPS in settings.py
