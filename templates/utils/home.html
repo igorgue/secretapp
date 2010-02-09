@@ -6,4 +6,18 @@
     <li><a href="{% url new_secret %}">New secret</a></li>
     <li><a href="{% url new_discussion %}">New discussion</a></li>
 </ol>
+
+<h3>Recent Discussions</h3>
+<ul>
+    {% for d in discussions|slice:":15" %}
+        <li><a href="{{d.get_absolute_url}}">{{d.title}}</a></li>
+    {% endfor %}
+</ul>
+
+<h3>Recent Secrets</h3>
+<ul>
+    {% for s in secrets|slice:":15" %}
+        <li><a href="{{s.get_absolute_url}}">{{s.title}}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}

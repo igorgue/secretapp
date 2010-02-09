@@ -21,7 +21,7 @@ class Secret(UserContent):
         from utils.manipulators import safe_title
         return safe_title(self.title)
     
-    def get_asbolute_url(self):
+    def get_absolute_url(self):
         return "%s%s/" % (reverse('view_secret', kwargs={'pk':self.pk}), self.safe_title())
     
     def get_delete_url(self):

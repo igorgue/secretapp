@@ -53,7 +53,7 @@ The users group level is assigned and saved in a middleware.
 
 class UserContentManager(models.Manager):
     def get_query_set(self):
-        return self.filter(deleted=False)
+        return super(UserContentManager, self).get_query_set().filter(deleted=False)
 
 
 class UserContent(models.Model):
