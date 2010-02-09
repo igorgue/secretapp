@@ -28,6 +28,11 @@ class Discussion(UserContent):
         # gets absolute url - with seo string attached
         return "%s%s/" % (reverse('view_discussion', kwargs={'pk': self.pk }), self.safe_title())
     
+    def get_delete_url(self):
+        print "bleh"
+        print reverse('delete_discussion', kwargs={'pk': self.pk})
+        return reverse('delete_discussion', kwargs={'pk': self.pk})
+    
     def get_lastpage_url(self):
         # gets the last page of the discussion
         lastpage = (len(comments)/self.comments_per_page) + 1

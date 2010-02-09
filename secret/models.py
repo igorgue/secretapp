@@ -24,5 +24,8 @@ class Secret(UserContent):
     def get_asbolute_url(self):
         return "%s%s/" % (reverse('view_secret', kwargs={'pk':self.pk}), self.safe_title())
     
+    def get_delete_url(self):
+        return reverse('delete_secret', kwargs={'pk': self.pk})
+    
     def __unicode__(self):
         return self.title

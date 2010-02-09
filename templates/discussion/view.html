@@ -5,4 +5,15 @@
 <div>Title: {{discussion.title}}</div>
 <div>test: {{discussion.text}}</div>
 
+
+{% if discussion.is_editable %}
+    {% if discussion.deleted %}
+        <b>DELETED</b>
+    {% else %}
+        {% with discussion.get_delete_url as delete_url %}
+            {% include 'perm/delete_button.html' %}
+        {% endwith %}
+    {% endif %}
+{% endif %}
+
 {% endblock %}

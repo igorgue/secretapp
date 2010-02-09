@@ -80,23 +80,30 @@ class UserContent(models.Model):
     class Meta:
         abstract = True
     
-    def user_can_edit(self, user):
-        # editable if has permissions or is owner
+    def __user_can(self, user):
         self._is_editable = user.permission_level >= \
             permission_level(self.edit_permission) or self.created_by == user
+        self._is_viewable = not self.deleted or \
+            (user is not None and user.is_superuser)
+        return self
+    
+    def user_can_edit(self, user):
+        # editable if has permissions or is owner
+        self.__user_can(user)
         return self._is_editable
     
     def user_can_view(self, user=None):
         # viewable if not deleted or are superuser
-        return not self.deleted or (user is not None and user.is_superuser)
+        self.__user_can(user)
+        return self._is_viewable
     
     def _is_perm(self, var):
+        uvar = '_%s' % var
         if hasattr(self, uvar):
-            uvar = '_%s'
             return getattr(self, uvar)
         else:
             raise AttributeError, \
-            "Please run `user_can_*` can edit before accessing %s" % var
+            "Please run `user_can` before accessing %s" % var
     
     @property
     def is_editable(self):
