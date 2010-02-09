@@ -1,7 +1,9 @@
 from django.core.urlresolvers import reverse
+from discussion.models import Discussion
 from perm.forms import UserContentForm
+from models import *
 
-def SecretForm(UserContentForm):
+class SecretForm(UserContentForm):
     class Meta:
         model = Secret
         fields = ('title', 'description', 'location', 'latitude', 'longitude')
@@ -12,7 +14,7 @@ def SecretForm(UserContentForm):
             secret_id = secret.pk
         else:
             secret_id = None
-        if isinstance(dicussion, Discussion):
+        if isinstance(discussion, Discussion):
             discussion_id = discussion.pk
         else:
             try:
@@ -21,7 +23,7 @@ def SecretForm(UserContentForm):
                 discussion_id = None
         
         # handle options
-        if dicussion_id and not secret_id:
+        if discussion_id and not secret_id:
             self.Meta.url = reverse('new_secret_for_discussion', {'discussion_id': discussion_id})
         elif not discussion_id and secret_id:
             self.Meta.url = reverse('edit_secret', {'pk': secret_id })

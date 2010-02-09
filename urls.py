@@ -16,3 +16,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 )
+
+# loads all our standard template tags
+from django import template
+template.add_to_builtins('secretapp.utils.templatetags.globals')
