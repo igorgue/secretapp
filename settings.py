@@ -97,7 +97,7 @@ INSTALLED_APPS = (
     'secret',
     'utils',
     # dependancies
-    'south',            # http://south.aeracode.org
+    'south',            # http://south.aeracode.org v.0.6.2
 )
 
 # see top of document for notes

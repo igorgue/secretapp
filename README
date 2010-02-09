@@ -20,10 +20,10 @@ See LICENSE for details
 
 
 == Dependancies ==
-Django http://www.djangoproject.com/
+Django http://www.djangoproject.com/ v.1.1
        (debian: apt-get install python-django)
 
-pyfacebook http://github.com/sciyoshi/pyfacebook/
+pyfacebook http://github.com/sciyoshi/pyfacebook/ v.0.1
        (debian: apt-get install python-facebook)
 
 === Django Modules ===
