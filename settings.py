@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'perm',
     'discussion',
     'secret',
+    'utils',
     # dependancies
     'south',            # http://south.aeracode.org
 )

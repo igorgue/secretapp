@@ -3,7 +3,7 @@ __test__ = {'doctest': """
 ##
 ## permission_level
 ##
->>> from utils import permission_level
+>>> from tools import permission_level
 >>> permission_level('Visitor')
 0
 >>> permission_level('Secretary')
@@ -15,7 +15,7 @@ True
 ##
 ## calculate_permission_name
 ##
->>> from utils import calculate_permission_name
+>>> from tools import calculate_permission_name
 >>> from django.contrib.auth.models import User, AnonymousUser, Group
 
 # un_authenticated users are 'Visitor's
@@ -80,6 +80,7 @@ True
 # normal members cannot see deleted items
 >>> Secret.objects.viewable(member).filter(title='test')
 []
+
 """}
 
 
