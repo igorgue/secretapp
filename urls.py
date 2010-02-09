@@ -10,6 +10,9 @@ urlpatterns = patterns('',
     (r'^', include('discussion.urls')),
     (r'^', include('secret.urls')),
     
+    # contains landing page
+    (r'^', include('utils.urls')),
+    
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 )
