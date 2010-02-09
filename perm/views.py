@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, Http404
 from utils.shortcuts import context_response, get_editable_or_raise
 
 
@@ -11,5 +12,9 @@ def delete(request, pk, model):
         # return
         if request.is_ajax():
             return context_response(request, 'ajax/deleted.html', {'instance': instance })
-
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404

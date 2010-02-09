@@ -80,14 +80,31 @@ class UserContent(models.Model):
     class Meta:
         abstract = True
     
-    def is_editable(self, user):
+    def user_can_edit(self, user):
         # editable if has permissions or is owner
-        return user.permission_level >= permission_level(self.edit_permission) \
-                or self.created_by == user
+        self._is_editable = user.permission_level >= \
+            permission_level(self.edit_permission) or self.created_by == user
+        return self._is_editable
     
-    def is_viewable(self, user=None):
+    def user_can_view(self, user=None):
         # viewable if not deleted or are superuser
         return not self.deleted or (user is not None and user.is_superuser)
+    
+    def _is_perm(self, var):
+        if hasattr(self, uvar):
+            uvar = '_%s'
+            return getattr(self, uvar)
+        else:
+            raise AttributeError, \
+            "Please run `user_can_*` can edit before accessing %s" % var
+    
+    @property
+    def is_editable(self):
+        return self._is_perm('is_editable')
+    
+    @property
+    def is_viewable(self):
+        return self._is_perm('is_viewable')
     
     @property
     def deleted_by(self):
@@ -99,7 +116,7 @@ class UserContent(models.Model):
     
     def mark_deleted(self, user):
         "marks an object as deleted - if have correct permissions"
-        if self.is_editable(user):
+        if self.user_can_edit(user):
             self.deleted = True
             self.deleted_at = datetime.datetime.now()
             # would make this nicer - but only used for refference in emergency

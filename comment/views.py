@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from discussion.models import Discussion
 from secret.models import Secret

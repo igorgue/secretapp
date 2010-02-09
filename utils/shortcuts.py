@@ -31,7 +31,7 @@ def get_editable_or_raise(Model, user, *args, **kwargs):
     if not isinstance(user, (User, AnonymousUser)):
         raise TypeError, "Please supply a user as the second argument"
     instance = get_object_or_404(Model, *args, **kwargs)
-    if instance.is_editable(user):
+    if instance.user_can_edit(user):
         return instance
     else:
         raise PermissionDenied
@@ -44,7 +44,7 @@ def get_viewable_or_raise(Model, user, *args, **kwargs):
     if not isinstance(user, (User, AnonymousUser)):
         raise TypeError, "Please supply a user as the second argument"
     instance = get_object_or_404(Model, *args, **kwargs)
-    if instance.is_viewable(user):
+    if instance.user_can_view(user):
         return instance
     else:
         raise Http404
