@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 def context_response(request, template, context, *args, **kwargs):
     """
@@ -6,5 +7,4 @@ def context_response(request, template, context, *args, **kwargs):
         http://docs.djangoproject.com/en/dev/ref/templates/api/#subclassing-context-requestcontext
     """
     kwargs['context_instance'] = RequestContext(request)
-    context, args, kwargs = handle_context_response(request, context, *args, **kwargs)
     return render_to_response(template, context, *args, **kwargs)
