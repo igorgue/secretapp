@@ -28,6 +28,10 @@ South http://south.aeracode.org v.0.6.2 (or latest)
 pyfacebook http://github.com/sciyoshi/pyfacebook/ v.0.1
         (debian: apt-get install python-facebook)
 
+
+
+== IGNORE FOR NOW - WILL NEED FOR NEXT RELEASE ==
+
 Solango http://code.google.com/p/django-solr-search/ v.0.0.2 (or latest)
         (svn co http://django-solr-search.googlecode.com/svn/trunk/ django-solr-search)
 

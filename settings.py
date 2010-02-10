@@ -124,7 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     # dependancies
     'south',
-    'solango',
+    #'solango',
     # internal
     'comment',
     'perm',
