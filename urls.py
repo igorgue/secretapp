@@ -9,8 +9,8 @@ urlpatterns = patterns('',
     (r'^', include('perm.urls')),
     (r'^', include('discussion.urls')),
     (r'^', include('secret.urls')),
-    (r'^', include('fblogin.urls')),
     (r'^', include('socialregistration.urls')),
+#    (r'^', include('fblogin.urls')),
     
     # contains landing page
     (r'^', include('utils.urls')),

@@ -7,9 +7,18 @@ Note about this ``settings.py``:
     settings. See below for details
     
 List of needed settings:
-    CWD = '/home/timjdavey/apps' # current working directory so settings are relative
-    SECRET_KEY = 'abcxyz'
+    # current working directory so settings are relative
+    CWD = '/home/timjdavey/apps'
+    
+    # make up some key - mash the keyboard
+    SECRET_KEY
+    
+    # database settings - see notes below for details
     DATABASE_*
+    
+    # facebook api confs
+    FACEBOOK_API_KEY
+    FACEBOOK_SECRET_KEY
 """
 from environment import CWD
 
@@ -89,6 +98,10 @@ TEMPLATE_DIRS = (
     "%s/templates/" % CWD,
 )
 
+# Social auth settings
+# this means it automatically generates a User and connects via facebook
+SOCIAL_GENERATE_USERNAME = True
+
 INSTALLED_APPS = (
     # django
     'django.contrib.admin',
@@ -96,6 +109,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    # dependancies
+    'south',
     'socialregistration',
     # internal
     'comment',
@@ -103,8 +118,6 @@ INSTALLED_APPS = (
     'discussion',
     'secret',
     'utils',
-    # dependancies
-    'south',            # http://south.aeracode.org v.0.6.2
 )
 
 # see top of document for notes

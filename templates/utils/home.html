@@ -3,11 +3,10 @@
 {% block content %}
 
 {# facebook connect #}
-{% if not user.is_authenticated %}
-    {% load facebook_tags %}
-    {% facebook_button %}
-    {% facebook_js %}
-{% endif %}
+{% load facebook_tags %}
+{% facebook_button %}
+{% facebook_js %}
+<a href="#" onclick="FB.Connect.logoutAndRedirect('{% url home %}')">Logout</a>
 
 {# random crap #}
 <h1>Welcome to Secret London!</h1>
