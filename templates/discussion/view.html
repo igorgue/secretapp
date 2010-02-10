@@ -2,18 +2,42 @@
 
 {% block content %}
 
-<div>Title: {{discussion.title}}</div>
-<div>test: {{discussion.text}}</div>
+{# DELETE BUTTON FOR ADMINS ONLY #}
+{% with discussion as delete_obj %}
+    {% include 'perm/delete_logic.html' %}
+{% endwith %}
 
+{# DISCUSSION TEXT AND TITLE #}
+<h3>{{discussion.title}}</h3>
+<div><i>{{discussion.text}}</i></div>
+<i>{{discussion.created_at}} - {% with discussion.created_by as u %}<a href="mailto:{{u.email}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>{% endwith %}</i>
+<br />
 
-{% if discussion.is_editable %}
-    {% if discussion.deleted %}
-        <b>DELETED</b>
-    {% else %}
-        {% with discussion.get_delete_url as delete_url %}
-            {% include 'perm/delete_button.html' %}
-        {% endwith %}
-    {% endif %}
-{% endif %}
+{# REPLY FORM #}
+<h4>Reply to this</h4>
+{% form reply_form %}
+    {% for f in reply_form %}
+        {% field f %}
+    {% endfor %}
+{% endform %}
+
+{# DISCUSSION COMMENTS #}
+<br /><br /><br />
+<hr />
+{% for c in discussion.page_comments %}
+    <div>{{c.text}} - <i>"{{c.created_at}}" - {% with c.created_by as u %}<a href="mailto:{{u.email}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>{% endwith %}</i></div>
+    {% with c as delete_obj %}{% include 'perm/delete_logic.html' %}{% endwith %}
+    <hr />
+{% endfor %}
+
+{# PAGES AND LINKS #}
+
+<ul>
+    {% if discussion.previous_page %}<li><a href="?page={{discussion.previous_page}}">previous</a></li>{% endif %}
+    {% for p in discussion.xpages %}
+        <li>{% ifequal p discussion.page %}<b>{{p}}</b>{% else %}<a href="?page={{p}}">{{p}}</a>{% endifequal %}</li>
+    {% endfor %}
+    {% if discussion.next_page %}<li><a href="?page={{discussion.next_page}}">next</a></li>{% endif %}
+</ul>
 
 {% endblock %}

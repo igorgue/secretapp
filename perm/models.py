@@ -81,6 +81,7 @@ class UserContent(models.Model):
         abstract = True
     
     def __user_can(self, user):
+        self.read_by = user
         self._is_editable = user.permission_level >= \
             permission_level(self.edit_permission) or self.created_by == user
         self._is_viewable = not self.deleted or \

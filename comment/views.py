@@ -51,7 +51,7 @@ def create_discussion_comment(request, discussion_id):
         form = DiscussionCommentForm(request.POST)
         if form.is_valid():
             # see formModel for logic
-            instance = form.save(request)
+            instance = form.save(request, discussion)
             
             # if successful just show discussion comment inline
             if request.is_ajax():

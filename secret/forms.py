@@ -29,3 +29,4 @@ class SecretForm(UserContentForm):
             self.Meta.url = reverse('edit_secret', kwargs={'pk': secret_id })
         else:
             self.Meta.url = reverse('new_secret')
+        return self

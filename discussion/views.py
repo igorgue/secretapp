@@ -1,4 +1,6 @@
 from django.http import HttpResponseRedirect
+
+from comment.forms import DiscussionCommentForm
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
 
 from forms import *
@@ -10,13 +12,14 @@ def search(request):
 
 def view(request, pk):
     # view a discussion
-    discussion = get_viewable_or_raise(Discussion, request.user)
+    discussion = get_viewable_or_raise(Discussion, request.user, pk=pk)
     
     if request.GET.has_key('page'):
-        discussion.page = request.page['page']
+        discussion.page = int(request.GET['page'])
     
     return context_response(request, 'discussion/view.html', {
                 'discussion': discussion,
+                'reply_form': DiscussionCommentForm().set_url(discussion),
             })
 
 

@@ -15,30 +15,64 @@ class Discussion(UserContent):
     comments_per_page = 10
     page = 1
     
+    @property
+    def pages(self):
+        if not hasattr(self, '_pages'):
+            self._pages = ((len(self.comments())-1)/self.comments_per_page) + 1
+        return self._pages
+    
+    @property
+    def xpages(self):
+        return xrange(1, self.pages+1)
+    
+    @property
+    def previous_page(self):
+        prev = self.page - 1
+        return prev if prev > 0 else None
+    
+    @property
+    def next_page(self):
+        next = self.page + 1 
+        return next if next < self.pages else None
+    
     def comments(self):
-        from comment.models import DiscussionComment
-        # TODO: cache this
-        return DiscussionComments.objects.viewable().filter(discussion=self)
+        "gets all the comments on a discussion - which are not deleted"
+        if not hasattr(self, '_comments'):
+            from comment.models import DiscussionComment
+            # TODO: cache this
+            self._comments = DiscussionComment.viewable.filter(discussion=self).select_related()
+        return self._comments
+    
+    def page_comments(self):
+        "gets the comments on a certain `.page` "
+        # works out start and end discussions to be shown
+        start = (self.page-1)*self.comments_per_page
+        end = self.page*self.comments_per_page
+        comments = self.comments()[start:end]
+        # assigns editable permissions
+        for c in comments:
+            c.user_can_edit(self.read_by)
+        return comments
     
     def safe_title(self):
+        "gets the title - safe for use in urls"
         from utils.manipulators import safe_title
         return safe_title(self.title)
     
     def get_absolute_url(self):
-        # gets absolute url - with seo string attached
+        "gets absolute url - with seo string attached"
         return "%s%s/" % (reverse('view_discussion', kwargs={'pk': self.pk }), self.safe_title())
     
     def get_delete_url(self):
-        print "bleh"
-        print reverse('delete_discussion', kwargs={'pk': self.pk})
+        "gets the url needed to POST to delete the page"
         return reverse('delete_discussion', kwargs={'pk': self.pk})
     
     def get_lastpage_url(self):
-        # gets the last page of the discussion
-        lastpage = (len(comments)/self.comments_per_page) + 1
-        return "%s?page=%s" % (self.get_absolute_url(), lastpage)
+        "gets the last page of the discussion"
+        return "%s?page=%s" % (self.get_absolute_url(), self.pages)
     
     def __page_of_secret(self, secret):
+        "works out which page a certain secret is on"
         from comment.models import SecretComment
         comments = self.comments()
         count = 0
@@ -50,12 +84,12 @@ class Discussion(UserContent):
         return (count/self.comments_per_page) + 1
     
     def set_page_by_secret(self, secret):
-        # sets the discussion page by its secret
+        "sets the discussion page by its secret"
         self.page = self.__page_of_secret(secret)
         return self
     
     def get_secretpage_url(self, secret):
-        # gets the page of a discussion which a certain secret was mentioned on
+        "gets the page of a discussion which a certain secret was mentioned on"
         return "%s?page=%s" (self.get_absolute_url(), self.__page_of_secret(secret))
 
 
