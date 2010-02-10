@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from discussion.models import Discussion
 from secret.models import Secret
+from comment.models import FavouriteSecret
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
 from forms import *
 from models import *
@@ -112,3 +113,9 @@ def create_discussion_secret_comment(request, discussion_id, secret_id):
         return context_response(request, 'comment/edit_discussion_secret.html', context)
 
 
+def create_favourite_secret(request, secret_id):
+    """ Clock up a favourite to a user... """
+    secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+    secret_fave = secret.favourite_secrets_list.filter(created_by_id = request.user.id, secret_id = secret_id)
+    if not secret_fave:
+        FavouriteSecret(secret = secret).save()

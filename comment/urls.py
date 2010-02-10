@@ -19,5 +19,13 @@ urlpatterns = patterns('',
     
     url(r'^discussion_comment/(?P<pk>\d+)/delete/$', \
             delete, {'model': DiscussionComment }, name='delete_discussion_comment'),
+
+
+    # favourites
+    url(r'^favourite_secret/(?P<secret_id>\d+)/add/$', \
+            create_favourite_secret, name='create_favourite_secret'),
+    
+    url(r'^favourite_secret/(?P<pk>\d+)/delete/$', \
+            delete, {'model': FavouriteSecret }, name='delete_favourite_secret'),
 )
 
