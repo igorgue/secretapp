@@ -1,0 +1,12 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h2>Discussions</h2>
+<ul>
+{% for d in discussions %}
+    <li><a href="{{d.get_absolute_url}}">{{d.title}}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

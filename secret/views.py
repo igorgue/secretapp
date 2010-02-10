@@ -6,8 +6,13 @@ from models import *
 
 
 def search(request):
-    # TODO: solr
-    pass
+    # TODO: make solr call
+    template = request.GET.get('template', 'list')
+    return context_response(request, 'secret/search.html', {
+                'secrets': Secret.viewable.all(),
+                'template': 'secret/render/%s.html' % template,
+                'template_types': ('list', 'comment', 'photo'),
+            })
 
 
 def view(request, pk):

@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^secret/(?P<pk>\d+)/edit/$', edit, name='edit_secret'),
     url(r'^secret/(?P<pk>\d+)/delete/$', delete, {'model': Secret }, name='delete_secret'),
     url(r'^secret/(?P<pk>\d+)/', view, name='view_secret'),
+    url(r'^secrets/$', search, name='search_secrets'),
 )

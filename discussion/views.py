@@ -7,8 +7,10 @@ from forms import *
 from models import *
 
 def search(request):
-    # TODO: make solr
-    pass
+    # TODO: make solr search
+    return context_response(request, 'discussion/search.html', {
+                'discussions': Discussion.viewable.all().order_by('-created_at'),
+            })
 
 def view(request, pk):
     # view a discussion
