@@ -36,7 +36,6 @@ class DiscussionComment(AbstractComment):
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
 
-
 class Proposal(models.Model):
     """ When you suggest a secret in a discussion """
     discussion_comment = models.ForeignKey(DiscussionComment)
