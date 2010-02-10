@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from discussion.models import Discussion
-from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
+from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 from forms import *
 from models import *
 
@@ -20,7 +20,7 @@ def view(request, pk):
                 'secret': get_viewable_or_raise(Secret, request.user, pk=pk),
             })
 
-
+@login_required
 def edit(request, pk=None, discussion_id=None):
     user = request.user
     # get object

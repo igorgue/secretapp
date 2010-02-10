@@ -24,6 +24,7 @@ from environment import CWD
 
 # Django settings for secret project.
 
+ADMIN_INSERT = True # This will only be true while we load the data
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -98,9 +99,6 @@ TEMPLATE_DIRS = (
     "%s/templates/" % CWD,
 )
 
-# Social auth settings
-# this means it automatically generates a User and connects via facebook
-SOCIAL_GENERATE_USERNAME = True
 
 INSTALLED_APPS = (
     # django
@@ -111,7 +109,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     # dependancies
     'south',
-    'socialregistration',
     # internal
     'comment',
     'perm',

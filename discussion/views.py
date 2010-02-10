@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 
 from comment.forms import DiscussionCommentForm
-from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
+from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 
 from forms import *
 from models import *
@@ -24,7 +24,7 @@ def view(request, pk):
                 'reply_form': DiscussionCommentForm().set_url(discussion),
             })
 
-
+@login_required
 def edit(request, pk=None):
     discussion = get_editable_or_raise(Discussion, request.user, pk=pk) if pk else Discussion()
     

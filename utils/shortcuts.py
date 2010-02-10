@@ -14,8 +14,22 @@ def context_response(request, template, context, *args, **kwargs):
     return render_to_response(template, context, *args, **kwargs)
 
 
+def login_required(func):
+    """
+    http://docs.djangoproject.com/en/dev/topics/auth/#the-login-required-decorator
+
+    But uses reverse('login') and automatically redirects back to incoming page.
+    """
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            request.session['next'] = request.path
+            return HttpResponseRedirect(reverse('login'))
+        return func(request, *args, **kwargs)
+    return wrapper
+
+
 def select_related_object_or_404(select_related, Model, *args, **kwargs):
-    "Wanted to add select_related functionality"
+    "Wanted to add select_related functionality to django.shortcuts.get_object_or_404"
     try:
         if select_related:
             return Model.objects.select_related().get(*args, **kwargs)
@@ -26,11 +40,7 @@ def select_related_object_or_404(select_related, Model, *args, **kwargs):
 
 
 def get_editable_or_raise(Model, user, select_related=True, *args, **kwargs):
-    """
-    similar to 
-        django.shortcuts.get_object_or_404
-    but does permission check
-    """
+    "similar to django.shortcuts.get_object_or_404 with permission checks"
     if not isinstance(user, (User, AnonymousUser)):
         raise TypeError, "Please supply a user as the second argument"
     instance = select_related_object_or_404(select_related, Model, *args, **kwargs)
@@ -41,9 +51,7 @@ def get_editable_or_raise(Model, user, select_related=True, *args, **kwargs):
 
 
 def get_viewable_or_raise(Model, user, select_related=True, *args, **kwargs):
-    """
-    similar to above but does viewablility check
-    """
+    "similar to above but does viewablility check"
     if not isinstance(user, (User, AnonymousUser)):
         raise TypeError, "Please supply a user as the second argument"
     instance = select_related_object_or_404(select_related, Model, *args, **kwargs)
