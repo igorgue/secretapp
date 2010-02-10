@@ -11,14 +11,29 @@ List of needed settings:
     CWD = '/home/timjdavey/apps'
     
     # make up some key - mash the keyboard
-    SECRET_KEY
+    SECRET_KEY = '123abc'
     
     # database settings - see notes below for details
     DATABASE_*
     
-    # facebook api confs
-    FACEBOOK_API_KEY
-    FACEBOOK_SECRET_KEY
+    # facebook api confs (simply the keys provided from the app)
+    FACEBOOK_API_KEY = 'x'
+    FACEBOOK_SECRET_KEY = 'x'
+    
+    # Solr / Solango configs
+    SOLR_SERVER = 'localhost:8080'
+    SOLR_ROOT = '/usr/lib/tomcat6/data/solr'
+    SOLR_SCHEMA_PATH = '%s/conf/schema.xml' % SOLR_ROOT
+    SOLR_DATA_DIR = '%s/data' % SOLR_ROOT
+    SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
+    SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
+    SEARCH_PING_URLS = ["http://%s/solr/admin/ping" % SOLR_SERVER,]
+
+    SEARCH_FACET_PARAMS = [
+        ("facet", "true"),
+        ("facet.field", "tags"),
+        ("facet.field", "regions"),
+    ]
 """
 from environment import CWD
 
@@ -89,7 +104,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'secretapp.perm.middleware.ExtendedUserMiddleware',
+    'secretapp.perm.middleware.PermissionUserMiddleware',
     'facebook.djangofb.FacebookMiddleware',
 )
 
@@ -109,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     # dependancies
     'south',
+    'solango',
     # internal
     'comment',
     'perm',

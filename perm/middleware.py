@@ -1,9 +1,9 @@
 from tools import permission_level, calculate_permission_name, PERMISSION_SESSION_NAME, PERMISSION_LEVELS
 
-class ExtendedUserMiddleware(object):
+class PermissionUserMiddleware(object):
     def process_request(self, request):
         assert hasattr(request, 'session') and hasattr(request, 'user'), \
-            "The ExtendedUserMiddleware requires session and authentification \
+            "The PermissionUserMiddleware requires session and authentification \
                 middleware to be installed. Edit your MIDDLEWARE_CLASSES setting to insert."
         
         # if permission level is already in session, then assign it to user object

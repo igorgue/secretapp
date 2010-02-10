@@ -23,7 +23,18 @@ See LICENSE for details
 Django http://www.djangoproject.com/ v.1.1
         (debian: apt-get install python-django)
 
-South http://south.aeracode.org v.0.6.2
+South http://south.aeracode.org v.0.6.2 (or latest)
 
 pyfacebook http://github.com/sciyoshi/pyfacebook/ v.0.1
         (debian: apt-get install python-facebook)
+
+Solango http://code.google.com/p/django-solr-search/ v.0.0.2 (or latest)
+        (svn co http://django-solr-search.googlecode.com/svn/trunk/ django-solr-search)
+
+=== Search Dependancies ===
+Solr http://wiki.apache.org/solr/SolrTomcat
+        (ubuntu: http://www.tc.umn.edu/~brams006/solr_ubuntu.html)
+        Java6
+            (debian: sudo apt-get -y install sun-java6-jdk sun-java6-bin sun-java6-jre)
+        Tomcat
+            (http://apache.bglam.com/tomcat/tomcat-6/v6.0.24/bin/apache-tomcat-6.0.24.zip)
