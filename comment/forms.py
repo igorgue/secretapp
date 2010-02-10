@@ -34,5 +34,5 @@ class DiscussionCommentForm(UserContentForm):
         instance.save()
         secrets = Secret.viewable.filter(pk__in=self.cleaned_data['secrets'])
         for s in secrets:
-            instance.add(s)
+            instance.secrets.add(s)
         return instance
