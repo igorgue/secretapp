@@ -68,6 +68,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
+
+AUTHENTICATION_BACKENDS = (
+    "socialregistration.auth.FacebookAuth",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,6 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'secretapp.perm.middleware.ExtendedUserMiddleware',
+    'facebook.djangofb.FacebookMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -90,6 +96,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'socialregistration',
     # internal
     'comment',
     'perm',

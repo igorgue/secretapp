@@ -1,11 +1,16 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
+
+{# facebook connect #}
+{% if not user.is_authenticated %}
+    {% load facebook_tags %}
+    {% facebook_button %}
+    {% facebook_js %}
+{% endif %}
+
+{# random crap #}
 <h1>Welcome to Secret London!</h1>
-<ol>
-    <li><a href="{% url new_secret %}">New secret</a></li>
-    <li><a href="{% url new_discussion %}">New discussion</a></li>
-</ol>
 
 <h3>Recent Discussions</h3>
 <ul>
@@ -20,4 +25,5 @@
         <li><a href="{{s.get_absolute_url}}">{{s.title}}</a></li>
     {% endfor %}
 </ul>
+
 {% endblock %}
