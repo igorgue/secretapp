@@ -4,4 +4,8 @@
     <li><a href="{% url search_discussions %}">Discussions</a></li>
     <li><a href="{% url new_secret %}">New secret</a></li>
     <li><a href="{% url new_discussion %}">New discussion</a></li>
+    
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
 </ul>

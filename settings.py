@@ -108,8 +108,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'perm.middleware.PermissionUserMiddleware',
+    # facebook middleware, checks auth and gets info
     'facebook.djangofb.FacebookMiddleware',
+    # gives a user a permission_level (see `perm` module)
+    'perm.middleware.PermissionUserMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
