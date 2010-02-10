@@ -96,15 +96,19 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
 )
 
-AUTHENTICATION_BACKENDS = (
-    "socialregistration.auth.FacebookAuth",
-)
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
+                           'socialauth.auth_backends.OpenIdBackend',
+                           'socialauth.auth_backends.TwitterBackend',
+                           'socialauth.auth_backends.FacebookBackend',
+                           )
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'secretapp.perm.middleware.PermissionUserMiddleware',
+    'perm.middleware.PermissionUserMiddleware',
     'facebook.djangofb.FacebookMiddleware',
 )
 
@@ -123,8 +127,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     # dependancies
+    'socialauth',
+    'openid_consumer',
+    #'solango',
     'south',
-    'solango',
     # internal
     'comment',
     'perm',

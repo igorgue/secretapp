@@ -28,6 +28,12 @@ South http://south.aeracode.org v.0.6.2 (or latest)
 pyfacebook http://github.com/sciyoshi/pyfacebook/ v.0.1
         (debian: apt-get install python-facebook)
 
+django-socialauth http://github.com/uswaretech/Django-Socialauth v.0.6c9 (or latest)
+        (git clone git://github.com/uswaretech/Django-Socialauth.git)
+        
+        yadis http://pypi.python.org/pypi/python-yadis/1.1.0
+            http://openidenabled.com/files/python-openid/files/python-yadis-1.1.0.tar.gz
+
 Solango http://code.google.com/p/django-solr-search/ v.0.0.2 (or latest)
         (svn co http://django-solr-search.googlecode.com/svn/trunk/ django-solr-search)
 
