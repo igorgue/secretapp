@@ -23,9 +23,9 @@ urlpatterns = patterns('',
 
     # favourites
     url(r'^favourite_secret/(?P<secret_id>\d+)/add/$', \
-            create_favourite_secret, name='create_favourite_secret'),
+            add_favourite_secret, name='create_favourite_secret'),
     
-    url(r'^favourite_secret/(?P<pk>\d+)/delete/$', \
-            delete, {'model': FavouriteSecret }, name='delete_favourite_secret'),
+    url(r'^favourite_secret/(?P<secret_id>\d+)/delete/$', \
+            delete_favourite_secret, name='delete_favourite_secret'),
 )
 

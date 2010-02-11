@@ -113,9 +113,37 @@ def create_discussion_secret_comment(request, discussion_id, secret_id):
         return context_response(request, 'comment/edit_discussion_secret.html', context)
 
 
-def create_favourite_secret(request, secret_id):
+def add_favourite_secret(request, secret_id):
     """ Clock up a favourite to a user... """
-    secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
-    secret_fave = secret.favourite_secrets_list.filter(created_by_id = request.user.id, secret_id = secret_id)
-    if not secret_fave:
-        FavouriteSecret(secret = secret).save()
+    if request.method == 'POST':
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        fave, new = FavouriteSecret.objects.get_or_create(secret=secret, created_by = request.user)
+
+        if request.is_ajax():
+            return context_response(request, 'ajax/new_favourite.html', {'instance': fave})
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404
+        
+def delete_favourite_secret(request, secret_id):
+    """ Remove favourite from a user's list """
+    if request.method == 'POST':
+        # get instance
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # mark deleted
+        fave = FavouriteSecret.objects.get(secret__id = secret.id, created_by = request.user)
+        if fave.user_can_edit(request.user): 
+            fave.mark_deleted(request.user)
+        # return
+        if request.is_ajax():
+            return context_response(request, 'ajax/deleted.html', {'instance': fave })
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404
+    
