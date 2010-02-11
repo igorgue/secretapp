@@ -2,8 +2,9 @@ from django.http import HttpResponseRedirect
 from discussion.models import Discussion
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 from forms import *
+from secret.models import FavouriteSecret
 from models import *
-
+from django.http import Http404
 
 def search(request):
     # TODO: make solr call
@@ -65,4 +66,39 @@ def edit(request, pk=None, discussion_id=None):
         return context_response(request, 'secret/edit.html', context)
 
 
-
+def add_favourite_secret(request, secret_id):
+    """ Clock up a favourite to a user... """
+    if request.method == 'GET':
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # This creates a NEW entry even if this user previously created and then deleted
+        # a favourite reference to a secret
+        fave, new = FavouriteSecret.objects.get_or_create(secret=secret, created_by = request.user, deleted=False)
+        
+        if request.is_ajax():
+            return context_response(request, 'ajax/new_favourite.html', {'instance': fave})
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404
+        
+def delete_favourite_secret(request, secret_id):
+    """ Remove favourite from a user's list """
+    if request.method == 'GET':
+        # get instance
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # mark deleted on the only favourite flag that is set on this secret and has not
+        # previously been deleted.
+        fave = FavouriteSecret.objects.get(secret__id = secret.id, created_by = request.user, deleted=False)
+        if fave.user_can_edit(request.user): 
+            fave.mark_deleted(request.user)
+        # return
+        if request.is_ajax():
+            return context_response(request, 'ajax/deleted.html', {'instance': fave })
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404

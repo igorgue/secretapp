@@ -49,10 +49,3 @@ class ProposalEndorsement(UserContent):
     """ An endorsment on a secret proposal """
     proposal        = models.ForeignKey(Proposal)
         
-class FavouriteSecret(UserContent):
-    """ A Reference to a secret rated as favourite for a person. """
-    secret          = models.ForeignKey(Secret)
-    
-    def get_delete_url(self):
-        return reverse('delete_favourite_secret', kwargs={'pk': self.pk})
-

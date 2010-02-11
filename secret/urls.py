@@ -10,4 +10,11 @@ urlpatterns = patterns('',
     url(r'^secret/(?P<pk>\d+)/delete/$', delete, {'model': Secret }, name='delete_secret'),
     url(r'^secret/(?P<pk>\d+)/', view, name='view_secret'),
     url(r'^secrets/$', search, name='search_secrets'),
+
+    # favourites
+    url(r'^favourite_secret/(?P<secret_id>\d+)/add/$', \
+            add_favourite_secret, name='create_favourite_secret'),
+    
+    url(r'^favourite_secret/(?P<secret_id>\d+)/delete/$', \
+            delete_favourite_secret, name='delete_favourite_secret'),
 )
