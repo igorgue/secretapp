@@ -4,8 +4,17 @@ from utils.search import SearchForm
 from models import *
 
 class DiscussionSearchForm(SearchForm):
-    title       = forms.CharField(required=False)
-    text        = forms.CharField(required=False)
+    # sort
+    sort    = forms.ChoiceField(choices=(
+                    ('created desc', 'Newest'),
+                    ('updated desc', 'Activity'),
+                    ('comments desc', 'Most Posts'),
+                    ('secrets desc', 'Most Secrets'),
+                ), required=False)
+    
+    # text searches
+    title   = forms.CharField(required=False)
+    text    = forms.CharField(required=False)
     
     class Meta:
         model = Discussion
@@ -22,7 +31,7 @@ class DiscussionSearchForm(SearchForm):
         
         # searching for any text
         if 'text' in data and data['text']:
-            queries.append("(title:(%s)^10 OR text:(%s)^3 OR comments:(%s))"\
+            queries.append("(title:(%s)^10 OR text:(%s)^3 OR blob:(%s))"\
                             % (data['text'], data['text'], data['text']))
         # return
         return self.get_results(" AND ".join(queries))

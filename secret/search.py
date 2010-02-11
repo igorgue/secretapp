@@ -25,6 +25,12 @@ class SecretDocument(SearchDocument):
     latitude    = sFloatField(indexed=True, stored=True)
     longitude   = sFloatField(indexed=True, stored=True)
     
+    # datetimes
+    created     = solango.fields.DateTimeField(indexed=True, stored=False)
+    
+    def transform_created(self, instance):
+        return instance.created_at
+    
     def render(self, template):
         return self.data_dict["render_%s" % template]
     

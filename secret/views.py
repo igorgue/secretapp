@@ -23,7 +23,6 @@ def search(request):
     return context_response(request, 'secret/search.html', {
                 'form': form,
                 'results': results,
-                
                 # this will be hard coded into tabs
                 'template_types': SECRET_RENDER_TEMPLATES,
             })

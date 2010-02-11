@@ -12,11 +12,16 @@ from models import *
 SECRET_RENDER_TEMPLATES = ('list', 'photo', 'location')
 SECRET_RENDER_FOLDER = 'secret/render/%s.html'
 
-
 class SecretSearchForm(SearchForm):
     # choose a template
     templates   = SECRET_RENDER_TEMPLATES
     template    = forms.ChoiceField(choices=[(s,s) for s in SECRET_RENDER_TEMPLATES], required=False)
+    
+    # sort
+    sort        = forms.ChoiceField(choices=(
+                        ('created desc', 'Newest'),
+                        ('created asc', 'Oldest'),
+                    ), required=False)
     
     # text
     title       = forms.CharField(required=False)
@@ -32,6 +37,9 @@ class SecretSearchForm(SearchForm):
     class Meta:
         model = Secret
         url_name = 'search_secrets'
+    
+    def render_template(self):
+        return self.Meta.query_dict.get('template', 'list')
     
     def template_url(self, template):
         """ Returns the url to change the template but keep the same search critieon """
@@ -55,12 +63,11 @@ class SecretSearchForm(SearchForm):
                                                                 % (text, text, text))
         
         # do quick check has all fields (ugly)
-        has_all_points = True
+        lcount = 0
         for f in self.location_fields:
-            if not (f in data and data[f]):
-                has_all_point = False
-                break
-        if has_all_points:
+            if f in data and data[f]:
+                lcount += 1
+        if lcount == 4:
             queries.append("(latitude:[%s TO %s] AND longitude:[%s TO %s])"\
             % (data['south'], data['north'], data['west'], data['east']))
         
