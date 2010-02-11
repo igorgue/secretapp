@@ -7,17 +7,12 @@ from models import *
 
 
 def search(request):
-    # TODO: make solr call
-    template = request.GET.get('template', 'list')
-    
     # if has been requested
     if request.GET:
         form = SecretSearchForm(request.GET)
     # otherwise default settings
     else:
-        form = SecretSearchForm({
-            'page': 1
-        })
+        form = SecretSearchForm({'page': 1})
     
     # get the results
     if form.is_valid():
@@ -28,13 +23,9 @@ def search(request):
     return context_response(request, 'secret/search.html', {
                 'form': form,
                 'results': results,
-                'template': template,
                 
-                # this may need to become a context_processor
+                # this will be hard coded into tabs
                 'template_types': SECRET_RENDER_TEMPLATES,
-                
-                # loose this later (keep for now - testing purposes)
-                'secrets': Secret.viewable.all(),
             })
 
 
@@ -42,6 +33,7 @@ def view(request, pk):
     return context_response(request, 'secret/view.html', {
                 'secret': get_viewable_or_raise(Secret, request.user, pk=pk),
             })
+
 
 @login_required
 def edit(request, pk=None, discussion_id=None):

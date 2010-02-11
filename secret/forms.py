@@ -55,14 +55,14 @@ class SecretSearchForm(SearchForm):
                                                                 % (text, text, text))
         
         # do quick check has all fields (ugly)
-        len_points = 0
+        has_all_points = True
         for f in self.location_fields:
-            if f in data and data[f]:
-                len_points += 1
-        if len_points == 4:
+            if not (f in data and data[f]):
+                has_all_point = False
+                break
+        if has_all_points:
             queries.append("(latitude:[%s TO %s] AND longitude:[%s TO %s])"\
             % (data['south'], data['north'], data['west'], data['east']))
-        
         
         # return
         return self.get_results(" AND ".join(queries))

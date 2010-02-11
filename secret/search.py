@@ -40,7 +40,7 @@ class SecretDocument(SearchDocument):
             # Ugly hack to dynamically add fields onto SearchDocument
             name = 'render_%s' % t
             # need to create a new field instance for each template rendering
-            field = solango.fields.TextField(indexed=True, stored=True)
+            field = solango.fields.TextField(indexed=False, stored=True)
             # name the field and save to base_fields
             field.name = name
             SecretDocument.base_fields[name] = field
@@ -49,3 +49,4 @@ class SecretDocument(SearchDocument):
         return self
 
 SecretDocument.add_renders()
+solango.register(Secret, SecretDocument)

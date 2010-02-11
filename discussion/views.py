@@ -7,9 +7,22 @@ from forms import *
 from models import *
 
 def search(request):
-    # TODO: make solr search
+    # if has been requested
+    if request.GET:
+        form = DiscussionSearchForm(request.GET)
+    # otherwise default settings
+    else:
+        form = DiscussionSearchForm({'page': 1})
+    
+    # get the results
+    if form.is_valid():
+        results = form.save()
+    else:
+        results = []
+    
     return context_response(request, 'discussion/search.html', {
-                'discussions': Discussion.viewable.all().order_by('-created_at'),
+                'form': form,
+                'results': results,
             })
 
 def view(request, pk):

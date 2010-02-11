@@ -35,7 +35,3 @@ class Secret(UserContent):
     def __unicode__(self):
         return self.title
 
-
-import solango
-from search import SecretDocument
-solango.register(Secret, SecretDocument)

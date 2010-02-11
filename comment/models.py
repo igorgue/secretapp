@@ -22,7 +22,7 @@ class AbstractComment(UserContent):
 
 class SecretComment(AbstractComment):
     """ A comment on a secret. Could be assosiciated with a discussion. """
-    secret          = models.ForeignKey(Secret)
+    secret      = models.ForeignKey(Secret)
 
     def get_delete_url(self):
         return reverse('delete_secret_comment', kwargs={'pk': self.pk})
@@ -30,22 +30,32 @@ class SecretComment(AbstractComment):
 
 class DiscussionComment(AbstractComment):
     """ A comment on a discussion. Could have secrets associated with it. """
-    discussion      = models.ForeignKey(Discussion)
-    secrets         = models.ManyToManyField(Secret, through="Proposal")
+    discussion  = models.ForeignKey(Discussion)
+    secrets     = models.ManyToManyField(Secret, through="Proposal")
 
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
 
 
+
+class ProposalManager(models.Manager):
+    def get_query_set(self):
+        return super(ProposalManager, self).get_query_set() \
+            .filter(discussion_comment__deleted=False, \
+                                secret__deleted=False)
+
 class Proposal(models.Model):
     """ When you suggest a secret in a discussion """
     discussion_comment = models.ForeignKey(DiscussionComment)
-    secret          = models.ForeignKey(Secret)
+    secret      = models.ForeignKey(Secret)
+    
+    viewable    = ProposalManager()
+    objects     = models.Manager() 
 
 
 class ProposalComment(AbstractComment):
     """ A comment on a Proposal. """
-    proposal        = models.ForeignKey(Proposal)
+    proposal    = models.ForeignKey(Proposal)
     
 
 

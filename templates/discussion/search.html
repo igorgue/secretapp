@@ -3,10 +3,17 @@
 {% block content %}
 
 <h2>Discussions</h2>
-<ul>
-{% for d in discussions %}
-    <li><a href="{{d.get_absolute_url}}">{{d.title}}</a></li>
-{% endfor %}
-</ul>
+{% form form %}
+    {% for f in form %}
+        {% field f %}
+    {% endfor %}
+{% endform %}
+
+{% if results %}
+    <h3>Results {{results.count}}</h3>
+    {% for d in results.documents %}
+        {{ d.data_dict.render|safe }}
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

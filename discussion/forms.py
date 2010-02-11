@@ -1,5 +1,32 @@
+from django import forms
 from perm.forms import UserContentForm
+from utils.search import SearchForm
 from models import *
+
+class DiscussionSearchForm(SearchForm):
+    title       = forms.CharField(required=False)
+    text        = forms.CharField(required=False)
+    
+    class Meta:
+        model = Discussion
+        url_name = 'search_discussions'
+    
+    def save(self):
+        # build vars
+        data = self.cleaned_data
+        queries = [self.base_query]
+        
+        # searching only the title field
+        if 'title' in data and data['title']:
+            queries.append("(title:(%s)^3 OR title:(%s*))" % (data['title'], data['title']))
+        
+        # searching for any text
+        if 'text' in data and data['text']:
+            queries.append("(title:(%s)^10 OR text:(%s)^3 OR comments:(%s))"\
+                            % (data['text'], data['text'], data['text']))
+        # return
+        return self.get_results(" AND ".join(queries))
+
 
 class DiscussionForm(UserContentForm):
     class Meta:

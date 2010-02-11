@@ -1,0 +1,12 @@
+<div>
+    <a href="{{discussion.get_absolute_url}}"><b>{{discussion.title}}</b></a>
+    {% with discussion.lastest_comment as comment %}
+        <a href="{{comment.get_absolute_url}}">Latest Post</a> by
+        {% with comment.created_by as u %}
+            <a href="{{u.get_absolute_url}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>
+        {% endwith %}
+    {% endwith %}
+</div>
+<div>
+    <b>Posts {{ discussions.comment_count }}</b> <i>Secrets {{discussion.proposal_count}}</i>
+</div>
