@@ -49,7 +49,7 @@ class Discussion(UserContent):
         if hasattr(self, '_comments'):
             return len(self.comments())
         else:
-            if hasattr(self, '_comment_count'):
+            if not hasattr(self, '_comment_count'):
                 from comment.models import DiscussionComment
                 self._comment_count = DiscussionComment.viewable.filter(discussion=self).count()
             return self._comment_count
@@ -77,7 +77,7 @@ class Discussion(UserContent):
         if hasattr(self, '_proposals'):
             return len(self.proposals())
         else:
-            if hasattr(self, '_proposal_count'):
+            if not hasattr(self, '_proposal_count'):
                 from comment.models import Proposal
                 self._proposal_count = Proposal.viewable.filter(discussion_comment__discussion=self).count()
             return self._proposal_count
