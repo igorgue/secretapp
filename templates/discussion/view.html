@@ -3,8 +3,8 @@
 {% block content %}
 
 {# DELETE BUTTON FOR ADMINS ONLY #}
-{% with discussion as delete_obj %}
-    {% include 'perm/delete_logic.html' %}
+{% with discussion as obj %}
+    {% include 'perm/editable_logic.html' %}
 {% endwith %}
 
 {# DISCUSSION TEXT AND TITLE #}
@@ -26,7 +26,7 @@
 <hr />
 {% for c in discussion.page_comments %}
     <div>{{c.text}} - <i>"{{c.created_at}}" - {% with c.created_by as u %}<a href="mailto:{{u.email}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>{% endwith %}</i></div>
-    {% with c as delete_obj %}{% include 'perm/delete_logic.html' %}{% endwith %}
+    {% with c as obj %}{% include 'perm/editable_logic.html' %}{% endwith %}
     <hr />
 {% endfor %}
 

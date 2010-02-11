@@ -50,3 +50,16 @@ def endform(text=_('Submit'), classes=None):
     want to appear in the button
     """
     return { 'text': text, 'classes': classes }
+
+@register.simple_tag
+def call(obj, func_name, args):
+    """
+    Calls any given function with the params provided.
+    WARN: This is an ugly function. Be careful when asking for this!
+    
+    Template Usage:
+        {{ object|function:"small" }}
+    """
+    return getattr(obj, func_name)(args)
+
+

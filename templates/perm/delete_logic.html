@@ -1,9 +1,0 @@
-{% if delete_obj.is_editable %}
-    {% if delete_obj.deleted %}
-        <b>DELETED</b>
-    {% else %}
-        {% with delete_obj.get_delete_url as delete_url %}
-            {% include 'perm/delete_button.html' %}
-        {% endwith %}
-    {% endif %}
-{% endif %}

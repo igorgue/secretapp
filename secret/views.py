@@ -1,5 +1,6 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, QueryDict
 from discussion.models import Discussion
+from secret.forms import SecretSearchForm
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 from forms import *
 from models import *
@@ -8,10 +9,32 @@ from models import *
 def search(request):
     # TODO: make solr call
     template = request.GET.get('template', 'list')
+    
+    # if has been requested
+    if request.GET:
+        form = SecretSearchForm(request.GET)
+    # otherwise default settings
+    else:
+        form = SecretSearchForm({
+            'page': 1
+        })
+    
+    # get the results
+    if form.is_valid():
+        results = form.save()
+    else:
+        results = []
+
     return context_response(request, 'secret/search.html', {
+                'form': form,
+                'results': results,
+                'template': template,
+                
+                # this may need to become a context_processor
+                'template_types': SECRET_RENDER_TEMPLATES,
+                
+                # loose this later (keep for now - testing purposes)
                 'secrets': Secret.viewable.all(),
-                'template': 'secret/render/%s.html' % template,
-                'template_types': ('list', 'comment', 'photo'),
             })
 
 

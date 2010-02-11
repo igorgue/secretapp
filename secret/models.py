@@ -1,4 +1,3 @@
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from perm.models import UserContent
@@ -22,10 +21,21 @@ class Secret(UserContent):
         return safe_title(self.title)
     
     def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
         return "%s%s/" % (reverse('view_secret', kwargs={'pk':self.pk}), self.safe_title())
     
+    def get_edit_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('edit_secret', kwargs={'pk': self.pk})
+    
     def get_delete_url(self):
+        from django.core.urlresolvers import reverse
         return reverse('delete_secret', kwargs={'pk': self.pk})
     
     def __unicode__(self):
         return self.title
+
+
+import solango
+from search import SecretDocument
+solango.register(Secret, SecretDocument)
