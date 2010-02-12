@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h1>{{user.first_name}} {{user.last_name}}</h1>
+<h1>{{profile.first_name}} {{profile.last_name}}</h1>
 
-{% if user.facebook %}
-    <img src="{{user.facebook.profile_image_url_big}}" />
+{% if profile.facebook %}
+    <img src="{{profile.facebook.profile_image_url_big}}" />
 {% endif %}
 
 {% endblock %}

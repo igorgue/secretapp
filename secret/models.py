@@ -16,13 +16,13 @@ class Secret(UserContent):
     
     edit_permission = 'Keeper'
     
-    def safe_title(self):
+    def seo_string(self):
         from utils.manipulators import safe_title
-        return safe_title(self.title)
+        return safe_title("%s %s" % (self.title, self.location if self.location else ''))
     
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
-        return "%s%s/" % (reverse('view_secret', kwargs={'pk':self.pk}), self.safe_title())
+        return "%s%s/" % (reverse('view_secret', kwargs={'pk':self.pk}), self.seo_string())
     
     def get_edit_url(self):
         from django.core.urlresolvers import reverse

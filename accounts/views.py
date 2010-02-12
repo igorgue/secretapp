@@ -14,12 +14,12 @@ def view(request, pk):
     except:
         raise Http404
     else:
-        if not user.active:
+        if not u.is_active:
             raise Http404
     
     # augment with all the lovely cool data and functions
     return context_response(request, 'accounts/view.html', {
-                'profile': augment_user(user),
+                'profile': augment_user(u),
                 })
 
 
