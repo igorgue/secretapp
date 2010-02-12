@@ -8,7 +8,8 @@ class Discussion(UserContent):
     A discussion thread
     """
     title       = models.CharField(max_length=250)
-    text        = models.TextField()
+    text        = models.TextField(null=True, blank=True)
+    tags        = models.TextField(null=True, blank=True, help_text=_("Comma seperated keywords e.g. pub, family, wifi"))
     pinned      = models.BooleanField(default=False, help_text=_("Will remain at top of discussion board."))
     
     edit_permission = 'Seneschal'
