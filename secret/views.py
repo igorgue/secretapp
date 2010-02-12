@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, QueryDict
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict
 from discussion.models import Discussion
 from secret.forms import SecretSearchForm
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
@@ -29,8 +29,14 @@ def search(request):
 
 
 def view(request, pk):
+    # get secret
+    secret = get_viewable_or_raise(Secret, request.user, pk=pk)
+    # check url for seo
+    seo_url = secret.get_absolute_url()
+    if not request.get_full_path().split('?')[0] == seo_url:
+        return HttpResponsePermanentRedirect(seo_url)
     return context_response(request, 'secret/view.html', {
-                'secret': get_viewable_or_raise(Secret, request.user, pk=pk),
+                'secret': secret,
             })
 
 
