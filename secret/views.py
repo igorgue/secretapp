@@ -68,7 +68,7 @@ def edit(request, pk=None, discussion_id=None):
 
 def add_favourite_secret(request, secret_id):
     """ Clock up a favourite to a user... """
-    if request.method == 'GET':
+    if request.method == 'POST':
         secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
         # This creates a NEW entry even if this user previously created and then deleted
         # a favourite reference to a secret
@@ -85,7 +85,7 @@ def add_favourite_secret(request, secret_id):
         
 def delete_favourite_secret(request, secret_id):
     """ Remove favourite from a user's list """
-    if request.method == 'GET':
+    if request.method == 'POST':
         # get instance
         secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
         # mark deleted on the only favourite flag that is set on this secret and has not
@@ -102,3 +102,4 @@ def delete_favourite_secret(request, secret_id):
             return HttpResponseRedirect(reverse('home'))
     else:
         raise Http404
+
