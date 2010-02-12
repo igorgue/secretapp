@@ -6,6 +6,10 @@ class UserContentForm(forms.ModelForm):
     facebook_uid = forms.CharField(required=False, help_text="Right click on the user name. Copy link address. Paste here.")
     facebook_name = forms.CharField(required=False, help_text="Write the firstname or initials of user here.")
     
+    def __init__(self, *args, **kwargs):
+        super(UserContentForm, self).__init__(*args, **kwargs)
+        self.Meta.exclude = ('approved',)
+    
     def save(self, request, commit=True):
         instance = super(UserContentForm, self).save(commit=False)
         
