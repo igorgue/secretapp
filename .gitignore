@@ -3,3 +3,4 @@
 *~
 environment.py
 fabfile.py
+sysadmin/*
