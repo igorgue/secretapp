@@ -23,7 +23,9 @@ class UserContentForm(forms.ModelForm):
             instance.created_by = request.user
         
         # still want to save the address who created it
-        instance.ip = request.META['REMOTE_ADDR']
+        instance.ip = request.META['REMOTE_ADDR'] if 'REMOTE_ADDR' in request.META else None
+        
+        # only commit is want to
         if commit:
             instance.save()
         return instance

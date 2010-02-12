@@ -105,7 +105,6 @@ MIDDLEWARE_CLASSES = (
     'perm.middleware.PermissionUserMiddleware',
     # adds additional data to user object
     'accounts.middleware.AugmentAccountMiddleware',
-    
 )
 
 ROOT_URLCONF = 'urls'
