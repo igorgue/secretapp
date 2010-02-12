@@ -6,3 +6,4 @@ admin.site.register(DiscussionComment)
 admin.site.register(Proposal)
 admin.site.register(ProposalComment)
 admin.site.register(ProposalEndorsement)
+
