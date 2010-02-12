@@ -83,6 +83,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "utils.context_processors.settings",
 )
 
 
@@ -102,6 +103,9 @@ MIDDLEWARE_CLASSES = (
     'facebook.djangofb.FacebookMiddleware',
     # gives a user a permission_level (see `perm` module)
     'perm.middleware.PermissionUserMiddleware',
+    # adds additional data to user object
+    'accounts.middleware.AugmentAccountMiddleware',
+    
 )
 
 ROOT_URLCONF = 'urls'
@@ -129,10 +133,10 @@ INSTALLED_APPS = (
     # dependancies
     'socialauth',
     'openid_consumer',
-    #'solango',
-    'south',
     'solango',
+    'south',
     # internal
+    'accounts',
     'comment',
     'perm',
     'discussion',

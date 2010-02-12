@@ -1,0 +1,19 @@
+{% if user.is_authenticated %}
+ 
+<div id="account">
+    {% if user.facebook %}<img src="{{user.facebook.profile_image_url_small}}" />{% endif %} Hi {{user.first_name}} {{user.last_name}}
+    <a href="{% url edit_profile %}">Profile</a>
+    <a href="{% url socialauth_social_logout %}">Logout</a>
+</div>
+ 
+{% else %}
+ 
+<div id="login">
+    <div id="facebook">
+        <fb:login-button onlogin="facebook_onlogin();"></fb:login-button>
+    </div>
+    
+    <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
+</div>
+{% endif %}
+

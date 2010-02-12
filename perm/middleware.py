@@ -1,5 +1,11 @@
 from tools import permission_level, calculate_permission_name, PERMISSION_SESSION_NAME, PERMISSION_LEVELS
 
+"""
+Simple middleware to assign a users permission level to their user object.
+This `level` is used when handling editable and viewable permissions on UserContent objects.
+See models.py file for more details.
+"""
+
 class PermissionUserMiddleware(object):
     def process_request(self, request):
         assert hasattr(request, 'session') and hasattr(request, 'user'), \
