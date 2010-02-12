@@ -4,3 +4,5 @@
 .project
 environment.py
 pip-log.txt
+fabfile.py
+sysadmin/*

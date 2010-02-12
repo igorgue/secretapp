@@ -23,17 +23,6 @@ List of needed settings:
     # Solr / Solango configs
     SOLR_SERVER = 'localhost:8080'
     SOLR_ROOT = '/usr/lib/tomcat6/data/solr'
-    SOLR_SCHEMA_PATH = '%s/conf/schema.xml' % SOLR_ROOT
-    SOLR_DATA_DIR = '%s/data' % SOLR_ROOT
-    SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
-    SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
-    SEARCH_PING_URLS = ["http://%s/solr/admin/ping" % SOLR_SERVER,]
-
-    SEARCH_FACET_PARAMS = [
-        ("facet", "true"),
-        ("facet.field", "tags"),
-        ("facet.field", "regions"),
-    ]
 """
 from environment import CWD
 
@@ -94,14 +83,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "utils.context_processors.settings",
 )
 
 
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
-                           'socialauth.auth_backends.OpenIdBackend',
-                           'socialauth.auth_backends.TwitterBackend',
-                           'socialauth.auth_backends.FacebookBackend',
-                           )
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    #'socialauth.auth_backends.OpenIdBackend',
+    #'socialauth.auth_backends.TwitterBackend',
+    'perm.backends.ClaimFacebookBackend',
+)
 
 
 MIDDLEWARE_CLASSES = (
@@ -112,6 +103,8 @@ MIDDLEWARE_CLASSES = (
     'facebook.djangofb.FacebookMiddleware',
     # gives a user a permission_level (see `perm` module)
     'perm.middleware.PermissionUserMiddleware',
+    # adds additional data to user object
+    'accounts.middleware.AugmentAccountMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -119,6 +112,14 @@ ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
     "%s/templates/" % CWD,
 )
+
+# Solr configs. Please make sure SOLR_ROOT, SOLR_SERVER are defined in `environment.py`
+from environment import SOLR_ROOT, SOLR_SERVER
+SOLR_SCHEMA_PATH = '%s/conf/schema.xml' % SOLR_ROOT
+SOLR_DATA_DIR = '%s/data' % SOLR_ROOT
+SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
+SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
+SEARCH_PING_URLS = ("http://%s/solr/admin/ping" % SOLR_SERVER,)
 
 
 INSTALLED_APPS = (
@@ -131,10 +132,10 @@ INSTALLED_APPS = (
     # dependancies
     'socialauth',
     'openid_consumer',
-    #'solango',
+    'solango',
     'south',
-    #'solango',
     # internal
+    'accounts',
     'comment',
     'perm',
     'discussion',

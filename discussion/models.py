@@ -8,7 +8,8 @@ class Discussion(UserContent):
     A discussion thread
     """
     title       = models.CharField(max_length=250)
-    text        = models.TextField()
+    text        = models.TextField(null=True, blank=True)
+    tags        = models.TextField(null=True, blank=True, help_text=_("Comma seperated keywords e.g. pub, family, wifi"))
     pinned      = models.BooleanField(default=False, help_text=_("Will remain at top of discussion board."))
     
     edit_permission = 'Seneschal'
@@ -18,7 +19,7 @@ class Discussion(UserContent):
     @property
     def pages(self):
         if not hasattr(self, '_pages'):
-            self._pages = ((len(self.comments())-1)/self.comments_per_page) + 1
+            self._pages = ((self.comment_count-1)/self.comments_per_page) + 1
         return self._pages
     
     @property
@@ -43,6 +44,17 @@ class Discussion(UserContent):
             self._comments = DiscussionComment.viewable.filter(discussion=self).select_related()
         return self._comments
     
+    @property
+    def comment_count(self):
+        "gets the comment count"
+        if hasattr(self, '_comments'):
+            return len(self.comments())
+        else:
+            if not hasattr(self, '_comment_count'):
+                from comment.models import DiscussionComment
+                self._comment_count = DiscussionComment.viewable.filter(discussion=self).count()
+            return self._comment_count
+    
     def page_comments(self):
         "gets the comments on a certain `.page` "
         # works out start and end discussions to be shown
@@ -53,6 +65,23 @@ class Discussion(UserContent):
         for c in comments:
             c.user_can_edit(self.read_by)
         return comments
+    
+    def proposals(self):
+        if not hasattr(self, '_proposals'):
+            from comment.models import Proposal
+            # TODO: cache this
+            self._proposals = Proposal.viewable.filter(discussion_comment__discussion=self).select_related()
+        return self._proposals
+    
+    @property
+    def proposal_count(self):
+        if hasattr(self, '_proposals'):
+            return len(self.proposals())
+        else:
+            if not hasattr(self, '_proposal_count'):
+                from comment.models import Proposal
+                self._proposal_count = Proposal.viewable.filter(discussion_comment__discussion=self).count()
+            return self._proposal_count
     
     def safe_title(self):
         "gets the title - safe for use in urls"
@@ -77,7 +106,7 @@ class Discussion(UserContent):
         comments = self.comments()
         count = 0
         # ugly but works well with cache (and not used much)
-        for c in len(comments):
+        for c in comments:
             if c.secret == secret:
                 break
             count += 1
@@ -91,5 +120,11 @@ class Discussion(UserContent):
     def get_secretpage_url(self, secret):
         "gets the page of a discussion which a certain secret was mentioned on"
         return "%s?page=%s" (self.get_absolute_url(), self.__page_of_secret(secret))
-
-
+    
+    def lastest_comment(self):
+        "gets the latest comment or returns self"
+        from comment.models import DiscussionComment
+        try:
+            return DiscussionComment.viewable.select_related().filter(discussion=self).latest('created_at')
+        except DiscussionComment.DoesNotExist:
+            return self

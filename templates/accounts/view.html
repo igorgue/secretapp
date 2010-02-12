@@ -1,0 +1,11 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h1>{{profile.first_name}} {{profile.last_name}}</h1>
+
+{% if profile.facebook %}
+    <img src="{{profile.facebook.profile_image_url_big}}" />
+{% endif %}
+
+{% endblock %}

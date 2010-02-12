@@ -1,0 +1,23 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h1>{{user.first_name}} {{user.last_name}}</h1>
+<a href="{% url view_profile pk=user.pk%}">Preview</a>
+
+{% if successful %}
+    <h1>SAVED!</h1>
+{% endif %}
+
+{% if user.facebook %}
+    <img src="{{user.facebook.profile_image_url_big}}" />
+{% endif %}
+    
+    
+    {% form form %}
+        {% for f in form %}
+            {% field f %}
+        {% endfor %}
+    {% endform %}
+
+{% endblock %}

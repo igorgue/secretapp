@@ -1,0 +1,10 @@
+{% if obj.is_editable %}
+    {% if obj.deleted %}
+        <b>DELETED</b>
+    {% else %}
+        <a href="{{ obj.get_edit_url }}">Edit</a>
+        {% with obj.get_delete_url as delete_url %}
+            {% include 'perm/delete_button.html' %}
+        {% endwith %}
+    {% endif %}
+{% endif %}

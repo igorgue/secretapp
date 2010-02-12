@@ -31,21 +31,26 @@ pyfacebook http://github.com/sciyoshi/pyfacebook/ v.0.1
 django-socialauth http://github.com/uswaretech/Django-Socialauth v.0.6c9 (or latest)
         :into site-packages and setup.py
         git clone git://github.com/uswaretech/Django-Socialauth.git;
-
-        yadis http://pypi.python.org/pypi/python-yadis/1.1.0
-            wget http://openidenabled.com/files/python-openid/files/python-yadis-1.1.0.tar.gz
-
-
-== IGNORE FOR NOW - WILL NEED FOR NEXT RELEASE ==
-=======
+        
+        Libraries needed for django-socialauth:
+        1. python-openid (easy_install)
+            http://pypi.python.org/pypi/python-openid/
+        2. Yadis (easy_install)
+            http://pypi.python.org/pypi/python-yadis/1.1.0
+        3. python-openauth(easy_install)
+            ????? # this is linked to in the django-socialauth README, can't find package but at the same time it worked without it
 
 Solango http://code.google.com/p/django-solr-search/ v.0.0.2 (or latest)
         (svn co http://django-solr-search.googlecode.com/svn/trunk/ django-solr-search)
 
+
 === Search Dependancies ===
 Solr http://wiki.apache.org/solr/SolrTomcat
-        (ubuntu: http://www.tc.umn.edu/~brams006/solr_ubuntu.html)
+        (ubuntu tutorial: http://www.tc.umn.edu/~brams006/solr_ubuntu.html)
         Java6
             (debian: sudo apt-get -y install sun-java6-jdk sun-java6-bin sun-java6-jre)
         Tomcat
             (http://apache.bglam.com/tomcat/tomcat-6/v6.0.24/bin/apache-tomcat-6.0.24.zip)
+
+
+

@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect
 
 from comment.forms import DiscussionCommentForm
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
@@ -7,15 +7,34 @@ from forms import *
 from models import *
 
 def search(request):
-    # TODO: make solr search
+    # if has been requested
+    if request.GET:
+        form = DiscussionSearchForm(request.GET)
+    # otherwise default settings
+    else:
+        form = DiscussionSearchForm({'page': 1})
+    
+    # get the results
+    if form.is_valid():
+        results = form.save()
+    else:
+        results = []
+    
     return context_response(request, 'discussion/search.html', {
-                'discussions': Discussion.viewable.all().order_by('-created_at'),
+                'form': form,
+                'results': results,
             })
 
 def view(request, pk):
     # view a discussion
     discussion = get_viewable_or_raise(Discussion, request.user, pk=pk)
     
+    # check seo
+    seo_url = discussion.get_absolute_url()
+    if not request.get_full_path().split('?')[0] == seo_url:
+        return HttpResponsePermanentRedirect(seo_url)
+    
+    # get page
     if request.GET.has_key('page'):
         discussion.page = int(request.GET['page'])
     

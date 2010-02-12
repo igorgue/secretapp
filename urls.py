@@ -5,11 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # dependancies
-    (r'^accounts/', include('socialauth.urls')),
-    (r'^admin/', include(admin.site.urls)),
-    
     # internal
+    (r'^', include('accounts.urls')),
     (r'^', include('comment.urls')),
     (r'^', include('perm.urls')),
     (r'^', include('discussion.urls')),
@@ -18,6 +15,9 @@ urlpatterns = patterns('',
     # contains landing page
     (r'^', include('utils.urls')),
     
+    # dependancies
+    (r'^accounts/', include('socialauth.urls')),
+    (r'^admin/', include(admin.site.urls)),
 )
 
 # loads all our standard template tags

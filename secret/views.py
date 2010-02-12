@@ -1,5 +1,6 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict
 from discussion.models import Discussion
+from secret.forms import SecretSearchForm
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 from forms import *
 from secret.models import FavouriteSecret
@@ -7,19 +8,38 @@ from models import *
 from django.http import Http404
 
 def search(request):
-    # TODO: make solr call
-    template = request.GET.get('template', 'list')
+    # if has been requested
+    if request.GET:
+        form = SecretSearchForm(request.GET)
+    # otherwise default settings
+    else:
+        form = SecretSearchForm({'page': 1})
+    
+    # get the results
+    if form.is_valid():
+        results = form.save()
+    else:
+        results = []
+
     return context_response(request, 'secret/search.html', {
-                'secrets': Secret.viewable.all(),
-                'template': 'secret/render/%s.html' % template,
-                'template_types': ('list', 'comment', 'photo'),
+                'form': form,
+                'results': results,
+                # this will be hard coded into tabs
+                'template_types': SECRET_RENDER_TEMPLATES,
             })
 
 
 def view(request, pk):
+    # get secret
+    secret = get_viewable_or_raise(Secret, request.user, pk=pk)
+    # check url for seo
+    seo_url = secret.get_absolute_url()
+    if not request.get_full_path().split('?')[0] == seo_url:
+        return HttpResponsePermanentRedirect(seo_url)
     return context_response(request, 'secret/view.html', {
-                'secret': get_viewable_or_raise(Secret, request.user, pk=pk),
+                'secret': secret,
             })
+
 
 @login_required
 def edit(request, pk=None, discussion_id=None):
