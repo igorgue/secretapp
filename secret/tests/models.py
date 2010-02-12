@@ -38,3 +38,7 @@ class ModelTests(DjangoCommon):
 # delete fave on secret - test flagged deleted
 # delete faved again - test no change
 # add fave again on same secret - test new fave created, hence one deleted and one new
+#
+# Create second favourite for second user
+# call favourites_for_secret to get all favourites
+# then test favourites_for_user

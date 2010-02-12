@@ -103,3 +103,19 @@ def delete_favourite_secret(request, secret_id):
     else:
         raise Http404
 
+def favourites_for_secret(request, secret_id):
+    """ Return all favourite entries for a given secret. If request not None checks
+that user is allowed to view. """
+    favourites = FavouriteSecret.objects.get(secret__id = secret_id, deleted=False)
+    if request:
+        favourites = [f for f in favourites if f.user_can_view(request.user)]
+        
+        ### needs to be a response
+    return favourites
+
+def favourites_for_user(request):
+    """ Return all current favourites for a given user """
+    favourites = FavouriteSecret.objects.get(created_by = request.user, deleted=False)
+    
+    ## needs to be a response
+    return favourites
