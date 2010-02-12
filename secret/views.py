@@ -86,6 +86,7 @@ def edit(request, pk=None, discussion_id=None):
         return context_response(request, 'secret/edit.html', context)
 
 
+@login_required
 def add_favourite_secret(request, secret_id):
     """ Clock up a favourite to a user... """
     if request.method == 'POST':
@@ -103,6 +104,7 @@ def add_favourite_secret(request, secret_id):
     else:
         raise Http404
         
+@login_required
 def delete_favourite_secret(request, secret_id):
     """ Remove favourite from a user's list """
     if request.method == 'POST':

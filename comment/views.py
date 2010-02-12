@@ -112,4 +112,3 @@ def create_discussion_secret_comment(request, discussion_id, secret_id):
         # should only see this failure -- will open up on its own page
         return context_response(request, 'comment/edit_discussion_secret.html', context)
 
-    
