@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
+import settings
 
 urlpatterns = patterns('',
     # internal
@@ -23,3 +24,9 @@ urlpatterns = patterns('',
 # loads all our standard template tags
 from django import template
 template.add_to_builtins('secretapp.utils.templatetags.globals')
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^%s(?P<path>.*)$' % settings.MEDIA_URL, 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT}),
+        (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '%simages/favicon.ico' % settings.MEDIA_URL }),
+    )
