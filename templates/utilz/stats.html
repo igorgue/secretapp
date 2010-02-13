@@ -2,18 +2,25 @@
 
 {% block content %}
 
+{% if discussion_count %}
 <h1>{{ discussion_count }} Discussions</h1>
 <big><i>{{ latest_discussion.title }}</i></big>
 <br />
+{% endif %}
+{% if comment_count %}
 <h1>{{ comment_count }} Comments</h1>
 <big><i>{{ latest_comment.text }}</i></big>
 <br />
+{% endif %}
+{% if secret_count %}
 <h1>{{ secret_count }} Secrets</h1>
 <big><i>{{ latest_secret.title }}</i></big>
 <br />
+{% endif %}
+{% if user_count %}
 <h1>{{ user_count }} Users</h1>
 <big><i>{{ latest_user.first_name }}</i></big>
-
+{% endif %}
 
 <script type="text/javascript" charset="utf-8">
     setTimeout(function(){

@@ -18,19 +18,26 @@ def random_secret(request):
 
 def stats(request):
     " Redirects you to a random secret "
-    context = {
-        'discussion_count': Discussion.viewable.count(),
-        'latest_discussion': Discussion.viewable.latest('created_at'),
-        
-        'secret_count': Secret.viewable.count(),
-        'latest_secret': Secret.viewable.latest('created_at'),
-        
-        'comment_count': DiscussionComment.viewable.count(),
-        'latest_comment': DiscussionComment.viewable.latest('created_at'),
-        
-        'user_count': User.objects.count(),
-        'latest_user': User.objects.latest('pk'),
-    }
+    context = {}
+    try:
+        context['discussion_count'] = Discussion.viewable.count()
+        context['latest_discussion'] = Discussion.viewable.latest('created_at')
+    except:
+        pass
+    try:
+        context['secret_count'] =  Secret.viewable.count()
+        context['latest_secret'] =  Secret.viewable.latest('created_at')
+    except:
+        pass
+    try:
+        context['comment_count'] =  DiscussionComment.viewable.count()
+        context['latest_comment'] =  DiscussionComment.viewable.latest('created_at')
+    except:
+        pass
+    try:
+        context['user_count'] =  User.objects.count()
+        context['latest_user'] =  User.objects.latest('pk')
+    pass
     return context_response(request, 'utilz/stats.html', context)
 
 
