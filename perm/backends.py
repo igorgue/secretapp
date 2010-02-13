@@ -32,7 +32,6 @@ class ClaimFacebookBackend:
         check = facebook.check_session(request)
         try:
             fb_user = facebook.users.getLoggedInUser()
-
             profile = FacebookUserProfile.objects.get(facebook_uid = unicode(fb_user))
             return profile.user
         except FacebookUserProfile.DoesNotExist:
