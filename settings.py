@@ -24,7 +24,10 @@ List of needed settings:
     SOLR_SERVER = 'localhost:8080'
     SOLR_ROOT = '/usr/lib/tomcat6/data/solr'
 """
-from environment import CWD
+try:
+    from environment import CWD
+except:
+    raise ImportError, "Please create environment.py file in your base directory - see settings.py for details"
 
 # Django settings for secret project.
 
