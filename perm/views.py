@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from utils.shortcuts import context_response, get_editable_or_raise, login_required
+from utilz.shortcuts import context_response, get_editable_or_raise, login_required
 
 @login_required
 def delete(request, pk, model):

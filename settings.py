@@ -86,7 +86,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
-    "utils.context_processors.settings",
+    "utilz.context_processors.settings",
 )
 
 
@@ -143,7 +143,7 @@ INSTALLED_APPS = (
     'perm',
     'discussion',
     'secret',
-    'utils',
+    'utilz',
 )
 
 # see top of document for notes

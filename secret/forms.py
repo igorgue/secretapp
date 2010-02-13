@@ -2,7 +2,7 @@ from django import forms
 from django.core.urlresolvers import reverse
 from discussion.models import Discussion
 from perm.forms import UserContentForm
-from utils.search import SearchForm
+from utilz.search import SearchForm
 from models import *
 
 # When adding to this list.

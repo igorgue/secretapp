@@ -1,5 +1,5 @@
 from django.template.loader import render_to_string
-from utils.search import SearchDocument
+from utilz.search import SearchDocument
 from models import Discussion
 from forms import *
 import solango

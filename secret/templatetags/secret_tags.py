@@ -3,7 +3,7 @@ Tags for rendering comments on secrets
 """
 from django import template
 from django.template import escape
-from django.utils.safestring import SafeString
+from django.utilz.safestring import SafeString
 
 from secret.models import Secret
 

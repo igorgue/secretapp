@@ -1,5 +1,5 @@
 from django.http import Http404
-from utils.shortcuts import context_response
+from utilz.shortcuts import context_response
 from tools import *
 from forms import *
 from models import *

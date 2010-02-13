@@ -2,10 +2,9 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from discussion.models import Discussion
 from secret.models import Secret
-from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
+from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
 from forms import *
 from models import *
-from django.http import Http404
 
 def create_secret_comment(request, secret_id):
     """ Comment directly on a Secret """
@@ -111,4 +110,5 @@ def create_discussion_secret_comment(request, discussion_id, secret_id):
     else:
         # should only see this failure -- will open up on its own page
         return context_response(request, 'comment/edit_discussion_secret.html', context)
+
 

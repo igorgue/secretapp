@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect
 
 from comment.forms import DiscussionCommentForm
-from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
+from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 
 from forms import *
 from models import *
