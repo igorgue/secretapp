@@ -26,7 +26,7 @@ class SearchForm(forms.Form):
         url_name := name of search url regex
     
     Meta optional arguments...
-        results_per_page [10] := how many to show per page
+        results_per_page [500] := how many to show per page
     
     """
     REQUIRED    = ('model', 'url_name')
