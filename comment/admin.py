@@ -2,7 +2,13 @@ from django.contrib import admin
 from models import * 
 
 admin.site.register(SecretComment)
-admin.site.register(DiscussionComment)
+
+class DiscussionCommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'discussion', 'text', 'deleted', 'approved', 'created_at',)
+    list_filter = ('approved', 'deleted',)
+    list_editable = ('approved', 'deleted')
+admin.site.register(DiscussionComment, DiscussionCommentAdmin)
+
 admin.site.register(Proposal)
 admin.site.register(ProposalComment)
 admin.site.register(ProposalEndorsement)

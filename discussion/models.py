@@ -16,6 +16,9 @@ class Discussion(UserContent):
     comments_per_page = 10
     page = 1
     
+    def __unicode__(self):
+        return self.title
+    
     @property
     def pages(self):
         if not hasattr(self, '_pages'):

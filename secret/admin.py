@@ -7,6 +7,9 @@ class SecretCommentInline(admin.StackedInline):
     model = SecretComment
     
 class SecretAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'location', 'deleted', 'approved', 'created_at',)
+    list_filter = ('approved', 'deleted',)
+    list_editable = ('approved', 'deleted')
     inlines = [
                SecretCommentInline,
                ]
