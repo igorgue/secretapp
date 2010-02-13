@@ -37,7 +37,8 @@ def stats(request):
     try:
         context['user_count'] =  User.objects.count()
         context['latest_user'] =  User.objects.latest('pk')
-    pass
+    except:
+        pass
     return context_response(request, 'utilz/stats.html', context)
 
 
