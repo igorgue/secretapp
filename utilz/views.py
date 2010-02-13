@@ -21,4 +21,4 @@ def home(request):
         'secrets': Secret.viewable.all().order_by('-created_at'),
         'discussions': Discussion.viewable.all().order_by('-created_at'),
     }
-    return context_response(request, 'utils/home.html', context)
+    return context_response(request, 'utilz/home.html', context)
