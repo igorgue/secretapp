@@ -62,7 +62,7 @@ padding: 2px 0 8px;
 
     </style>
 </head>
-<body>
+<body {% block bodytag %}{% endblock %}>
 	<div id="container">
     {% include 'layout/header.html' %}
     {% block content %}{% endblock %}
