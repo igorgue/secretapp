@@ -54,6 +54,10 @@ Solr http://wiki.apache.org/solr/SolrTomcat
 
 
 == Tips ==
+To create a new DB:
 CREATE DATABASE secretapp CHARACTER SET utf8;
+
+If you get South Errors (history wrong):
+DELETE FROM south_migrationhistory;
 
 
