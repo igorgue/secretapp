@@ -1,7 +1,8 @@
 .DS_Store
 *.pyc
 *~
+.project
 environment.py
-production_environment.py
+pip-log.txt
 fabfile.py
 sysadmin/*

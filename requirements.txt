@@ -1,0 +1,6 @@
+Django
+django-test-extensions
+#django-debug-toolbar
+python-memcached
+south
+

@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     
     url(r'^discussion_comment/(?P<pk>\d+)/delete/$', \
             delete, {'model': DiscussionComment }, name='delete_discussion_comment'),
+
 )
 

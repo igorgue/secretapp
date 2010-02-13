@@ -3,8 +3,9 @@ from discussion.models import Discussion
 from secret.forms import SecretSearchForm
 from utils.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
 from forms import *
+from secret.models import FavouriteSecret
 from models import *
-
+from django.http import Http404
 
 def search(request):
     # if has been requested
@@ -85,4 +86,58 @@ def edit(request, pk=None, discussion_id=None):
         return context_response(request, 'secret/edit.html', context)
 
 
+@login_required
+def add_favourite_secret(request, secret_id):
+    """ Clock up a favourite to a user... """
+    if request.method == 'POST':
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # This creates a NEW entry even if this user previously created and then deleted
+        # a favourite reference to a secret
+        fave, new = FavouriteSecret.objects.get_or_create(secret=secret, created_by = request.user, deleted=False)
+        
+        if request.is_ajax():
+            return context_response(request, 'ajax/new_favourite.html', {'instance': fave})
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404
+        
+@login_required
+def delete_favourite_secret(request, secret_id):
+    """ Remove favourite from a user's list """
+    if request.method == 'POST':
+        # get instance
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # mark deleted on the only favourite flag that is set on this secret and has not
+        # previously been deleted.
+        fave = FavouriteSecret.objects.get(secret__id = secret.id, created_by = request.user, deleted=False)
+        if fave.user_can_edit(request.user): 
+            fave.mark_deleted(request.user)
+        # return
+        if request.is_ajax():
+            return context_response(request, 'ajax/deleted.html', {'instance': fave })
+        if 'HTTP_REFERER' in request.META:
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        else:
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        raise Http404
 
+def favourites_for_secret(request, secret_id):
+    """ Return all favourite entries for a given secret. If request not None checks
+that user is allowed to view. """
+    favourites = FavouriteSecret.objects.get(secret__id = secret_id, deleted=False)
+    if request:
+        favourites = [f for f in favourites if f.user_can_view(request.user)]
+        
+        ### needs to be a response
+    return favourites
+
+def favourites_for_user(request):
+    """ Return all current favourites for a given user """
+    favourites = FavouriteSecret.objects.get(created_by = request.user, deleted=False)
+    
+    ## needs to be a response
+    return favourites

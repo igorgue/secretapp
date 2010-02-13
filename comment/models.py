@@ -36,8 +36,6 @@ class DiscussionComment(AbstractComment):
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
 
-
-
 class ProposalManager(models.Manager):
     def get_query_set(self):
         return super(ProposalManager, self).get_query_set() \
@@ -52,11 +50,11 @@ class Proposal(models.Model):
     viewable    = ProposalManager()
     objects     = models.Manager() 
 
-
 class ProposalComment(AbstractComment):
     """ A comment on a Proposal. """
-    proposal    = models.ForeignKey(Proposal)
-    
+    proposal        = models.ForeignKey(Proposal)
 
-
-
+class ProposalEndorsement(UserContent):
+    """ An endorsment on a secret proposal """
+    proposal        = models.ForeignKey(Proposal)
+        
