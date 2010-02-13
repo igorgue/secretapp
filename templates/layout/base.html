@@ -8,11 +8,66 @@
         .left { float: left;}
         .right { float: left;}
         .clear { clear: both;}
+
+.temp_body {
+background-color:#FFFFFF;
+margin-right:60px;
+padding:20px 20px 20px 180px;
+}
+
+.temp_sidecol {
+margin-left:-150px;
+position:relative;
+float: left;
+width: 130px;
+}
+
+.temp_menu {
+font-size: 130%;
+padding-top: 10px;
+padding-left: 0;
+}
+
+.temp_menu li {
+	list-style: none;
+	padding-left: 0;
+	margin: 7px 0;
+}
+
+.temp_body form label {
+float: left;
+width: 140px;
+}
+
+.temp_body form {
+	float: left;
+	font-size: 120%;
+	width: 100%;
+}
+
+.temp_body form > div {
+clear: left;
+padding: 2px 0 8px;
+}
+
+.temp_body form small {
+	display: block;
+	padding-top: 2px;
+	padding-left: 140px;
+}
+
+.temp_body form input[type=text] {
+	width: 350px;
+}
+
     </style>
 </head>
 <body>
+	<div id="container">
     {% include 'layout/header.html' %}
     {% block content %}{% endblock %}
     {% include 'layout/footer.html' %}
+	</div><!-- end of div id=container -->
 </body>
+<script type="text/javascript" src="/static/js/index.js"></script>
 </html>

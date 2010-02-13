@@ -1,11 +1,52 @@
-<ul class="left">
-    <li class="left" style="margin:10px"><a href="{% url home %}">Home</a></li>
-    <li class="left" style="margin:10px"><a href="{% url search_secrets %}">Secrets</a></li>
-    <li class="left" style="margin:10px"><a href="{% url search_discussions %}">Discussions</a></li>
-    <li class="left" style="margin:10px"><a href="{% url new_secret %}">New secret</a></li>
-    <li class="left" style="margin:10px"><a href="{% url new_discussion %}">New discussion</a></li>
-    <li class="left" style="margin:10px"><a href="{% url random_secret %}">Inspire ME!</a></li>
-</ul>
-{% include 'accounts/login_header.html' %}
+		<div id="header">
+			<div id="city_logo">
+				<!--img src="/static/images/logo.png" alt="secret london" -->
+				<h1>Secret London</h1>
+				<p>where locals inspire locals<span id="city_select"><a href="#">change city</a></span>
+			</div>
+			
+			<p id="auth">
+				<a href="#" title="sign up">sign up</a>
+				<a href="#" title="login">login</a>
+			</p>
+		<!--	
+			<form id="search" >
+				<input type="search" name="search_paramater" /><input type="image" src="static/images/search.png" id="search_sumbit" />
+			</form>
+		-->	
+			<div class="clear_left"></div>
+		</div> <!--END OF THE HEADER-->
+		
+		<ul id="tabs">
+			<li class="highlight"><a href="{% url home %}" title="Home">Home</a></li>
+			<li><a href="{% url search_secrets %}" title="Showing Secrets">Secrets</a></li>
+			<li><a href="{% url search_discussions %}" title="Showing Discussions">Discussion</a></li>
+			<li><a href="/accounts/profile/" title="Profile">Profile</a></li>
+			<li><a href="#" title="Photos">Photos</a></li>
+			<li><a href="#" title="Map">Map</a></li>
+			<li id="share_secret"><a href="#" title="Share your london secret">&#43; Share Secret</a></li>
+			<div class="clear_left"></div>
+		</ul> <!-- END OF THE TABS -->
+		
+		<div id="page_header">
+			<p id="page_title" class="left_sidebar">
+			</p>
+			<div class="right_content top_content">
 
-<div class="clear">&nbsp;</div>
+			</div>
+			<div class="clear_left"></div>
+		</div>
+
+		<div class="temp_body">
+
+<div class="temp_sidecol">
+{% include 'accounts/login_header.html' %}
+<ul class="temp_menu clear_left">
+    <li><a href="{% url new_secret %}">New secret</a></li>
+    <li><a href="{% url new_discussion %}">New discussion</a></li>
+    <li><a href="{% url random_secret %}">Inspire ME!</a></li>
+</ul>
+
+</div>
+
+<!-- END OF THE SHARED TOP ELEMENTS -->
