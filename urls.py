@@ -13,12 +13,12 @@ urlpatterns = patterns('',
     (r'^', include('discussion.urls')),
     (r'^', include('secret.urls')),
     
-    # contains landing page
-    (r'^', include('utilz.urls')),
-    
     # dependancies
     (r'^accounts/', include('socialauth.urls')),
     (r'^admin/', include(admin.site.urls)),
+    
+    # contains landing page
+    (r'^', include('utilz.urls')),
 )
 
 # loads all our standard template tags
