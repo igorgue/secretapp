@@ -2,5 +2,6 @@
 *.pyc
 *~
 environment.py
+production_environment.py
 fabfile.py
 sysadmin/*

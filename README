@@ -35,9 +35,9 @@ django-socialauth http://github.com/uswaretech/Django-Socialauth v.0.6c9 (or lat
         Libraries needed for django-socialauth:
         1. python-openid (easy_install)
             http://pypi.python.org/pypi/python-openid/
-        2. Yadis (easy_install)
+        2. python-yadis (easy_install)
             http://pypi.python.org/pypi/python-yadis/1.1.0
-        3. python-openauth(easy_install)
+        3. python-openauth (easy_install)
             ????? # this is linked to in the django-socialauth README, can't find package but at the same time it worked without it
 
 Solango http://code.google.com/p/django-solr-search/ v.0.0.2 (or latest)
@@ -52,5 +52,8 @@ Solr http://wiki.apache.org/solr/SolrTomcat
         Tomcat
             (http://apache.bglam.com/tomcat/tomcat-6/v6.0.24/bin/apache-tomcat-6.0.24.zip)
 
+
+== Tips ==
+CREATE DATABASE secretapp CHARACTER SET utf8;
 
 

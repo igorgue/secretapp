@@ -16,9 +16,11 @@ class Migration:
             ('updated_at', orm['discussion.Discussion:updated_at']),
             ('deleted_at', orm['discussion.Discussion:deleted_at']),
             ('deleted', orm['discussion.Discussion:deleted']),
+            ('approved', orm['discussion.Discussion:approved']),
             ('ip', orm['discussion.Discussion:ip']),
             ('title', orm['discussion.Discussion:title']),
             ('text', orm['discussion.Discussion:text']),
+            ('tags', orm['discussion.Discussion:tags']),
             ('pinned', orm['discussion.Discussion:pinned']),
         ))
         db.send_create_signal('discussion', ['Discussion'])
@@ -68,6 +70,7 @@ class Migration:
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'discussion.discussion': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
@@ -76,7 +79,8 @@ class Migration:
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             'pinned': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
-            'text': ('django.db.models.fields.TextField', [], {}),
+            'tags': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         }

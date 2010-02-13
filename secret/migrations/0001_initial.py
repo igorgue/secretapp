@@ -16,6 +16,7 @@ class Migration:
             ('updated_at', orm['secret.Secret:updated_at']),
             ('deleted_at', orm['secret.Secret:deleted_at']),
             ('deleted', orm['secret.Secret:deleted']),
+            ('approved', orm['secret.Secret:approved']),
             ('ip', orm['secret.Secret:ip']),
             ('title', orm['secret.Secret:title']),
             ('description', orm['secret.Secret:description']),
@@ -72,6 +73,7 @@ class Migration:
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'secret.secret': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
