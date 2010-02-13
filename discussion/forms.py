@@ -40,4 +40,4 @@ class DiscussionSearchForm(SearchForm):
 class DiscussionForm(UserContentForm):
     class Meta:
         model = Discussion
-        fields = ('title', 'text',)
+        fields = ('title', 'text', 'tags')

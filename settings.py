@@ -41,8 +41,13 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    #('Your Name', 'tim@domain.com'),
 )
+
+if IS_EC2:
+    # only want to send real emails on live server (otherwise log them)
+    if IS_LIVE:
+        
 
 MANAGERS = ADMINS
 

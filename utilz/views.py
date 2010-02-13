@@ -23,6 +23,7 @@ def home(request):
     }
     return context_response(request, 'layout/base.html', context)
 
+
 def render(request, template):
     " Displays any misc pages "
     try:
