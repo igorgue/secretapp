@@ -1,6 +1,6 @@
 {% if user.is_authenticated %}
  
-<div id="account">
+<div id="account" class="right">
     {% if user.facebook %}<img src="{{user.facebook.profile_image_url_small}}" />{% endif %} Hi {{user.first_name}} {{user.last_name}}
     <a href="{% url edit_profile %}">Profile</a>
     <a href="{% url socialauth_social_logout %}">Logout</a>
@@ -8,7 +8,7 @@
  
 {% else %}
  
-<div id="login">
+<div id="login" class="right">
     <div id="facebook">
         <fb:login-button onlogin="facebook_onlogin();"></fb:login-button>
     </div>

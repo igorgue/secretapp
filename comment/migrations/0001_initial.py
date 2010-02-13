@@ -7,6 +7,14 @@ class Migration:
     
     def forwards(self, orm):
         
+        # Adding model 'Proposal'
+        db.create_table('comment_proposal', (
+            ('id', orm['comment.Proposal:id']),
+            ('discussion_comment', orm['comment.Proposal:discussion_comment']),
+            ('secret', orm['comment.Proposal:secret']),
+        ))
+        db.send_create_signal('comment', ['Proposal'])
+        
         # Adding model 'DiscussionComment'
         db.create_table('comment_discussioncomment', (
             ('id', orm['comment.DiscussionComment:id']),
@@ -16,11 +24,43 @@ class Migration:
             ('updated_at', orm['comment.DiscussionComment:updated_at']),
             ('deleted_at', orm['comment.DiscussionComment:deleted_at']),
             ('deleted', orm['comment.DiscussionComment:deleted']),
+            ('approved', orm['comment.DiscussionComment:approved']),
             ('ip', orm['comment.DiscussionComment:ip']),
             ('text', orm['comment.DiscussionComment:text']),
             ('discussion', orm['comment.DiscussionComment:discussion']),
         ))
         db.send_create_signal('comment', ['DiscussionComment'])
+        
+        # Adding model 'ProposalEndorsement'
+        db.create_table('comment_proposalendorsement', (
+            ('id', orm['comment.ProposalEndorsement:id']),
+            ('created_by', orm['comment.ProposalEndorsement:created_by']),
+            ('deleted_by_id', orm['comment.ProposalEndorsement:deleted_by_id']),
+            ('created_at', orm['comment.ProposalEndorsement:created_at']),
+            ('updated_at', orm['comment.ProposalEndorsement:updated_at']),
+            ('deleted_at', orm['comment.ProposalEndorsement:deleted_at']),
+            ('deleted', orm['comment.ProposalEndorsement:deleted']),
+            ('approved', orm['comment.ProposalEndorsement:approved']),
+            ('ip', orm['comment.ProposalEndorsement:ip']),
+            ('proposal', orm['comment.ProposalEndorsement:proposal']),
+        ))
+        db.send_create_signal('comment', ['ProposalEndorsement'])
+        
+        # Adding model 'ProposalComment'
+        db.create_table('comment_proposalcomment', (
+            ('id', orm['comment.ProposalComment:id']),
+            ('created_by', orm['comment.ProposalComment:created_by']),
+            ('deleted_by_id', orm['comment.ProposalComment:deleted_by_id']),
+            ('created_at', orm['comment.ProposalComment:created_at']),
+            ('updated_at', orm['comment.ProposalComment:updated_at']),
+            ('deleted_at', orm['comment.ProposalComment:deleted_at']),
+            ('deleted', orm['comment.ProposalComment:deleted']),
+            ('approved', orm['comment.ProposalComment:approved']),
+            ('ip', orm['comment.ProposalComment:ip']),
+            ('text', orm['comment.ProposalComment:text']),
+            ('proposal', orm['comment.ProposalComment:proposal']),
+        ))
+        db.send_create_signal('comment', ['ProposalComment'])
         
         # Adding model 'SecretComment'
         db.create_table('comment_secretcomment', (
@@ -31,32 +71,31 @@ class Migration:
             ('updated_at', orm['comment.SecretComment:updated_at']),
             ('deleted_at', orm['comment.SecretComment:deleted_at']),
             ('deleted', orm['comment.SecretComment:deleted']),
+            ('approved', orm['comment.SecretComment:approved']),
             ('ip', orm['comment.SecretComment:ip']),
             ('text', orm['comment.SecretComment:text']),
             ('secret', orm['comment.SecretComment:secret']),
-            ('discussion', orm['comment.SecretComment:discussion']),
         ))
         db.send_create_signal('comment', ['SecretComment'])
-        
-        # Adding ManyToManyField 'DiscussionComment.secrets'
-        db.create_table('comment_discussioncomment_secrets', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('discussioncomment', models.ForeignKey(orm.DiscussionComment, null=False)),
-            ('secret', models.ForeignKey(orm['secret.Secret'], null=False))
-        ))
         
     
     
     def backwards(self, orm):
         
+        # Deleting model 'Proposal'
+        db.delete_table('comment_proposal')
+        
         # Deleting model 'DiscussionComment'
         db.delete_table('comment_discussioncomment')
         
+        # Deleting model 'ProposalEndorsement'
+        db.delete_table('comment_proposalendorsement')
+        
+        # Deleting model 'ProposalComment'
+        db.delete_table('comment_proposalcomment')
+        
         # Deleting model 'SecretComment'
         db.delete_table('comment_secretcomment')
-        
-        # Dropping ManyToManyField 'DiscussionComment.secrets'
-        db.delete_table('comment_discussioncomment_secrets')
         
     
     
@@ -89,6 +128,7 @@ class Migration:
             'username': ('django.db.models.fields.CharField', [], {'max_length': '30', 'unique': 'True'})
         },
         'comment.discussioncomment': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
@@ -101,13 +141,43 @@ class Migration:
             'text': ('django.db.models.fields.TextField', [], {}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
-        'comment.secretcomment': {
+        'comment.proposal': {
+            'discussion_comment': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['comment.DiscussionComment']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'secret': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['secret.Secret']"})
+        },
+        'comment.proposalcomment': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'discussion': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['discussion.Discussion']", 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
+            'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['comment.Proposal']"}),
+            'text': ('django.db.models.fields.TextField', [], {}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
+        'comment.proposalendorsement': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
+            'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['comment.Proposal']"}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
+        'comment.secretcomment': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             'secret': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['secret.Secret']"}),
@@ -122,6 +192,7 @@ class Migration:
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'discussion.discussion': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
@@ -130,11 +201,13 @@ class Migration:
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             'pinned': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
-            'text': ('django.db.models.fields.TextField', [], {}),
+            'tags': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         'secret.secret': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),

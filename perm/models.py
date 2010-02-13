@@ -68,6 +68,7 @@ class UserContent(models.Model):
     updated_at      = models.DateTimeField(auto_now=True)
     deleted_at      = models.DateTimeField(blank=True, null=True)
     deleted         = models.BooleanField(default=False)
+    approved        = models.BooleanField(default=False, help_text="Has been checked by an admin")
     ip              = models.IPAddressField(blank=True, null=True)
     
     viewable        = UserContentManager()
