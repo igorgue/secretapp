@@ -11,6 +11,7 @@
 
 {% if results %}
     <h3>Results {{results.count}}</h3>
+    <h3>Rows {{results.rows}}</h3>
     {% for d in results.documents %}
         {{ d.data_dict.render|safe }}
     {% endfor %}

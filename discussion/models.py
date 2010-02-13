@@ -13,7 +13,7 @@ class Discussion(UserContent):
     pinned      = models.BooleanField(default=False, help_text=_("Will remain at top of discussion board."))
     
     edit_permission = 'Seneschal'
-    comments_per_page = 10
+    comments_per_page = 20
     page = 1
     
     def __unicode__(self):
