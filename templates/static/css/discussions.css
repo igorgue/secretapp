@@ -1,0 +1,26 @@
+#discussion_filter
+	{
+		margin: 20px 0;
+	}
+	
+a.discussion_title
+	{
+		text-decoration: none;
+		font-size: 1.4em;
+	}
+
+.discussion_stats
+	{
+		margin: 0;
+		color: #666;
+	}
+
+.post_stat_count
+	{
+		font-size: 2em;
+	}
+
+span.highlight
+	{
+		color: #ee2a59;
+	}

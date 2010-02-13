@@ -1,9 +1,10 @@
 {% if user.is_authenticated %}
  
 <div id="account" class="right">
-    {% if user.facebook %}<img src="{{user.facebook.profile_image_url_small}}" />{% endif %} Hi {{user.first_name}} {{user.last_name}}
-    <a href="{% url edit_profile %}">Profile</a>
-    <a href="{% url socialauth_social_logout %}">Logout</a>
+    {% if user.facebook %}<img src="{{user.facebook.profile_image_url_small}}" />{% endif %} 
+    <br/>{{user.first_name}} {{user.last_name}} Rocks!
+    <br/><a href="{% url edit_profile %}">Profile</a>
+    <br/><a href="{% url socialauth_social_logout %}">Logout</a>
 </div>
  
 {% else %}

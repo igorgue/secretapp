@@ -1,0 +1,75 @@
+h1
+	{
+		margin: 0;
+	}
+
+.day_display, .month_year_display
+	{
+		display: block;
+		float: left;
+		width: 50px;
+	}
+
+.day_display
+	{
+		margin-left: 30px;
+	}
+.month_year_display
+	{
+		padding: 20px 0;
+	}
+
+.day_display
+	{
+		font-size: 2em;
+		border-right: 1px solid black;
+		padding-right: 5px;
+	}
+
+.month_display, .year_display
+	{
+		text-align: center;
+		margin: 0;
+		font-size: 1.2em;
+		letter-spacing: 2px;
+	}
+
+.year_display
+	{
+		letter-spacing: 0;
+	}
+
+.right_content li
+	{
+		margin-left: 30px;
+		margin-bottom: 10px;
+	}
+
+#right_sidebar
+	{
+		width: 260px;
+		padding: 10px;
+		float: left;
+	}
+
+#activities
+	{
+		width: 660px;
+		float: left;
+	}
+
+#activities .right_content
+	{
+		width: 440px;
+	}
+
+.activity_line
+	{
+		width: 660px;
+	}
+
+#main_home_content
+	{
+		background: #7F7F7F;
+		width: 940px;
+	}
