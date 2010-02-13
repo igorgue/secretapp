@@ -20,6 +20,7 @@ class SecretCommentForm(UserContentForm):
 class DiscussionCommentForm(UserContentForm):
     secrets = forms.CharField(required=False)
     
+    
     class Meta:
         model = DiscussionComment
         fields = ('text',)

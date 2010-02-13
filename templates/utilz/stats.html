@@ -1,0 +1,27 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h1>{{ discussion_count }} Discussions</h1>
+<big><i>{{ latest_discussion.title }}</i></big>
+<br />
+<h1>{{ comment_count }} Comments</h1>
+<big><i>{{ latest_comment.text }}</i></big>
+<br />
+<h1>{{ secret_count }} Secrets</h1>
+<big><i>{{ latest_secret.title }}</i></big>
+<br />
+<h1>{{ user_count }} Users</h1>
+<big><i>{{ latest_user.first_name }}</i></big>
+
+
+<script type="text/javascript" charset="utf-8">
+    setTimeout(function(){
+        var href_count = document.location.href.split('?');
+        var count = ((parseInt(href_count[1]) || 0) + 1);
+        if (count > 10) count = 0;
+        document.location.href = href_count[0]+'?'+count;
+    }, 10000);
+</script>
+
+{% endblock %}
