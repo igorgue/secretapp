@@ -56,7 +56,8 @@ class ClaimFacebookBackend:
             auth_meta = AuthMeta(user=user, provider='Facebook').save()
             return user
         except Exception, e:
-            print unicode(e)
+            pass
+            #print unicode(e)
 
         return None
 

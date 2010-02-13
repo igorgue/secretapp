@@ -23,6 +23,11 @@ List of needed settings:
     # Solr / Solango configs
     SOLR_SERVER = 'localhost:8080'
     SOLR_ROOT = '/usr/lib/tomcat6/data/solr'
+    SOLR_SCHEMA_PATH = SOLR_ROOT + '/conf/schema.xml'
+    SOLR_DATA_DIR = SOLR_ROOT + '/data'
+    SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
+    SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
+    SEARCH_PING_URLS = ["http://%s/solr/admin/ping" % SOLR_SERVER,]
 """
 try:
     from environment import CWD
