@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from secret.models import Secret
 from discussion.models import Discussion
-from utils.shortcuts import context_response
+from shortcuts import context_response
 
 
 def random_secret(request):
