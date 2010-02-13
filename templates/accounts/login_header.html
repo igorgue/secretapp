@@ -1,5 +1,5 @@
 {% if user.is_authenticated %}
- 
+ {% comment %}
 <div id="account" class="right">
     {% if user.facebook %}<img src="{{user.facebook.profile_image_url_small}}" />{% endif %} 
     <br/>{{user.first_name}} {{user.last_name}} Rocks!
@@ -16,5 +16,5 @@
     
     <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
 </div>
+{% endcomment %}
 {% endif %}
-

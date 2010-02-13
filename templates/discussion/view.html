@@ -26,6 +26,10 @@
 <hr />
 {% for c in discussion.page_comments %}
     <div>{{c.text}} - <i>"{{c.created_at}}" - {% with c.created_by as u %}<a href="mailto:{{u.email}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>{% endwith %}</i></div>
+    {% for s in c.viewable_secrets %}
+        <a href="{{s.get_absolute_url}}">{{s.title}}</a>, 
+    {% endfor %}
+    <br/><br />
     {% with c as obj %}{% include 'perm/editable_logic.html' %}{% endwith %}
     <hr />
 {% endfor %}

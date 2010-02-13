@@ -18,8 +18,7 @@ class SecretCommentForm(UserContentForm):
 
 
 class DiscussionCommentForm(UserContentForm):
-    secrets = forms.CharField(required=False)
-    
+    secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")
     
     class Meta:
         model = DiscussionComment
@@ -33,7 +32,18 @@ class DiscussionCommentForm(UserContentForm):
         instance = super(DiscussionCommentForm, self).save(request, commit=False)
         instance.discussion = discussion
         instance.save()
-        secrets = Secret.viewable.filter(pk__in=self.cleaned_data['secrets'])
+        lst = []
+        for i in self.cleaned_data['secrets'].split(','):
+            try:
+                x = int(i)
+            except:
+                pass
+            else:
+                lst.append(x)
+        secrets = Secret.viewable.filter(pk__in=lst)
         for s in secrets:
-            instance.secrets.add(s)
+            p = Proposal()
+            p.secret = s
+            p.discussion_comment = instance
+            p.save()
         return instance

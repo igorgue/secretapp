@@ -32,7 +32,10 @@ class DiscussionComment(AbstractComment):
     """ A comment on a discussion. Could have secrets associated with it. """
     discussion  = models.ForeignKey(Discussion)
     secrets     = models.ManyToManyField(Secret, through="Proposal")
-
+    
+    def viewable_secrets(self):
+        return [p.secret for p in Proposal.viewable.filter(discussion_comment=self).select_related()]
+    
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
 

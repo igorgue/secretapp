@@ -1,0 +1,53 @@
+{% extends 'layout/base.html' %}
+
+{% block bodytag %}onload="initialize()" onunload="GUnload()"{% endblock %}
+
+
+{% block content %}
+
+<input type="text" name="some_name" value="Soho, london" id="id_location"><input value="Check address" onclick="return showAddress(document.getElementById('id_location').value)" type="button" />
+<br /><br />
+Longitude <input type="text" name="some_name" value="" id="id_longitude">
+<br />
+Latitude <input type="text" name="some_name" value="" id="id_latitude">
+
+
+<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAvwXvkPULsCttPx92SuRYTRQF5WD3E0VKD6PGvRTFWhZKCe54ZhRnYAxrohHNag0O-N8ClqdeX8CZpg" type="text/javascript"></script> 
+<script type="text/javascript"> 
+
+    var map = null;
+    var geocoder = null;
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("map_canvas"));
+        map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+        geocoder = new GClientGeocoder();
+      }
+    }
+
+    function showAddress(address) {
+      if (geocoder) {
+        geocoder.getLatLng(
+          address,
+          function(point) {
+            if (!point) {
+              alert(address + " not found");
+            } else {
+              document.getElementById('id_latitude').value = point.x;
+              document.getElementById('id_longitude').value = point.y;
+              map.setCenter(point, 13);
+              var marker = new GMarker(point);
+              map.addOverlay(marker);
+              marker.openInfoWindowHtml(address);
+            }
+          }
+        );
+      }
+    }
+    </script>
+    <div id="map_canvas" style="width: 500px; height: 300px"></div>
+
+
+
+{% endblock %}
