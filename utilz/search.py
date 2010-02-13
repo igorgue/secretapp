@@ -34,7 +34,7 @@ class SearchForm(forms.Form):
     
     class Meta:
         method = 'GET'
-        results_per_page = 10
+        results_per_page = 500
     
     def __init__(self, GET=None, *args, **kwargs):
         # sort out data types
