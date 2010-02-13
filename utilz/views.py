@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from secret.models import Secret
 from discussion.models import Discussion
-from utils.shortcuts import context_response
+from shortcuts import context_response
 
 
 def random_secret(request):
@@ -21,4 +21,4 @@ def home(request):
         'secrets': Secret.viewable.all().order_by('-created_at'),
         'discussions': Discussion.viewable.all().order_by('-created_at'),
     }
-    return context_response(request, 'utils/home.html', context)
+    return context_response(request, 'utilz/home.html', context)

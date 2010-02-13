@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     (r'^', include('secret.urls')),
     
     # contains landing page
-    (r'^', include('utils.urls')),
+    (r'^', include('utilz.urls')),
     
     # dependancies
     (r'^accounts/', include('socialauth.urls')),
@@ -23,7 +23,7 @@ urlpatterns = patterns('',
 
 # loads all our standard template tags
 from django import template
-template.add_to_builtins('secretapp.utils.templatetags.globals')
+template.add_to_builtins('secretapp.utilz.templatetags.globals')
 
 if settings.DEBUG:
     urlpatterns += patterns('',

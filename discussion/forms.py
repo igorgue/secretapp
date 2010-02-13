@@ -1,6 +1,6 @@
 from django import forms
 from perm.forms import UserContentForm
-from utils.search import SearchForm
+from utilz.search import SearchForm
 from models import *
 
 class DiscussionSearchForm(SearchForm):

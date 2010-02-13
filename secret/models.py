@@ -17,7 +17,7 @@ class Secret(UserContent):
     edit_permission = 'Keeper'
     
     def seo_string(self):
-        from utils.manipulators import safe_title
+        from utilz.manipulators import safe_title
         return safe_title("%s %s" % (self.title, self.location if self.location else ''))
     
     def get_absolute_url(self):
@@ -34,11 +34,4 @@ class Secret(UserContent):
     
     def __unicode__(self):
         return self.title
-    
-class FavouriteSecret(UserContent):
-    """ A Reference to a secret rated as favourite for a person. """
-    secret          = models.ForeignKey(Secret)
-    
-    def get_delete_url(self):
-        return reverse('delete_favourite_secret', kwargs={'pk': self.pk})
 

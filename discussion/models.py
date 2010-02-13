@@ -85,7 +85,7 @@ class Discussion(UserContent):
     
     def safe_title(self):
         "gets the title - safe for use in urls"
-        from utils.manipulators import safe_title
+        from utilz.manipulators import safe_title
         return safe_title(self.title)
     
     def get_absolute_url(self):
