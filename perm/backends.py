@@ -33,7 +33,7 @@ class ClaimFacebookBackend:
         fb_user = facebook.users.getLoggedInUser()
 
         try:
-            profile = FacebookUserProfile.objects.get(facebook_uid = str(fb_user))
+            profile = FacebookUserProfile.objects.get(facebook_uid = unicode(fb_user))
             return profile.user
         except FacebookUserProfile.DoesNotExist:
             fb_data = facebook.users.getInfo([fb_user], ['uid', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
@@ -43,20 +43,20 @@ class ClaimFacebookBackend:
 
             username = 'FB:%s' % fb_data['uid']
             #user_email = '%s@example.facebook.com'%(fb_data['uid'])
-            user = User.objects.get_or_create(username = username)
+            user,new_user = User.objects.get_or_create(username = username)
             user.is_active = True
             user.first_name = fb_data['first_name']
             user.last_name = fb_data['last_name']
             user.save()
-            location = str(fb_data['current_location'])
-            about_me = str(fb_data['about_me'])
-            url = str(fb_data['profile_url'])
-            fb_profile = FacebookUserProfile(facebook_uid = str(fb_data['uid']), user = user, profile_image_url = fb_data['pic'], profile_image_url_big = fb_data['pic_big'], profile_image_url_small = fb_data['pic_small'], location=location, about_me=about_me, url=url)
+            location = unicode(fb_data['current_location'])
+            about_me = unicode(fb_data['about_me'])[0:100]
+            url = unicode(fb_data['profile_url'])
+            fb_profile = FacebookUserProfile(facebook_uid = unicode(fb_data['uid']), user = user, profile_image_url = fb_data['pic'], profile_image_url_big = fb_data['pic_big'], profile_image_url_small = fb_data['pic_small'], location=location, about_me=about_me, url=url)
             fb_profile.save()
             auth_meta = AuthMeta(user=user, provider='Facebook').save()
             return user
         except Exception, e:
-            print str(e)
+            print unicode(e)
 
         return None
 
