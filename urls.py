@@ -27,6 +27,6 @@ template.add_to_builtins('secretapp.utilz.templatetags.globals')
 
 if settings.DEBUG:
     urlpatterns += patterns('',
-        (r'^%s(?P<path>.*)$' % settings.MEDIA_URL, 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT}),
+        (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT}),
         (r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '%simages/favicon.ico' % settings.MEDIA_URL }),
     )
