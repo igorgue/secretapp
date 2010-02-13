@@ -41,13 +41,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    #('Your Name', 'tim@domain.com'),
+    # ('Your Name', 'your_email@domain.com'),
 )
-
-if IS_EC2:
-    # only want to send real emails on live server (otherwise log them)
-    if IS_LIVE:
-        
 
 MANAGERS = ADMINS
 
@@ -72,12 +67,12 @@ USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '%s/templates/static/' % CWD
+MEDIA_ROOT = '%s/templates/static'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'static/'
+MEDIA_URL = '/static/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
