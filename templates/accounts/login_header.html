@@ -2,6 +2,8 @@
 <div id="account" class="right">
     {% if user.facebook %}<img src="{{user.facebook.profile_image_url_small}}" />{% endif %} 
     <br/>{{user.first_name}} {{user.last_name}} Rocks!
+    <br />{{MEMBER_LEVEL}}
+    {% if user.is_superuser %}<br />Super-User{% endif %}
     <br/><a href="{% url edit_profile %}">Profile</a>
     <br/><a href="{% url socialauth_social_logout %}">Logout</a>
 </div>
