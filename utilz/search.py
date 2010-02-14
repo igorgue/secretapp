@@ -88,8 +88,10 @@ class SearchForm(forms.Form):
     
     @property
     def start_page(self):
-        if hasattr(self, 'cleaned_data'):
-            return self.cleaned_data.get('page', self.Meta.start_page)
+        if hasattr(self, 'cleaned_data') and hasattr(self.cleaned_data, 'page'):
+            p = self.cleaned_data['page']
+            if p:
+                return p
         return self.Meta.start_page
     
     def get_results(self, query):
