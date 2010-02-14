@@ -2,6 +2,28 @@ from django import forms
 from django.http import HttpRequest, QueryDict
 from django.core.urlresolvers import reverse
 import solango
+import math
+
+class Page(object):
+    def __init__(self, id, qd):
+        self.id = id
+        qd['page'] = id
+        self.url = "?%s" % qd.urlencode()
+    
+    def __unicode__(self):
+        return u"%s" % self.id
+    
+    def __eq__(self, o):
+        if isinstance(o, Page):
+            return self.id == o.id
+        elif isinstance(o, int):
+            return self.id == int
+        else:
+            raise NotImplemented, "Please only compare one `Page` with another `Page` or `int`"
+    
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
 class SearchDocument(solango.SearchDocument):
     """
@@ -27,14 +49,18 @@ class SearchForm(forms.Form):
     
     Meta optional arguments...
         results_per_page [10] := how many to show per page
+        max_page_over [5] := how many pages are shown around the selected
     
     """
     REQUIRED    = ('model', 'url_name')
-    page        = forms.IntegerField(initial=1, widget=forms.HiddenInput)
+    page        = forms.IntegerField(initial=1, widget=forms.HiddenInput, required=False)
+    quantity    = forms.IntegerField(initial=500, widget=forms.HiddenInput, required=False)
     
     class Meta:
         method = 'GET'
         results_per_page = 500
+        start_page = 1
+        max_page_over = 5
     
     def __init__(self, GET=None, *args, **kwargs):
         # sort out data types
@@ -42,12 +68,6 @@ class SearchForm(forms.Form):
             QD = QueryDict('').copy()
             QD.update(GET)
             GET = QD
-        
-        # update Meta
-        Mota = super(SearchForm, self).__thisclass__.Meta
-        for attr in dir(Mota):
-            if not hasattr(self.Meta, attr):
-                setattr(self.Meta, attr, getattr(Mota, attr))
         
         # error checking for needed fields
         for r in self.REQUIRED:
@@ -65,13 +85,23 @@ class SearchForm(forms.Form):
     def base_query(self):
         """ The starter query to make sure you get the right model, not deleted etc etc... """
         return 'model:(+%s) ' % solango.solr.get_model_key(self.Meta.model)
-        #return 'model:(+%s)&rows=%d ' % (solango.solr.get_model_key(self.Meta.model), self.Meta.results_per_page)
+    
+    @property
+    def start_page(self):
+        if hasattr(self, 'cleaned_data'):
+            return self.cleaned_data.get('page', self.Meta.start_page)
+        return self.Meta.start_page
     
     def get_results(self, query):
         """ Connects to solr and actually runs sort """
-        return solango.connection.select(q=query, sort=self.cleaned_data.get('sort', ''), rows=self.Meta.results_per_page)
+        results = solango.connection.select(q=query,
+                sort = self.cleaned_data.get('sort', ''),
+                rows = self.Meta.results_per_page,
+                start = (self.start_page-1)*self.Meta.results_per_page,
+                )
+        return self.__paginate(results)
     
-    def paginate(self, results):
+    def __paginate(self, results):
         """
         Solango's built in page system is designed to work with its crappy search views.
         This provides a more generic system and usage.
@@ -79,49 +109,48 @@ class SearchForm(forms.Form):
         Template example:
             
             {% if results.pages %}
-                {% if results.previous %}<a href="{{ results.previous }}">previous</a>{% endif %}
+                {% if results.previous %}<a href="{{ results.previous.url }}">previous</a>{% endif %}
                 {% for page in results.pages %}
                         {% ifequal page results.page %}
                             <b class="page">{{page}}</b>
                         {% else %}
-                            <a href="{{results.page.url}}">{{page}}</a>
+                            <a href="{{page.url}}">{{page}}</a>
                         {% endifequal %}
                 {% endfor %}
-                {% if results.next %}<a href="{{ results.next }}">next</a>{% endif %}
+                {% if results.next %}<a href="{{ results.next.url }}">next</a>{% endif %}
             {% endif %}
             
         """
         # detect the correct page
-        page = 1
-        if hasattr(self, 'cleaned_data'):
-            page = self.cleaned_data.get('page', page)
+        page = self.start_page
         
         # create path
         qd = self.Meta.query_dict
         
-        class Page(object):
-            def __init__(self, id):
-                self.id = id
-                qd['page'] = id
-                self.url = "?%s" % qd.urlencode()
-            def __unicode__(self):
-                return u"%s" % self.id
-        
-        # choose the correct selection
-        results.selection = results.documents[(page-1)*self.Meta.results_per_page: page*self.Meta.results_per_page]
+        # how many search results should be returned on a per search basis
+        if 'quantity' in self.cleaned_data and self.cleaned_data['quantity']:
+            self.Meta.results_per_page = self.cleaned_data['quantity']
         
         # work out page links
-        results.page = Page(page)
+        results.page = Page(page, qd)
         
         pages = []
         page_count = int(math.ceil(results.count/self.Meta.results_per_page)+1)
-        for p in xrange(1, page_count):
-            pages.append(Page(p))
+        results.page_count = page_count
+        
+        offset = page - self.Meta.max_page_over
+        pages_start = offset if offset > 0 else 1
+        
+        offset = page + self.Meta.max_page_over
+        pages_end = offset if offset < page_count else page_count
+        
+        for p in xrange(pages_start, pages_end+1):
+            pages.append(Page(p, qd))
         results.pages = pages
         
-        results.previous = Page(page-1) if page > 1 else None
-        results.next = Page(page+1) if page < page_count else None
-
+        results.previous = Page(page-1, qd) if page > 1 else None
+        results.next = Page(page+1, qd) if page < page_count else None
+        
         return results
     
     def save(self):

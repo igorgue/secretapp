@@ -1,8 +1,8 @@
 from django import forms
 from django.core.urlresolvers import reverse
-
 from perm.forms import UserContentForm
 from models import *
+
 
 class SecretCommentForm(UserContentForm):
     class Meta:
@@ -15,7 +15,6 @@ class SecretCommentForm(UserContentForm):
         else:
             self.Meta.url = reverse('create_secret_comment', kwargs={'secret_id': secret.id })
         return self
-
 
 class DiscussionCommentForm(UserContentForm):
     secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")
@@ -47,3 +46,4 @@ class DiscussionCommentForm(UserContentForm):
             p.discussion_comment = instance
             p.save()
         return instance
+

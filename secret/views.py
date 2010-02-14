@@ -14,13 +14,19 @@ def search(request):
     else:
         form = SecretSearchForm({'page': 1})
     
+    if request.is_ajax():
+        form.Meta.results_per_page = 500
+        form.Meta.default_template = 'ajax'
+    
     # get the results
     if form.is_valid():
         results = form.save()
     else:
         results = []
-
-    return context_response(request, 'secret/search.html', {
+    
+    # return
+    return_template = 'results' if request.is_ajax() else 'search'
+    return context_response(request, 'secret/%s.html' % return_template, {
                 'form': form,
                 'results': results,
                 # this will be hard coded into tabs
@@ -72,6 +78,7 @@ def edit(request, pk=None, discussion_id=None):
         
     # set the urlG
     form.set_url(secret=secret, discussion=discussion_id)
+    
     
     context = {
         'form': form,

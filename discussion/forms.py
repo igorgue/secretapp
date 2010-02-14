@@ -16,9 +16,10 @@ class DiscussionSearchForm(SearchForm):
     title   = forms.CharField(required=False)
     text    = forms.CharField(required=False)
     
-    class Meta:
+    class Meta(SearchForm.Meta):
         model = Discussion
         url_name = 'search_discussions'
+        results_per_page = 20
     
     def save(self):
         # build vars

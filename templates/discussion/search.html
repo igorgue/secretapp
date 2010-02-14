@@ -10,10 +10,13 @@
 {% endform %}
 
 {% if results %}
-    <h3>Results {{results.count}}</h3>
+    <h3>Results {{results.count}} {{results.page}}/{{results.page_count}}</h3>
     {% for d in results.documents %}
         {{ d.data_dict.render|safe }}
     {% endfor %}
+    
+    {% include 'layout/pages.html' %}
+    
 {% endif %}
 
 {% endblock %}

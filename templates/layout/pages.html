@@ -1,0 +1,9 @@
+{% if results.previous %}<a href="{{ results.previous.url }}">previous</a>{% endif %}
+{% for page in results.pages %}
+        {% ifequal page results.page %}
+            <b class="page">{{page}}</b>
+        {% else %}
+            <a class="page" href="{{page.url}}">{{page}}</a>
+        {% endifequal %}
+{% endfor %}
+{% if results.next %}<a href="{{ results.next.url }}">next</a>{% endif %}

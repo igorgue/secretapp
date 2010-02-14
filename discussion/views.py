@@ -30,7 +30,7 @@ def view(request, pk):
     discussion = get_viewable_or_raise(Discussion, request.user, pk=pk)
     
     # check seo
-    seo_url = discussion.get_absolute_url()
+    seo_url = discussion.get_absolute_url() 
     if not request.get_full_path().split('?')[0] == seo_url:
         return HttpResponsePermanentRedirect(seo_url)
     

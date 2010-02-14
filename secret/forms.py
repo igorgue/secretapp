@@ -5,6 +5,7 @@ from perm.forms import UserContentForm
 from utilz.search import SearchForm
 from models import *
 
+
 # When adding to this list.
 #   1. Need to add template
 #   2. Need to update solr schema (incl restart)
@@ -34,12 +35,14 @@ class SecretSearchForm(SearchForm):
     west        = forms.FloatField(required=False)
     east        = forms.FloatField(required=False)
     
-    class Meta:
+    class Meta(SearchForm.Meta):
         model = Secret
         url_name = 'search_secrets'
+        default_template = 'list'
+        results_per_page = 20
     
     def render_template(self):
-        return self.Meta.query_dict.get('template', 'list')
+        return self.Meta.query_dict.get('template', self.Meta.default_template)
     
     def template_url(self, template):
         """ Returns the url to change the template but keep the same search critieon """
@@ -103,5 +106,3 @@ class SecretForm(UserContentForm):
         else:
             self.Meta.url = reverse('new_secret')
         return self
-
-

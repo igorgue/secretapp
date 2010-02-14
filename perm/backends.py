@@ -24,6 +24,10 @@ class ClaimFacebookBackend:
         -- user = User.objects.create(username = username)
         ++ user, new_user = User.objects.get_or_create(username = username)
         ++ user.is_active = True
+        
+        ++ from perm.tools import PERMISSION_LEVEL
+        ++ del request.session[PERMISSION_SESSION_NAME]
+        ++ request.session.modified = True
         """
 
         facebook =  Facebook(settings.FACEBOOK_API_KEY,
@@ -53,6 +57,10 @@ class ClaimFacebookBackend:
             fb_profile = FacebookUserProfile(facebook_uid = unicode(fb_data['uid']), user = user, profile_image_url = fb_data['pic'], profile_image_url_big = fb_data['pic_big'], profile_image_url_small = fb_data['pic_small'], location=location, about_me=about_me, url=url)
             fb_profile.save()
             auth_meta = AuthMeta(user=user, provider='Facebook').save()
+            
+            from perm.tools import PERMISSION_LEVEL
+            del request.session[PERMISSION_SESSION_NAME]
+            request.session.modified = True
             return user
         except Exception, e:
             pass
