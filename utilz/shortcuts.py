@@ -15,6 +15,16 @@ def context_response(request, template, context, *args, **kwargs):
     return render_to_response(template, context, *args, **kwargs)
 
 
+def redirect_back(request):
+    """
+    Returns you back 
+    """
+    if 'HTTP_REFERER' in request.META:
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        return HttpResponseRedirect(reverse('home'))
+
+
 def login_required(func):
     """
     http://docs.djangoproject.com/en/dev/topics/auth/#the-login-required-decorator

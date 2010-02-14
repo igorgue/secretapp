@@ -1,6 +1,14 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from utilz.shortcuts import context_response, get_editable_or_raise, login_required
+from utilz.shortcuts import context_response, get_editable_or_raise, login_required, redirect_back
+from tools import *
+
+@login_required
+def reset_permissions(request):
+    del request.session[PERMISSION_SESSION_NAME]
+    request.modified = True
+    return redirect_back(request)
+
 
 @login_required
 def delete(request, pk, model):
@@ -12,9 +20,7 @@ def delete(request, pk, model):
         # return
         if request.is_ajax():
             return context_response(request, 'ajax/deleted.html', {'instance': instance })
-        if 'HTTP_REFERER' in request.META:
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
         else:
-            return HttpResponseRedirect(reverse('home'))
+            return redirect_back(request)
     else:
         raise Http404

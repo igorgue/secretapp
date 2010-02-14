@@ -22,6 +22,7 @@ class UserContentForm(forms.ModelForm):
             from facebook import Facebook
             fb_user, is_new = User.objects.get_or_create(username='FB:%s' % fuid)
             fb_user.first_name = self.cleaned_data['facebook_name']
+            fb_user.save()
             instance.created_by = fb_user
             
         else:
