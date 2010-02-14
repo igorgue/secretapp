@@ -193,7 +193,7 @@ ul#tabs
 			text-align: right;
 			margin: 0;
 			padding-top:28px;
-			height: 69px;
+			height: 2px; /* 69px; */
 			font-size: 1.4em;
 			text-transform: uppercase;
 			color: #333;
@@ -254,7 +254,7 @@ ul#tabs
 		{
 			padding: 10px;
 			width: 760px;
-			height: 76px;
+			height: 10px; /* 76px; */
 			-moz-border-radius-topright: 5px;
 			-webkit-border-top-right-radius: 5px;
 		}
