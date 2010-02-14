@@ -7,6 +7,10 @@ def settings(request):
 
 def member_level(request):
     from perm.tools import PERMISSION_LEVELS
+    if hasattr(request.user, 'permission_level'):
+        level = PERMISSION_LEVELS[request.user.permission_level]
+    else:
+        level = 0
     return {
-        'MEMBER_LEVEL': PERMISSION_LEVELS[request.user.permission_level],
-    }
+        'MEMBER_LEVEL': level,
+        }
