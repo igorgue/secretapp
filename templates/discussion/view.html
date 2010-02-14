@@ -17,6 +17,9 @@
 {% form reply_form %}
     {% for f in reply_form %}
         {% field f %}
+        {% ifequal f.name "secrets" %}
+          <p style="margin-bottom:30px;margin-top:-48px;text-align:right;width:600px;"><a href="/secret/new/" target="_blank">New secret</a></p>
+        {% endifequal %}
     {% endfor %}
 {% endform %}
 
