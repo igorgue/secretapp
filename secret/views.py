@@ -16,7 +16,7 @@ def search(request):
     
     if request.is_ajax():
         form.Meta.results_per_page = 500
-        form.Meta.default_template = 'ajax'
+        form.Meta.default_template = 'location'
     
     # get the results
     if form.is_valid():
