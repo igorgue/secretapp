@@ -3,7 +3,7 @@
     {% with discussion.lastest_comment as comment %}
         <a href="{{comment.get_absolute_url}}">Latest Post</a> by
         {% with comment.created_by as u %}
-            <a href="{{u.get_absolute_url}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>
+            <a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>
         {% endwith %}
     {% endwith %}
 </div>

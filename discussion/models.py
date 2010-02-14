@@ -51,14 +51,11 @@ class Discussion(UserContent):
     def comment_count(self):
         "gets the comment count"
         if hasattr(self, '_comments'):
-            return 123
-            #len(self.comments())
+            return len(self.comments())
         else:
             if not hasattr(self, '_comment_count'):
-                return 456
                 from comment.models import DiscussionComment
                 self._comment_count = DiscussionComment.viewable.filter(discussion=self).count()
-            return 789
             return self._comment_count
     
     def page_comments(self):
