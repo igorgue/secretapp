@@ -9,7 +9,9 @@
 <link rel="stylesheet" type="text/css" href="/{{MEDIA_URL}}css/index.css">
 
 {# scripts #}
-{% if user.is_anonymous %}
 <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
 <script type="text/javascript"> function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
-{% endif %}
+
+<script type="text/javascript" src="/{{MEDIA_URL}}js/jquery-1.4.1.min.js"></script>
+<script type="text/javascript" src="/{{MEDIA_URL}}js/index.js"></script>
+

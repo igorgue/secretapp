@@ -34,7 +34,7 @@ class SearchForm(forms.Form):
     
     class Meta:
         method = 'GET'
-        results_per_page = 10
+        results_per_page = 500
     
     def __init__(self, GET=None, *args, **kwargs):
         # sort out data types
@@ -65,10 +65,11 @@ class SearchForm(forms.Form):
     def base_query(self):
         """ The starter query to make sure you get the right model, not deleted etc etc... """
         return 'model:(+%s) ' % solango.solr.get_model_key(self.Meta.model)
+        #return 'model:(+%s)&rows=%d ' % (solango.solr.get_model_key(self.Meta.model), self.Meta.results_per_page)
     
     def get_results(self, query):
         """ Connects to solr and actually runs sort """
-        return solango.connection.select(q=query, sort=self.cleaned_data.get('sort', ''))
+        return solango.connection.select(q=query, sort=self.cleaned_data.get('sort', ''), rows=self.Meta.results_per_page)
     
     def paginate(self, results):
         """
@@ -120,7 +121,7 @@ class SearchForm(forms.Form):
         
         results.previous = Page(page-1) if page > 1 else None
         results.next = Page(page+1) if page < page_count else None
-        
+
         return results
     
     def save(self):
