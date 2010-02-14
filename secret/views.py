@@ -24,11 +24,17 @@ def search(request):
     else:
         results = []
     
+    search_template = 'secret/layout/%s.html' % form.render_template()
+    if request.is_ajax():
+        render_template = search_template
+    else:
+        render_template = 'secret/search.html'
+    
     # return
-    return_template = 'results' if request.is_ajax() else 'search'
-    return context_response(request, 'secret/%s.html' % return_template, {
+    return context_response(request, render_template, {
                 'form': form,
                 'results': results,
+                'search_template':  search_template,
                 # this will be hard coded into tabs
                 'template_types': SECRET_RENDER_TEMPLATES,
             })
