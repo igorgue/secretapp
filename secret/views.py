@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict
 from discussion.models import Discussion
 from secret.forms import SecretSearchForm
 from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
@@ -48,6 +48,7 @@ def view(request, pk):
 
 @login_required
 def edit(request, pk=None, discussion_id=None):
+
     user = request.user
     # get object
     secret = get_editable_or_raise(Secret, user, pk=pk) if pk else Secret()
@@ -60,7 +61,7 @@ def edit(request, pk=None, discussion_id=None):
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
                 if discussion_id:
-                    return context_reponse(request, 'secret/snippets/comment.html', {'secret': secret })
+                    return HttpResponse('%s' % secret if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
                     return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
@@ -84,10 +85,8 @@ def edit(request, pk=None, discussion_id=None):
         'form': form,
         'secret': secret,
     }
-    # is ajax creating / editing / failure
     if request.is_ajax():
-        return context_response(request, 'secret/ajax.html', context)
-    # otherwise
+        return HttpResponse('')
     else:
         return context_response(request, 'secret/edit.html', context)
 
