@@ -8,13 +8,12 @@
 {% endwith %}
 
 {# DISCUSSION TEXT AND TITLE #}
-<h3>{{discussion.title}}</h3>
-<div><i>{{discussion.text}}</i></div>
-<i>{{discussion.created_at}} - {% with discussion.created_by as u %}<a href="mailto:{{u.email}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>{% endwith %}</i>
-<br />
+<h2>{{discussion.title}}</h2>
+<p>{{discussion.text}}</p>
+<p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
 
 {# REPLY FORM #}
-<h4>Reply to this</h4>
+<h4>Post a reply</h4>
 {% form reply_form %}
     {% for f in reply_form %}
         {% field f %}
@@ -22,10 +21,13 @@
 {% endform %}
 
 {# DISCUSSION COMMENTS #}
-<br /><br /><br />
-<hr />
+<br class="clear"/><br />
+<h3>Comments</h3>
 {% for c in discussion.page_comments %}
-    <div>{{c.text}} - <i>"{{c.created_at}}" - {% with c.created_by as u %}<a href="mailto:{{u.email}}">{{u.pk}}. {{u.first_name}} {{u.last_name}}</a>{% endwith %}</i></div>
+    <div>
+        <p>{{c.text}}</p>
+        <p><i>posted by {% with c.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{c.created_at}}.</i></p>
+    </div>
     {% for s in c.viewable_secrets %}
         <a href="{{s.get_absolute_url}}">{{s.title}}</a>, 
     {% endfor %}

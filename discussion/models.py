@@ -61,8 +61,9 @@ class Discussion(UserContent):
     def page_comments(self):
         "gets the comments on a certain `.page` "
         # works out start and end discussions to be shown
-        start = (self.page-1)*self.comments_per_page
-        end = self.page*self.comments_per_page
+        # add 1 to filter out first comment, which is discussion post itself
+        start = (self.page-1)*self.comments_per_page + 1
+        end = self.page*self.comments_per_page + 1
         comments = self.comments()[start:end]
         # assigns editable permissions
         for c in comments:
