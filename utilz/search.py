@@ -26,7 +26,7 @@ class SearchForm(forms.Form):
         url_name := name of search url regex
     
     Meta optional arguments...
-        results_per_page [500] := how many to show per page
+        results_per_page [10] := how many to show per page
     
     """
     REQUIRED    = ('model', 'url_name')
@@ -64,7 +64,7 @@ class SearchForm(forms.Form):
     @property
     def base_query(self):
         """ The starter query to make sure you get the right model, not deleted etc etc... """
-        return 'model:(+%s) ' % solango.solr.get_model_key(self.Meta.model)
+        return 'model:(+%s)&rows=%d ' % (solango.solr.get_model_key(self.Meta.model), self.Meta.results_per_page)
     
     def get_results(self, query):
         """ Connects to solr and actually runs sort """
@@ -120,7 +120,7 @@ class SearchForm(forms.Form):
         
         results.previous = Page(page-1) if page > 1 else None
         results.next = Page(page+1) if page < page_count else None
-        
+
         return results
     
     def save(self):
