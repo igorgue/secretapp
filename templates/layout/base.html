@@ -7,18 +7,16 @@
     <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/index.css" />
     {% endblock %}
     {% block pagecss %}{% endblock %}
+
 </head>
 <body id="{{BODY_ID}}">
     
     <div id="container">
         {% include 'layout/header.html' %}
-        
         {% block headnotice %}{% endblock %}
-        
         {% include 'layout/tabs.html' %}
 
         {% block content %}{% endblock %}
-        
         {% include 'layout/footer.html' %}
     </div><!-- end of div id=container -->
 </body>

@@ -16,11 +16,19 @@ def search(request):
         form = SecretSearchForm({'page': 1})
     
     if request.is_ajax():
-        form.Meta.results_per_page = 500
         form.Meta.default_template = 'location'
+    
+    # 
+    template_map_numbers = {
+        'location': 500,
+        'list': 10,
+        'photo': 20,
+    }
     
     # get the results
     if form.is_valid():
+        if form.cleaned_data.get('template') and form.cleaned_data['template']:
+            form.Meta.results_per_page = template_map_numbers[form.cleaned_data['template']]
         results = form.save()
     else:
         results = []
@@ -67,11 +75,11 @@ def edit(request, pk=None, from_discussion=False):
             # success and ajax
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
-                if discussion_id:
+                if from_discussion:
                     return HttpResponse('%s' % secret.pk if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
-                    return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
+                    return context_response(request, 'secret/render/list.html', {'secret': secret })
             # success redirect to instance page
             else:
                 # if creating as part of a discussion, redirect back to discussion

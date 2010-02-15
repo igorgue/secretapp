@@ -115,6 +115,8 @@ MIDDLEWARE_CLASSES = (
     'perm.middleware.PermissionUserMiddleware',
     # adds additional data to user object
     'accounts.middleware.AugmentAccountMiddleware',
+    # makes ajax responses pretty
+    'utilz.middleware.AjaxExceptionResponse',
 )
 
 ROOT_URLCONF = 'urls'

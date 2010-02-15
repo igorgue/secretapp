@@ -18,6 +18,576 @@
 		<a href="#" id="top_reply_comment_button">Comment</a><a href="#" id="top_reply_button">Propose</a>
 <!-- JS to toggle the top_reply_button into a pair of top_reply_comment_button and top_reply_propose_button, name them this to match the CSS -->
 {% comment %}
+<style type="text/css">
+
+.top_content {
+	height: auto;
+}
+
+.discussion_reply_tabs {
+	text-align: right;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	margin-top: -10px;
+}
+.discussion_reply_tabs .suggest_tab,
+.discussion_reply_tabs .comment_tab {
+	padding: 6px 10px;
+}
+.suggest .suggest_tab,
+.comment .comment_tab {
+	background-color: #7B7979;
+}
+.suggest .suggest_tab a,
+.comment .comment_tab a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.discussion_reply_form_body {
+	display: none;
+	background-color: #7B7979;
+	padding: 8px 10px;
+}
+
+.discussion_reply_form.suggest .discussion_reply_form_body,
+.discussion_reply_form.comment .discussion_reply_form_body {
+	display: block;
+}
+
+.discussion_reply_form .suggest_secret {
+	display: none;
+	float: left;
+	width: 48%;
+}
+.discussion_reply_form.suggest .suggest_secret {
+	display: block;
+}
+.discussion_reply_form.suggest div.comment {
+	float: left;
+	width: 48%;
+	margin-left: 2%;
+}
+.discussion_reply_form .existing_secrets {
+	display: none;
+}			
+
+.discussion_reply_form h4 {
+	margin: 0 0 4px;
+}
+
+.discussion_reply_form label {
+	display: block;
+}
+.discussion_reply_form textarea {
+	width: 100%;
+	height: 100px;
+	font-family: 'Gill sans','Gill Sans MT',Calibri,Trebuchet,sans-serif;
+}
+.discussion_reply_form.suggest textarea {
+	width: 100%;
+	height: 250px;
+}
+.discussion_reply_form .buttons {
+	clear: both;
+	text-align: center;
+	padding: 8px 0;
+}
+
+.discussion_reply_form .map_search_not_found {
+	display: none;
+}
+.discussion_reply_form .map_search_results_list {
+	display: none;
+}
+.discussion_reply_form .map_search_results_list ol {
+	padding-left: 8px;
+}
+.discussion_reply_form .map_search_results_list li {
+	list-style-position:inside;
+	margin:4px 0;
+}
+
+.discussion_reply_form .map_canvas {
+	width: 100%;
+	height: 180px;
+	margin-bottom: 5px;
+	display: none;
+}
+
+.discussion_reply_form .map_canvas_small,
+.discussion_reply_form .map_canvas_small_placeholder {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+	width: 90px;
+	height: 90px;
+	display: none;
+}
+.discussion_reply_form .secrets_list .map_canvas_small_placeholder {
+	display: block;
+}
+.discussion_reply_form .map_canvas_small_placeholder {
+	background-color: #333;
+	border: 1px solid #ccc;
+}
+.map_canvas_small span,
+.map_canvas_small a {
+	display: none;
+}
+.discussion_reply_form .hasmap .map_canvas_small {
+	display: block;
+}
+.discussion_reply_form .bigmap .map_canvas {
+	display: block;
+}
+.discussion_reply_form .bigmap .map_canvas_small {
+	/*display: b;*/
+}
+
+.discussion_reply_form .secrets_list {
+	margin: 0;
+	padding: 0;
+}
+.discussion_reply_form .secrets_list li.secret {
+	position: relative;
+	list-style-type: none;
+	margin: 0 0 5px;
+	padding: 5px 5px;
+	background-color: #000;
+	color: #fff;	
+}
+.discussion_reply_form .secrets_list li.secret.expanded {
+	padding-left: 105px;
+}
+.discussion_reply_form .map {
+	margin-left: -100px;
+}
+.discussion_reply_form .secrets_list .delete_button {
+	position:absolute;
+	right:10px;
+	top:-5px;
+}
+
+.discussion_reply_form .secrets_list .edit {
+	display: none;
+}
+.discussion_reply_form .secrets_list .expanded .edit {
+	display: block;
+}
+.discussion_reply_form .secrets_list .expanded .static {
+	display: none;
+}
+
+.discussion_reply_form .secrets_list .static .title {
+	display: block;
+	font-weight: bold;
+}
+
+.discussion_reply_form .secrets_list .static .location {
+	display: block;
+}
+
+
+</style>
+
+
+{# DELETE BUTTON FOR ADMINS ONLY #}
+{% with discussion as obj %}
+    {% include 'perm/editable_logic.html' %}
+{% endwith %}
+
+{# DISCUSSION TEXT AND TITLE #}
+<h2>{{discussion.title}}</h2>
+
+<script type="text/javascript">
+$('document').ready(function() {
+	$('.suggest_tab_button').each(function(index) {
+		$(this).click(function() {
+			var df = $(this).closest('.discussion_reply_form');
+			df.removeClass('comment').toggleClass('suggest');
+			if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
+		});
+	});
+	$('.comment_tab_button').each(function(index) {
+		$(this).click(function() {
+			var df = $(this).closest('.discussion_reply_form');
+			df.removeClass('suggest').toggleClass('comment');
+			if (df.hasClass('comment')) { df.find('textarea.comment').focus(); }
+		});
+	});
+});
+</script>
+
+<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAEApdQKp-3MQwXa7vqy-0PRTvq4UVAZ__u8Yk6PO6W14KUZrPkhTsRXWFwLdK0NTwbJRLBLmzeuZGsA" type="text/javascript"></script> 
+<script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAEApdQKp-3MQwXa7vqy-0PRTvq4UVAZ__u8Yk6PO6W14KUZrPkhTsRXWFwLdK0NTwbJRLBLmzeuZGsA" type="text/javascript"></script>
+<!--goog local api key beta.secretlondon.us: ABQIAAAAEApdQKp-3MQwXa7vqy-0PRTvq4UVAZ__u8Yk6PO6W14KUZrPkhTsRXWFwLdK0NTwbJRLBLmzeuZGsA-->
+<!--goog local api key localhost:8000: ABQIAAAAEApdQKp-3MQwXa7vqy-0PRQCULP4XOMyhPd8d_NrQQEO8sT8XBTlGvJCQhH0SlAnOODhv4dQJ__EbA-->
+
+<script type="text/javascript"> 
+
+var secretListController = {
+	parentElement : null,
+	map : null,
+	map_small : null,
+	geocoder : null,
+	marker : null,
+	marker_small : null,
+	localSearch : new GlocalSearch(),
+	
+	init : function(parentElement) {
+		this.parentElement = parentElement;
+		
+		if (GBrowserIsCompatible()) {
+			canvas = parentElement.find('.map_canvas')[0];
+			this.map = new GMap2(canvas);
+			this.map.setCenter(new GLatLng(51.52487262675978, -0.1064300537109375), 15);
+			this.map.addControl(new GLargeMapControl3D());
+			this.marker = new GMarker(new GLatLng(51.52487262675978, -0.1064300537109375), {draggable: true});
+			this.map.addOverlay(this.marker);
+			GEvent.addListener(this.marker, "dragend", function() {
+				point = this.marker.getPoint();
+				this.saveNewMarkerPosition(point);
+			});
+
+			canvas_small = parentElement.find('.map_canvas_small')[0];
+			this.map_small = new GMap2(canvas_small);
+			this.map_small.disableDragging();
+			this.map_small.setCenter(new GLatLng(51.52487262675978, -0.1064300537109375), 13);
+			this.marker_small = new GMarker(new GLatLng(51.52487262675978, -0.1064300537109375));
+			this.map_small.addOverlay(this.marker_small);
+		}
+
+		this.geocoder = new GClientGeocoder();
+		this.localSearch.setResultSetSize(google.search.Search.LARGE_RESULTSET);
+
+		secret = this.addSecret();
+		parentElement.find('.add_secret').each(function() {
+			$(this).click(function() { secretListController.addSecret(); });
+		});
+		
+		parentElement.submit(function() { secretListController.submitHandler(); return false; });
+	},
+
+	getExpandedSecretLI : function() {
+		return this.parentElement.find('.secrets_list li.secret.expanded'); // .first()??
+	},
+	
+	getAddress : function() {
+		return this.parentElement.find('.expanded .secret_name').val() + ' ' + this.parentElement.find('.expanded .secret_location').val();
+	},
+	
+	hasCoords : function() {
+		return false; //$('#id_latitude').value || $('#id_longitude').value;
+	},
+	
+	lookupAddressTimeout : null,
+	setLookupAddressTimeout : function() {
+		clearTimeout(this.lookupAddressTimeout);
+		this.lookupAddressTimeout = setTimeout(this.lookupAddress, 1000);
+	},
+	
+	lookupAddress : function(address) {
+		if (typeof(address) == 'undefined') {
+			address = this.getAddress();
+		}
+		if (!jQuery.trim(address)) {
+			return;
+		}
+		// first we try looking up using the google local ajax search API, which works better for postcodes
+	
+		this.localSearch.setSearchCompleteCallback(null, function() { secretListController.searchCompleteCallback(address); });
+		this.localSearch.execute(address + ', London');
+	},
+	
+	searchCompleteCallback : function(address) {
+		clearTimeout(this.lookupAddressTimeout);
+		if (this.localSearch.results[0]) {
+			html = '';
+			resultCount = this.localSearch.results.length;
+			for (i = 0; i < resultCount; i++) {
+				r = this.localSearch.results[i];
+				html += '<li><a href="#" onclick="secretListController.selectMapResult(' + r.lat + ',' + r.lng + ',\'' + r.titleNoFormatting.replace('\'', '\\\'') + '\',\'' + r.streetAddress.replace('\'', '\\\'') + '\'); return false;">' + r.title;
+				if (r.streetAddress != r.title) { html += ', ' + r.streetAddress; }
+				html += '</a></li>';
+			}
+			this.displayMapResults(html);
+		} else {
+			// if local search fails, we try the geocode address search
+			if (this.geocoder) {
+			    this.geocoder.getLatLng(
+			      address + ', London',
+			      function(point) {
+					// we detect center of london as "no result"
+					if (!point || ((point.lat() == 51.5001524) && (point.lng() == -0.1262362))) {
+					  secretListController.noMapResults();
+					} else {
+					  secretListController.selectMapResult(point.lat(), point.lng());
+					}
+				  }
+				);
+			}
+		}
+    },
+
+	
+	displayMapResults : function(listHtml) {
+		this.parentElement.find('.map_search_not_found')[0].style.display = 'none';	
+		this.parentElement.find('.map_search_results_list')[0].style.display = 'block';	
+		this.getExpandedSecretLI().addClass('bigmap');
+		results = this.parentElement.find('.map_search_results_list ol')[0];
+		results.innerHTML = listHtml;
+	},
+	
+	noMapResults: function() {
+		this.parentElement.find('.map_search_not_found')[0].style.display = 'block';	
+		this.parentElement.find('.map_search_results_list')[0].style.display = 'none';	
+		this.getExpandedSecretLI().removeClass('bigmap');
+	},
+	
+	clearMapResults: function() {
+		this.parentElement.find('.map_search_not_found')[0].style.display = 'none';	
+		this.parentElement.find('.map_search_results_list')[0].style.display = 'none';	
+		this.getExpandedSecretLI().removeClass('bigmap');
+	},
+	
+	selectMapResult : function(lat, lng, title, address) {
+		this.parentElement.find('.map_search_not_found')[0].style.display = 'none';	
+		this.parentElement.find('.map_search_results_list')[0].style.display = 'none';
+		point = new GLatLng(lat, lng);
+		if (this.marker) {
+		    this.marker.setLatLng(point);
+		}
+		this.saveNewMarkerPosition(point);
+		// we use settimeout to give the map time to render before we pop up the dialog
+	    setTimeout(function() { secretListController.updateTitleAndLocation(title, address); }, 200);
+	},
+	
+	saveNewMarkerPosition : function(point) {
+	  	expandedSecret = this.getExpandedSecretLI();
+		expandedSecret.find('.latitude')[0].value = point.lat();
+		expandedSecret.find('.longitude')[0].value = point.lng(); 
+	  	if (point.lat() && point.lng()) {
+			this.map.setCenter(point, 15);
+			this.map_small.setCenter(point, 13);
+			if (this.marker_small) {
+			    this.marker_small.setLatLng(point);
+			}
+	  		expandedSecret.addClass('hasmap');
+	  	}
+	},
+	
+	updateMapMarkerPosition : function() {
+	  	expandedSecret = this.getExpandedSecretLI();
+		lat = expandedSecret.find('.latitude').val();
+		lng = expandedSecret.find('.longitude').val();
+		if (lat && lng) { 
+			point = new GLatLng(lat, lng);
+			this.map.setCenter(point, 15);
+			this.map_small.setCenter(point, 13);
+			if (this.marker) {
+			    this.marker.setLatLng(point);
+			}
+			if (this.marker_small) {
+			    this.marker_small.setLatLng(point);
+			}
+		}
+	},
+
+	updateTitleAndLocation : function(title, address) {
+		expandedSecret = this.getExpandedSecretLI();
+        titleField = expandedSecret.find('.secret_name');
+		if (title && (title != titleField.val()) && (!titleField.val() || confirm('Update title field to "' + title + '"?'))) {
+			titleField.val(title);
+			titleField.triggerHandler('change');
+		}
+		locationField = expandedSecret.find('.secret_location');
+		if (address && (address != locationField.val()) && (!locationField.val() || confirm('Update location field to "' + address + '"?'))) {
+			locationField.val(address);
+			locationField.triggerHandler('change');
+		}
+	},
+	
+	
+	//
+	// secrets list
+	//
+	
+	secret_template : '\
+	<li class="secret expanded" id="secret-__id__">\
+		<div class="edit">\
+			<label for="id_title-__id__" class="secret_name_label">Name of this secret</label>\
+			<input id="id_title-__id__" type="text" name="" value="" class="secret_name"/>\
+			<label for="id_location-__id__" class="secret_location_label">Location</label>\
+			<input id="id_location-__id__" type="text" name="" value="" class="secret_location"/>\
+			<p class="find_on_map_button"><input value="Find on map" type="button" /></p>\
+		</div>\
+		\
+		<div class="static">\
+			<span class="title">New secret</span>\
+			<span class="location"> - </span>\
+		</div>\
+		\
+		<input type="hidden" name="latitude" id="id_latitude-__id__" class="latitude" value="">\
+		<input type="hidden" name="longitude" id="id_longitude-__id__" class="longitude" value="">\
+		<input type="hidden" name="secret_pk" id="id_secret_pk-__id__" class="pk" value="">\
+		\
+		<input value="Delete" type="button" class="delete_button" />\
+	</li>\
+	',
+	
+	secret_count : 0,
+	
+	addSecret : function() {
+		new_secret = this.secret_template;
+		new_secret = new_secret.replace('__id__', this.secret_count);
+		this.parentElement.find('.secrets_list').append(new_secret);
+		new_secret = $('#secret-' + this.secret_count);
+		this.initSecret(new_secret);
+		this.expandSecret(new_secret);
+		new_secret.find('.secret_name').focus();
+		this.secret_count++;
+		return new_secret;
+	},
+	
+	initSecret : function(li) {
+		li = $(li);
+		li.find('.static').click(function() {
+			secretListController.expandSecret(this);
+		});
+		li.find('.find_on_map_button').click(function() {
+			secretListController.lookupAddress();
+		});
+		li.find('.delete_button').click(function() {
+			secretListController.deleteSecret(this);
+		});
+ 		li.find('.secret_name').change(function() {
+				var title = $(this).val();
+				if (!title) { title = 'New Secret'; }
+				li.find('.static .title').text(title);
+			}).blur(function() {
+				if (!secretListController.hasCoords()) { secretListController.lookupAddress(); }
+			}).keyup(function() {
+				secretListController.setLookupAddressTimeout();
+			});
+		
+		li.find('.secret_location').change(function() {
+				var loc = $(this).val();
+				if (!loc) { loc = ' - '; }
+				li.find('.static .location').text(loc);
+			}).blur(function() {
+				if (!secretListController.hasCoords()) { secretListController.lookupAddress(); }
+			});
+	},
+	
+	collapseAllSecrets : function() {
+		this.parentElement.find('.secrets_list li.secret').each(function() {
+			$(this).removeClass('expanded');
+		});
+	},
+	
+	expandSecret : function(el) {
+		secret_li = $(el).closest('li.secret');
+		this.collapseAllSecrets();
+		if (m = this.parentElement.find('.suggest_secret').children('.map')) {
+			secret_li.append(m);
+		}
+		secret_li.addClass('expanded');
+		secret_li.append(secret_li.parent().find('.map'));
+		this.clearMapResults();
+		this.updateMapMarkerPosition();
+	},
+	
+	deleteSecret : function(el) {
+		el = $(el).closest('li.secret');
+		if (m = $(el).find('.map')) {
+			this.parentElement.find('.suggest_secret').append(m);
+		}
+		el.detach();
+	},
+	
+	submitHandler : function() {
+		secrets = [];
+		if (this.parentElement.hasClass('suggest')) {
+			this.parentElement.find('.secrets_list').children().each(function() {
+				var secret = $(this);
+				$.ajax({
+				  type: 'POST',
+				  url: '/secret/new_discussion/',
+				  data: {title: secret.find('input.secret_name').val(), location: secret.find('input.secret_location').val(), latitude: secret.find('input.latitude').val(), longitude: secret.find('input.longitude').val()},
+				  success: function(data) { secrets.push(data); },
+				  async: false
+				});
+			});
+		}
+		$.post('/discussion/{{discussion.pk}}/comment/', {text: this.parentElement.find('textarea.comment').val(), secrets: secrets.join(',')}, function(data) { location.reload(); });
+		return false;
+	}
+};
+
+$(document).ready(function() {
+	secretListController.init($('.discussion_reply_form'));
+});
+
+
+</script>
+
+				<form action="#" class="discussion_reply_form">
+					<div class="discussion_reply_tabs">
+						<span class="suggest_tab"><a href="#" class="suggest_tab_button">SUGGEST</a></span>
+						<span class="comment_tab"><a href="#" class="comment_tab_button">COMMENT</a></span>
+					</div>
+
+					<div class="discussion_reply_form_body">
+						<div class="suggest_secret">
+							<h4>Suggest a secret</h4>
+							<ul class="secrets_list">
+							</ul>
+							
+							<div class="map">
+								<div class="map_search_results">
+									<p class="map_search_not_found">Not found</p>
+									<div class="map_search_results_list">
+										<p>Did you mean..</p>
+										<ol>
+										</ol>
+									</div>
+								</div>
+								<div class="map_canvas" id="map_canvas"></div>
+								<div class="map_canvas_small_placeholder" id="map_canvas_small_placeholder"></div>
+								<div class="map_canvas_small" id="map_canvas_small"></div>
+							</div>
+
+							<p><a href="#" class="add_secret">Add another secret</a></p>
+						</div>
+						
+						<div class="existing_secrets">
+							<h3>Choose existing secret</h3>
+							<ul class="existing_secrets_list">
+								<li class="existing_secret">
+									
+								</li>
+							</ul>
+						</div>
+						
+						<div class="comment">
+							<h4><label for="">Comment:</label></h4>
+							<textarea id="" class="comment" name=""></textarea>
+						</div>
+						
+						<div class="buttons">
+							<input type="submit" name="sub_share" value="SHARE">
+						</div>
+					</div>
+				</form>
+
+
+<p>{{discussion.text}}</p>
+<p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
+
+{% comment %}
+{# REPLY FORM #}
+<h4>Post a reply</h4>
 {% form reply_form %}
     {% for f in reply_form %}
         {% field f %}
@@ -55,65 +625,17 @@
 </div><!-- END OF THE DISCUSSIONS HEADER id=page headeric-->
 
 
+{% ifequal discussion.page 1 %}
+    {% with discussion as comment %}
+        {% include 'comment/discussion.html' %}
+    {% endwith %}
+{% endifequal %}
 
-
-<div id="discussion_line_1" class="content_line">
-	<div class="left_sidebar keeper">
-		<img src="media/images/avatars/keeper_001.jpg" alt="keeper_001" />
-	</div>
-	<div class="right_content right_triangle">
-		<p class="date_added">15 Hours ago<br /><a href="#">Report</a></p>
-		<h3>Tiffany Philippou <span class="plain">wrote:<span></h3>
-		<p>I’ve never really enjoyed sandwiches for lunch. Subs are way better, though subway ones aren’t great. There was a baguette shop that used to be off Conduit St which did these really nice long sandwiches that was run by a trained chef, etc. really amazing guy.</p>
-		<p>Shame it’s closed, or I would suggest it!</p>
-	</div>
-	<div class="clear_left"></div>
-</div><!-- END OF THE FIRST DISCUSSION LINE-->
-
-
-{% for c in discussion.page_comments %}
-    {% with c as obj %}{% include 'perm/editable_logic.html' %}{% endwith %}
-    <div id="discussion_line_2" class="content_line">
-        {% with c.created_by as u %}
-        <a href="/accounts/{{u.pk}}/"></a>
-    	<div class="left_sidebar keeper">
-    		<img src="{{u.facebook.}}" alt="{{u.first_name}} {{u.last_name}}" />
-    	</div>
-    	<div class="right_content right_triangle">
-    		<p class="date_added">{{c.created_at}}<br /><a href="#">Report</a></p>
-    		<h3>{{u.first_name}} {{u.last_name}} <span class="plain">wrote:<span></h3>
-    		<p>{{c.text}}</p>
-    	</div>
-    	<div class="clear_left"></div>
-    	{% endwith %}
-    </div>
-    <!-- if there is a proposal -->
-    {% for s in c.viewable_secrets %}
-    <div id="discussion_line_2_proposal" class="proposal_line">
-    	<div class="left_sidebar left_triangle">
-    		<p class="side_agreements"><span>5</span>agree</p><br class="clear_right" />
-    		<p><a href="#" class="pink_button">I Agree</a></p>
-    	</div>
-    	<div class="right_content proposal">
-    		<div class="proposal_holder">
-    			<div class="proposal_content">
-    				<p class="secret_missing_image">&#43; Add a photo</p>
-    				<h3>{{s.title}}</h3>
-    				<p>{{s.location|default:""}}</p>
-    				<a class="pink_button" href="{{s.get_absolute_url}}">View Details</a>
-    				<div class="clear_left"></div>
-    			</div>
-    			<div class="proposal_comments">
-    				<a href="#" class="pink_button">Add a Comment</a>
-    				<p class="comment_summary">3 comments in this discussion. 10 comments in total. <a href="#">View all Comments</a></p>
-    				<div class="clear_right"></div>
-    				<p><span class="highlight">Tiffany Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
-    				<p class="last"><span class="highlight">Tiffany Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
-    			</div>
-    		</div>
-    	</div>
-    	<div class="clear_left"></div>
-    </div>
+{% for comment in discussion.page_comments %}
+    {% include 'comment/discussion.html' %}
+    
+    {% for proposal in comment.proposals %}
+        {% include 'comment/proposal.html' %}
     {% endfor %}
 {% endfor %}
 
