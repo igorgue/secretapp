@@ -9,24 +9,24 @@
 
     <div class="page_header">
 		<div id="page_title" class="left_sidebar">
-			<img src="{{user.profile_image.small}}" />
+			<img src="{{profile.profile_image.small}}" />
 		</div>
 		<div class="right_content top_content">
 			<div id="user_details">
-				<h1>{{user.first_name}} {{user.last_name}}</h1><p>{# DATE #}Joined 12 days ago</p>
-				<a href="{% url view_profile pk=user.pk%}">Preview</a> <a href="#" class="first">Proposals (2)</a> <a href="#">Shares (2)</a> <a href="#">Discussions (1)</a> <a href="#">Been Theres (1)</a>
+				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>{# DATE #}Joined 12 days ago</p>
+				{% if tabs.edit %}<a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}<a href="#" class="first">Proposals (2)</a> <a href="#">Shares (2)</a> <a href="#">Discussions (1)</a> <a href="#">Been Theres (1)</a>
 				<p>Post to my news feed</p>
 			</div>
 			<div id="user_scores">
-				<p><span>10</span> secrets</p>
-				<p><span>5</span> agrees</p>
+				<p><span>{{profile.secrets|length}}</span> secrets</p>
+				<p><span>{{profile.agreements|length}}</span> agrees</p>
 			</div>
 		</div>
 		<div class="clear_left"></div>
 	</div>
 	
 	
-	
+	{% if tabs.edit %}
 	<div id="proposals" class="content_line left_triangle">
 		<div class="left_sidebar">
 			<p>Edit settings</p>
@@ -43,6 +43,7 @@
 		</div>
 		<div class="clear_left"></div>
 	</div><!-- END OF THE PROPOSALS-->
+	{% endif %}
 	
 	<div id="proposals" class="content_line left_triangle">
 		<div class="left_sidebar">

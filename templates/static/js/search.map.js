@@ -87,7 +87,7 @@ var gmapFn ={
           });
 
 
-        gmapFn.mapObj.addOverlay (marker);
+        gmapFn.mapObj.addOverlay(marker);
     },
 
     showSecretsOnMap : function(mapData){
@@ -117,10 +117,10 @@ var gmapFn ={
         this.mapObj.clearOverlays();
 
         var geocode = new GClientGeocoder();
-	geocode.setBaseCountryCode('UK');
+        geocode.setBaseCountryCode('UK');
 
         geocode.getLatLng(
-            srchPlace + ", uk",
+            srchPlace + " near "+ cfg.city,
             function(point){
                 if (!point) {
                     if(prmpt){
@@ -148,9 +148,9 @@ var gmapFn ={
         var west = swBnd.lng();
         fetch.getSecretsMap(north, east, south, west,0);
             //update the point of the last refresh
-        var ct = mapFn.mainmap.GetCenter()
-        mapFn.lastRefLatLng.lat = ct.Latitude;
-        mapFn.lastRefLatLng.lng = ct.Longitude;
+        //var ct = mapFn.mainmap.GetCenter()
+        //mapFn.lastRefLatLng.lat = ct.Latitude;
+        //mapFn.lastRefLatLng.lng = ct.Longitude;
         //gmapFn.showSecretsOnMap(dat);
     },
 
@@ -237,15 +237,16 @@ var fetch = {
             "neLng" : neLng
             };
         */
-        var latLng = {
+        var search_data = {
             "west" : west,
             "south" : south,
             "north" : north,
-            "east" : east
+            "east" : east,
+            "title": $("#id_title").val(),
             };
         $.ajax({
             url: cfg.ajaxUrl,
-            data : latLng,
+            data : search_data,
             cache: false, 
             success: function(data) {
                 var info = eval(data)
@@ -351,23 +352,16 @@ $(document).ready(function() {
      * Bind behaviour
      */
     // area search
-    $('#areaFrm').submit(function(){
-        return false;
-    });
-    $('#searchFor').click(function(){
-        $(this).val('');
-    });
-    $('#areaSrchBtn').click(function(){
-        gmapFn.mapSearch($('#searchFor').val());
+    $('#id_location').keyup(function(){
+        // do google search for the location and reset
+        // on every keyup of location box
+        gmapFn.mapSearch($(this).val());
         gmapFn.addSecretsToMap();
     });
 
     //"secrets" search
-    $('#wordSecretSrch').click(function(){
+    $('#id_text').change(function(){
         $(this).val('');
-    });
-    $('#secretSrchBtn').click(function(){
-        alert('Gonna search for secrets')
     });
 
     /**adding a secret form **/
@@ -379,34 +373,13 @@ $(document).ready(function() {
             var t = $(this).val();
             t = t.replace(" ","");
             if(t.length > 3 && t!== "eg Bob bakerys"){
-                addSct.chkExist();
+                addSct.chkExist(); 
             };
             if(t.length > 6){
                 $('#secretAddInfo').html('checking google now');
             }
          })
-
-    //where text box/location search
-    $('#whereInp').keyup(function(){
-            if($(this).val() == 'e.g Soho or w10 5dt'){
-                $(this).val('');
-            }
-            var t = $(this).val();
-            t = t.replace(" ","");
-
-            if(t.length > 1){
-                //do the location search-
-                gmapFn.init("miniMap");
-                gmapFn.mapSearch($(this).val(),false);
-                gmapFn.addGoogLocal();
-                gmapFn.addSpotsInArea($('#secretName').val(), $(this).val());
-            };
-    })
-
-    $('#frmShare').submit(function(){
-        return false;
-    });
-
+    
     /** adding a new secret?
      * http://beta.secretlondon.us/secret/new/ **/
 

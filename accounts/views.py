@@ -18,7 +18,7 @@ def view(request, pk):
             raise Http404
     
     # augment with all the lovely cool data and functions
-    return context_response(request, 'accounts/view.html', {
+    return context_response(request, 'accounts/profile.html', {
                 'profile': u,
             }, tabs=['profile'])
 
@@ -37,7 +37,8 @@ def edit(request):
     else:
         form = UserSettingsForm(instance=settings)
     
-    return context_response(request, 'accounts/edit.html', {
+    return context_response(request, 'accounts/profile.html', {
+                'profile': request.user,
                 'form': form,
                 'successful': successful,
             }, tabs=['profile', 'edit'])

@@ -19,11 +19,11 @@
 		<script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
 		{% endif %}
 	</p>
-	
+	{% comment %}
 	<form id="search" >
 		<input type="search" name="search_paramater" /><input type="image" src="{{MEDIA_URL}}/images/search.png" id="search_sumbit" />
 	</form>
-	
+	{% endcomment %}
 	<div class="clear_left"></div>
 	<a href="{% url new_secret %}" id="share_secret_button" class="pink_button">Share Secret</a>
 </div> <!--END OF THE HEADER-->
