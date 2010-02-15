@@ -16,6 +16,9 @@ urlpatterns = patterns('',
     url(r'^propose/(?P<discussion_id>\d+)/(?P<secret_id>\d+)/comment/$', \
             create_proposal_comment, name='create_proposal_comment'),
     
+    url(r'^agree/(?P<proposal_id>\d+)/$', \
+            agree_with_proposal, name='agree_with_proposal'),
+    
     # delete comments
     url(r'^secret_comment/(?P<pk>\d+)/delete/$', \
             delete, {'model': SecretComment }, name='delete_secret_comment'),

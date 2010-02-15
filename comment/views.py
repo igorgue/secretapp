@@ -112,16 +112,16 @@ def create_proposal_comment(request, discussion_id, secret_id):
         return context_response(request, 'comment/edit_proposal.html', context)
 
 
-def agree(request, proposal_id):
+def agree_with_proposal(request, proposal_id):
     """ Clock up a favourite to a user... """
     if request.method == 'POST':
-        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        props = get_viewable_or_raise(Proposal, request.user, pk=proposal_id)
         # This creates a NEW entry even if this user previously created and then deleted
         # a favourite reference to a secret
-        fave, new = FavouriteSecret.objects.select_related().get_or_create(secret=secret, created_by=request.user, deleted=False)
-
+        agree, new = Agreement.objects.get_or_create(proposal=props, created_by=request.user, deleted=False)
+        
         if request.is_ajax():
-            return HttpResponse(fave.secret.favourite_count)
+            return HttpResponse(props.agreement_count)
         else:
             return redirect_back(request)
     else:

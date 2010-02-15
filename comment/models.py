@@ -54,6 +54,9 @@ class Proposal(models.Model):
     viewable    = ProposalManager()
     objects     = models.Manager() 
     
+    def get_agree_url():
+        return reverse('agree_with_proposal', kwargs={'proposal_id':self.pk})
+    
     def agreements(self):
         if not hasattr(self, '_agreements'):
             # TODO: cache this

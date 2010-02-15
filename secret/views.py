@@ -68,7 +68,7 @@ def edit(request, pk=None, discussion_id=None):
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
                 if discussion_id:
-                    return HttpResponse('%s' % secret if hasattr(secret, 'pk') and secret.pk else '')
+                    return HttpResponse('%s' % secret.pk if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
                     return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
@@ -104,10 +104,10 @@ def add_favourite_secret(request, secret_id):
         secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
         # This creates a NEW entry even if this user previously created and then deleted
         # a favourite reference to a secret
-        fave, new = FavouriteSecret.objects.select_related().get_or_create(secret=secret, created_by=request.user, deleted=False)
+        fave, new = FavouriteSecret.objects.get_or_create(secret=secret, created_by=request.user, deleted=False)
 
         if request.is_ajax():
-            return HttpResponse(fave.secret.favourite_count)
+            return HttpResponse(secret.favourite_count)
         else:
             return redirect_back(request)
     else:
