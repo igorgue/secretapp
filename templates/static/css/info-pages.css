@@ -1,0 +1,25 @@
+/*for all the info pages - eg about, story etc...*/
+.page_header #page_title {height:22px; padding:10px 20px 10px 0px;}
+.page_header div.right_content {min-height:22px; height:22px; padding:10px 30px 10px 30px;}
+
+ul.info-links {list-style:none; text-align:left; margin:0px; padding:0px;}
+ul.info-links li {margin:0px; padding:0px 0px 20px 0px;}
+ul.info-links li a {text-transform:none; font-size:1.2em; font-weight: 400; padding:0px; margin:0px;}
+
+div.left_sidebar {padding:20px; width:120px;}
+
+.page_content {padding:0px 20px 200px 20px; width:740px;}
+div.page_content p {padding:0px; width:700px;}
+
+
+#about_page .page_content {padding-bottom:400px; background:white url('../images/illustrations/FlowersLarge4-about.jpg') no-repeat bottom left;}
+
+
+#story_page .page_content {padding-bottom:180px; background:white url('../images/illustrations/BenchLarge4-story.jpg') no-repeat bottom left;}
+#story_page .page_content p.lastparagraph {width:400px;}
+
+#credits_page .page_content {padding-bottom:300px; background:white url('../images/illustrations/BanksideLarge4-credits.jpg') no-repeat bottom left;}
+
+#terms_page .page_content {padding-bottom:400px; background:white url('../images/illustrations/PlugLarge4-tacpp.jpg') no-repeat bottom right;}
+#terms_page .page_content p {width:560px;}
+

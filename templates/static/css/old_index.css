@@ -1,0 +1,408 @@
+html
+	{
+		font-size: 100%;
+		font-family: 'Gill sans', 'Gill Sans MT', Calibri, Trebuchet, sans-serif;
+		padding: 0;
+	}
+
+body
+	{
+		font-size: 67.5%;
+		padding: 0;
+		background: #4B5052;
+		margin: 0;
+	}
+
+img
+	{
+		border: none;
+	}
+
+a:link, a:hover, a:visited
+	{
+		color: #ed1849;
+	}
+
+.clear_both
+	{
+		clear: both;
+	}
+
+	.clear_left
+		{
+			clear: left;
+		}
+	.clear_right
+		{
+			clear: right;
+		}
+
+h3
+	{
+		margin-top: 5px;
+		color: #ed1849;
+	}
+	h3 span.plain
+		{
+			color: black;
+		}
+
+#container
+	{
+		width: 1000px;
+		margin: 10px auto 0 auto;
+		font-size: 1.2em;
+	}
+
+#header
+	{
+		color: white;
+	}
+
+	#header a:link, #header a:visited, #header a:hover
+		{
+			text-decoration: none;
+			color: white;
+		}
+
+	#header p
+		{
+			margin: 0;
+			padding: 0;
+		}
+
+	#city_logo, #auth
+		{
+			float: left;
+		}
+	
+	#city_logo p
+		{
+			font-size: 1.7em;
+			font-weight: 200;
+			padding-left: 20px;
+		}
+	
+	#city_select
+		{
+			display: none;
+		}
+	
+	#header p#auth
+		{
+			display: block;
+			margin: 20px 0 0 250px;
+			font-size: 1.6em;
+			font-weight: 300;
+		}
+	
+	#header p#auth a:first-child
+		{
+			border-right: 1px solid white;
+			padding: 0 5px;
+		}
+	
+	#search
+		{
+			float: right;
+			margin: 25px 50px 0 0;
+		}
+	
+	#search input
+		{
+			margin: 0;
+			padding: 0;
+		}
+	#search input#search_sumbit
+		{
+			position: absolute;
+			margin-top: 1px;
+		}
+
+ul#tabs
+	{
+		list-style-type: none;
+		padding: 0;
+		margin: 20px 0 0 160px;
+		width: 760px;
+	}
+
+	ul#tabs li
+		{
+			float: left;
+			background: black;
+			margin-top: 5px;
+		}
+	
+	ul#tabs li.highlight
+		{
+			margin-top: 0;
+			background: white;
+			-moz-border-radius-topleft: 5px;
+			-webkit-border-top-left-radius: 5px;
+			-moz-border-radius-topright: 5px;
+			-webkit-border-top-right-radius: 5px;
+		}
+	
+	ul#tabs li#share_secret
+		{
+			float: right;
+		}
+
+	ul#tabs a, ul#tabs p
+		{
+			top: 5px;
+			display: block;
+			color: #c3ced1;
+			padding: 7px 25px 5px 25px;
+			text-decoration: none;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-weight: 400;
+		}
+
+	ul#tabs li.highlight a
+		{
+			color: #333;
+			padding-top: 12px;
+		}
+	
+	#top_filler /* This is totally hacky way to fill in the blank space between the rest of the tabs and the share secret one... */
+		{
+			display: block;
+			background: black;
+			width: 200%;
+			margin: 0;
+			padding: 0;
+			height: 15px;
+			z-index: -5;
+		}
+
+.page_header
+	{
+		width: 940px;
+		margin: 0;
+		padding: 0;
+	}
+
+	#page_title
+		{
+			display: block;
+			background: #7B7979;
+			text-align: right;
+			margin: 0;
+			padding-top:28px;
+			height: 69px;
+			font-size: 1.4em;
+			text-transform: uppercase;
+			color: #333;
+			letter-spacing: 2px;
+			-moz-border-radius-topleft: 30px;
+			-webkit-border-top-left-radius: 30px;
+		}
+	
+	.left_sidebar
+		{
+			float: left;
+			width: 140px;
+			padding-right: 20px;
+			text-align: right;
+		}
+	
+	#big_footer .left_sidebar
+		{
+			display: block;
+			color: #aaa;
+			padding-top: 28px;
+			padding-bottom: 60px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			margin: 0;
+			text-align: right;
+		}
+	
+	.left_sidebar img
+		{
+			margin-top: 15px;
+		}
+	
+	.content_line
+		{
+			background: #F2F2F2;
+			width:940px;
+			border-bottom: 1px solid #666;	
+		}
+	.keeper
+		{
+
+		}
+	
+	.right_content
+		{
+			background: white;
+			float: left;
+			width: 720px;
+			margin: 0;
+			padding: 30px;
+		}
+	.right_triangle
+		{
+			background: white url('../images/right_triangle.png') 0 0 no-repeat;
+		}
+	.top_content
+		{
+			padding: 10px;
+			width: 760px;
+			height: 76px;
+			border-bottom: 1px solid black;
+			-moz-border-radius-topright: 5px;
+			-webkit-border-top-right-radius: 5px;
+		}
+	
+	.top_content a
+		{
+			color: #ed1849;
+			margin: 0;
+			padding: 0;
+		}
+	.top_content a.discussion_nav
+		{
+			margin-right: 40px;
+			font-weight: 400;
+			font-size: 1.2em;
+		}
+	#pagination
+		{
+			font-size: 0.9em;
+			margin-top: 5px;
+			color: #666;
+		}
+	#pagination a
+		{
+			margin: 0 2px;
+		}
+	#pages_breakdown
+		{
+			margin: 0 40px 0 20px;
+		}
+	
+	#filter_view a:first-child
+		{
+			border-right: 1px solid #ed1849;
+			padding-right: 10px;
+		}
+	
+	#filter_view a.lolight
+		{
+			color: black;
+		}
+	
+	.top_content h2, .top_content p
+		{
+			margin: 3px 0;
+			padding: 0;
+		}
+	div.right_content p
+		{
+			width: 670px;
+		}
+		div.right_content p.date_added
+			{
+				float: right;
+				color: #555;
+				margin-right: 20px;
+				width: 200px;
+				text-align: right;
+			}
+			
+	#top_reply_button, .add_a_comment
+		{
+			display: block;
+			width: 140px;
+			padding: 10px 5px;
+			background: #ed1849;
+			color: white;
+			text-align: center;
+			text-transform: uppercase;
+			float: right;
+		}
+
+#big_footer
+	{
+		margin: 0;
+		padding: 0;
+		background: #595959 url('../images/59greytile.png') 0 0 repeat;5959;
+		width: 940px;
+	}
+	
+	#big_footer ul
+		{
+			list-style-type: none;
+			padding-left: 0;
+			float: left;
+			margin: 0;
+			padding: 0;
+			background: #353333 url('../images/35greytile.png') 0 0 repeat;
+			width: 780px;
+		}
+	#big_footer ul.third
+		{
+			width: 500px;
+		}
+	
+	#credits
+		{
+			display: block;
+			float: left;
+			width: 260px;
+			background: #353333 url('../images/35greytile.png') 0 0 repeat;
+			color: white;
+			font-size: 1.1em;
+			line-height: 1.4em;
+			padding: 20px 10px;
+			margin: 0;
+		}
+		
+	#big_footer ul a
+		{
+			display: block;
+			font-size: 1.1em;
+			font-weight: 400;
+			padding: 5px 0 5px 20px;
+			color: #ed1849;
+			border-top: 1px solid #666;
+			text-decoration: none;
+		}
+	
+
+#footer
+	{
+		background: #353333 url('../images/35greytile.png') 0 0 repeat;
+		width:940px;
+		border-top: 1px solid #595959;
+		-moz-border-radius-bottomleft: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-webkit-border-bottom-right-radius: 5px;
+	}
+
+#footer p
+	{
+		display: block;
+		border-left: 1px solid #ccc;
+		color: #a9a9a9;
+		float: left;
+		padding: 5px 10px;
+	}
+
+#footer p:first-child
+	{
+		border-left: none;
+	}
+
+#footer p.design_credit
+	{
+		border-left: none;
+		float: right;
+		margin-right: 20px;
+	}
