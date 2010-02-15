@@ -20,7 +20,7 @@ def view(request, pk):
     # augment with all the lovely cool data and functions
     return context_response(request, 'accounts/view.html', {
                 'profile': u,
-                })
+            }, tabs=['profile'])
 
 
 def edit(request):
@@ -40,4 +40,4 @@ def edit(request):
     return context_response(request, 'accounts/edit.html', {
                 'form': form,
                 'successful': successful,
-                })
+            }, tabs=['profile', 'edit'])

@@ -90,9 +90,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
-    "utilz.context_processors.settings",
-    "utilz.context_processors.member_level",
-    "utilz.context_processors.ajax",
+    "utilz.context_processors.globals",
 )
 
 

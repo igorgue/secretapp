@@ -23,7 +23,7 @@ def search(request):
     return context_response(request, 'discussion/search.html', {
                 'form': form,
                 'results': results,
-            })
+            }, tabs=['discussions'])
 
 def view(request, pk):
     # view a discussion
@@ -41,7 +41,7 @@ def view(request, pk):
     return context_response(request, 'discussion/view.html', {
                 'discussion': discussion,
                 'reply_form': DiscussionCommentForm().set_url(discussion),
-            })
+            }, tabs=['discussion'])
 
 @login_required
 def edit(request, pk=None):
@@ -57,4 +57,4 @@ def edit(request, pk=None):
     return context_response(request, 'discussion/edit.html', {
                 'form': form,
                 'discussion': discussion,
-            })
+            }, tabs=['discussion', 'edit'])

@@ -5,13 +5,16 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from utilz.context_processors import build_tabs
 
-def context_response(request, template, context, *args, **kwargs):
+def context_response(request, template, context, tabs=None, *args, **kwargs):
     """
     helper for
         http://docs.djangoproject.com/en/dev/ref/templates/api/#subclassing-context-requestcontext
     """
     kwargs['context_instance'] = RequestContext(request)
+    if tabs:
+        context['tabs'] = build_tabs(tabs)
     return render_to_response(template, context, *args, **kwargs)
 
 

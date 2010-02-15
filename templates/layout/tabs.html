@@ -1,9 +1,9 @@
 <ul id="tabs">
-	<li class="highlight"><a href="{% url home %}" title="Home">Home</a></li>
-	<li><a href="{% url search_discussions %}" title="Showing Discussions">Discussions</a></li>
-	<li><a href="{% url search_secrets %}" title="Photos">Secrets</a></li>
+	<li {% if tabs.home %}class="highlight"{% endif %}><a href="{% url home %}" title="Home">Home</a></li>
+	<li {% if tabs.discussions %}class="highlight"{% endif %}><a href="{% url search_discussions %}" title="Showing Discussions">Discussions</a></li>
+	<li {% if tabs.secrets %}class="highlight"{% endif %}><a href="{% url search_secrets %}" title="Photos">Secrets</a></li>
 	{% if user.is_authenticated %}
-	<li><a href="{% url edit_profile %}" title="User Profile">Profile</a></li>
+	<li {% if tabs.profile %}class="highlight"{% endif %}><a href="{% url edit_profile %}" title="User Profile">Profile</a></li>
 	{% endif %}
 	<li><p id="top_filler"></p></li>
 	<div class="clear_left"></div>

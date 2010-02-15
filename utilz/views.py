@@ -50,13 +50,13 @@ def home(request):
         'secrets': Secret.viewable.all().order_by('-created_at'),
         'discussions': Discussion.viewable.all().order_by('-created_at'),
     }
-    return context_response(request, 'utilz/home.html', context)
+    return context_response(request, 'utilz/home.html', context, tabs=['home'])
 
 
 def render(request, template):
     " Displays any misc pages "
     try:
-        return context_response(request, 'render/%s.html' % template, {})
+        return context_response(request, 'render/%s.html' % template, {}, tabs=['doc', template])
     except:
         raise Http404
     
