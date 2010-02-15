@@ -1,0 +1,36 @@
+<div id="discussion_line_proposal" class="proposal_line">
+	<div class="left_sidebar left_triangle">
+		<p class="side_agreements"><span>{{proposal.agreement_count}}</span>agree</p><br class="clear_right" />
+		<p><a href="{{proposal.get_agree_url}}" class="pink_button">I Agree</a></p>
+	</div>
+	{% with proposal.secret as secret %}
+	<div class="right_content proposal">
+		<div class="proposal_holder">
+			<div class="proposal_content">
+				<p class="secret_missing_image">&#43; Add a photo</p>
+				<h3>{{secret.title}}</h3>
+				<p>{{secret.location|default:""}}</p>
+				<a class="pink_button" href="{{secret.get_absolute_url}}">View Details</a>
+				<div class="clear_left"></div>
+			</div>
+            
+			<div class="proposal_comments">
+				<a href="#" class="pink_button">Add a Comment</a>
+				{% with proposal.comments as pcs %}
+        		{% if pcs %}
+				<p class="comment_summary">{{pcs|length}} comments in this discussion. {{proposal.comment_count}} comments in total. <a href="#">View all Comments</a></p>
+				<div class="clear_right"></div>
+				{% for pc in pcs %}
+				    {% with pc.created_by as u %}
+				        <p {% if forloop.last %}class="last"{% endif %}><span class="highlight">{{u.first_name}} {{u.last_name}}</span> <span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
+			        {% endwith %}
+			    {% endfor %}
+			    {% endif %}
+        		{% endwith %}
+			</div>
+
+		</div>
+	</div>
+	{% endwith %}
+	<div class="clear_left"></div>
+</div>

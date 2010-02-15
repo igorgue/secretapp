@@ -19,13 +19,13 @@ def view(request, pk):
     
     # augment with all the lovely cool data and functions
     return context_response(request, 'accounts/view.html', {
-                'profile': augment_user(u),
+                'profile': u,
                 })
 
 
 def edit(request):
     " Editing your profile "
-    settings = request.user.settings
+    settings = request.user.get_settings()
     successful = False
     
     if request.method == 'POST':

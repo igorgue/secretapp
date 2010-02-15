@@ -58,7 +58,7 @@ class ClaimFacebookBackend:
             fb_profile.save()
             auth_meta = AuthMeta(user=user, provider='Facebook').save()
             
-            from perm.tools import PERMISSION_LEVEL
+            from perm.tools import PERMISSION_SESSION_NAME
             del request.session[PERMISSION_SESSION_NAME]
             request.session.modified = True
             return user

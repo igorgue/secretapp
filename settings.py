@@ -36,7 +36,6 @@ except:
 
 # Django settings for secret project.
 
-ADMIN_INSERT = True # This will only be true while we load the data
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -113,8 +112,6 @@ MIDDLEWARE_CLASSES = (
     'facebook.djangofb.FacebookMiddleware',
     # gives a user a permission_level (see `perm` module)
     'perm.middleware.PermissionUserMiddleware',
-    # adds additional data to user object
-    'accounts.middleware.AugmentAccountMiddleware',
     # makes ajax responses pretty
     'utilz.middleware.AjaxExceptionResponse',
 )

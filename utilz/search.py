@@ -159,11 +159,13 @@ class SearchForm(forms.Form):
         results.next = Page(page+1, qd) if page < page_count else None
         results.first = Page(1, qd) if not page == 1 else None
         
-        results.start_item = pages_start*self.Meta.results_per_page + 1
-        end_item = pages_end*self.Meta.results_per_page + 1
+        results.start_item = ((pages_start-1)*self.Meta.results_per_page) + 1
+        end_item = results.start_item + self.Meta.results_per_page - 1
+        print end_item, results.count
         if end_item > results.count:
             end_item == results.count
         results.end_item = end_item
+        
         return results
     
     def save(self):

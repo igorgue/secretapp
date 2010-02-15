@@ -16,6 +16,8 @@ class Secret(UserContent):
     
     edit_permission = 'Keeper'
     
+    
+    # URLS
     def seo_string(self):
         from utilz.manipulators import safe_title
         return safe_title("%s %s" % (self.title, self.location if self.location else ''))
@@ -32,26 +34,51 @@ class Secret(UserContent):
         from django.core.urlresolvers import reverse
         return reverse('delete_secret', kwargs={'pk': self.pk})
     
-    def favourites(self):
-        if not hasattr(self, '_favourites'):
-            self._proposals = FavouriteSecret.viewable.filter(secret=self).select_related()
+    # IMAGES
+    def primary_image(self):
+        return {'thumb': None }
+    
+    # COMMENTS
+    def comments(self):
+        if not hasattr(self, '_comments'):
+            from comment.models import SecretComment
+            self._favourites = SecretComment.viewable.filter(secret=self).select_related()
+        return self._favourites
+    
+    @property
+    def comments_count(self):
+        return SecretComment.viewable.filter(secret=self).count()
+    
+    # PROPOSALS
+    def proposals(self):
+        if not hasattr(self, '_proposals'):
+            from comment.models import Proposal
+            self._proposals = Proposal.viewable.filter(secret=self).select_related()
         return self._proposals
     
     @property
-    def favourite_count(self):
-        if hasattr(self, '_favourites'):
-            return len(self.favourites())
-        else:
-            if not hasattr(self, '_favourite_count'):
-                self._favourite_count = FavouriteSecret.viewable.filter(secret=self).count()
-            return self._favourite_count
+    def proposal_count(self):
+        from comment.models import Proposal
+        return Proposal.viewable.filter(secret=self).count()
     
+    
+    # FAVOURITES (BEEN THERE)
+    def favourites(self):
+        if not hasattr(self, '_favourites'):
+            self._favourites = FavouriteSecret.viewable.filter(secret=self).select_related()
+        return self._favourites
+    
+    @property
+    def favourite_count(self):
+        return FavouriteSecret.viewable.filter(secret=self).count()
+    
+    # USUALS
     def __unicode__(self):
         return self.title
 
 
 class FavouriteSecret(UserContent):
-    """ A Reference to a secret rated as favourite for a person. """
+    """ This is now BEEN THERE! model """
     secret          = models.ForeignKey(Secret)
     
     def get_delete_url(self):

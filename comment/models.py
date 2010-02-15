@@ -33,8 +33,8 @@ class DiscussionComment(AbstractComment):
     discussion  = models.ForeignKey(Discussion)
     secrets     = models.ManyToManyField(Secret, through="Proposal")
     
-    def viewable_secrets(self):
-        return [p.secret for p in Proposal.viewable.filter(discussion_comment=self).select_related()]
+    def proposals(self):
+        return Proposal.viewable.filter(discussion_comment=self).select_related()
     
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
@@ -65,12 +65,16 @@ class Proposal(models.Model):
     
     @property
     def agreement_count(self):
-        if hasattr(self, '_agreements'):
-            return len(self.agreements())
-        else:
-            if not hasattr(self, '_agreement_count'):
-                self._agreement_count = Agreement.viewable.filter(proposal=self).count()
-            return self._agreement_count
+        return Agreement.viewable.filter(proposal=self).count()
+
+    def comments(self):
+        if not hasattr(self, '_comments'):
+            self._comments = ProposalComment.viewable.filter(proposal=self).select_related()
+        return self._comments
+    
+    @property
+    def comment_count(self):
+        return ProposalComment.viewable.filter(proposal=self).count()
 
 
 class ProposalComment(AbstractComment):

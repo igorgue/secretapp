@@ -39,7 +39,7 @@ class SecretSearchForm(SearchForm):
         model = Secret
         url_name = 'search_secrets'
         default_template = 'list'
-        results_per_page = 20
+        results_per_page = 10
     
     def render_template(self):
         return self.Meta.query_dict.get('template', self.Meta.default_template)

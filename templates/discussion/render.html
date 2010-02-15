@@ -4,7 +4,7 @@
 	</div>
 	<div class="right_content right_triangle">
 	    {% with discussion.lastest_comment as comment %}
-		<p class="date_added">Latest post by {% with comment.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %}<br />posted 2 minutes ago</p>
+		<p class="date_added">Latest post by {% with comment.creator as u %}<a href="{{u.get_absolute_url}}">{{u.first_name}} {{u.last_name}}</a>{% endwith %}<br />posted 2 minutes ago</p>
 		<a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
 		{% endwith %}
 		<p class="discussion_stats">3 posts, 0 secrets - created 2 hours ago.</p>

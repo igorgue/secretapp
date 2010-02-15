@@ -16,9 +16,7 @@ class Discussion(UserContent):
     comments_per_page = 20
     page = 1
     
-    def __unicode__(self):
-        return self.title
-    
+    # PAGES
     @property
     def pages(self):
         if not hasattr(self, '_pages'):
@@ -39,6 +37,7 @@ class Discussion(UserContent):
         next = self.page + 1 
         return next if next < self.pages else None
     
+    # COMMENTS
     def comments(self):
         "gets all the comments on a discussion - which are not deleted"
         if not hasattr(self, '_comments'):
@@ -49,14 +48,8 @@ class Discussion(UserContent):
     
     @property
     def comment_count(self):
-        "gets the comment count"
-        if hasattr(self, '_comments'):
-            return len(self.comments())
-        else:
-            if not hasattr(self, '_comment_count'):
-                from comment.models import DiscussionComment
-                self._comment_count = DiscussionComment.viewable.filter(discussion=self).count()
-            return self._comment_count
+        from comment.models import DiscussionComment
+        return DiscussionComment.viewable.filter(discussion=self).count()
     
     def page_comments(self):
         "gets the comments on a certain `.page` "
@@ -70,6 +63,15 @@ class Discussion(UserContent):
             c.user_can_edit(self.read_by)
         return comments
     
+    def lastest_comment(self):
+        "gets the latest comment or returns self"
+        from comment.models import DiscussionComment
+        try:
+            return DiscussionComment.viewable.select_related().filter(discussion=self).latest('created_at')
+        except DiscussionComment.DoesNotExist:
+            return self
+    
+    # PROPOSALS
     def proposals(self):
         if not hasattr(self, '_proposals'):
             from comment.models import Proposal
@@ -79,14 +81,10 @@ class Discussion(UserContent):
     
     @property
     def proposal_count(self):
-        if hasattr(self, '_proposals'):
-            return len(self.proposals())
-        else:
-            if not hasattr(self, '_proposal_count'):
-                from comment.models import Proposal
-                self._proposal_count = Proposal.viewable.filter(discussion_comment__discussion=self).count()
-            return self._proposal_count
+        from comment.models import Proposal
+        return Proposal.viewable.filter(discussion_comment__discussion=self).count()
     
+    # URLS
     def safe_title(self):
         "gets the title - safe for use in urls"
         from utilz.manipulators import safe_title
@@ -125,10 +123,6 @@ class Discussion(UserContent):
         "gets the page of a discussion which a certain secret was mentioned on"
         return "%s?page=%s" (self.get_absolute_url(), self.__page_of_secret(secret))
     
-    def lastest_comment(self):
-        "gets the latest comment or returns self"
-        from comment.models import DiscussionComment
-        try:
-            return DiscussionComment.viewable.select_related().filter(discussion=self).latest('created_at')
-        except DiscussionComment.DoesNotExist:
-            return self
+    # USUALS
+    def __unicode__(self):
+        return self.title
