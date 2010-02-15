@@ -13,13 +13,18 @@ class Page(object):
     def __unicode__(self):
         return u"%s" % self.id
     
+    def __str__(self):
+        return self.__unicode__()
+    
     def __eq__(self, o):
         if isinstance(o, Page):
             return self.id == o.id
-        elif isinstance(o, int):
-            return self.id == int
-        else:
-            raise NotImplemented, "Please only compare one `Page` with another `Page` or `int`"
+        elif isinstance(o, (int,str,unicode,float)):
+            try:
+                return self.id == int(o)
+            except:
+                pass
+        raise NotImplementedError, "%s was %s. Please supply a `Page` or `int`" % (o, type(o))
     
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -88,7 +93,7 @@ class SearchForm(forms.Form):
     
     @property
     def start_page(self):
-        if hasattr(self, 'cleaned_data') and hasattr(self.cleaned_data, 'page'):
+        if hasattr(self, 'cleaned_data') and self.cleaned_data.has_key('page'):
             p = self.cleaned_data['page']
             if p:
                 return p
@@ -152,7 +157,13 @@ class SearchForm(forms.Form):
         
         results.previous = Page(page-1, qd) if page > 1 else None
         results.next = Page(page+1, qd) if page < page_count else None
+        results.first = Page(1, qd) if not page == 1 else None
         
+        results.start_item = pages_start*self.Meta.results_per_page + 1
+        end_item = pages_end*self.Meta.results_per_page + 1
+        if end_item > results.count:
+            end_item == results.count
+        results.end_item = end_item
         return results
     
     def save(self):

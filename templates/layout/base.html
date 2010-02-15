@@ -3,70 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
     {% include 'layout/head.html' %}
-    <style type="text/css" media="screen">
-        body { padding: 0 50px 100px 50px;}
-        .left { float: left;}
-        .right { float: left;}
-        .clear { clear: both;}
-
-.temp_body {
-background-color:#FFFFFF;
-margin-right:60px;
-padding:20px 20px 20px 180px;
-}
-
-.temp_sidecol {
-margin-left:-150px;
-position:relative;
-float: left;
-width: 130px;
-}
-
-.temp_menu {
-font-size: 130%;
-padding-top: 10px;
-padding-left: 0;
-}
-
-.temp_menu li {
-	list-style: none;
-	padding-left: 0;
-	margin: 7px 0;
-}
-
-.temp_body form label {
-float: left;
-width: 140px;
-}
-
-.temp_body form {
-	float: left;
-	font-size: 120%;
-	width: 100%;
-}
-
-.temp_body form > div {
-clear: left;
-padding: 2px 0 8px;
-}
-
-.temp_body form small {
-	display: block;
-	padding-top: 2px;
-	padding-left: 140px;
-}
-
-.temp_body form input[type=text], .temp_body textarea {
-	width: 350px;
-}
-
-    </style>
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/index.css" />
+    {% endblock %}
+    {% block pagecss %}{% endblock %}
 </head>
-<body {% block bodytag %}{% endblock %}>
-	<div id="container">
-    {% include 'layout/header.html' %}
-    {% block content %}{% endblock %}
-    {% include 'layout/footer.html' %}
-	</div><!-- end of div id=container -->
+<body id="{{BODY_ID}}">
+    
+    <div id="container">
+        {% include 'layout/header.html' %}
+        
+        {% block headnotice %}{% endblock %}
+        
+        {% include 'layout/tabs.html' %}
+
+        {% block content %}{% endblock %}
+        
+        {% include 'layout/footer.html' %}
+    </div><!-- end of div id=container -->
 </body>
 </html>

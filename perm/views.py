@@ -19,7 +19,7 @@ def delete(request, pk, model):
         instance.mark_deleted(request.user)
         # return
         if request.is_ajax():
-            return context_response(request, 'ajax/deleted.html', {'instance': instance })
+            return context_response(request, 'perm/ajax_deleted.html', {'instance': instance })
         else:
             return redirect_back(request)
     else:

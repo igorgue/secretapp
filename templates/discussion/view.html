@@ -1,19 +1,23 @@
 {% extends 'layout/base.html' %}
 
+{% block pagecss %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussions.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussion.css" /><!-- including the discussions to give access to the styles for the add discussion form -->
+{% endblock %}
+
+
 {% block content %}
 
-{# DELETE BUTTON FOR ADMINS ONLY #}
-{% with discussion as obj %}
-    {% include 'perm/editable_logic.html' %}
-{% endwith %}
 
-{# DISCUSSION TEXT AND TITLE #}
-<h2>{{discussion.title}}</h2>
-<p>{{discussion.text}}</p>
-<p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
-
-{# REPLY FORM #}
-<h4>Post a reply</h4>
+<div class="page_header">
+	<p id="page_title" class="left_sidebar">
+		Discuss
+	</p>
+	<div class="right_content top_content">
+		<a class="discussion_nav" href="{% url search_discussions %}" title="back to discussions">&laquo; Back to discussions</a><a href="{% url new_discussion %}" class="discussion_nav" title="start a new discussion">&#43; Start a new discussion</a>
+		<a href="#" id="top_reply_comment_button">Comment</a><a href="#" id="top_reply_button">Propose</a>
+<!-- JS to toggle the top_reply_button into a pair of top_reply_comment_button and top_reply_propose_button, name them this to match the CSS -->
+{% comment %}
 {% form reply_form %}
     {% for f in reply_form %}
         {% field f %}
@@ -22,24 +26,96 @@
         {% endifequal %}
     {% endfor %}
 {% endform %}
+{% endcomment %}
+		<h2>Best place to eat a sandwich?</h2>
+		<form id="add_discussion">
+			<div id="basic_proposal_entry">
+				<p href="#" class="secret_missing_image">&#43; Add a photo</p>
+				<div id="basic_proposal_text">
+					<label id="what_label">What</label><label id="where_label">Where</label><br class="clear_left" />
+					<p id="whatandwhere"><input type="text" name="what" /><span>in</span><input type="text" name="what" /><a href="#" id="find_location" class="pink_button">Find</a><br class="clear_left" /></p>
+					<ul id="did_you_mean_results">
+						<li><a href="#"><span>Did you mean:</span> Nordic Bakery, Soho, london W1?</a></li>
+						<li><a href="#"><span>Did you mean:</span> Nordic Bakery, Soho, london W1?</a></li>
+						<li><a href="#"><span>Did you mean:</span> Nordic Bakery, Soho, london W1?</a></li>
+					</ul>
+				</div>
+				<div class="clear_left"></div>
+			</div>
+			<div id="google_map_holder">
+				<img src="media/images/google_image_holder.png" />
+			</div>
+			<label>Comment</label><textarea name="description"></textarea><br class="clear_left" />
+			<input type="submit" value="Discuss" class="pink_button">
+			<div class="clear_left"></div>
+		</form>
+		<p id="pagination">Displaying posts 51-54 out of 54 <span id="pages_breakdown"><a href="#" title="first page">First</a><a href="#" title="previous page">Prev</a><a href="#" title="page one">1</a><a href="#" title="page two">2</a><a href="#" title="page three">3</a><a href="#" title="page four">4</a><a href="#" title="page 5" class="highlight">5</a><a href="#" title="next">Next</a></span><span id="filter_view"><a href="#" title="View Secrets">Show all secrets in this discussion</a></span></p>
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE DISCUSSIONS HEADER id=page headeric-->
 
-{# DISCUSSION COMMENTS #}
-<br class="clear"/><br />
-<h3>Comments</h3>
+
+
+
+<div id="discussion_line_1" class="content_line">
+	<div class="left_sidebar keeper">
+		<img src="media/images/avatars/keeper_001.jpg" alt="keeper_001" />
+	</div>
+	<div class="right_content right_triangle">
+		<p class="date_added">15 Hours ago<br /><a href="#">Report</a></p>
+		<h3>Tiffany Philippou <span class="plain">wrote:<span></h3>
+		<p>I’ve never really enjoyed sandwiches for lunch. Subs are way better, though subway ones aren’t great. There was a baguette shop that used to be off Conduit St which did these really nice long sandwiches that was run by a trained chef, etc. really amazing guy.</p>
+		<p>Shame it’s closed, or I would suggest it!</p>
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE FIRST DISCUSSION LINE-->
+
+
 {% for c in discussion.page_comments %}
-    <div>
-        <p>{{c.text}}</p>
-        <p><i>posted by {% with c.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{c.created_at}}.</i></p>
-    </div>
-    {% for s in c.viewable_secrets %}
-        <a href="{{s.get_absolute_url}}">{{s.title}}</a>, 
-    {% endfor %}
-    <br/><br />
     {% with c as obj %}{% include 'perm/editable_logic.html' %}{% endwith %}
-    <hr />
+    <div id="discussion_line_2" class="content_line">
+        {% with c.created_by as u %}
+        <a href="/accounts/{{u.pk}}/"></a>
+    	<div class="left_sidebar keeper">
+    		<img src="{{u.facebook.}}" alt="{{u.first_name}} {{u.last_name}}" />
+    	</div>
+    	<div class="right_content right_triangle">
+    		<p class="date_added">{{c.created_at}}<br /><a href="#">Report</a></p>
+    		<h3>{{u.first_name}} {{u.last_name}} <span class="plain">wrote:<span></h3>
+    		<p>{{c.text}}</p>
+    	</div>
+    	<div class="clear_left"></div>
+    	{% endwith %}
+    </div>
+    <!-- if there is a proposal -->
+    {% for s in c.viewable_secrets %}
+    <div id="discussion_line_2_proposal" class="proposal_line">
+    	<div class="left_sidebar left_triangle">
+    		<p class="side_agreements"><span>5</span>agree</p><br class="clear_right" />
+    		<p><a href="#" class="pink_button">I Agree</a></p>
+    	</div>
+    	<div class="right_content proposal">
+    		<div class="proposal_holder">
+    			<div class="proposal_content">
+    				<p class="secret_missing_image">&#43; Add a photo</p>
+    				<h3>{{s.title}}</h3>
+    				<p>{{s.location|default:""}}</p>
+    				<a class="pink_button" href="{{s.get_absolute_url}}">View Details</a>
+    				<div class="clear_left"></div>
+    			</div>
+    			<div class="proposal_comments">
+    				<a href="#" class="pink_button">Add a Comment</a>
+    				<p class="comment_summary">3 comments in this discussion. 10 comments in total. <a href="#">View all Comments</a></p>
+    				<div class="clear_right"></div>
+    				<p><span class="highlight">Tiffany Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
+    				<p class="last"><span class="highlight">Tiffany Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="clear_left"></div>
+    </div>
+    {% endfor %}
 {% endfor %}
-
-{# PAGES AND LINKS #}
 
 <ul>
     {% if discussion.previous_page %}<li><a href="?page={{discussion.previous_page}}">previous</a></li>{% endif %}

@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict
+from django.shortcuts import get_object_or_404
 from discussion.models import Discussion
 from secret.forms import SecretSearchForm
-from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required
+from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required, redirect_back
 from forms import *
 from models import *
 
@@ -66,8 +67,8 @@ def edit(request, pk=None, from_discussion=False):
             # success and ajax
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
-                if from_discussion:
-                    return HttpResponse('%s' % secret if hasattr(secret, 'pk') and secret.pk else '')
+                if discussion_id:
+                    return HttpResponse('%s' % secret.pk if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
                     return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
@@ -95,6 +96,41 @@ def edit(request, pk=None, from_discussion=False):
         return HttpResponse('')
     else:
         return context_response(request, 'secret/edit.html', context)
+
+
+def add_favourite_secret(request, secret_id):
+    """ Clock up a favourite to a user... """
+    if request.method == 'POST':
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # This creates a NEW entry even if this user previously created and then deleted
+        # a favourite reference to a secret
+        fave, new = FavouriteSecret.objects.get_or_create(secret=secret, created_by=request.user, deleted=False)
+
+        if request.is_ajax():
+            return HttpResponse(secret.favourite_count)
+        else:
+            return redirect_back(request)
+    else:
+        raise Http404
+
+
+def delete_favourite_secret(request, secret_id):
+    """ Remove favourite from a user's list """
+    if request.method == 'POST':
+        # get instance
+        secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+        # mark deleted on the only favourite flag that is set on this secret and has not
+        # previously been deleted.
+        fave = get_object_or_404(FavouriteSecret, secret=secret, created_by=request.user, deleted=False)
+        if fave.user_can_edit(request.user): 
+            fave.mark_deleted(request.user)
+        # return
+        if request.is_ajax():
+            return context_response(request, 'perm/ajax_deleted.html', {'instance': fave })
+        else:
+            return redirect_back(request)
+    else:
+        raise Http404
 
 
 

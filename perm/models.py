@@ -123,6 +123,10 @@ class UserContent(models.Model):
         else:
             return None
     
+    @property
+    def deleted_by_creator(self):
+        return self.deleted_by_id == self.created_by_id
+    
     def mark_deleted(self, user):
         "marks an object as deleted - if have correct permissions"
         if self.user_can_edit(user):

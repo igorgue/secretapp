@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from discussion.models import Discussion
 from secret.models import Secret
-from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise
+from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, redirect_back
 from forms import *
 from models import *
 
@@ -72,7 +72,7 @@ def create_discussion_comment(request, discussion_id):
         return context_response(request, 'comment/edit_discussion.html', context)
 
 
-def create_discussion_secret_comment(request, discussion_id, secret_id):
+def create_proposal_comment(request, discussion_id, secret_id):
     """ Comment on a Secret on a Discussion """
     discussion = get_viewable_or_raise(Discussion, request.user, pk=discussion_id)
     secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
@@ -106,9 +106,25 @@ def create_discussion_secret_comment(request, discussion_id, secret_id):
     }
     if request.is_ajax():
         # ajax form for discussion secret comment
-        return context_response(request, 'comment/ajax_discussion_secret.html', context)
+        return context_response(request, 'comment/ajax_proposal.html', context)
     else:
         # should only see this failure -- will open up on its own page
-        return context_response(request, 'comment/edit_discussion_secret.html', context)
+        return context_response(request, 'comment/edit_proposal.html', context)
+
+
+def agree_with_proposal(request, proposal_id):
+    """ Clock up a favourite to a user... """
+    if request.method == 'POST':
+        props = get_viewable_or_raise(Proposal, request.user, pk=proposal_id)
+        # This creates a NEW entry even if this user previously created and then deleted
+        # a favourite reference to a secret
+        agree, new = Agreement.objects.get_or_create(proposal=props, created_by=request.user, deleted=False)
+        
+        if request.is_ajax():
+            return HttpResponse(props.agreement_count)
+        else:
+            return redirect_back(request)
+    else:
+        raise Http404
 
 

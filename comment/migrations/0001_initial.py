@@ -7,6 +7,21 @@ class Migration:
     
     def forwards(self, orm):
         
+        # Adding model 'Agreement'
+        db.create_table('comment_agreement', (
+            ('id', orm['comment.Agreement:id']),
+            ('created_by', orm['comment.Agreement:created_by']),
+            ('deleted_by_id', orm['comment.Agreement:deleted_by_id']),
+            ('created_at', orm['comment.Agreement:created_at']),
+            ('updated_at', orm['comment.Agreement:updated_at']),
+            ('deleted_at', orm['comment.Agreement:deleted_at']),
+            ('deleted', orm['comment.Agreement:deleted']),
+            ('approved', orm['comment.Agreement:approved']),
+            ('ip', orm['comment.Agreement:ip']),
+            ('proposal', orm['comment.Agreement:proposal']),
+        ))
+        db.send_create_signal('comment', ['Agreement'])
+        
         # Adding model 'Proposal'
         db.create_table('comment_proposal', (
             ('id', orm['comment.Proposal:id']),
@@ -30,21 +45,6 @@ class Migration:
             ('discussion', orm['comment.DiscussionComment:discussion']),
         ))
         db.send_create_signal('comment', ['DiscussionComment'])
-        
-        # Adding model 'ProposalEndorsement'
-        db.create_table('comment_proposalendorsement', (
-            ('id', orm['comment.ProposalEndorsement:id']),
-            ('created_by', orm['comment.ProposalEndorsement:created_by']),
-            ('deleted_by_id', orm['comment.ProposalEndorsement:deleted_by_id']),
-            ('created_at', orm['comment.ProposalEndorsement:created_at']),
-            ('updated_at', orm['comment.ProposalEndorsement:updated_at']),
-            ('deleted_at', orm['comment.ProposalEndorsement:deleted_at']),
-            ('deleted', orm['comment.ProposalEndorsement:deleted']),
-            ('approved', orm['comment.ProposalEndorsement:approved']),
-            ('ip', orm['comment.ProposalEndorsement:ip']),
-            ('proposal', orm['comment.ProposalEndorsement:proposal']),
-        ))
-        db.send_create_signal('comment', ['ProposalEndorsement'])
         
         # Adding model 'ProposalComment'
         db.create_table('comment_proposalcomment', (
@@ -82,14 +82,14 @@ class Migration:
     
     def backwards(self, orm):
         
+        # Deleting model 'Agreement'
+        db.delete_table('comment_agreement')
+        
         # Deleting model 'Proposal'
         db.delete_table('comment_proposal')
         
         # Deleting model 'DiscussionComment'
         db.delete_table('comment_discussioncomment')
-        
-        # Deleting model 'ProposalEndorsement'
-        db.delete_table('comment_proposalendorsement')
         
         # Deleting model 'ProposalComment'
         db.delete_table('comment_proposalcomment')
@@ -127,6 +127,18 @@ class Migration:
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'max_length': '30', 'unique': 'True'})
         },
+        'comment.agreement': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
+            'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['comment.Proposal']"}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
         'comment.discussioncomment': {
             'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -157,18 +169,6 @@ class Migration:
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
             'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['comment.Proposal']"}),
             'text': ('django.db.models.fields.TextField', [], {}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        'comment.proposalendorsement': {
-            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
-            'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
-            'proposal': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['comment.Proposal']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         'comment.secretcomment': {

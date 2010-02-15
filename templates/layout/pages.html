@@ -1,9 +1,1 @@
-{% if results.previous %}<a href="{{ results.previous.url }}">previous</a>{% endif %}
-{% for page in results.pages %}
-        {% ifequal page results.page %}
-            <b class="page">{{page}}</b>
-        {% else %}
-            <a class="page" href="{{page.url}}">{{page}}</a>
-        {% endifequal %}
-{% endfor %}
-{% if results.next %}<a href="{{ results.next.url }}">next</a>{% endif %}
+<p id="pagination">Displaying posts {{results.start_item}}-{{results.end_item}} out of {{results.count}} <span id="pages_breakdown">{% if results.first %}<a href="{{ results.first.url }}">First</a>{% endif %}{% if results.previous %}<a href="{{ results.previous.url }}">Prev</a>{% endif %}{% for page in results.pages %}{% ifequal results.page page %}<b class="page">{{page}}</b>{% else %}<a class="page" href="{{page.url}}">{{page}}</a>{% endifequal %}{% endfor %}{% if results.first %}<a href="{{ results.next.url }}">Next</a>{% endif %}</p>	

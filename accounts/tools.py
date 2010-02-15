@@ -20,6 +20,9 @@ def augment_user_dict(user):
     # check notification settings
     data['settings'], new = UserSettings.objects.get_or_create(user=user)
     
+    # 
+    #data['thumb_url'] 
+    
     return data
 
 def update_agument_session(request, data=None):

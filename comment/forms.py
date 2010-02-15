@@ -16,6 +16,7 @@ class SecretCommentForm(UserContentForm):
             self.Meta.url = reverse('create_secret_comment', kwargs={'secret_id': secret.id })
         return self
 
+
 class DiscussionCommentForm(UserContentForm):
     secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")
     

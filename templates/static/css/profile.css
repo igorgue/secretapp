@@ -1,0 +1,115 @@
+#user_details, #user_scores
+	{
+		float: left;
+	}
+
+#user_details
+	{
+		width: 520px;
+		padding: 10px;
+	}
+
+#user_scores
+	{
+		width: 240px;
+	}
+
+#user_scores p
+	{
+		display: block;
+		width: 119px;
+		float: left;
+		font-size: 1.6em;
+		text-align: center;
+		background: #595959 url('../images/59greytile.png') 0 0 repeat;5959;
+		color: white;
+		font-weight: 200;
+		padding-top: 25px;
+		height: 95px;
+		text-transform: uppercase;
+		border-left: 1px solid white;
+		-moz-border-radius-topright: 5px;
+		-webkit-border-top-right-radius: 5px;
+	}
+
+#user_scores p:first-child
+	{
+		-moz-border-radius-topright: 0px;
+		-webkit-border-top-right-radius: 0px;
+	}
+
+#user_scores p span
+	{
+		font-size:3em;
+		display: block;
+		font-weight: 400;
+		margin: 5px 0;
+	}
+
+#page_title
+	{
+		padding-top: 10px;
+		height: 110px;
+	}
+.right_content
+	{
+		padding-top: 25px;
+	}
+.top_content
+	{
+		padding: 0;
+		height: 120px;
+		width: 780px;
+		-moz-border-radius-topright: 15px;
+		-webkit-border-top-right-radius: 15px;
+	}
+
+.top_content p
+	{
+		margin: 0;
+	}
+
+.left_sidebar p
+	{
+		color: #595959;
+		text-transform: uppercase;
+		font-weight: 400;
+		margin-top: 25px;
+	}
+
+.left_sidebar p span
+	{
+		font-size: 1.6em;
+	}
+
+.left_sidebar p.side_agreements
+	{
+		margin-top:35px;
+	}
+
+#user_details p
+	{
+		margin: 5px;
+	}
+
+#user_details a
+	{
+		margin: 0 5px 0 0;
+		border-left: 1px solid #ed1849;
+		padding-left: 5px;
+	}
+
+#user_details a.first
+	{
+		border: 0;
+	}
+
+h3 a
+	{
+		font-size: 1.4em;
+	}
+
+.left_triangle
+	{
+		background: #f2f2f2 url('../images/left_borderless_triangle.png') 145px 95px no-repeat;
+	}

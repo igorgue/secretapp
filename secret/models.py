@@ -32,6 +32,29 @@ class Secret(UserContent):
         from django.core.urlresolvers import reverse
         return reverse('delete_secret', kwargs={'pk': self.pk})
     
+    def favourites(self):
+        if not hasattr(self, '_favourites'):
+            self._proposals = FavouriteSecret.viewable.filter(secret=self).select_related()
+        return self._proposals
+    
+    @property
+    def favourite_count(self):
+        if hasattr(self, '_favourites'):
+            return len(self.favourites())
+        else:
+            if not hasattr(self, '_favourite_count'):
+                self._favourite_count = FavouriteSecret.viewable.filter(secret=self).count()
+            return self._favourite_count
+    
     def __unicode__(self):
         return self.title
+
+
+class FavouriteSecret(UserContent):
+    """ A Reference to a secret rated as favourite for a person. """
+    secret          = models.ForeignKey(Secret)
+    
+    def get_delete_url(self):
+        return reverse('delete_favourite_secret', kwargs={'secret_id': self.secret.pk})
+
 

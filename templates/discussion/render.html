@@ -1,12 +1,13 @@
-<div>
-    <a href="{{discussion.get_absolute_url}}"><b>{{discussion.title}}</b></a>
-    {% with discussion.lastest_comment as comment %}
-        <a href="{{comment.get_absolute_url}}">Latest Post</a> by
-        {% with comment.created_by as u %}
-            <a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>
-        {% endwith %}
-    {% endwith %}
-</div>
-<div>
-    <b>{{ discussion.comment_count }} comments</b>, <i>{{discussion.proposal_count}} secrets</i>
-</div>
+<div id="discussion_line_1" class="content_line">
+	<div class="left_sidebar">
+		<p class="secret_count"><span class="post_stat_count">{{ discussion.comment_count }}</span> posts</p><p class="secret_count"><span class="post_stat_count">{{discussion.proposal_count}}</span> secrets</p>
+	</div>
+	<div class="right_content right_triangle">
+	    {% with discussion.lastest_comment as comment %}
+		<p class="date_added">Latest post by {% with comment.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %}<br />posted 2 minutes ago</p>
+		<a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
+		{% endwith %}
+		<p class="discussion_stats">3 posts, 0 secrets - created 2 hours ago.</p>
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE FIRST DISCUSSION LINE-->

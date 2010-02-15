@@ -1,4 +1,5 @@
 import re
+
 def safe_title(text):
     """
     For making URL's pretty
@@ -9,4 +10,4 @@ def safe_title(text):
     
     See tests.py for usage
     """
-    return re.sub(r'[^a-zA-Z0-9_\ \-]', '', text).strip().replace('  ', ' ').replace(' ', '-')
+    return re.sub(r'[^a-zA-Z0-9_\ \-]', '', text).strip().replace('  ', ' ').replace(' ', '-').lower()

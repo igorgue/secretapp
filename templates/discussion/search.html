@@ -1,22 +1,36 @@
 {% extends 'layout/base.html' %}
 
+{% block pagecss %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussions.css" />
+{% endblock %}
+
 {% block content %}
-
-<h2>Discussions</h2>
-{% form form %}
-    {% for f in form %}
-        {% field f %}
-    {% endfor %}
-{% endform %}
-
+<div class="page_header">
+	<p id="page_title" class="left_sidebar">
+		Filter
+	</p>
+	<div class="right_content top_content">
+		<a href="{% url new_discussion %}" id="top_reply_button">New Discussion</a>
+		<form action="#" method="GET" id="discussion_filter">
+			<label>Show only discussions about: </label><input type="search" />
+			<input type="submit" value="go" class="pink_button" />
+			<div class="clear_left"></div>
+		</form>
+		
+		{% form form %}
+			{% field form.title %}<br class="clear_left" />
+			{% field form.text %}<br class="clear_left" />
+			{% comment %}<label>Tags</label>{% field form.tag %}{% endcomment %}
+		{% endform 'Discuss' 'pink_button' %}
+			<div class="clear_left"></div>
+		{% include 'layout/pages.html' %}
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE DISCUSSIONS HEADER id=page headeric-->
 {% if results %}
-    <h3>Results {{results.count}} {{results.page}}/{{results.page_count}}</h3>
     {% for d in results.documents %}
         {{ d.data_dict.render|safe }}
     {% endfor %}
-    
-    {% include 'layout/pages.html' %}
-    
 {% endif %}
 
 {% endblock %}
