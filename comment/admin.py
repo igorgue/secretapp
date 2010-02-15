@@ -11,5 +11,5 @@ admin.site.register(DiscussionComment, DiscussionCommentAdmin)
 
 admin.site.register(Proposal)
 admin.site.register(ProposalComment)
-admin.site.register(ProposalEndorsement)
+admin.site.register(Agreement)
 

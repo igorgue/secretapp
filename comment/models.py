@@ -39,6 +39,7 @@ class DiscussionComment(AbstractComment):
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
 
+
 class ProposalManager(models.Manager):
     def get_query_set(self):
         return super(ProposalManager, self).get_query_set() \
@@ -52,12 +53,35 @@ class Proposal(models.Model):
     
     viewable    = ProposalManager()
     objects     = models.Manager() 
+    
+    def agreements(self):
+        if not hasattr(self, '_agreements'):
+            # TODO: cache this
+            self._agreements = Agreement.viewable.filter(proposal=self).select_related()
+        return self._agreements
+    
+    @property
+    def agreement_count(self):
+        if hasattr(self, '_agreements'):
+            return len(self.agreements())
+        else:
+            if not hasattr(self, '_agreement_count'):
+                self._agreement_count = Agreement.viewable.filter(proposal=self).count()
+            return self._agreement_count
+
 
 class ProposalComment(AbstractComment):
     """ A comment on a Proposal. """
     proposal        = models.ForeignKey(Proposal)
 
-class ProposalEndorsement(UserContent):
+    def get_delete_url(self):
+        return reverse('delete_proposal_comment', kwargs={'pk': self.pk})
+
+
+class Agreement(UserContent):
     """ An endorsment on a secret proposal """
     proposal        = models.ForeignKey(Proposal)
-        
+
+
+
+
