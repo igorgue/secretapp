@@ -161,10 +161,12 @@ class SearchForm(forms.Form):
         
         results.start_item = ((pages_start-1)*self.Meta.results_per_page) + 1
         end_item = results.start_item + self.Meta.results_per_page - 1
-        print end_item, results.count
         if end_item > results.count:
-            end_item == results.count
+            end_item = results.count
         results.end_item = end_item
+        
+        
+        results.gt_onepage = len(results.pages) > 1
         
         return results
     
