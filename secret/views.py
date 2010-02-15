@@ -46,7 +46,7 @@ def search(request):
                 'search_template':  search_template,
                 # this will be hard coded into tabs
                 'template_types': SECRET_RENDER_TEMPLATES,
-            })
+            }, tabs=['secrets', form.render_template()])
 
 
 def view(request, pk):
@@ -58,7 +58,7 @@ def view(request, pk):
         return HttpResponsePermanentRedirect(seo_url)
     return context_response(request, 'secret/view.html', {
                 'secret': secret,
-            })
+            }, tabs=['secret'])
 
 
 @login_required
@@ -103,7 +103,7 @@ def edit(request, pk=None, from_discussion=False):
     if request.is_ajax():
         return HttpResponse('')
     else:
-        return context_response(request, 'secret/edit.html', context)
+        return context_response(request, 'secret/edit.html', context, tabs=['secret', 'edit'])
 
 
 def add_favourite_secret(request, secret_id):

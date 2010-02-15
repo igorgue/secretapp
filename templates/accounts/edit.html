@@ -1,23 +1,162 @@
 {% extends 'layout/base.html' %}
 
+{% block pagecss %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/profile.css" />
+{% endblock %}
+
+
 {% block content %}
 
-<h1>{{user.first_name}} {{user.last_name}}</h1>
-<a href="{% url view_profile pk=user.pk%}">Preview</a>
+    <div class="page_header">
+		<div id="page_title" class="left_sidebar">
+			<img src="{{user.profile_image.small}}" />
+		</div>
+		<div class="right_content top_content">
+			<div id="user_details">
+				<h1>{{user.first_name}} {{user.last_name}}</h1><p>{# DATE #}Joined 12 days ago</p>
+				<a href="{% url view_profile pk=user.pk%}">Preview</a> <a href="#" class="first">Proposals (2)</a> <a href="#">Shares (2)</a> <a href="#">Discussions (1)</a> <a href="#">Been Theres (1)</a>
+				<p>Post to my news feed</p>
+			</div>
+			<div id="user_scores">
+				<p><span>10</span> secrets</p>
+				<p><span>5</span> agrees</p>
+			</div>
+		</div>
+		<div class="clear_left"></div>
+	</div>
+	
+	
+	
+	<div id="proposals" class="content_line left_triangle">
+		<div class="left_sidebar">
+			<p>Edit settings</p>
+		</div>
+		<div class="right_content right_triangle">
+			{% if successful %}
+                <h1>SAVED!</h1>
+            {% endif %}
+            {% form form %}
+                {% for f in form %}
+                    {% field f %}
+                {% endfor %}
+            {% endform %}
+		</div>
+		<div class="clear_left"></div>
+	</div><!-- END OF THE PROPOSALS-->
+	
+	<div id="proposals" class="content_line left_triangle">
+		<div class="left_sidebar">
+			<p><span>2</span> proposals</p>
+			<p class="side_agreements"><span>5</span> agree</p>
+		</div>
+		<div class="right_content right_triangle">
+			<h3><a href="#">Best coffee shop in London?</a></h3>
+			<div class="proposal_holder">
+				<div class="proposal_content">
+					<p class="secret_missing_image">&#43; Add a photo</p>
+					<h3>Nordic Bakery</h3>
+					<p>Golden Square W1F</p>
+					<a class="pink_button" href="secret.html">View Details</a>
+					<div class="clear_left"></div>
+				</div>
+				<p><a href="#">Show all secrets proposed &raquo;</a></p>
+			</div>
+		</div>
+		<div class="clear_left"></div>
+	</div><!-- END OF THE PROPOSALS-->
+	
+	<div id="shares" class="content_line">
+		<div class="left_sidebar">
+			<p><span>10</span> shares</p>
+		</div>
+		<div class="right_content right_triangle">
+			
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			
+			<div class="clear_left"></div>
+			<p><a href="#">Show all secrets shared &raquo;</a></p>
+		</div>
+		<div class="clear_left"></div>
+	</div><!-- END OF THE SHARES-->
+	
+	
+	<div id="discussions" class="content_line">
+		<div class="left_sidebar">
+			<p><span>4</span> Discussions</p>
+		</div>
+		<div class="right_content right_triangle">
+			<p class="date_added"><span class="highlight">Latest post</span> by <a href="#">Tiffany Philippou</a><br>posted 2 minutes ago</p>
+			<a class="discussion_title" href="discussion.html">What do you think of the new secretlondon Web Site?</a>
+			<p class="discussion_stats">3 posts, 0 secrets - created 2 hours ago.</p>
+			
+			<div class="clear_both"></div>
+			
+			<p class="date_added"><span class="highlight">Latest post</span> by <a href="#">Tiffany Philippou</a><br>posted 2 minutes ago</p>
+			<a class="discussion_title" href="discussion.html">What do you think of the new secretlondon Web Site?</a>
+			<p class="discussion_stats">3 posts, 0 secrets - created 2 hours ago.</p>
+			
+			<div class="clear_both"></div>
+						<p><a href="#">Show all discussions &raquo;</a></p>
+			
+		</div>
+		<div class="clear_both"></div>
 
-{% if successful %}
-    <h1>SAVED!</h1>
-{% endif %}
-
-{% if user.profile_image.big %}
-    <img src="{{user.profile_image.big}}" />
-{% endif %}
-    
-    
-    {% form form %}
-        {% for f in form %}
-            {% field f %}
-        {% endfor %}
-    {% endform %}
+		
+	</div><!-- END OF THE DISCUSSIONS-->
+	
+	<div id="been_theres" class="content_line">
+		<div class="left_sidebar">
+			<p><span>6</span> Been Theres</p>
+		</div>
+		<div class="right_content right_triangle">
+		
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			<a href="#" class="share_holder">
+				<img src="media/images/share_example.jpg" />
+				<h4>Tiger Tiger</h4>
+				<p>Heddon Street, W15</p>
+			</a>
+			
+			<div class="clear_left"></div>
+			<p><a href="#">Show all secrets I've been to &raquo;</a></p>
+		</div>
+		<div class="clear_left"></div>
+	</div><!-- END OF THE BEEN THERES-->
+	
+	<div class="clear_left"></div>
 
 {% endblock %}
