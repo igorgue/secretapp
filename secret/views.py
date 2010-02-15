@@ -64,7 +64,7 @@ def edit(request, pk=None, discussion_id=None):
                     return HttpResponse('%s' % secret if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
-                    return context_reponse(request, 'secret/snippets/list.html', {'secret': secret })
+                    return context_response(request, 'secret/render/list.html', {'secret': secret })
             # success redirect to instance page
             else:
                 # if creating as part of a discussion, redirect back to discussion
