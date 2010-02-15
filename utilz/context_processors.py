@@ -5,6 +5,11 @@ def settings(request):
         'FB_API_KEY': conf.FACEBOOK_API_KEY,
     }
 
+def ajax(request):
+    return {
+        'IS_AJAX': request.is_ajax(),
+    }
+
 def member_level(request):
     from perm.tools import PERMISSION_LEVELS
     if hasattr(request.user, 'permission_level'):
