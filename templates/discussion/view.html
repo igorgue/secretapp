@@ -497,15 +497,14 @@ var secretListController = {
 				var secret = $(this);
 				$.ajax({
 				  type: 'POST',
-				  url: '/discussion/{{discussion.pk}}/secret/new/',
+				  url: '/secret/new_discussion/',
 				  data: {title: secret.find('input.secret_name').val(), location: secret.find('input.secret_location').val(), latitude: secret.find('input.latitude').val(), longitude: secret.find('input.longitude').val()},
 				  success: function(data) { secrets.push(data); },
 				  async: false
 				});
 			});
 		}
-		$.post('/discussion/{{discussion.pk}}/comment/', {text: this.parentElement.find('textarea.comment').val(), secrets: secrets}, function(data) { //location.reload(); 
-		});
+		$.post('/discussion/{{discussion.pk}}/comment/', {text: this.parentElement.find('textarea.comment').val(), secrets: secrets.join(',')}, function(data) { location.reload(); });
 		return false;
 	}
 };

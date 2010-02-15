@@ -67,7 +67,7 @@ def edit(request, pk=None, from_discussion=False):
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
                 if from_discussion:
-                    return HttpResponse('%s' % secret if hasattr(secret, 'pk') and secret.pk else '')
+                    return HttpResponse('%s' % secret.pk if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
                     return context_response(request, 'secret/render/list.html', {'secret': secret })
