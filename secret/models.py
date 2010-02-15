@@ -35,3 +35,12 @@ class Secret(UserContent):
     def __unicode__(self):
         return self.title
 
+
+class FavouriteSecret(UserContent):
+    """ A Reference to a secret rated as favourite for a person. """
+    secret          = models.ForeignKey(Secret)
+    
+    def get_delete_url(self):
+        return reverse('delete_favourite_secret', kwargs={'secret_id': self.secret.pk})
+
+
