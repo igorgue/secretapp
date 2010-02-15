@@ -53,7 +53,7 @@ def view(request, pk):
 
 
 @login_required
-def edit(request, pk=None, discussion_id=None):
+def edit(request, pk=None, from_discussion=False):
 
     user = request.user
     # get object
@@ -66,7 +66,7 @@ def edit(request, pk=None, discussion_id=None):
             # success and ajax
             if request.is_ajax():
                 # if creating a secret as part of a discussion reply (need to return different template)
-                if discussion_id:
+                if from_discussion:
                     return HttpResponse('%s' % secret if hasattr(secret, 'pk') and secret.pk else '')
                 # otherwise creating it randomly somewhere else
                 else:
@@ -74,9 +74,9 @@ def edit(request, pk=None, discussion_id=None):
             # success redirect to instance page
             else:
                 # if creating as part of a discussion, redirect back to discussion
-                if discussion_id:
+                if from_discussion:
                     # this is a serious failure if this happeneds - but try best to recover
-                    return HttpResponseRedirect(reverse('view_discussion', kwargs={'pk': discussion_id }))
+                    return HttpResponseRedirect(reverse('new_secret'))
                 # otherwise send to new page
                 else:
                     return HttpResponseRedirect(secret.get_absolute_url())
@@ -84,7 +84,7 @@ def edit(request, pk=None, discussion_id=None):
         form = SecretForm(instance=secret)
         
     # set the urlG
-    form.set_url(secret=secret, discussion=discussion_id)
+    form.set_url(secret=secret)
     
     
     context = {
