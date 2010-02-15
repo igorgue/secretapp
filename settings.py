@@ -130,6 +130,9 @@ SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
 SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
 SEARCH_PING_URLS = ("http://%s/solr/admin/ping" % SOLR_SERVER,)
 
+# The SPAM_THRESHOLD is the number of people reporting an abject as spam
+# required to determine that it really _is_ spam.
+SPAM_THRESHOLD = 5
 
 INSTALLED_APPS = (
     # django

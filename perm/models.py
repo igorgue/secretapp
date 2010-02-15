@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 from django.db import models
 from tools import *
+from django.conf import settings
 import datetime
 
 """
@@ -74,6 +77,8 @@ class UserContent(models.Model):
     viewable        = UserContentManager()
     objects         = models.Manager()
     
+    spamflags       = generic.GenericRelation("SpamFlag")
+    
     # see above for details
     # make edit_permission default to highest
     edit_permission = 'Secretary'
@@ -136,5 +141,33 @@ class UserContent(models.Model):
             self.deleted_by_id = user.id
             self.save()
         return self
+    
+    @property
+    def spam_count(self):
+        return self.spamflags.all().count()
+    
+    @property
+    def is_spam(self):
+        """ Return TRUE if this object is now considered SPAM"""
+        return self.spam_count > settings.SPAM_THRESHOLD
 
+    def mark_spam(self, user):
+        """adds a spam flag to this object. An IntegrityError will be raised
+if a user flags a given object more than once. This is deliberate: view logic
+can use the exception raised to drive messaging to the user."""
+        SpamFlag(flagged_by=user, spammed_object=self).save()
 
+class SpamFlag(models.Model):
+    """ Record of someone flagging something as Spam. """
+    flagged_by      = models.ForeignKey(User)
+    flagged_at      = models.DateTimeField(auto_now_add=True)
+    
+    content_type    = models.ForeignKey(ContentType)
+    object_id       = models.PositiveIntegerField()
+    spammed_object  = generic.GenericForeignKey('content_type', 'object_id')
+    
+    def __unicode__(self):
+        return("%s : %s" % (self.object_id, str(self.spammed_object)))
+    
+    class Meta:
+        unique_together = (('flagged_by', 'content_type', 'object_id'),)  
