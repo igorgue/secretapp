@@ -87,6 +87,11 @@ class UserContent(models.Model):
     class Meta:
         abstract = True
     
+    @property
+    def was_before_birth(self):
+        from django.conf import settings
+        return datetime.datetime(*settings.START_DATE) > self.created_at
+    
     def __user_can(self, user):
         self.read_by = user
         self._is_editable = user.permission_level >= \

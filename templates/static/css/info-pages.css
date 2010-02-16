@@ -47,5 +47,7 @@ div.page_content p {padding:0px; width:700px;}
 
 #about_page .page_content p {font-size: 1.6em; margin: 5px 0;}
 #about_page .page_content {padding-bottom: 450px;}
+#about_page .page_content a:link, a:visited, a:hover {color: #ed1849;}
 #about_page .top_content p {font-size: 2em; padding-top: 0px; margin-top: 0;}
+
 #about_page .page_header div.right_content {height: 70px; padding-top: 0;}

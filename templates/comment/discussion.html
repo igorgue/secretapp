@@ -8,7 +8,7 @@
 		<h3>{{u.first_name}} {{u.last_name}} <span class="plain">wrote:<span></h3>
 		<p>{{comment.text}}</p>
 		
-	<!-- if comment.created_at < 16Feb -->	
+	{% if comment.was_before_birth %}
 		<div class="moderation_holder">
 			<div class="rewritten_explaination">
 				<p>In order to comply with Facebook's terms of use, we've had to re-write this posting in order to view it outside Facebook. If you aren't happy with this, when logged in you can change your postings back to what they were or delete them. If you're really, really not happy, then <a href="mailto:deletemystuffnow@secretlondon.us">email us</a> making sure to include a link to your Facebook profile page, and we'll be happy to delete all your stuff for good.</p>
@@ -16,7 +16,7 @@
 			</div>
 			<p class="moderated">This comment has been rewritten <a class="rewritten" href="#">(why?)</a><span></p>
 		</div>
-	<!-- end of if statement -->		
+	{% endif %}
 			
 	</div>
 	<div class="clear_left"></div>
