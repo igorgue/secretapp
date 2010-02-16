@@ -9,8 +9,6 @@ from shortcuts import context_response
 import datetime
 import random
 
-START_DATE = datetime.datetime(2010,02,16)
-
 def random_secret(request):
     " Redirects you to a random secret "
     return HttpResponseRedirect(Secret.viewable.order_by('?')[0].get_absolute_url())
@@ -18,7 +16,7 @@ def random_secret(request):
 
 def home(request):
     " Landing page to site. Much more to come... "
-    
+    START_DATE = datetime.datetime(*settings.START_DATE)
     NOW = datetime.datetime.now()
     
     ids = Proposal.viewable.values_list('id', flat=True)
@@ -36,7 +34,7 @@ def home(request):
             'discussions': Discussion.viewable.count(),
             'secrets': Secret.viewable.count(),
             'posts': DiscussionComment.viewable.count(),
-            'days': (NOW - START_DATE).days,
+            'days': (NOW - START_DATE).days - 1,
         }
     }
     return context_response(request, 'utilz/home.html', context, tabs=['home'])
