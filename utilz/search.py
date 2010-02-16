@@ -80,7 +80,7 @@ class SearchForm(forms.Form):
                 raise AttributeError, "Must define %s in Meta of SearchForm" % r
         
         # set the url
-        self.Meta.url = reverse(self.Meta.url_name)
+        self.action_url = reverse(self.Meta.url_name)
         # used in pagination urls later
         self.Meta.query_dict = GET
         # super init

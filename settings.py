@@ -137,6 +137,12 @@ SPAM_THRESHOLD = 5
 CACHE_BACKEND = 'dummy:///'
 # CACHE_BACKEND = 'file://' + os.path.join(CWD, 'cache')'
 
+
+GOOGLE_MAPS_API = 'ABQIAAAAvwXvkPULsCttPx92SuRYTRQjCj0UumZXFnS2V9VgMlEAmeHurhSR91h9akRd-XBQcqEUSeKCSqxmvw'
+# If using localhost set
+# GOOGLE_MAPS_API = 'ABQIAAAAvwXvkPULsCttPx92SuRYTRQCULP4XOMyhPd8d_NrQQEO8sT8XBR1Sc1KHWEXc4tREvAEr_dJS_Mb3w'
+# in environment.py
+
 INSTALLED_APPS = (
     # django
     'django.contrib.admin',

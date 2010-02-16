@@ -11,10 +11,19 @@ class SecretCommentForm(UserContentForm):
         fields = ('text',)
     
     def set_url(self, secret, discussion=None):
-        if discussion:
-            self.Meta.url = reverse('create_discussion_secret_comment', kwargs={'discussion_id': discussion.id, 'secret_id': secret.id })
-        else:
-            self.Meta.url = reverse('create_secret_comment', kwargs={'secret_id': secret.id })
+        self.action_url = reverse('create_secret_comment', kwargs={'secret_id': secret.id })
+        return self
+
+class ProposalCommentForm(UserContentForm):
+    text = forms.CharField(widget=forms.TextInput)
+
+    class Meta:
+        model = ProposalComment
+        fields = ('text',)
+        use_form = True # this is so when creating multiple instances of the this form, urls are instance specific
+    
+    def set_url(self, proposal):
+        self.action_url = reverse('create_proposal_comment', kwargs={'proposal_id': proposal.id })
         return self
 
 
@@ -26,7 +35,7 @@ class DiscussionCommentForm(UserContentForm):
         fields = ('text',)
     
     def set_url(self, discussion):
-        self.Meta.url = reverse('create_discussion_comment', kwargs={'discussion_id': discussion.id })
+        self.action_url = reverse('create_discussion_comment', kwargs={'discussion_id': discussion.id })
         return self
     
     def save(self, request, discussion):
@@ -48,10 +57,3 @@ class DiscussionCommentForm(UserContentForm):
             p.discussion_comment = instance
             p.save()
         return instance
-
-
-#class ProposeCommentForm(UserContentForm):
-#    text = forms.CharField(widget=forms.TextInput)
-#    
-#    class Meta:
-#        model = Propose

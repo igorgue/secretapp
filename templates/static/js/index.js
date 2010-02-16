@@ -22,10 +22,13 @@ $.prototype.clickAction = function(){
        success: function(msg){
            self.find('.filler').html(msg);
            self.find('.hider').hide();
+           return false;
+       },
+       error: function(){
+           return true;
        }
      });
-    
-    return false;
+     return false;
 }
 
 

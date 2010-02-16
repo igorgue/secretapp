@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from discussion.models import Discussion
 from secret.models import Secret
-from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, redirect_back
+from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, redirect_back, select_related_object_or_404
 from forms import *
 from models import *
 
@@ -73,31 +73,31 @@ def create_discussion_comment(request, discussion_id):
         return context_response(request, 'comment/edit_discussion.html', context)
 
 
-def create_proposal_comment(request, discussion_id, secret_id):
+def create_proposal_comment(request, proposal_id):
     """ Comment on a Secret on a Discussion """
-    discussion = get_viewable_or_raise(Discussion, request.user, pk=discussion_id)
-    secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
+    proposal = select_related_object_or_404(Proposal, pk=proposal_id)
+    discussion = proposal.discussion
+    secret = proposal.secret
     
     if request.method == 'POST':
-        form = SecretCommentForm(request.POST)
+        form = ProposalCommentForm(request.POST)
         if form.is_valid():
             # save the details
             instance = form.save(request, commit=False)
-            instance.secret = secret
-            instance.discussion = discussion
+            instance.proposal = proposal
             instance.save()
             
             # if successful return comment as list inline
             if request.is_ajax():
-                return context_response(request, 'comment/discussion_secret.html', { 'comment': instance })
+                return context_response(request, 'comment/proposal.html', { 'comment': instance })
             # otherwise return to the page of the discussion where the secret is mentioned
             else:
-                return HttpResponseRedirect(instance.discussion.get_secretpage_url(secret))
+                return HttpResponseRedirect(discussion.get_secretpage_url(secret))
     else:
-        form = SecretCommentForm()
+        form = ProposalCommentForm()
     
     # sets the url for ajax
-    form.set_url(secret, discussion)
+    form.set_url(proposal)
     discussion.set_page_by_secret(secret)
     
     context = {
@@ -122,7 +122,7 @@ def agree_with_proposal(request, proposal_id):
         agree, new = Agreement.objects.get_or_create(proposal=props, created_by=request.user, deleted=False)
         
         if request.is_ajax():
-            return HttpResponse(props.agreement_count)
+            return HttpResponse('%s' % props.agreement_count)
         else:
             return redirect_back(request)
     else:

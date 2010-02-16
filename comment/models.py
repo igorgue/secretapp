@@ -75,6 +75,9 @@ class Proposal(models.Model):
     @property
     def comment_count(self):
         return ProposalComment.viewable.filter(proposal=self).count()
+    
+    def comment_form(self):
+        return ProposalCommentForm().set_url()
 
 
 class ProposalComment(AbstractComment):

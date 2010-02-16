@@ -4,6 +4,7 @@ from django.conf import settings as conf
 def globals(request):
     return {
         'FB_API_KEY':   conf.FACEBOOK_API_KEY,
+        'GOOGLE_MAPS_API': conf.GOOGLE_MAPS_API,
         'IS_AJAX':      request.is_ajax(),
         'MEMBER_LEVEL': member_level(request),
     }
