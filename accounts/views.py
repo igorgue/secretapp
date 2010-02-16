@@ -1,6 +1,6 @@
 from django.contrib.auth import logout as ulogout
 from django.http import Http404
-from utilz.shortcuts import context_response, redirect_back
+from utilz.shortcuts import context_response, redirect_back, login_required
 from forms import *
 from models import *
 
@@ -22,9 +22,11 @@ def view(request, pk):
                 'profile': u,
             }, tabs=['profile'])
 
-
+@login_required
 def edit(request):
     " Editing your profile "
+    if not request.user.is_authenticated():
+        return HttpResponse(reverse('home'))
     settings = request.user.get_settings()
     successful = False
     
