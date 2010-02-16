@@ -6,137 +6,160 @@
 {% block headnotice %}
 <img src="{{MEDIA_URL}}/images/skyline.png" id="skyline" />
 <div id="home_header">
-	<img src="{{MEDIA_URL}}/images/title_text.png" />
-	<p>After an insane week of work, and after less than a month since the secretlondon facebook group was created, secretlondon has its own site.</p>
-	<br class="clear_left" />
-	<ul>
-		<li><a href="{% url render_template template='about' %}">Read the story</a></li>
-		<li><a href="{% url search_discussions %}">Join the Discussion</a></li>
-		<li><a href="{% url random_secret %}">Get Inspired</a></li>
-		<br class="clear_left" />
-	</ul>
-	<div class="clear_left"></div>
+    <img src="{{MEDIA_URL}}/images/title_text.png" />
+    <p>After an insane week of work, and after less than a month since the secretlondon facebook group was created, secretlondon has its own site.</p>
+    <br class="clear_left" />
+    <ul>
+        <li><a href="{% url render_template template='about' %}">Read the story</a></li>
+        <li><a href="{% url search_discussions %}">Join the Discussion</a></li>
+        <li><a href="{% url random_secret %}">Get Inspired</a></li>
+        <br class="clear_left" />
+    </ul>
+    <div class="clear_left"></div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="page_header">
-	<p id="page_title" class="left_sidebar">
-		Featured Secret
-	</p>
-	<div class="center_content top_content">
-		<h2><span class="highlight">Tiffany Phillipou</span> proposed</h2>
-	</div>
-	<p class="right_sidebar">
-		Recent Activity
-	</p>
-	<div class="clear_left"></div>
+    <p id="page_title" class="left_sidebar">
+        Featured Secret
+    </p>
+    <div class="center_content top_content">
+        <h2><span class="highlight">Tiffany Phillipou</span> proposed</h2>
+    </div>
+    <p class="right_sidebar">
+        Recent Activity
+    </p>
+    <div class="clear_left"></div>
 </div>
 <div id="three_column">
-	<div id="left_center_column">
-		<div id="featured_secret" class="content_line">
-			<div class="left_sidebar left_triangle">
-				<p class="side_agreements"><span>5</span>agree</p><br class="clear_right" />
-				<a href="#" class="pink_button">I Agree</a>
-			</div>
-			<div class="center_content">
-				<div class="proposal_holder">
-					<div class="proposal_content">
-						<p class="secret_missing_image">&#43; Add a photo</p>
-						<h3>Nordic Bakery</h3>
-						<p>Golden Square W1F</p>
-						<a class="pink_button" href="secret.html">View Details</a>
-						<div class="clear_left"></div>
-					</div>
-					<div class="proposal_comments">
-						<a href="#" class="pink_button">Add a Comment</a>
-						<p class="comment_summary">3 comments in this discussion. 10 comments in total. <a href="#">View all Comments</a></p>
-						<div class="clear_right"></div>
-						<p><span class="highlight">Tiffany Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight"><a href="#">Report</a></span>
-						<p><span class="highlight">Tom Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
-					</div>
-				</div>
-			</div>
-			<div class="clear_left"></div>
-		</div>
-	
-		<div id="recent_secrets" class="content_line">
-			<p class="left_sidebar">
-				Recent Secrets
-			</p>
-			<div class="center_content">
-				<a href="#" class="share_holder">
-					<img src="{{MEDIA_URL}}/images/share_example.jpg" />
-					<h4>Tiger Tiger</h4>
-					<p>Heddon Street, W15</p>
-				</a>
-				<a href="#" class="share_holder">
-					<img src="{{MEDIA_URL}}/images/share_example.jpg" />
-					<h4>Tiger Tiger</h4>
-					<p>Heddon Street, W15</p>
-				</a>
-				<a href="#" class="share_holder">
-					<img src="{{MEDIA_URL}}/images/share_example.jpg" />
-					<h4>Tiger Tiger</h4>
-					<p>Heddon Street, W15</p>
-				</a>
-			</div>
-			<div class="clear_both"></div>
-		</div>
-	
-	
-		<div id="recent_visitors" class="content_line">
-			<p class="left_sidebar">
-				Recent Visitors
-			</p>
-			<div class="center_content">
-				<div class="visitor_holder">
-					<img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
-					<p class="name">Tom Harvey</p>
-					<p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
-				</div>
-				<div class="visitor_holder">
-					<img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
-					<p class="name">Tiffany Tiffany Phillipou</p>
-					<p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
-				</div>
-				<div class="visitor_holder">
-					<img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
-					<p class="name">Tom Harvey</p>
-					<p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
-				</div>
-				<div class="visitor_holder">
-					<img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
-					<p class="name">Tom Harvey</p>
-					<p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
-				</div>
-			</div>
-			<div class="clear_left"></div>
-		</div>
-	</div>
-	<div id="right_column">
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-		<p>Some stuff happened</p>
-	</div>		
+    <div id="left_center_column">
+        <div id="featured_secret" class="content_line">
+            <div class="left_sidebar left_triangle">
+                <p class="side_agreements"><span>5</span>agree</p><br class="clear_right" />
+                <a href="#" class="pink_button">I Agree</a>
+            </div>
+            <div class="center_content">
+                <div class="proposal_holder">
+                    <div class="proposal_content">
+                        <p class="secret_missing_image">&#43; Add a photo</p>
+                        <h3>Nordic Bakery</h3>
+                        <p>Golden Square W1F</p>
+                        <a class="pink_button" href="secret.html">View Details</a>
+                        <div class="clear_left"></div>
+                    </div>
+                    <div class="proposal_comments">
+                        <a href="#" class="pink_button">Add a Comment</a>
+                        <p class="comment_summary">3 comments in this discussion. 10 comments in total. <a href="#">View all Comments</a></p>
+                        <div class="clear_right"></div>
+                        <p><span class="highlight">Tiffany Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight"><a href="#">Report</a></span>
+                        <p><span class="highlight">Tom Philippou</span> OMG, I love this place!<span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
+                    </div>
+                </div>
+            </div>
+            <div class="clear_left"></div>
+        </div>
+    
+        <div id="recent_secrets" class="content_line">
+            <p class="left_sidebar">
+                Recent Secrets
+            </p>
+            <div class="center_content">
+                <a href="#" class="share_holder">
+                    <img src="{{MEDIA_URL}}/images/share_example.jpg" />
+                    <h4>Tiger Tiger</h4>
+                    <p>Heddon Street, W15</p>
+                </a>
+                <a href="#" class="share_holder">
+                    <img src="{{MEDIA_URL}}/images/share_example.jpg" />
+                    <h4>Tiger Tiger</h4>
+                    <p>Heddon Street, W15</p>
+                </a>
+                <a href="#" class="share_holder">
+                    <img src="{{MEDIA_URL}}/images/share_example.jpg" />
+                    <h4>Tiger Tiger</h4>
+                    <p>Heddon Street, W15</p>
+                </a>
+            </div>
+            <div class="clear_both"></div>
+        </div>
+    
+    
+        <div id="recent_visitors" class="content_line">
+            <p class="left_sidebar">
+                Recent Visitors
+            </p>
+            <div class="center_content">
+                <div class="visitor_holder">
+                    <img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
+                    <p class="name">Tom Harvey</p>
+                    <p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
+                </div>
+                <div class="visitor_holder">
+                    <img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
+                    <p class="name">Tiffany Tiffany Phillipou</p>
+                    <p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
+                </div>
+                <div class="visitor_holder">
+                    <img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
+                    <p class="name">Tom Harvey</p>
+                    <p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
+                </div>
+                <div class="visitor_holder">
+                    <img src="{{MEDIA_URL}}/images/avatars/keeper_001.jpg" />
+                    <p class="name">Tom Harvey</p>
+                    <p class="stats"><span>6</span>Secrets</p><p class="stats"><span>10</span>Agrees</p>
+                </div>
+            </div>
+            <div class="clear_left"></div>
+        </div>
+    </div>
+    <div id="right_column">
+        <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+        <script>
+        new TWTR.Widget({
+          version: 2,
+          type: 'search',
+          search: 'secret_london OR #secretlondon',
+          interval: 6000,
+          title: 'secretlondon',
+          subject: '',
+          width: 219,
+          height: 800,
+          theme: {
+            shell: {
+              background: '#404040',
+              color: '#ffffff'
+            },
+            tweets: {
+              background: '#ffffff',
+              color: '#444444',
+              links: '#eb1849'
+            }
+          },
+          features: {
+            scrollbar: false,
+            loop: true,
+            live: true,
+            hashtags: true,
+            timestamp: true,
+            avatars: true,
+            behavior: 'default'
+          }
+        }).render().start();
+        </script>
+    </div>      
 
-	<div class="clear_left"></div>
+    <div class="clear_left"></div>
 </div>
 
 <ul id="home_counter">
-	<li><span>1,290</span>Profiles</li>
-	<li><span>190,290</span>Users</li>
-	<li><span>290</span>Discussions</li>
-	<li><span>290</span>Secrets</li>
-	<li><span>1,290</span>Posts</li>
-	<li class="last"><span>24</span>Days</li>
-	<br class="clear_left" />
+    <li><span>1,290</span>Profiles</li>
+    <li><span>190,290</span>Users</li>
+    <li><span>290</span>Discussions</li>
+    <li><span>290</span>Secrets</li>
+    <li><span>1,290</span>Posts</li>
+    <li class="last"><span>24</span>Days</li>
+    <br class="clear_left" />
 </ul>
 {% endblock %}

@@ -33,6 +33,9 @@ class DiscussionComment(AbstractComment):
     discussion  = models.ForeignKey(Discussion)
     secrets     = models.ManyToManyField(Secret, through="Proposal")
     
+    def get_absolute_url(self):
+        return "%s#comment-%s" % (self.discussion.get_absolute_url(), self.pk)
+    
     def proposals(self):
         return Proposal.viewable.filter(discussion_comment=self).select_related()
     
@@ -77,7 +80,8 @@ class Proposal(models.Model):
         return ProposalComment.viewable.filter(proposal=self).count()
     
     def comment_form(self):
-        return ProposalCommentForm().set_url()
+        from forms import *
+        return ProposalCommentForm().set_url(self)
 
 
 class ProposalComment(AbstractComment):

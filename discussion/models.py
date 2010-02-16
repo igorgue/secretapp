@@ -102,27 +102,6 @@ class Discussion(UserContent):
         "gets the last page of the discussion"
         return "%s?page=%s" % (self.get_absolute_url(), self.pages)
     
-    def __page_of_secret(self, secret):
-        "works out which page a certain secret is on"
-        from comment.models import SecretComment
-        comments = self.comments()
-        count = 0
-        # ugly but works well with cache (and not used much)
-        for c in comments:
-            if c.secret == secret:
-                break
-            count += 1
-        return (count/self.comments_per_page) + 1
-    
-    def set_page_by_secret(self, secret):
-        "sets the discussion page by its secret"
-        self.page = self.__page_of_secret(secret)
-        return self
-    
-    def get_secretpage_url(self, secret):
-        "gets the page of a discussion which a certain secret was mentioned on"
-        return "%s?page=%s" (self.get_absolute_url(), self.__page_of_secret(secret))
-    
     # USUALS
     def __unicode__(self):
         return self.title

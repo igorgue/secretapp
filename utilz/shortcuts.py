@@ -42,7 +42,7 @@ def login_required(func):
     return wrapper
 
 
-def select_related_object_or_404(select_related, Model, *args, **kwargs):
+def select_related_object_or_404(Model, select_related=True, *args, **kwargs):
     "Wanted to add select_related functionality to django.shortcuts.get_object_or_404"
     try:
         if select_related:
@@ -53,22 +53,22 @@ def select_related_object_or_404(select_related, Model, *args, **kwargs):
         raise Http404
 
 
-def get_editable_or_raise(Model, user, select_related=True, *args, **kwargs):
+def get_editable_or_raise(Model, user, *args, **kwargs):
     "similar to django.shortcuts.get_object_or_404 with permission checks"
     if not isinstance(user, (User, AnonymousUser)):
         raise TypeError, "Please supply a user as the second argument"
-    instance = select_related_object_or_404(select_related, Model, *args, **kwargs)
+    instance = select_related_object_or_404(Model, *args, **kwargs)
     if instance.user_can_edit(user):
         return instance
     else:
         raise PermissionDenied
 
 
-def get_viewable_or_raise(Model, user, select_related=True, *args, **kwargs):
+def get_viewable_or_raise(Model, user, *args, **kwargs):
     "similar to above but does viewablility check"
     if not isinstance(user, (User, AnonymousUser)):
         raise TypeError, "Please supply a user as the second argument"
-    instance = select_related_object_or_404(select_related, Model, *args, **kwargs)
+    instance = select_related_object_or_404(Model, *args, **kwargs)
     if instance.user_can_view(user):
         return instance
     else:

@@ -157,6 +157,7 @@ if a user flags a given object more than once. This is deliberate: view logic
 can use the exception raised to drive messaging to the user."""
         SpamFlag(flagged_by=user, spammed_object=self).save()
 
+
 class SpamFlag(models.Model):
     """ Record of someone flagging something as Spam. """
     flagged_by      = models.ForeignKey(User)
@@ -170,4 +171,6 @@ class SpamFlag(models.Model):
         return("%s : %s" % (self.object_id, str(self.spammed_object)))
     
     class Meta:
-        unique_together = (('flagged_by', 'content_type', 'object_id'),)  
+        unique_together = (('flagged_by', 'content_type', 'object_id'),)
+
+

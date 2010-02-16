@@ -21,13 +21,20 @@
             {# secret comments #}
 			<div class="proposal_comments">
 				<a href="#" class="pink_button">Add a Comment</a>
+				
+				    {% with proposal.comment_form as form %}
+				        {% form form %}
+				            {% field form.text %}
+				        {% endform %}
+				    {% endwith %}
+				
 				{% with proposal.comments as pcs %}
         		{% if pcs %}
-				<p class="comment_summary">{{pcs|length}} comments in this discussion. {{proposal.comment_count}} comments in total. <a href="#">View all Comments</a></p>
+				<p class="comment_summary">{{pcs|length}} comments in this discussion. {{proposal.comment_count}} comments in total. {#<a href="#">View all Comments</a></p>#}
 				<div class="clear_right"></div>
 				{% for pc in pcs %}
 				    {% with pc.created_by as u %}
-				        <p {% if forloop.last %}class="last"{% endif %}><span class="highlight">{{u.first_name}} {{u.last_name}}</span> <span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
+				        <p {% if forloop.last %}class="last"{% endif %}><span class="highlight">{{u.first_name}} {{u.last_name}}</span> {{pc.text}} <span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
 			        {% endwith %}
 			    {% endfor %}
 			    {% endif %}

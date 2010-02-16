@@ -65,6 +65,8 @@
 		width: 220px;
 		background: #595959 url('../images/59greytile.png') 0 0 repeat;5959;
 		float: left;
+		overflow: hidden;
+		height: 668px;
 	}
 
 #right_column p
@@ -217,4 +219,24 @@ h1
 #big_footer
 	{
 		border-top: 0;
+	}
+
+.twtr-hd, .twtr-ft
+	{
+		display: none;
+	}
+
+.twtr-widget twtr-paused
+	{
+		font-family: 'Gill sans', 'Gill Sans MT', Calibri, Trebuchet, sans-serif; color:#8e8e8e; line-height:113%;
+	}
+
+#twtr-widget-1 .twtr-tweet a
+	{
+		color: #ed1849;
+	}
+
+#twtr-widget-1 .twtr-doc, #twtr-widget-1 .twtr-hd a, #twtr-widget-1 h3, #twtr-widget-1 h4
+	{
+		background: #404040;
 	}
