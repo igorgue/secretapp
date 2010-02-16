@@ -93,9 +93,11 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 #header p#auth
 	{
 		display: block;
-		margin: 20px 0 0 250px;
+		margin: 20px 0 0 150px;
 		font-size: 1.6em;
 		font-weight: 300;
+		width: 450px;
+		text-align: right;
 	}
 
 #header p#auth a:first-child
