@@ -2,23 +2,26 @@
 {% block pagemedia %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />
 {% endblock %}
-{% block bodytag %}id="page_title"{% endblock %}
+
+	{% block bodytag %}id="credits_page"{% endblock %}
+
 {% block content %}
+
 <div class="page_header">
-	<div class="left_sidebar">
+	<div id="page_title" class="left_sidebar">
 		Credits
 	</div>
 	<div class="right_content top_content">
 		&nbsp;
 	</div>
 	<div class="clear_left"></div>
-</div><!-- END OF THE CREDITS HEADER id=page headeric-->	
+</div><!-- END OF THE PAGE HEADER-->	
 
 <div class="content_line">
 	<div class="left_sidebar">
 		<ul class="info-links">
 			<li><a href="{% url render_template template="about" %}">About</a></li>
-			<li><a href="{% url render_template template="story" %}">Story</a></li>
+			<li><a href="{% url render_template template="team" %}">Team</a></li>
 			<li><a href="{% url render_template template="credits" %}">Credits</a></li>
 			<li><a href="http://somesortofblog.somewhere">Blog</a></li>
 			<li><a href="{% url render_template template="terms" %}">Terms of use</a></li>
@@ -39,7 +42,6 @@
 					<span class="lower_pink"><span class="wrapper above_near_bottom"></span>Along with the thousands of <span class="wrapper near_bottom"></span>contributors in London and across<span class="wrapper bottom"></span> the world who have shared their secrets and inspired us.</span></p>
 	</div>
 	<div class="clear_left"></div>
-</div><!-- END OF THE CREDITS-->
-
+</div>
 
 {% endblock %}

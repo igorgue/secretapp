@@ -1,0 +1,78 @@
+{% extends 'layout/base.html' %}
+{% block pagemedia %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />
+{% endblock %}
+
+	{% block bodytag %}id="team_page"{% endblock %}
+
+{% block content %}
+
+<div class="page_header">
+	<div id="page_title" class="left_sidebar">
+		Credits
+	</div>
+	<div class="right_content top_content">
+		&nbsp;
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE PAGE HEADER-->	
+
+<div class="content_line">
+	<div class="left_sidebar">
+		<ul class="info-links">
+			<li><a href="{% url render_template template="about" %}">About</a></li>
+			<li><a href="{% url render_template template="team" %}">Team</a></li>
+			<li><a href="{% url render_template template="credits" %}">Credits</a></li>
+			<li><a href="http://somesortofblog.somewhere">Blog</a></li>
+			<li><a href="{% url render_template template="terms" %}">Terms of use</a></li>
+			<li><a href="{% url render_template template="privacy" %}">Privacy Policy</a></li>
+			<li><a href="http://twitter.com/secret_london">Twitter</a></li>
+		</ul>
+	</div>
+		<div class="right_content page_content">
+			
+			<img src="{{MEDIA_URL}}/images/crew_outlined.jpg" />
+			<p>
+			<span class="number">1.</span> Josh Burrows
+			<span class="number">2.</span> Arun Rao
+			<span class="number">3.</span> Ruth John
+			<span class="number">4.</span> Tom Harvey
+			<span class="number">5.</span> Ollie Spero
+			<span class="number">6.</span> Andy Young
+			<span class="number">7.</span> Georgia Graham
+			<span class="number">8.</span> Anna Codrea-Rado
+			<span class="number">9.</span> Roberta Klimt
+			<span class="number">10.</span> Jamie McConkey
+			<span class="number">11.</span> Chris Clarke
+			<span class="number">12.</span> Katherine Haddon
+			<span class="number">13.</span> Joe Lee
+			<span class="number">14.</span> Greg Marsh
+			<span class="number">15.</span> Diogo Geraldes
+			<span class="number">16.</span> Tim Davey
+			<span class="number">17.</span> Tiffany Philippou
+			<span class="number">18.</span> Demetrios Zoppos
+			<span class="number">Not Shown - </span>
+			Adam Farley,
+			Adam Reid,
+			Alasdair Bell,
+			Anna Steadman,
+			Arun Rao,
+			Carly Becker,
+			Charlotte Bayley,
+			Georgia Graham,
+			Iris Thorsteinsdottir,
+			Jamie McConkey,
+			Jase Cooper,
+			Julia Steinhardt,
+			Julie Vaccalluzzo,
+			Luke Leighton,
+			Matt Sellers,
+			Matthew Pontefract,
+			Thishani Nadesan &amp;
+			Zoe Seagar</p>
+			
+		</div>
+		<div class="clear_left"></div>
+	</div><!-- END OF THE FIRST DISCUSSION LINE-->
+
+{% endblock %}
