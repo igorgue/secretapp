@@ -54,6 +54,7 @@ h1, h2, h3, h4, h5, h6 {position:relative;}
 /*FORMS*/
 form label {display:block; float:left; margin:2px 2% 6px 0px; color:#404040;}
 form input[type="text"], textarea {display:block; float:left; margin-bottom:6px; padding:4px; border:1px solid #595959; font-family:Arial, Helvetica, sans-serif; font-size:120%;}	
+textarea { font-size: 2em;}
 
 /*=2. CORE *************************************************************/
 
@@ -905,7 +906,7 @@ span.highlight
 
 .rewritten_explaination
 	{
-		display: block;
+		display: none;
 		position: relative;
 		margin-top: -140px;
 		background: #f2f2f2 url('../images/light_bg_4IE.gif') 0 0 no-repeat;

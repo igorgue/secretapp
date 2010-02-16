@@ -90,7 +90,7 @@ def create_proposal_comment(request, proposal_id):
             instance.save()
             # search save hooks
             proposal.secret.save()
-            proposal.discussion.save()
+            proposal.discussion_comment.discussion.save()
             
             # if successful return comment as list inline
             if request.is_ajax():

@@ -38,9 +38,6 @@ $(document).ready(function(){
 		$('#add_discussion').slideToggle('slow', function() {});
 		$('#top_reply_button').parent().height('270px');	
 	});
-	$('.rewritten').click(function() {
-		$(this).parent(".moderation_holder") > ".rewritten_explaination".slideToggle('slow', function() {});
-	});
 });
 
 /**
