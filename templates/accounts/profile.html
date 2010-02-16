@@ -74,7 +74,11 @@
 	    		<div class="proposal_holder">
 	    		    {% with proposal.secret as secret %}
 	    			<div class="proposal_content">
+					{% if secret.latitude and secret.longitude %}
+	    				<p class="secret_map_image"><img src="http://maps.google.com/maps/api/staticmap?size=90x90&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13"></p>
+					{% else %}
 	    				<p class="secret_missing_image">Photos to come</p>
+					{% endif %}
 	    				<h3>{{ secret.title }}</h3>
 	    				<p>{{ secret.location }}</p>
 	    				<a class="pink_button" href="{{ secret.get_absolute_url }}">View Details</a>

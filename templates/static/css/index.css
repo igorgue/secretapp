@@ -616,7 +616,8 @@ a.pink_button
 		color: black;
 	}
 
-div.right_content p.secret_missing_image, div.center_content p.secret_missing_image
+div.right_content p.secret_missing_image, div.center_content p.secret_missing_image,
+div.right_content p.secret_map_image, div.center_content p.secret_map_image
 	{
 		display: block;
 		text-align: center;
@@ -625,11 +626,13 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 		font-size: 0.9em;
 		width: 90px;
 		border: 1px dashed #666;
-		padding-top: 65px;
 		background: transparent url('../images/3d_white_keyhole.png') 30px 12px no-repeat;
 		float: left;
 		margin-left: 10px;
 	}
+div.right_content p.secret_missing_image, div.center_content p.secret_missing_image {
+		padding-top: 65px;
+}
 
 .proposal_content
 	{
