@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.http import HttpResponseRedirect, Http404
+from django.contrib.contenttypes.models import ContentType
+from django.db import IntegrityError
 from secret.models import Secret
 from discussion.models import Discussion
 from comment.models import DiscussionComment
@@ -60,3 +62,15 @@ def render(request, template):
     except:
         raise Http404
     
+def flag_spam(request, modelid, objectid):
+    msg = 'OK'
+    try:
+        ct = ContentType.objects.get(pk = modelid)
+        obj = ct.get_object_for_this_type(pk = objectid)
+        obj.mark_spam(request.user)
+    except IntegrityError:
+        msg = 'Repeat flagging'
+    except:
+        raise Http404
+
+    return context_response(request, "utilz/flag_spam.html", {'message': msg})
