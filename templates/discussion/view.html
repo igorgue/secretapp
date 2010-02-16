@@ -24,7 +24,7 @@
         {% endwith %}
 	</p>
 	<div class="right_content top_content">
-		<a class="discussion_nav" href="{% url search_discussions %}" title="back to discussions">&laquo; Back to discussions</a><a href="{% url new_discussion %}" class="discussion_nav" title="start a new discussion">&#43; Start a new discussion</a>
+		{#<a class="discussion_nav" href="{% url search_discussions %}" title="back to discussions">&laquo; Back to discussions</a><a href="{% url new_discussion %}" class="discussion_nav" title="start a new discussion">&#43; Start a new discussion</a>#}
 
 
 
@@ -83,7 +83,15 @@
 	    
 	    <p>{{discussion.text}}</p>
         <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
-    	<p id="pagination">Displaying posts 51-54 out of 54 <span id="pages_breakdown"><a href="#" title="first page">First</a><a href="#" title="previous page">Prev</a><a href="#" title="page one">1</a><a href="#" title="page two">2</a><a href="#" title="page three">3</a><a href="#" title="page four">4</a><a href="#" title="page 5" class="highlight">5</a><a href="#" title="next">Next</a></span><span id="filter_view"><a href="#" title="View Secrets">Show all secrets in this discussion</a></span></p>
+        {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
+            {% for p in discussion.xpages %}
+                {% ifequal p discussion.page %}
+                    <b>{{p}}</b>
+                {% else %}
+                    <a href="?page={{p}}">{{p}}</a>
+                {% endifequal %}
+            {% endfor %}
+        {% if discussion.next_page %}<a href="?page={{discussion.next_page}}">Next</a>{% endif %}
 </div>
 <br class="clear_left" />
 </div>
