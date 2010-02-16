@@ -6,7 +6,7 @@
 	text-align: right;
 	padding-right: 10px;
 	padding-bottom: 5px;
-	margin-top: -10px;
+	margin-top: -15px;
 }
 .discussion_reply_tabs .suggest_tab,
 .discussion_reply_tabs .comment_tab {
@@ -64,7 +64,7 @@
 }			
 
 .discussion_reply_form h4 {
-	margin: 3px 0 4px;
+	margin: 3px 4px 10px;
 	font-weight: 400;
 	text-transform: uppercase;
 }
@@ -73,7 +73,7 @@
 	display: block;
 }
 .discussion_reply_form textarea {
-	width: 100%;
+	width: 98%;
 	height: 100px;
 	font-family: 'Gill sans','Gill Sans MT',Calibri,Trebuchet,sans-serif;
 }
@@ -85,6 +85,23 @@
 	clear: both;
 	text-align: center;
 	padding: 8px 0;
+	margin-left: 310px;
+}
+.discussion_reply_form .edit_map_button,
+.discussion_reply_form .hide_map_button {
+	display: none;
+}
+.discussion_reply_form .hasmap .find_on_map_button {
+	display: none;
+}
+.discussion_reply_form .hasmap .edit_map_button {
+	display: block;
+}
+.discussion_reply_form .hasmap.bigmap .edit_map_button {
+	display: none;
+}
+.discussion_reply_form .hasmap.bigmap .find_on_map_button {
+	display: block;
 }
 
 .discussion_reply_form .map_search_not_found {
@@ -213,7 +230,7 @@
 		margin-bottom: 8px;
 	}
 
-a.add_secret
+.add_secret a
 	{
 		color: white;
 		font-weight: 400;
@@ -224,3 +241,7 @@ a.add_secret
 		text-transform: uppercase;
 		color: black;
 	}
+.add_secret {
+	margin-bottom: 0;
+	padding-left: 5px!important;
+}

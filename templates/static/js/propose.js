@@ -4,6 +4,7 @@ $(document).ready(function() {
 			var df = $(this).closest('.discussion_reply_form');
 			df.removeClass('comment').toggleClass('suggest');
 			if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
+			return false;
 		});
 	});
 	$('.comment_tab_button').each(function(index) {
@@ -11,6 +12,7 @@ $(document).ready(function() {
 			var df = $(this).closest('.discussion_reply_form');
 			df.removeClass('suggest').toggleClass('comment');
 			if (df.hasClass('comment')) { df.find('textarea.comment').focus(); }
+			return false;
 		});
 	});
 });
@@ -27,14 +29,17 @@ var secretListController = {
 	title_hinttext : 'Name of this secret',
 	location_hinttext : 'Location',
 	
+	hasInit : false,
 	init : function(parentElement) {
+		if (this.hasInit) { return; }
+		this.hasInit = true;
 		this.parentElement = parentElement;
 		
 		this.geocoder = new GClientGeocoder();
 		this.localSearch.setResultSetSize(google.search.Search.LARGE_RESULTSET);
 
 		secret = this.addSecret();
-		parentElement.find('.add_secret').each(function() {
+		parentElement.find('.add_secret a').each(function() {
 			$(this).click(function() { secretListController.addSecret(); });
 		});
 		
@@ -280,6 +285,8 @@ var secretListController = {
 			<input id="id_location-__id__" type="text" name="" value="" class="secret_location"/>\
 			<br class="clear_left" />\
 			<a href="#" class="find_on_map_button pink_button">Find on map</a>\
+			<a href="#" class="edit_map_button pink_button">Edit map</a>\
+			<a href="#" class="hide_map_button pink_button">Hide map</a>\
 		</div>\
 		\
 		<div class="static">\
@@ -317,8 +324,15 @@ var secretListController = {
 		});
 		li.find('.find_on_map_button').click(function() {
 			secretListController.lookupAddress();
-			return false
-			return false;;
+			return false;
+		});
+		li.find('.edit_map_button').click(function() {
+			secretListController.getExpandedSecretLI().addClass('bigmap');
+			return false;
+		});
+		li.find('.hide_map_button').click(function() {
+			secretListController.getExpandedSecretLI().removeClass('bigmap');
+			return false;
 		});
 		li.find('.delete_button').click(function() {
 			secretListController.deleteSecret(this);
@@ -363,11 +377,11 @@ var secretListController = {
 	},
 	
 	deleteSecret : function(el) {
-		el = $(el).closest('li.secret');
+		var el = $(el).closest('li.secret');
 		if (m = $(el).find('.map')) {
 			this.parentElement.find('.suggest_secret').append(m);
 		}
-		el.detach();
+		$(el).remove();
 	},
 	
 	submitHandler : function() {
