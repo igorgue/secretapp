@@ -44,7 +44,6 @@ class UrlCacheMiddleware:
         # See if there is a cached item
         try:
             cached = UrlCache.objects.get(path=request.path)
-            print request.path
         except UrlCache.DoesNotExist:
             # Normally, we only cache things that already exist in UrlCache!
             #
@@ -66,7 +65,6 @@ class UrlCacheMiddleware:
             return None
         
         # It's usable! Serve the request with it
-        print("SERVED FROM CACHE")
         request._url_cache_used = True
         return HttpResponse(cached.value, content_type = cached.content_type)
 
