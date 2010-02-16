@@ -71,7 +71,7 @@ var secretListController = {
 	},
 
 	mapVisible : function() {
-		return this.parentElement.hasClass('suggest') && this.parentElement.find('.bigmap');
+		return this.parentElement.hasClass('suggest') && this.parentElement.find('.bigmap')[0];
 	},
 
 	getExpandedSecretLI : function() {
@@ -156,7 +156,7 @@ var secretListController = {
 		this.parentElement.find('.map_search_results_list')[0].style.display = 'block';	
 		results = this.parentElement.find('.map_search_results_list ol')[0];
 		results.innerHTML = listHtml;
-		if (point) {
+		if (point && !this.currentSecretHasMarker()) {
 			this.getExpandedSecretLI().addClass('bigmap');
 			this.saveNewMarkerPosition(point);
 		} else {
@@ -200,6 +200,9 @@ var secretListController = {
 			point2 = new GLatLng(point.lat(), point.lng());
 			this.map.setCenter(point2, 15);
 			this.map_small.setCenter(point2, 13);
+			if (this.marker) {
+			    this.marker.setLatLng(point);
+			}
 			if (this.marker_small) {
 			    this.marker_small.setLatLng(point);
 			}
@@ -242,6 +245,13 @@ var secretListController = {
 		}
 	},
 
+	currentSecretHasMarker : function() {
+	  	expandedSecret = this.getExpandedSecretLI();
+		lat = expandedSecret.find('.latitude').val();
+		lng = expandedSecret.find('.longitude').val();
+		return lat || lng;
+	},
+
 	updateTitleAndLocation : function(title, address) {
 		expandedSecret = this.getExpandedSecretLI();
         titleField = expandedSecret.find('.secret_name');
@@ -268,8 +278,8 @@ var secretListController = {
 			<input id="id_title-__id__" type="text" name="" value="" class="secret_name"/>\
 			<label for="id_location-__id__" class="secret_location_label">Location</label>\
 			<input id="id_location-__id__" type="text" name="" value="" class="secret_location"/>\
-			<a href="#" class="find_on_map_button">Find on map</a>\
 			<br class="clear_left" />\
+			<a href="#" class="find_on_map_button pink_button">Find on map</a>\
 		</div>\
 		\
 		<div class="static">\
