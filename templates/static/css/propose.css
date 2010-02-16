@@ -46,6 +46,12 @@
 	width: 48%;
 	margin-left: 2%;
 }
+.discussion_reply_form .secret_name_label,
+.discussion_reply_form .secret_location_label {
+	display: none;
+}
+
+
 .discussion_reply_form .existing_secrets {
 	display: none;
 }			
