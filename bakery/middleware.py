@@ -38,8 +38,12 @@ class UrlCacheMiddleware:
         return render
     
     def process_request(self, request):
-        # Only serve from cache on GET or HEAD requests
+        if (request.path.startswith('/admin/') or   
+           request.path.startswith(settings.MEDIA_URL)):
+            return None
+        
         if not request.method in ('GET', 'HEAD'):
+        # Only serve from cache on GET or HEAD requests
             request._url_cache_update_cache = False
             return None
         
@@ -61,7 +65,7 @@ class UrlCacheMiddleware:
             #
             # However, it is possible we are caching everything by adding a path = *
             # If so we will need to build the cache later on
-            if not request.path.startswith('/admin/'):
+            if not request.path.startswith('/admin/'):  
                 try:
                     cache_everything = UrlCache.objects.get(path='*')
                     request._url_cache_update_cache = True
@@ -83,9 +87,9 @@ class UrlCacheMiddleware:
 
     def process_response(self, request, response):
         response_content = response.content
-        if not request.path.startswith('/admin'):        
-            response.content = self._second_pass(request, response_content)
-                    
+        if request.path.startswith('/admin') or request.path.startswith(settings.MEDIA_URL):        
+            return response
+                
         # remove content between special tags
         response_content = REMOVE_COMMENTS.sub('', response_content)
         
@@ -93,6 +97,8 @@ class UrlCacheMiddleware:
         if not getattr(request, '_url_cache_update_cache', False):
             return response
         
+        response.content = self._second_pass(request, response_content)
+
         # Only cache GET responses
         if request.method != 'GET':
             return response
