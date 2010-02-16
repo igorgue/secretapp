@@ -66,6 +66,7 @@ class SearchForm(forms.Form):
         results_per_page = 500
         start_page = 1
         max_page_over = 5
+        default_sort = ''
     
     def __init__(self, GET=None, *args, **kwargs):
         # sort out data types
@@ -101,8 +102,13 @@ class SearchForm(forms.Form):
     
     def get_results(self, query):
         """ Connects to solr and actually runs sort """
+        if 'sort' in self.cleaned_data:
+            sort = self.cleaned_data['sort']
+        else:
+            sort = self.Meta.default_sort
+        
         results = solango.connection.select(q=query,
-                sort = self.cleaned_data.get('sort', ''),
+                sort = sort,
                 rows = self.Meta.results_per_page,
                 start = (self.start_page-1)*self.Meta.results_per_page,
                 )

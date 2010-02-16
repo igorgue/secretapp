@@ -93,7 +93,7 @@ var gmapFn ={
     showSecretsOnMap : function(mapData){
         //adds all the secrets on the map
         var infoTpl = "<b>xyzMrkTitle</b><p>xyzAdd1";
-        infoTpl +="<a href='#' onClick='Alert(\"go to id xyzPk\")'><br>More info</a></p>";//template for floating html
+        infoTpl +="<a href='$href$'><br>More info</a></p>";//template for floating html
         var mrkTmp = "";
         var i = 0;
 
@@ -102,6 +102,7 @@ var gmapFn ={
             mrkTmp = infoTpl.replace("xyzMrkTitle", mapData[i].title);
             mrkTmp = mrkTmp.replace("xyzMrkInfo",  mapData[i].Description);
             mrkTmp = mrkTmp.replace("xyzAdd1",  mapData[i].address);
+            mrkTmp = mrkTmp.replace("$href$", mapData[i].href);
 
             gmapFn.addMarker(mapData[i].lat, mapData[i].long, mrkTmp);
         }

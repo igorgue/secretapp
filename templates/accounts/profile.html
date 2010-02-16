@@ -32,7 +32,7 @@
 	
 	
 	{% if tabs.edit %}
-	<div id="proposals" class="content_line">
+	<div id="edit" class="content_line">
 		<div class="left_sidebar">
 			<p>Edit settings</p>
 		</div>
@@ -47,34 +47,49 @@
             {% endform %}
 		</div>
 		<div class="clear_left"></div>
-	</div><!-- END OF THE PROPOSALS-->
+	</div><!-- END OF THE Edit-->
 	{% endif %}
 	
-	
-	{# TODO: make this a list of discussions #}
-	{% with profile.discussions as proposals %}
-	<div id="proposals" class="content_line">
+	<div id="proposal" class="content_line">
 		<div class="left_sidebar">
 		    <a name="proposals"></a>
-			<p><span>{{profile.proposal_count}}</span> proposals</p>
-			<p class="side_agreements"><span>5</span> agree</p>
+			<p><span>{{profile.proposals|length}}</span> proposals</p>
 		</div>
 		<div class="right_content right_triangle">
-			<h3><a href="#">Best coffee shop in London?</a></h3>
-			<div class="proposal_holder">
-				<div class="proposal_content">
-					<p class="secret_missing_image">Photos to come</p>
-					<h3>Nordic Bakery</h3>
-					<p>Golden Square W1F</p>
-					<a class="pink_button" href="{{ 'hi' }}">View Details</a>
-					<div class="clear_left"></div>
-				</div>
-				<p><a href="#">Show all secrets proposed &raquo;</a></p>
-			</div>
+			&nbsp;
 		</div>
 		<div class="clear_left"></div>
-	</div><!-- END OF THE PROPOSALS-->
+	</div><!-- END OF THE PROPOSAL Header-->
+	
+	{# TODO: make this a list of discussions #}
+	{% with profile.proposals as proposals %}
+	    {% for proposal in proposals %}
+	    <div class="proposal_line">
+	    	<div class="left_sidebar left_triangle">
+	    		<p class="side_agreements"><span>{{proposal.agreement_count}}</span> agree</p>
+	    	</div>
+	    	{% with proposal.discussion_comment.discussion as discussion %}
+	    	<div class="right_content">
+	    		<h3><a href="{{discussion.get_absolute_url}}">{{discussion.title}}</a></h3>
+	    		<div class="proposal_holder">
+	    		    {% with proposal.secret as secret %}
+	    			<div class="proposal_content">
+	    				<p class="secret_missing_image">Photos to come</p>
+	    				<h3>{{ secret.title }}</h3>
+	    				<p>{{ secret.location }}</p>
+	    				<a class="pink_button" href="{{ secret.get_absolute_url }}">View Details</a>
+	    				<div class="clear_left"></div>
+	    			</div>
+	    			{% endwith %}
+	    			{#<p><a href="#">Show all secrets proposed &raquo;</a></p>#}
+	    		</div>
+	    	</div>
+	    	{% endwith %}
+	    	<div class="clear_left"></div>
+	    </div><!-- END OF THE PROPOSALS LOOP-->
+	    {% endfor %}
 	{% endwith %}
+	
 	{% with profile.secrets as secrets %}
 	{% if secrets %}
 	<div id="shares" class="content_line">
@@ -117,7 +132,6 @@
 	</div><!-- END OF THE DISCUSSIONS-->
 	{% endif %}
 	{% endwith %}
-	
 	{% with profile.favourites as favourites %}
 	{% if favourites %}
 	<div id="been_theres" class="content_line">

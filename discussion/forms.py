@@ -4,14 +4,16 @@ from perm.forms import UserContentForm
 from utilz.search import SearchForm
 from models import *
 
+SORT_ORDERS = (
+                ('created desc', 'Newest'),
+                ('updated asc', 'Activity'),
+                ('comments desc', 'Most Posts'),
+                ('secrets desc', 'Most Secrets'),
+            )
+
 class DiscussionSearchForm(SearchForm):
     # sort
-    sort    = forms.ChoiceField(choices=(
-                    ('created desc', 'Newest'),
-                    ('updated desc', 'Activity'),
-                    ('comments desc', 'Most Posts'),
-                    ('secrets desc', 'Most Secrets'),
-                ), required=False)
+    sort    = forms.ChoiceField(choices=SORT_ORDERS, required=False)
     
     # text searches
     title   = forms.CharField(required=False)
@@ -21,6 +23,7 @@ class DiscussionSearchForm(SearchForm):
         model = Discussion
         url_name = 'search_discussions'
         results_per_page = 20
+        default_search = SORT_ORDERS[0][0]
     
     def save(self):
         # build vars

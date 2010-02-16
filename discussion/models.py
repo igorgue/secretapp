@@ -13,7 +13,7 @@ class Discussion(UserContent):
     pinned      = models.BooleanField(default=False, help_text=_("Will remain at top of discussion board."))
     
     edit_permission = 'Seneschal'
-    comments_per_page = 20
+    comments_per_page = 5
     page = 1
     
     # PAGES
@@ -35,7 +35,7 @@ class Discussion(UserContent):
     @property
     def next_page(self):
         next = self.page + 1 
-        return next if next < self.pages else None
+        return next if next <= self.pages else None
     
     # COMMENTS
     def comments(self):
