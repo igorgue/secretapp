@@ -3,7 +3,7 @@ $(document).ready(function() {
 		$(this).click(function() {
 			var df = $(this).closest('.discussion_reply_form');
 			df.removeClass('comment').toggleClass('suggest');
-			if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
+			//if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
 			return false;
 		});
 	});
@@ -306,13 +306,14 @@ var secretListController = {
 	secret_count : 0,
 	
 	addSecret : function() {
+		this.collapseAllSecrets();
 		new_secret = this.secret_template;
 		new_secret = new_secret.replace(/__id__/g, this.secret_count);
 		this.parentElement.find('.secrets_list').append(new_secret);
 		new_secret = $('#secret-' + this.secret_count);
 		this.initSecret(new_secret, this.secret_count);
 		this.expandSecret(new_secret);
-		new_secret.find('.secret_name').focus();
+		//new_secret.find('.secret_name').focus();
 		this.secret_count++;
 		return new_secret;
 	},
