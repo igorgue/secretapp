@@ -1,0 +1,20 @@
+{% extends 'layout/base.html' %}
+{# inpage css #}
+{% block pagemedia %}<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />{% endblock %}
+	{% block bodytag %}id="hold_please"{% endblock %}
+{# welcome notice #}
+{% block headnotice %}
+<img src="{{MEDIA_URL}}/images/skyline.png" id="skyline" /><div id="home_header">
+    <p>Hi!</p>
+	<p>Thanks for visiting secretlondon.us. We’re whirring away to solve the last of the bugs. Please come back after dinner – or <a href="http://lifealike.wufoo.com/forms/secretlondon-the-website-coming-very-soon/">leave your e-mail address</a> and we’ll let you know as soon as we’re live.</p>
+	<p>The secretlondon team.</p>
+	<br class="clear_left" />
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <br class="clear_left" />
+    </ul>
+    <div class="clear_left"></div>
+</div>
+{% endblock %}

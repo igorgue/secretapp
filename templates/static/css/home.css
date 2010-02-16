@@ -262,3 +262,31 @@ h2 span.question
 	{
 		margin-top: 85px;
 	}
+
+
+
+
+
+	#hold_please p	
+		{
+			width: 820px;
+			font-size: 1.8em;
+			margin: -10px 0 0 0;
+			line-height: 1.6em;
+			text-align: center;
+			padding: 0 60px;
+		}
+
+	#hold_please a
+		{
+			margin-bottom: 20px;
+			color: yellow;
+			font-size: 1.8em;
+			text-transform: none;
+			font-weight: 400;
+		}
+	
+	#hold_please p#auth, #hold_please #big_footer, #hold_please #tabs, #hold_please #footer, #hold_please .pink_button, #hold_please p.beta
+		{
+			display: none;
+		}
