@@ -20,8 +20,9 @@
 #home_header p
 	{
 		padding: 0 10px;
+		margin: 20px 0;
 		line-height: 2em;
-		font-size: 1.5em;
+		font-size: 1.4em;
 		letter-spacing: 1px;
 		width: 415px;
 		float: left;
@@ -234,4 +235,31 @@ h1
 #discussion_line_proposal .proposal
 	{
 		padding-top: 12px;
+	}
+
+.left_sidebar .pink_button
+	{
+		width: 60px;
+		margin-left: 80px;
+	}
+
+h2
+	{
+		line-height: 15px;
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+h2 span.question
+	{
+		color: black;
+	}
+
+.left_triangle
+	{
+		background: transparent url('../images/left_white_triangle.png') 145px -9px no-repeat;
+	}
+.left_sidebar p.side_agreements
+	{
+		margin-top: 85px;
 	}

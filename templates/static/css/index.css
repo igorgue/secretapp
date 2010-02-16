@@ -125,10 +125,12 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 
 #tabs
 {
+	position: absolute;
 	list-style-type: none;
 	padding: 0;
 	margin: 20px 0 0 160px;
 	width: 760px;
+	z-index: 3000;
 }
 
 #tabs ul
@@ -190,7 +192,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 #tabs ul li.item a
 	{
 		display: block;
-		padding: 10px 20px 10px 25px;
+		padding: 10px 15px 10px 20px;
 		text-align: left;
 		border-top: 1px solid #595959;
 	}
@@ -207,11 +209,11 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 
 #drop_down
 	{
-		display: block;
-		position: absolute;
+		display: block;;
 		background: #404040;
-		margin-left: 20px;
-	}
+		margin-left: 0;
+		-webkit-box-shadow: 5px 5px 15px black;
+		-moz-box-shadow: 5px 5px 5px black;	}
 
 /*footer*/
 #big_footer .left_sidebar
@@ -348,7 +350,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 .page_header
 	{
 		width: 940px;
-		margin: 0;
+		margin: 48px 0 0 0;
 		padding: 0;
 		background: #7B7979;
 		-moz-border-radius-topleft: 10px;

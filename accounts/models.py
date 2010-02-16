@@ -65,6 +65,13 @@ def favourites(self):
     from secret.models import FavouriteSecret
     return __get_items(self, FavouriteSecret)
 
+@property
+def name(self):
+    return "%s %s" % (self.first_name, self.last_name)
+
+@property
+def alt_name(self):
+    return self.name
 
 def get_facebook(self):
     if not hasattr(self, '_facebook'):
@@ -102,6 +109,8 @@ __user_augments__ = (
     'get_settings',
     'get_facebook',
     'is_facebook',
+    'name',
+    'alt_name',
     
     'profile_image',
     'secrets',
@@ -109,6 +118,7 @@ __user_augments__ = (
     'discussions',
     'agreements',
     'favourites',
+    
 )
 
 User.get_settings = get_settings
