@@ -35,3 +35,22 @@ $.prototype.clickAction = function(){
 $(document).ready(function(){
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
 });
+
+/**
+ * Fill text box with prompt text in sensible way
+ */
+var configTextBoxPrompt = function(id, message) {
+	return function(el, ev) {
+		a = $(id);
+		if (!a) return;
+		if (!a.val()) {
+			a.val(message);
+			a.focus(function(b, ev2) {
+				if (a.val() == message) a.val('');
+			});
+			a.blur(function(b, ev2) {
+				if (a.val() == '') a.val(message);
+			});
+		}
+	}
+}
