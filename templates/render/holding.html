@@ -1,14 +1,51 @@
-{% extends 'layout/base.html' %}
-{# inpage css #}
-{% block pagemedia %}<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />{% endblock %}
-	{% block bodytag %}id="hold_please"{% endblock %}
-{# welcome notice #}
-{% block headnotice %}
-<img src="{{MEDIA_URL}}/images/skyline.png" id="skyline" /><div id="home_header">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+    
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+<title>Secret London</title>
+
+    
+        <link rel="stylesheet" type="text/css" href="http://media.secretlondon.us/css/index.css" />
+		<link rel="stylesheet" type="text/css" href="http://media.secretlondon.us/css/home.css" />
+
+</head>
+<body id="hold_please">
+    
+<div id="container">
+        
+<div id="header">
+	<div id="city_logo">
+		<a href="/" title="secretlondon"><img src="http://media.secretlondon.us/images/logo.png" alt="secret london" /></a>
+		<p class="beta"><img src="http://media.secretlondon.us/images/under-construction.png"></p>
+	</div>
+	
+	<p id="auth">
+		    
+			<img src="http://static.ak.connect.facebook.com/pics/t_silhouette.gif" width="20" height="20" /> 
+			    <small>
+	                
+	                Visitor
+	                <a href="admin/"></a>
+	                <a href="accounts/profile/"></a>
+	                <a href="accounts/logout/"></a>
+	            </small>
+			
+	</p>
+	
+	<div class="clear_left"></div>
+	<a href="#" id="share_secret_button" class="pink_button">Share Secret</a>
+	<br class="clear_both" />
+</div> <!--END OF THE HEADER-->
+        
+<img src="http://media.secretlondon.us/images/skyline.png" id="skyline" /><div id="home_header">
     <p>Hi!</p>
 	<p>Thanks for visiting secretlondon.us. We’re whirring away to solve the last of the bugs. Please come back after dinner – or <a href="http://lifealike.wufoo.com/forms/secretlondon-the-website-coming-very-soon/">leave your e-mail address</a> and we’ll let you know as soon as we’re live.</p>
 	<p>The secretlondon team.</p>
-	<br class="clear_left" />
+    <br class="clear_left" />
     <ul>
         <li></li>
         <li></li>
@@ -16,5 +53,9 @@
         <br class="clear_left" />
     </ul>
     <div class="clear_left"></div>
-</div>
-{% endblock %}
+	</div>
+
+
+</div><!-- end of div id=container -->
+</body>
+</html>
