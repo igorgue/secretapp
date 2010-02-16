@@ -115,6 +115,12 @@
 		</div>
 	</div>
 	<div id="right_column">
+		{% for discussion in discussions %}
+		    <p>{{discussion.title}}</p>
+		    {% for comment in discussion.comments %}
+		    	<p> + {{comment.short_text}} </p>
+		    {% endfor %}
+		{% endfor %}
 		<p>Some stuff happened</p>
 		<p>Some stuff happened</p>
 		<p>Some stuff happened</p>
