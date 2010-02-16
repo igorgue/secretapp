@@ -21,7 +21,7 @@ def search(request):
     
     # 
     template_map_numbers = {
-        'location': 500,
+        'location': 50,
         'list': 10,
         'photo': 20,
     }
