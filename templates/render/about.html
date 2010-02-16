@@ -1,7 +1,43 @@
 {% extends 'layout/base.html' %}
+{% block pagemedia %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />
+{% endblock %}
+
+	{% block bodytag %}id="about_page"{% endblock %}
 
 {% block content %}
 
+<div class="page_header">
+	<div id="page_title" class="left_sidebar">
+		About
+	</div>
+	<div class="right_content top_content">
+	 	secretlondon exists to inspire Londoners by sharing the secrets of the city. London is brimming with undiscovered gems and we want to know about it.
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE PAGE HEADER-->	
 
+<div class="content_line">
+	<div class="left_sidebar">
+		<ul class="info-links">
+			<li><a href="{% url render_template template="about" %}">About</a></li>
+			<li><a href="{% url render_template template="team" %}">Team</a></li>
+			<li><a href="{% url render_template template="credits" %}">Credits</a></li>
+			<li><a href="http://somesortofblog.somewhere">Blog</a></li>
+			<li><a href="{% url render_template template="terms" %}">Terms of use</a></li>
+			<li><a href="{% url render_template template="privacy" %}">Privacy Policy</a></li>
+			<li><a href="http://twitter.com/secret_london">Twitter</a></li>
+		</ul>
+	</div>
+	<div class="right_content page_content">
+			<h6>About</h6>
+
+			<p>The Secret London Facebook Group was created on 19 January 2010 by Tiffany Philippou. Within two weeks over 150,000 people had joined to share and discover London's secrets.</p>
+			<p>With the goal of building a website to make the mountains of submitted content easier to find and share, a pizza-fuelled [[community of volunteers][/credits/] gathered over Valentine’s weekend. Supported by [[another London start-up][www.onefinestay.com]], they worked day and night to create secretlondon.us.</p>
+			<p>On the site you can browse and post discussions, photos and profiles of London’s secrets and the people who share them to explore London and learn about others’ experiences.</p>
+			<p>Ask for recommendations and inspire others. Secrets suggested and suggestions you make that others agree with are added to your profile. What secrets will be discovered? Who will emerge as the unknown gurus of London life?</p>
+	</div>
+	<div class="clear_left"></div>
+</div>
 
 {% endblock %}
