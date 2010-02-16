@@ -30,9 +30,13 @@ class UrlCacheMiddleware:
     set the path in the request.session['URL_CACHE_EXCEPTIONS'] list
     """
     def process_request(self, request):
-        # Only serve from cache on GET or HEAD requests with no query string
+        # Only serve from cache on GET or HEAD requests
         if not request.method in ('GET', 'HEAD'):
             request._url_cache_update_cache = False
+            return None
+        
+        # Only serve if no query string
+        if request.GET:
             return None
 
         # Check for any custom exceptions set in the sessions 
