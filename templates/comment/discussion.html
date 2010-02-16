@@ -4,7 +4,7 @@
 		<img src="{{u.profile_image.small}}" alt="{{u.first_name}} {{u.last_name}}" />
 	</div>
 	<div class="right_content right_triangle">
-		<p class="date_added">{{comment.created_at}}<br /><a href="#">Report</a></p>
+		<p class="date_added">{{comment.created_at|date:"j M Y G:i"}}<br /><a href="#">Report</a></p>
 		<h3>{{u.first_name}} {{u.last_name}} <span class="plain">wrote:<span></h3>
 		<p>{{comment.text}}</p>
 	</div>

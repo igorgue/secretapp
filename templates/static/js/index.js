@@ -34,6 +34,10 @@ $.prototype.clickAction = function(){
 
 $(document).ready(function(){
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
+	$('#top_reply_button').click(function() {
+		$('#add_discussion').slideToggle('slow', function() {});
+		$(self).height('220px');	
+	});
 });
 
 /**
@@ -52,3 +56,5 @@ var configTextBoxPrompt = function(id, message) {
 		});
 	}
 }
+
+

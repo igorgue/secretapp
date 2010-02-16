@@ -13,7 +13,7 @@
 		</div>
 		<div class="right_content top_content">
 			<div id="user_details">
-				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>{# DATE #}Joined 12 days ago</p>
+				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>Joined {{profile.date_joined|date:"j M Y G:i"}}</p>
 				{% if tabs.edit %}<a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}
 				{# DATE TIME #}
 				<a href="#proposals" class="first">Proposals (2)</a>
@@ -66,7 +66,7 @@
 					<p class="secret_missing_image">&#43; Add a photo</p>
 					<h3>Nordic Bakery</h3>
 					<p>Golden Square W1F</p>
-					<a class="pink_button" href="secret.html">View Details</a>
+					<a class="pink_button" href="{{ 'hi' }}">View Details</a>
 					<div class="clear_left"></div>
 				</div>
 				<p><a href="#">Show all secrets proposed &raquo;</a></p>

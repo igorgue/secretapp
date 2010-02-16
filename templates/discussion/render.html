@@ -4,10 +4,10 @@
 	</div>
 	<div class="right_content right_triangle">
 	    {% with discussion.lastest_comment as comment %}
-		<p class="date_added">Latest post by {% with comment.creator as u %}<a href="{{u.get_absolute_url}}">{{u.first_name}} {{u.last_name}}</a>{% endwith %}<br />posted {{comment.created_at}} minutes ago</p>
+		<p class="date_added">Latest post by {% with comment.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %}<br />posted {{comment.created_at|date:"j M Y G:i"}}</p>
 		<a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
 		{% endwith %}
-		<p class="discussion_stats">{{ discussion.comment_count }} posts, {{discussion.proposal_count}} secrets - created {{discussion.created_at}} hours ago.</p>
+		<p class="discussion_stats">created {{discussion.created_at|date:"j M Y G:i"}}</p>
 	</div>
 	<div class="clear_left"></div>
 </div><!-- END OF THE FIRST DISCUSSION LINE-->

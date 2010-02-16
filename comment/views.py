@@ -18,6 +18,8 @@ def create_secret_comment(request, secret_id):
             instance = form.save(request, commit=False)
             instance.secret = secret
             instance.save()
+            # search save hook on secret
+            secret.save()
             
             # if successful
             if request.is_ajax():
@@ -53,6 +55,8 @@ def create_discussion_comment(request, discussion_id):
         if form.is_valid():
             # see formModel for logic
             instance = form.save(request, discussion)
+            # search save hook
+            discussion.save()
             
             # if successful just show discussion comment inline
             if request.is_ajax():
@@ -84,6 +88,9 @@ def create_proposal_comment(request, proposal_id):
             instance = form.save(request, commit=False)
             instance.proposal = proposal
             instance.save()
+            # search save hooks
+            proposal.secret.save()
+            proposal.discussion.save()
             
             # if successful return comment as list inline
             if request.is_ajax():

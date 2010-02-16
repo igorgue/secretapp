@@ -10,10 +10,13 @@
 		Filter
 	</p>
 	<div class="right_content top_content">
-		<a href="{% url new_discussion %}" id="top_reply_button">New Discussion</a>
+		<a href="#" id="top_reply_button">New Discussion</a>
 		{% form search_form %}
 			<label>Show only discussions about: </label>{{ search_form.title }}
+		    <div style="float:left;margin:5px;">{{ search_form.sort }}</div>
+		
 		{% endform 'Go' 'pink_button' %}
+		
 		<div class="clear_left"></div>
 	    
 	    <div id="add_discussion">
@@ -26,6 +29,8 @@
 		</div>
 			<div class="clear_left"></div>
 		{% include 'layout/pages.html' %}
+		
+		
 	</div>
 	<div class="clear_left"></div>
 </div><!-- END OF THE DISCUSSIONS HEADER id=page headeric-->

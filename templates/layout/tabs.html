@@ -1,6 +1,6 @@
 <div id="tabs">
 	<ul {% if tabs.home %}class="highlight"{% endif %}><li><a href="/" title="Home">Home</a></li></ul>
-	<ul {% if tabs.discussions %}class="highlight"{% endif %}><li><a href="{% url search_discussions %}" title="Showing Discussions">Discussion</a></li></ul>
+	<ul {% if tabs.discussions %}class="highlight"{% endif %}><li><a href="{% url search_discussions %}" title="Showing Discussions">Discussions</a></li></ul>
 	<ul {% if tabs.secrets %}class="highlight"{% endif %}><li><a href="{% url search_secrets %}">Secrets</a></li>
 			<span id="drop_down">
 				<li class="item"><a href="{% url search_secrets %}?template=photo">Photos<img src="{{MEDIA_URL}}/images/photo_small_black.png" /></a></li>
