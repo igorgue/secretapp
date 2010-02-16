@@ -33,7 +33,6 @@ def edit(request):
         if form.is_valid():
             settings = form.save(commit=True)
             successful = True
-            update_agument_session(request)
     else:
         form = UserSettingsForm(instance=settings)
     
