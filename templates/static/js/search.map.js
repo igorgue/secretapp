@@ -247,7 +247,7 @@ var fetch = {
         $.ajax({
             url: cfg.ajaxUrl,
             data : search_data,
-            cache: false, 
+            cache: true, 
             success: function(data) {
                 var info = eval(data)
                 gmapFn.showSecretsOnMap(info);
@@ -393,8 +393,7 @@ $(document).ready(function() {
         gmapFn.init();
         // add markers to the map
             //get data
-        var mapData = fetch.getSecretsMap(0, 0, 0);
-        gmapFn.showSecretsOnMap(mapData);
+        gmapFn.addSecretsToMap();
     }
 
 })
