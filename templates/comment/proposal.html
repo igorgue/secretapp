@@ -28,14 +28,17 @@
             {# secret comments #}
 			<div class="proposal_comments">
 				
-				
+				{% if user.is_authenticated %}
 				    {% with proposal.comment_form as form %}
 				        {% form form %}
 				            {% field form.text %}
 				        {% endform '&#43; add comment' 'pink_button' %}
 					<br class="clear_left" />
 				    {% endwith %}
-				
+				{% else %}
+				<br />
+				<br class="clear_left" />
+				{% endif %}
 				{% with proposal.comments as pcs %}
         		{% if pcs %}
 				<p class="comment_summary">{{pcs|length}} comments in this discussion. {{proposal.comment_count}} comments in total. {#<a href="#">View all Comments</a></p>#}
