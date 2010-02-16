@@ -5,5 +5,6 @@
 environment.py
 pip-log.txt
 fabfile.py
+cache/
 sysadmin/*
 *._*

@@ -26,6 +26,19 @@
 	display: none;
 	background-color: #7B7979;
 	padding: 8px 10px;
+	position: absolute;
+	width: 700px;
+	margin-right: 220px;
+	z-index: 3000;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	
 }
 
 .discussion_reply_form.suggest .discussion_reply_form_body,
@@ -51,7 +64,9 @@
 }			
 
 .discussion_reply_form h4 {
-	margin: 0 0 4px;
+	margin: 3px 0 4px;
+	font-weight: 400;
+	text-transform: uppercase;
 }
 
 .discussion_reply_form label {
@@ -106,8 +121,8 @@
 	display: block;
 }
 .discussion_reply_form .map_canvas_small_placeholder {
-	background-color: #333;
-	border: 1px solid #ccc;
+	background: black url('../images/3d_white_keyhole.png') 25px 15px no-repeat;
+	border: 1px dashed #494949;
 }
 .map_canvas_small span,
 .map_canvas_small a {
@@ -136,6 +151,15 @@
 	color: #fff;	
 }
 .discussion_reply_form .secrets_list li.secret.expanded {
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	padding: 10px;
 	padding-left: 105px;
 }
 .discussion_reply_form .map {
@@ -144,7 +168,7 @@
 .discussion_reply_form .secrets_list .delete_button {
 	position:absolute;
 	right:10px;
-	top:-5px;
+	top: 5px;
 }
 
 .discussion_reply_form .secrets_list .edit {
@@ -165,3 +189,33 @@
 .discussion_reply_form .secrets_list .static .location {
 	display: block;
 }
+
+
+.discussion_reply_form .suggest_secret label
+	{
+		display: none;
+	}
+
+.suggest_secret .pink_button
+	{
+		width: 100px;
+		padding: 5px 0;
+	}
+
+.secret_name, .secret_location
+	{
+		width: 180px;
+		margin-bottom: 8px;
+	}
+
+a.add_secret
+	{
+		color: white;
+		font-weight: 400;
+	}
+
+.comment label
+	{
+		text-transform: uppercase;
+		color: black;
+	}

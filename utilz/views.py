@@ -4,52 +4,38 @@ from django.http import HttpResponseRedirect, Http404
 from django.contrib.contenttypes.models import ContentType
 from secret.models import Secret
 from discussion.models import Discussion
-from comment.models import DiscussionComment
+from comment.models import DiscussionComment, Proposal
 from shortcuts import context_response
-
+import datetime
+import random
 
 def random_secret(request):
     " Redirects you to a random secret "
-    import random
-    # TODO: cache this
-    ids = Secret.viewable.values_list('id', flat=True)
-    choice = random.choice(ids)
-    return HttpResponseRedirect(Secret.objects.get(pk=choice).get_absolute_url())
-
-
-def stats(request):
-    " Redirects you to a random secret "
-    context = {}
-    try:
-        context['discussion_count'] = Discussion.viewable.count()
-        context['latest_discussion'] = Discussion.viewable.latest('created_at')
-    except:
-        pass
-    try:
-        context['secret_count'] =  Secret.viewable.count()
-        context['latest_secret'] =  Secret.viewable.latest('created_at')
-    except:
-        pass
-    try:
-        context['comment_count'] =  DiscussionComment.viewable.count()
-        context['latest_comment'] =  DiscussionComment.viewable.latest('created_at')
-    except:
-        pass
-    try:
-        context['user_count'] =  User.objects.count()
-        context['latest_user'] =  User.objects.latest('pk')
-    except:
-        pass
-    return context_response(request, 'utilz/stats.html', context)
-
+    return HttpResponseRedirect(Secret.viewable.order_by('?')[0].get_absolute_url())
 
 
 def home(request):
     " Landing page to site. Much more to come... "
+    START_DATE = datetime.datetime(2010,02,16)
+    NOW = datetime.datetime.now()
+    
+    ids = Proposal.viewable.values_list('id', flat=True)
+    choice = random.choice(ids)
+    
     # TODO: cache this and randomize
     context = {
-        'secrets': Secret.viewable.all().order_by('-created_at'),
+        'featured': Proposal.objects.filter(discussion_comment__deleted=False, secret__deleted=False).order_by('?')[0],
+        'secrets': Secret.viewable.order_by('-created_at')[:6],
         'discussions': Discussion.viewable.all().order_by('-created_at'),
+        #'photos'
+        'users': User.objects.order_by('-last_login')[:4],
+        'count' : {
+            'users': User.objects.count(),
+            'discussions': Discussion.viewable.count(),
+            'secrets': Secret.viewable.count(),
+            'posts': DiscussionComment.viewable.count(),
+            'days': (NOW - START_DATE).days,
+        }
     }
     return context_response(request, 'utilz/home.html', context, tabs=['home'])
 

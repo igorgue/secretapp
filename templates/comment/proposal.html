@@ -12,20 +12,23 @@
 		    {# secret itself #}
 			<div class="proposal_content">
 				<p class="secret_missing_image">&#43; Add a photo</p>
-				<h3>{{secret.title}}</h3>
-				<p>{{secret.location|default:""}}</p>
+				<span class="secret_details">
+					<h3>{{secret.title}}</h3>
+					<p>{{secret.location|default:""}}</p>
+				</span>
 				<a class="pink_button" href="{{secret.get_absolute_url}}">View Details</a>
 				<div class="clear_left"></div>
 			</div>
             
             {# secret comments #}
 			<div class="proposal_comments">
-				<a href="#" class="pink_button">Add a Comment</a>
+				
 				
 				    {% with proposal.comment_form as form %}
 				        {% form form %}
 				            {% field form.text %}
-				        {% endform %}
+				        {% endform '&#43; add comment' 'pink_button' %}
+					<br class="clear_left" />
 				    {% endwith %}
 				
 				{% with proposal.comments as pcs %}
@@ -34,7 +37,7 @@
 				<div class="clear_right"></div>
 				{% for pc in pcs %}
 				    {% with pc.created_by as u %}
-				        <p {% if forloop.last %}class="last"{% endif %}><span class="highlight">{{u.first_name}} {{u.last_name}}</span> {{pc.text}} <span class="comment_posted_time">12 hours ago</span></p><span class="report highlight">Report</span>
+				        <p {% if forloop.last %}class="last"{% endif %}><span class="highlight">{{u.first_name}} {{u.last_name}}</span> {{pc.text}} <span class="comment_posted_time">12 hours ago</span></p><a href="{{pc.get_flagspam_url}}" class="report highlight">Report</a>
 			        {% endwith %}
 			    {% endfor %}
 			    {% endif %}

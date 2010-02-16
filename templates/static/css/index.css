@@ -53,8 +53,7 @@ h1, h2, h3, h4, h5, h6 {position:relative;}
 
 /*FORMS*/
 form label {display:block; float:left; margin:2px 2% 6px 0px; color:#404040;}
-form input, textarea {display:block; float:left; margin-bottom:6px; padding:4px; border:1px solid #595959; font-family:Arial, Helvetica, sans-serif; font-size:84%;}
-form input.hidden {display: none;}
+form input[type="text"], textarea {display:block; float:left; margin-bottom:6px; padding:4px; border:1px solid #595959; font-family:Arial, Helvetica, sans-serif; font-size:120%;}	
 
 /*=2. CORE *************************************************************/
 
@@ -102,7 +101,7 @@ form input.hidden {display: none;}
 #header p#auth a:first-child
 	{
 		border-right: 1px solid white;
-		padding: 0 5px;
+		padding: 10px 5px 0 5px;
 	}
 /*search*/
 #search
@@ -123,7 +122,8 @@ form input.hidden {display: none;}
 		margin-left: 120px;
 	}
 /*nav*/
-ul#tabs
+
+#tabs
 {
 	list-style-type: none;
 	padding: 0;
@@ -131,16 +131,18 @@ ul#tabs
 	width: 760px;
 }
 
-ul#tabs li
+#tabs ul
 	{
 		float: left;
-		/*background: black url('../images/dark_grad_top.gif') 0 0 repeat-x;*/
 		background: black;
-		margin-top: 4px;
+		margin: 4px 0 0 0;
 		padding-top: 1px;
+		text-align: center;
+		padding-left: 0;
+		list-style-type: none;
 	}
 
-ul#tabs li.highlight
+#tabs ul.highlight
 	{
 		margin-top: 0;
 		background: white url('../images/light_grad_bottom.gif') 0 0 repeat-x;
@@ -150,12 +152,13 @@ ul#tabs li.highlight
 		-webkit-border-top-right-radius: 5px;
 	}
 
-ul#tabs li#share_secret
+#tabs ul.highlight a
 	{
-		float: right;
+		color: #333;
+		padding-top: 12px;
 	}
 
-ul#tabs a, ul#tabs p
+#tabs a, #tabs p, #tabs ul li.item a
 	{
 		top: 5px;
 		display: block;
@@ -168,22 +171,52 @@ ul#tabs a, ul#tabs p
 		margin: 0;
 	}
 
-ul#tabs p
+#tabs p
 	{
-		width: 280px;
+		width: 250px;
 		height: 11px;
 	}
 
-ul#tabs li.highlight a
+#tabs img
 	{
-		color: #333;
-		padding-top: 12px;
+		display: none;
 	}
+
+#tabs ul .item
+	{
+		display: none;
+	}
+
+#tabs ul li.item a
+	{
+		display: block;
+		padding: 10px 20px 10px 25px;
+		text-align: left;
+		border-top: 1px solid #595959;
+	}
+
+#tabs ul:hover .item
+	{
+		display: block;
+	}
+
+#tabs ul li.item a:hover
+	{
+		background: #595959;
+	}
+
+#drop_down
+	{
+		display: block;
+		position: absolute;
+		background: #404040;
+		margin-left: 20px;
+	}
+
 /*footer*/
 #big_footer .left_sidebar
 	{
 		display: block;
-		color: #aaa;
 		padding-top: 13px;
 		padding-bottom: 60px;
 		text-transform: uppercase;
@@ -191,6 +224,7 @@ ul#tabs li.highlight a
 		margin: 0;
 		text-align: right;
 		height: 61px;
+		background: transparent url('../images/left_black_triangle.png') 145px 5px no-repeat;
 	}
 #big_footer
 	{
@@ -395,12 +429,32 @@ div.right_content p.date_added
 	{
 		float: right;
 		color: #595959;
-		margin-right: 20px;
+		margin-right: 0px;
 		margin-top: -5px;
 		padding-top: 0;
 		width: 300px;
 		text-align: right;
 		line-height: 17px;
+	}
+
+a.rewritten
+	{
+		text-transform: lowercase;
+		font-size: 0.8em;
+	}
+
+p.moderated
+	{
+		float: right;
+		margin-top: -10px;
+		text-align: right;
+		font-size: 0.8em;
+		color: #666;
+	}
+
+p.date_added span.repeat
+	{
+		margin-right: 15px;
 	}
 	
 .content_line, .proposal_line
@@ -579,6 +633,8 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 	{
 		background: #404040 url('../images/secret_shaded_bg.png') 0 0 no-repeat;
 		width: 300px;
+		min-height: 94px;
+		padding: 10px 0;
 		-webkit-box-shadow: 5px 5px 15px #666;
 		-moz-box-shadow: 5px 5px 15px #666;
 		-moz-border-radius-topright: 5px;
@@ -600,14 +656,16 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 
 .proposal_content h3
 	{
-		padding: 15px 0 0 0;
+		padding: 5px 0 0 0;
 		margin: 0 0 0 120px;
+		width: 160px;
 	}
 
 .proposal_content p
 	{
 		color: white;
-		margin-left: 120px;
+		margin: 0 0 0 120px;
+		width: 160px;
 	}
 
 .proposal_content h3 span
@@ -628,6 +686,27 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 		text-align: left;
 		width: 480px;
 		float: left;
+	}
+
+.proposal_comments form
+	{
+		margin-top: 10px;
+	}
+
+.proposal_comments form input[type="text"]
+	{
+		width: 300px;
+		margin-right: 10px;
+	}
+
+.proposal_comments form input[type="submit"]
+	{
+		margin-top: 15px;
+	}
+
+.proposal_comments label
+	{
+		display: none;
 	}
 
 .proposal_comments p.last
@@ -667,14 +746,38 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 		width: 100px;
 		padding: 7px;
 		float: right;
-		margin-top: -10px;
+		margin-top: -25px;
+	}
+
+.proposal_content .secret_details
+	{
+		display: block;
+		height: 65px;
+	}	
+#secret_details a
+	{
+		margin: 0 5px 0 0;
+		border-left: 1px solid #ed1849;
+		padding-left: 5px;
+	}
+
+#secret_details a:first-child
+	{
+		border: none;
+		padding-left: 0;
+	}
+
+#secret_details p.first
+	{
+		border-bottom: 1px solid #d9d9d9;
+		padding-bottom: 5px;
+		width: 530px;
 	}
 
 a.discussion_title
 	{
 		text-decoration: none;
 		font-size: 1.4em;
-		line-height: 1em;
 	}
 
 div.right_content p.discussion_stats
@@ -778,7 +881,49 @@ span.highlight
 		margin: 0 2px;
 	}
 
+.rewritten_explaination
+	{
+		display: block;
+		position: relative;
+		margin-top: -140px;
+		background: rgba(255,255,255,0.9);
+		color: #404040;
+		text-align: center;
+		font-size: 1em;
+		padding: 0 10px 18px 10px;
+		line-height: 1.2em;
+		border: 4px solid black;
+		-moz-border-radius-topright: 5px;
+		-webkit-border-top-right-radius: 5px;
+		-moz-border-radius-topleft: 5px;
+		-webkit-border-top-left-radius: 5px;
+		-moz-border-radius-bottomright: 5px;
+		-webkit-border-bottom-right-radius: 5px;
+		-moz-border-radius-bottomleft: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+	}
 
+.rewritten_explaination a.close_explaination
+	{
+		text-align: center;
+		padding: 6px 15px 4px 15px;
+		border: 2px solid #ed1849;
+		font-weight: 400;
+		background: #f2f2f2;
+		margin: 5px 0;
+	}
+
+.secret_details, div.right_content .secret_details p
+	{
+		width: 160px;
+		line-height: 14px;
+	}
+
+.auth img
+	{
+		margin-top: 40px;
+	}
+	
 /*=4 PAGE SPECIFICS *************************************************************/
 /**id's on body - classes on outer div - or something??*/
 #home {}

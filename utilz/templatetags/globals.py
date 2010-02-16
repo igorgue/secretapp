@@ -5,7 +5,7 @@ register = template.Library()
 
 
 @register.inclusion_tag('templatetags/forms/form.html')
-def form(form):
+def form(form, id=None):
     """
     Shortcut to initialize a standard form.
     Implements Meta data stored on form instance, applies in forms.py
@@ -18,7 +18,7 @@ def form(form):
             url = 'some/url/to/'
             method = 'GET'
     """
-    return { 'form': form }
+    return { 'form': form, 'id': id }
 
 
 @register.inclusion_tag('templatetags/forms/field.html')

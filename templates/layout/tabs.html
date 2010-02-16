@@ -1,10 +1,16 @@
-<ul id="tabs">
-	<li {% if tabs.home %}class="highlight"{% endif %}><a href="{% url home %}" title="Home">Home</a></li>
-	<li {% if tabs.discussions %}class="highlight"{% endif %}><a href="{% url search_discussions %}" title="Showing Discussions">Discussions</a></li>
-	<li {% if tabs.secrets %}class="highlight"{% endif %}><a href="{% url search_secrets %}" title="Photos">Secrets</a></li>
+<div id="tabs">
+	<ul {% if tabs.home %}class="highlight"{% endif %}><li><a href="/" title="Home">Home</a></li></ul>
+	<ul {% if tabs.discussions %}class="highlight"{% endif %}><li><a href="{% url search_discussions %}" title="Showing Discussions">Discussion</a></li></ul>
+	<ul {% if tabs.secrets %}class="highlight"{% endif %}><li><a href="{% url search_secrets %}">Secrets</a></li>
+			<span id="drop_down">
+				<li class="item"><a href="{% url search_secrets %}?template=photo">Photos<img src="media/images/photo_small_black.png" /></a></li>
+				<li class="item"><a href="{% url search_secrets %}?template=location">On a map<img src="media/images/map_small_black.png" /></a></li>
+				<li class="item"><a href="{% url search_secrets %}?template=list">As a list<img src="media/images/list_small_black.png" /></a></li>
+			</span>
+	</ul>
 	{% if user.is_authenticated %}
-	<li {% if tabs.profile %}class="highlight"{% endif %}><a href="{% url edit_profile %}" title="User Profile">Profile</a></li>
+		<ul {% if tabs.profile %}class="highlight"{% endif %}><li><a href="{% url edit_profile %}" title="Profile">Profile</a></li></ul>
 	{% endif %}
-	<li><p id="top_filler"></p></li>
-	<div class="clear_left"></div>
-</ul> <!-- END OF THE TABS -->
+	<ul><p id="top_filler"></p></ul>
+	<br class="clear_left" />
+</div><!-- END OF THE TABS -->
