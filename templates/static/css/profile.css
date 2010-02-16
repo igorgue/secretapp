@@ -114,4 +114,5 @@ h3 a
 #proposal .left_triangle {background: transparent url('../images/left_white_triangle.png') 145px -9px no-repeat;}
 #proposal .right_triangle {background: white url('../images/right_grey_triangle.png') 0 -90px no-repeat;}
 .proposal_line .right_content {padding-top: 0;}
+.proposal_line .left_triangle {background: transparent url('../images/left_white_triangle.png') 145px -40px no-repeat;}
 .left_sidebar p.side_arguements {margin-top: 80px;}

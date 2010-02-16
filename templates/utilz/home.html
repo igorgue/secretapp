@@ -69,7 +69,7 @@
             <div class="center_content">
                 {% for u in users %}
                 <div class="visitor_holder">
-                    <img src="{{u.profile_image.small}}" />
+                    <img {% if u.profile_image.small %}src="{{u.profile_image.small}}"{% endif %} />
                     <p class="name"><a href="{{u.get_absolute_url}}">{{u.first_name}} {{u.last_name}}</a></p>
                     <p class="stats"><span>{{u.secret_count|default:'No '}}</span>Secrets</p>
                     <p class="stats"><span>{{u.agreement_count|default:'No '}}</span>Agrees</p>

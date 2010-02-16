@@ -1,37 +1,67 @@
-{% load noproc %}
-
 <div id="header">
-	<div id="city_logo">
-		<a href="{% url home %}" title="secretlondon"><img src="{{MEDIA_URL}}/images/logo.png" alt="secret london" /></a>
-		<p class="beta"><img src="{{MEDIA_URL}}/images/under-construction.png"></p>
-	</div>
-	
-	<p id="auth">
-		    {% if user.is_authenticated %}
-			{% if user.profile_image.small %}<img src="{{user.profile_image.small}}" width="20" height="20" />{% endif %} 
-			    <small>
-	                {{user.first_name}}
-	                {{MEMBER_LEVEL}}
-	                {% if user.is_superuser %}<a href="/admin/">Admin</a>{% endif %}
-	                <a href="{% url edit_profile %}">Profile</a>
-	                <a href="{% url socialauth_social_logout %}">Logout</a>
-	            </small>
-			{% else %}
+
+  <div id="city_logo">
+
+    <a href="{% url home %}" title="secretlondon"><img src="{{MEDIA_URL}}/images/logo.png" alt="secret london" /></a>
+
+    <p class="beta"><img src="{{MEDIA_URL}}/images/under-construction.png"></p>
+
+  </div>
+
+  
+
+  <p id="auth">
+
+        {% if user.is_authenticated %}
+
+      {% if user.profile_image.small %}<img src="{{user.profile_image.small}}" width="20" height="20" />{% endif %} 
+
+          <small>
+
+                  {{user.first_name}}
+
+                  {{MEMBER_LEVEL}}
+
+                  {% if user.is_superuser %}<a href="/admin/">Admin</a>{% endif %}
+
+                  <a href="{% url edit_profile %}">Profile</a>
+
+                  <a href="{% url socialauth_social_logout %}">Logout</a>
+
+              </small>
+
+      {% else %}
+
 <!-- FUNKY FB JS WORKAROUND BY ANDY TO FIX LOGIN IN WEBKIT WHEN USER IS ALREADY LOGGED IN TO FB -->
+
 <a href="#" onclick="if ($.browser.webkit || $.browser.safari) { FB.Connect.logout(function(){FB.Connect.requireSession(facebook_onlogin);return false;}); } else { FB.Connect.requireSession(facebook_onlogin); }; return false;">
+
     <img id="RES_ID_fb_login_image" src="http://static.ak.fbcdn.net/rsrc.php/zA114/hash/7e3mp7ee.gif" alt="Connect">
+
 </a>
-			<script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
-			{% endif %}
-	</p>
-	{% comment %}
-	<form id="search" >
-		<input type="search" name="search_paramater" /><input type="image" src="{{MEDIA_URL}}/images/search.png" id="search_sumbit" />
-	</form>
-	{% endcomment %}
-	<div class="clear_left"></div>
-	<a href="{% url new_secret %}" id="share_secret_button" class="pink_button">Share Secret</a>
-	
-	
-	<br class="clear_both" />
+
+      <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
+
+      {% endif %}
+
+  </p>
+
+  {% comment %}
+
+  <form id="search" >
+
+    <input type="search" name="search_paramater" /><input type="image" src="{{MEDIA_URL}}/images/search.png" id="search_sumbit" />
+
+  </form>
+
+  {% endcomment %}
+
+  <div class="clear_left"></div>
+
+  <a href="{% url new_secret %}" id="share_secret_button" class="pink_button">Share Secret</a>
+
+  
+
+  <br class="clear_both" />
+
 </div> <!--END OF THE HEADER-->
