@@ -505,9 +505,9 @@ p.date_added span.repeat
 .pink_button
 	{
 		border: 0;
-		padding: 5px 5px;
+		padding: 5px 10px;
 		cursor: pointer;
-		margin: 0 5px;
+		margin: 3px 5px 0 5px;
 		border: 1px solid #595959;
 		/*background: #ed1849 url('../images/pink_shading.png') -10px -10px no-repeat;*/
 		background: #ed1849;
@@ -586,8 +586,8 @@ a.pink_button
 
 .left_sidebar .pink_button
 	{
-		margin-left: 80px;
-		width: 50px;
+		margin-left: 70px;
+		width: 80px;
 	}
 
 /*pagination*/
@@ -659,8 +659,12 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 .proposal_content h3
 	{
 		padding: 5px 0 0 0;
-		margin: 0 0 0 120px;
+		margin: 0 0 3px 120px;
 		width: 160px;
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 1.2em;
+		color: white;
 	}
 
 .proposal_content p
