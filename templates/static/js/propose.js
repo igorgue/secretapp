@@ -399,7 +399,7 @@ var secretListController = {
 				});
 			});
 		}
-		$.post('/discussion/{{discussion.pk}}/comment/', {text: this.parentElement.find('textarea.comment').val(), secrets: secrets.join(',')}, function(data) { location.reload(); });
+		$.post('/discussion/'+DISCUSSION_ID+'/comment/', {text: this.parentElement.find('textarea.comment').val(), secrets: secrets.join(',')}, function(data) { location.reload(); });
 		return false;
 	}
 };
