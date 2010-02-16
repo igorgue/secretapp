@@ -112,6 +112,7 @@ MIDDLEWARE_CLASSES = (
     'perm.middleware.PermissionUserMiddleware',
     # makes ajax responses pretty
     'utilz.middleware.AjaxExceptionResponse',
+    'bakery.middleware.UrlCacheMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -151,6 +152,7 @@ INSTALLED_APPS = (
     'discussion',
     'secret',
     'utilz',
+    'bakery',
 )
 
 # see top of document for notes
