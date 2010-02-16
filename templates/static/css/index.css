@@ -823,7 +823,18 @@ span.highlight
 		-webkit-border-bottom-left-radius: 10px;
 		-moz-border-radius-bottomright: 10px;
 		-webkit-border-bottom-right-radius: 10px;
+		height: 185px;
+		overflow: hidden;
 	}
+
+.share_holder .secret_missing_image {
+	display: block;
+	width: 150px;
+	font-size: 120%;
+	text-align: center;
+	padding: 110px 0 28px;
+	background:transparent url(../images/3d_white_keyhole.png) no-repeat scroll 60px 40px;
+}
 
 .share_holder p
 	{
@@ -835,12 +846,6 @@ span.highlight
 	{
 		color: #ed1849;
 		margin: 3px 0;
-	}
-
-.share_holder img
-	{
-		width: 150px;
-		height: 150px;
 	}
 
 .visitor_holder

@@ -47,7 +47,11 @@
             <div class="center_content">
                 {% for secret in secrets %}
                 <a href="{{secret.get_absolute_url}}" class="share_holder">
-                    {#<img src="{{MEDIA_URL}}/images/share_example.jpg" />#}
+			{% if secret.latitude and secret.longitude %}
+			<img src="http://maps.google.com/maps/api/staticmap?size=150x150&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13">
+			{% else %}
+			<span class="secret_missing_image">Photos to come</span>
+			{% endif %}
                     <h4>{{secret.title}}</h4>
                     <p>{{secret.location}}</p>
                 </a>
