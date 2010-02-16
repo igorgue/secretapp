@@ -83,7 +83,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 		{
 			font-size: 1.7em;
 			font-weight: 200;
-			padding-left: 20px;
+			padding-left: 0;
 		}
 #city_select
 	{
@@ -842,7 +842,7 @@ span.highlight
 
 .visitor_holder
 	{
-		width: 250px;
+		width: 240px;
 		float: right;
 		margin: 10px;
 	}
@@ -946,7 +946,8 @@ span.highlight
 	{
 		margin-top: 40px;
 	}
-	
+
+
 /*=4 PAGE SPECIFICS *************************************************************/
 /**id's on body - classes on outer div - or something??*/
 #home {}

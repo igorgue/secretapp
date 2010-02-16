@@ -1,61 +1,92 @@
 {% extends 'layout/base.html' %}
+{% block pagemedia %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />
+{% endblock %}
+
+	{% block bodytag %}id="terms_page"{% endblock %}
 
 {% block content %}
-<h1>Privacy policy</h1>
-<h2>Introduction</h2>
-<p><ol>
-<li><b>secretcities</b> (“we” or “us”) takes the privacy of your information very seriously. This policy explains how and for what purposes we use the information collected about you via this web site (referred to below as the “Site”). Please read this privacy policy carefully. By using the Site and any services we offer via the Site, you are agreeing to be bound by this policy in respect of the information collected about you via this Site.</li>
-<li>If you have any queries about the policy, please get in touch with us using our <a href="/doc/contact+us">contact details</a> and we will do our best to answer your questions.</li>
-<li>This privacy policy should be read in conjunction with the Site <a href="/terms/">terms of service</a>.</li>
-</ol></p>
- 
-<h2>Personal information collected</h2>
-<p><ol>
-<li>We may collect the following personal information from you:
-<ol type=”a”>
-<li>Certain information required to register with the Site including first and last name, your address and date of birth together with some basic security information;</li>
-<li>Your e-mail address and password;</li>
-<li>Other information about you that you voluntarily supply to use by filling out your profile page.</li>
-</ol>
-<li>Although it is not compulsory to give us this information, if you withhold information we cannot guarantee that all the Site functionality and services will be available.</li>
-</ol></p>
- 
-<h2>Use of this information</h2>
-<p><ol>
-<li>We will use this information in order to:
-<ol type=”a”>
-<li>administer your user account;</li>
-<li>communicate information your activity within the site (subject to the preferences on your user account page) to other users of the site;</li>
-<li>make general improvements to our Site and the services we offer;</li>
-<li>analyse how customers are making use of the Site;</li>
-</ol>
-</li></ol></p>
- 
-<h2>Sharing this information</h2>
-<p><ol>
-<li>We may transfer your personal information to a third party as part of a sale of some or all of our business and assets to any third party or as part of any business restructuring or reorganisation, but we will take steps with the aim of ensuring that your privacy rights continue to be protected.</li>
-<li>Other than as set out above, we will not disclose any of your personal information without your permission unless we are required by law to do so (for example, if required to do so by a court order or for the purposes of prevention of fraud or other crime).</li></ol></li>
- 
-<li>Information automatically collected from your computer<ol>
-<li><b>Log files/IP addresses</b>. When you visit the Site our web server automatically records your IP address. This IP address is not linked to any of your personal information. We may also gather other non-personal information (from which we cannot identify you) such as the type of your internet browser which we use to provide you with a more effective service.</li>
-<li><b>Cookies</b>. When you visit the Site we may store some information (commonly known as a “cookie”) on your computer. Cookies are pieces of information that a website transfers to your hard drive to store and sometimes track information about you. Cookies are specific to the server that created them and cannot be accessed by other servers, which means that they cannot be used to track your movements around the web. Passwords and credit card numbers are not stored in cookies. A cookie helps you get the best out of the Site and helps us to provide you with a more customised service. We use cookies for the following purposes:<ol>
-<li>Storing details about your site preferences (for instance which language you wish to view pages in);</li>
-<li>Storing details about any secrets you have tagged;</li>
-<li>Enabling our web server to track your session between pages of the site and provide a continuity of experience.</li></ol></li>
-<li>You can block or erase cookies from your computer if you want to (your browser&rsquo;s help screen or manual should tell you how to do this), but certain parts of the Site are reliant on the use of cookies to operate correctly and may not work correctly if you set your browser not to accept cookies.</li></ol></li></ol></p>
- 
-<h2>Other Sites</h2>
-<p>
-<ol>
-<li>We cannot be responsible for the privacy policies and practices of other sites even if you access them using links from our Site and recommend that you check the policy of each site you visit and contact its owner or operator if you have any concerns or questions.</li>
-<li>In addition, if you linked to this Site from a third party site, or connected to it from Facebook.com, we cannot be responsible for the privacy policies and practices of the owners or operators of that third party site and recommend that you check the policy of that third party site and contact its owner or operator if you have any concerns or questions.</li></ol></li>
- 
-<li>Transferring your information outside of Europe</li><ol>
-<li>As part of the services offered to you through the Site, the information you provide to us may be transferred to countries outside of the European Union (“EU”). By way of example, this may happen if any of our servers are from time to time located in a country outside of the EU or one of our service providers is located in a country outside of the EU. We may also share information between group companies, which may be located in countries worldwide. These countries may not have similar data protection laws to the UK. If we transfer your information outside of the EU in this way, we will take steps with the aim of ensuring that your privacy rights continue to be protected as outlined in this privacy policy.</li>
-<li>If you use the Site while you are outside the EU, your information may be transferred outside the EU in order to provide you with those services.</li></ol></p>
- 
-<h2>Further questions</h2>
-<p>If at any time you would like to contact us with your views about our privacy practices, or with any enquiry relating to your personal information, you can do so by emailing us at <a href="mailto:privacypolicy@secretcities.us">privacypolicy@secretcities.us</a>.</p>
- 
-<p><i>February 2010</i></p>
+
+<div class="page_header">
+	<div id="page_title" class="left_sidebar">
+		Privacy
+	</div>
+	<div class="right_content top_content">
+		&nbsp;
+	</div>
+	<div class="clear_left"></div>
+</div><!-- END OF THE PAGE HEADER-->	
+
+<div class="content_line">
+	<div class="left_sidebar">
+		<ul class="info-links">
+			<li><a href="{% url render_template template="about" %}">About</a></li>
+			<li><a href="{% url render_template template="team" %}">Team</a></li>
+			<li><a href="{% url render_template template="credits" %}">Credits</a></li>
+			<li><a href="http://blog.secretlondon.us">Blog</a></li>
+			<li><a href="{% url render_template template="terms" %}">Terms of use</a></li>
+			<li><a href="{% url render_template template="privacy" %}">Privacy Policy</a></li>
+			<li><a href="http://twitter.com/secret_london">Twitter</a></li>
+		</ul>
+	</div>
+	<div class="right_content page_content">
+		<h2>Introduction</h2>
+		<p><ol>
+		<li><b>secretcities</b> (“we” or “us”) takes the privacy of your information very seriously. This policy explains how and for what purposes we use the information collected about you via this web site (referred to below as the “Site”). Please read this privacy policy carefully. By using the Site and any services we offer via the Site, you are agreeing to be bound by this policy in respect of the information collected about you via this Site.</li>
+		<li>If you have any queries about the policy, please get in touch with us using our <a href="/doc/contact+us">contact details</a> and we will do our best to answer your questions.</li>
+		<li>This privacy policy should be read in conjunction with the Site <a href="/terms/">terms of service</a>.</li>
+		</ol></p>
+
+		<h2>Personal information collected</h2>
+		<p><ol>
+		<li>We may collect the following personal information from you:
+		<ol type=”a”>
+		<li>Certain information required to register with the Site including first and last name, your address and date of birth together with some basic security information;</li>
+		<li>Your e-mail address and password;</li>
+		<li>Other information about you that you voluntarily supply to use by filling out your profile page.</li>
+		</ol>
+		<li>Although it is not compulsory to give us this information, if you withhold information we cannot guarantee that all the Site functionality and services will be available.</li>
+		</ol></p>
+
+		<h2>Use of this information</h2>
+		<p><ol>
+		<li>We will use this information in order to:
+		<ol type=”a”>
+		<li>administer your user account;</li>
+		<li>communicate information your activity within the site (subject to the preferences on your user account page) to other users of the site;</li>
+		<li>make general improvements to our Site and the services we offer;</li>
+		<li>analyse how customers are making use of the Site;</li>
+		</ol>
+		</li></ol></p>
+
+		<h2>Sharing this information</h2>
+		<p><ol>
+		<li>We may transfer your personal information to a third party as part of a sale of some or all of our business and assets to any third party or as part of any business restructuring or reorganisation, but we will take steps with the aim of ensuring that your privacy rights continue to be protected.</li>
+		<li>Other than as set out above, we will not disclose any of your personal information without your permission unless we are required by law to do so (for example, if required to do so by a court order or for the purposes of prevention of fraud or other crime).</li></ol></li>
+
+		<li>Information automatically collected from your computer<ol>
+		<li><b>Log files/IP addresses</b>. When you visit the Site our web server automatically records your IP address. This IP address is not linked to any of your personal information. We may also gather other non-personal information (from which we cannot identify you) such as the type of your internet browser which we use to provide you with a more effective service.</li>
+		<li><b>Cookies</b>. When you visit the Site we may store some information (commonly known as a “cookie”) on your computer. Cookies are pieces of information that a website transfers to your hard drive to store and sometimes track information about you. Cookies are specific to the server that created them and cannot be accessed by other servers, which means that they cannot be used to track your movements around the web. Passwords and credit card numbers are not stored in cookies. A cookie helps you get the best out of the Site and helps us to provide you with a more customised service. We use cookies for the following purposes:<ol>
+		<li>Storing details about your site preferences (for instance which language you wish to view pages in);</li>
+		<li>Storing details about any secrets you have tagged;</li>
+		<li>Enabling our web server to track your session between pages of the site and provide a continuity of experience.</li></ol></li>
+		<li>You can block or erase cookies from your computer if you want to (your browser&rsquo;s help screen or manual should tell you how to do this), but certain parts of the Site are reliant on the use of cookies to operate correctly and may not work correctly if you set your browser not to accept cookies.</li></ol></li></ol></p>
+
+		<h2>Other Sites</h2>
+		<p>
+		<ol>
+		<li>We cannot be responsible for the privacy policies and practices of other sites even if you access them using links from our Site and recommend that you check the policy of each site you visit and contact its owner or operator if you have any concerns or questions.</li>
+		<li>In addition, if you linked to this Site from a third party site, or connected to it from Facebook.com, we cannot be responsible for the privacy policies and practices of the owners or operators of that third party site and recommend that you check the policy of that third party site and contact its owner or operator if you have any concerns or questions.</li></ol></li>
+
+		<li>Transferring your information outside of Europe</li><ol>
+		<li>As part of the services offered to you through the Site, the information you provide to us may be transferred to countries outside of the European Union (“EU”). By way of example, this may happen if any of our servers are from time to time located in a country outside of the EU or one of our service providers is located in a country outside of the EU. We may also share information between group companies, which may be located in countries worldwide. These countries may not have similar data protection laws to the UK. If we transfer your information outside of the EU in this way, we will take steps with the aim of ensuring that your privacy rights continue to be protected as outlined in this privacy policy.</li>
+		<li>If you use the Site while you are outside the EU, your information may be transferred outside the EU in order to provide you with those services.</li></ol></p>
+
+		<h2>Further questions</h2>
+		<p>If at any time you would like to contact us with your views about our privacy practices, or with any enquiry relating to your personal information, you can do so by emailing us at <a href="mailto:privacypolicy@secretcities.us">privacypolicy@secretcities.us</a>.</p>
+
+		<p><i>February 2010</i></p>
+	</div>
+
+</div>
 {% endblock %}

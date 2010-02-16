@@ -166,3 +166,8 @@ div.right_content p
 		float: right;
 		margin-top: -20px;
 	}
+
+.question_asked
+	{
+		display: none;
+	}
