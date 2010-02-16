@@ -14,7 +14,12 @@
 		<div class="right_content top_content">
 			<div id="user_details">
 				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>{# DATE #}Joined 12 days ago</p>
-				{% if tabs.edit %}<a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}<a href="#" class="first">Proposals (2)</a> <a href="#">Shares (2)</a> <a href="#">Discussions (1)</a> <a href="#">Been Theres (1)</a>
+				{% if tabs.edit %}<a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}
+				{# DATE TIME #}
+				<a href="#proposals" class="first">Proposals (2)</a>
+				<a href="#shares">Shares (2)</a>
+				<a href="#discussions">Discussions (1)</a>
+				<a href="#favourites">Been Theres (1)</a>
 				<p>Post to my news feed</p>
 			</div>
 			<div id="user_scores">
@@ -28,7 +33,7 @@
 	
 	{% if tabs.edit %}
 	<div id="proposals" class="content_line">
-		<div class="left_sidebar left_triangle">
+		<div class="left_sidebar">
 			<p>Edit settings</p>
 		</div>
 		<div class="right_content right_triangle">
@@ -45,9 +50,13 @@
 	</div><!-- END OF THE PROPOSALS-->
 	{% endif %}
 	
+	
+	{# TODO: make this a list of discussions #}
+	{% with profile.discussions as proposals %}
 	<div id="proposals" class="content_line">
-		<div class="left_sidebar left_triangle">
-			<p><span>2</span> proposals</p>
+		<div class="left_sidebar">
+		    <a name="proposals"></a>
+			<p><span>{{profile.proposal_count}}</span> proposals</p>
 			<p class="side_agreements"><span>5</span> agree</p>
 		</div>
 		<div class="right_content right_triangle">
@@ -65,45 +74,29 @@
 		</div>
 		<div class="clear_left"></div>
 	</div><!-- END OF THE PROPOSALS-->
-	
+	{% endwith %}
+	{% with profile.secrets as secrets %}
+	{% if secrets %}
 	<div id="shares" class="content_line">
 		<div class="left_sidebar">
-			<p><span>10</span> shares</p>
+			<p><span>{{secrets|length}}</span> shares</p>
 		</div>
 		<div class="right_content right_triangle">
-			
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			
+			{% for secret in proposal %}
+			    {% include 'secret/render/photo.html' %}
+			{% endfor %}
 			<div class="clear_left"></div>
-			<p><a href="#">Show all secrets shared &raquo;</a></p>
+			{#<p><a href="#">Show all secrets shared &raquo;</a></p>#}
 		</div>
 		<div class="clear_left"></div>
 	</div><!-- END OF THE SHARES-->
-	
-	
+	{% endif %}
+	{% endwith %}
+	{% with profile.discussions as discussions %}
+	{% if discussions %}
 	<div id="discussions" class="content_line">
 		<div class="left_sidebar">
-			<p><span>4</span> Discussions</p>
+			<p><span>{{ discussions|length }}</span> Discussions</p>
 		</div>
 		<div class="right_content right_triangle">
 			<p class="date_added"><span class="highlight">Latest post</span> by <a href="#">Tiffany Philippou</a><br>posted 2 minutes ago</p>
@@ -121,43 +114,29 @@
 			
 		</div>
 		<div class="clear_both"></div>
-
-		
 	</div><!-- END OF THE DISCUSSIONS-->
+	{% endif %}
+	{% endwith %}
 	
+	{% with profile.favourites as favourites %}
+	{% if favourites %}
 	<div id="been_theres" class="content_line">
 		<div class="left_sidebar">
-			<p><span>6</span> Been Theres</p>
+			<p><span>{{favourites|length}}</span> Been Theres</p>
 		</div>
 		<div class="right_content right_triangle">
-		
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			<a href="#" class="share_holder">
-				<img src="media/images/share_example.jpg" />
-				<h4>Tiger Tiger</h4>
-				<p>Heddon Street, W15</p>
-			</a>
-			
+			{% for fav in favourites %}
+			    {% with fav.secret as secret %}
+			    {% include 'secret/render/photo.html' %}
+			    {% endwith %}
+			{% endfor %}
 			<div class="clear_left"></div>
-			<p><a href="#">Show all secrets I've been to &raquo;</a></p>
+			{#<p><a href="#">Show all secrets I've been to &raquo;</a></p>#}
 		</div>
 		<div class="clear_left"></div>
 	</div><!-- END OF THE BEEN THERES-->
-	
+	{% endif %}
+	{% endwith %}
 	<div class="clear_left"></div>
 
 {% endblock %}

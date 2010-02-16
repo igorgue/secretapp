@@ -93,7 +93,7 @@ div.right_content p.date_added
 
 .page_header .top_content
 	{
-		height: 510px;
+		height: 170px;
 	}
 
 #top_reply_comment_button
@@ -157,4 +157,11 @@ div.right_content p
 .date_added a
 	{
 		font-size: 1em;
+	}
+
+.suggest_tab, .comment_tab
+	{
+		width: 80px;
+		float: right;
+		margin-top: -20px;
 	}

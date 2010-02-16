@@ -62,8 +62,8 @@ def agreements(self):
     return __get_items(self, Agreement)
 
 def favourites(self):
-    from secret.models import Favourite
-    return __get_items(self, Favourite)
+    from secret.models import FavouriteSecret
+    return __get_items(self, FavouriteSecret)
 
 
 def get_facebook(self):

@@ -37,7 +37,6 @@ def home(request):
             'days': (NOW - START_DATE).days,
         }
     }
-    whoops broke home page
     return context_response(request, 'utilz/home.html', context, tabs=['home'])
 
 
