@@ -49,6 +49,10 @@ def secrets(self):
     from secret.models import Secret
     return __get_items(self, Secret)
 
+def secret_count(self):
+    from secret.models import Secret
+    return Secret.viewable.filter(created_by=self).count()
+
 def proposals(self):
     from comment.models import Proposal
     return __get_items(self, Proposal)
@@ -60,6 +64,10 @@ def discussions(self):
 def agreements(self):
     from comment.models import Agreement
     return __get_items(self, Agreement)
+
+def agreement_count(self):
+    from comment.models import Agreement
+    return Agreement.viewable.filter(created_by=self).count()
 
 def favourites(self):
     from secret.models import FavouriteSecret
