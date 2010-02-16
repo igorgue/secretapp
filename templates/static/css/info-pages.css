@@ -43,6 +43,7 @@ div.page_content p {padding:0px; width:700px;}
 #team_page p {color: black;}
 #team_page .page_content {padding: 0;}
 #team_page .page_content p { padding: 0 30px; margin: 0 0 10px 0;}
+#team_page #image_holder {display: block; background: url('../images/crew_colored.jpg') 0 0 no-repeat; width: 780px; height: 582px;}
 
 #about_page .page_content p {font-size: 1.6em; margin: 5px 0;}
 #about_page .page_content {padding-bottom: 450px;}

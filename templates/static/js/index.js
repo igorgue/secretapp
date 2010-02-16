@@ -36,8 +36,13 @@ $(document).ready(function(){
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
 	$('#top_reply_button').click(function() {
 		$('#add_discussion').slideToggle('slow', function() {});
-		$(self).height('220px');	
+		$('#top_reply_button').parent().height('270px');	
 	});
+	$(".thumbs img").hover(function(){
+			$(".thumbs img").fadeTo("slow", 0.0); // This sets the opacity to 0% on hover
+		},function(){
+	   		$(".thumbs img").fadeTo("slow", 1.0); // This sets the opacity back to 100% on mouseout
+		});
 });
 
 /**
