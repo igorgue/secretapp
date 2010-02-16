@@ -1,10 +1,15 @@
 <div id="discussion_line_proposal" class="proposal_line">
 	<div class="left_sidebar left_triangle">
 	    {# proposal agree #}
+	    {% if user.is_authenticated %}
 	    <form method="POST" action="{{proposal.get_agree_url}}" class="clickAction">
 		    <p class="side_agreements"><span class="filler">{{proposal.agreement_count}}</span>agree</p><br class="clear_right" />
 		    <input type="submit" class="hider pink_button" value="I Agree" />
 		</form>
+		{% else %}
+		<p class="side_agreements"><span class="filler">{{proposal.agreement_count}}</span>agree</p><br class="clear_right" />
+		Please login<br /> to agree
+		{% endif %}
 	</div>
 	{% with proposal.secret as secret %}
 	<div class="right_content proposal">
@@ -28,14 +33,17 @@
             {# secret comments #}
 			<div class="proposal_comments">
 				
-				
+				{% if user.is_authenticated %}
 				    {% with proposal.comment_form as form %}
 				        {% form form %}
 				            {% field form.text %}
 				        {% endform '&#43; add comment' 'pink_button' %}
 					<br class="clear_left" />
 				    {% endwith %}
-				
+				{% else %}
+				<div style="margin-top:16px;">Please login above using facebook-connect to comment. Thanks!</div>
+				<br class="clear_left" />
+				{% endif %}
 				{% with proposal.comments as pcs %}
         		{% if pcs %}
 				<p class="comment_summary">{{pcs|length}} comments in this discussion. {{proposal.comment_count}} comments in total. {#<a href="#">View all Comments</a></p>#}

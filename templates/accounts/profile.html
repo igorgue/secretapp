@@ -14,13 +14,13 @@
 		<div class="right_content top_content">
 			<div id="user_details">
 				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>Joined {{profile.date_joined|date:"j M Y G:i"}}</p>
-				{% if tabs.edit %}<!--><a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}
+				{% comment %}<a href="{% url view_profile pk=profile.pk %}">Preview</a>
 				{# DATE TIME #}
 				<a href="#proposals" class="first">Proposals (2)</a>
 				<a href="#shares">Shares (2)</a>
 				<a href="#discussions">Discussions (1)</a>
 				<a href="#favourites">Been Theres (1)</a>
-				<p>Post to my news feed</p><-->
+				<p>Post to my news feed</p>{% endcomment %}
 			</div>
 			<div id="user_scores">
 				<p><span>{{profile.secrets|length}}</span> secrets</p>

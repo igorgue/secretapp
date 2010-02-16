@@ -25,7 +25,7 @@ div.page_content p {padding:0px; width:700px;}
 
 #credits_page .page_content p {font-size: 2em; color: #888; line-height: 1.6em; margin: 10px;}
 #credits_page span.name {color: black;}
-#credits_page span.name a:link, a:visited, a:hover {color: black;}
+#credits_page span.name a:link, #credits_page span.name a:visited, #credits_page span.name a:hover {color: black;}
 #credits_page span.pink {font-size: 2em; letter-spacing: 0px; word-spacing: 10px; color: #ed1849;}
 #credits_page span.lower_pink {color: #ed1849;}
 
@@ -47,7 +47,7 @@ div.page_content p {padding:0px; width:700px;}
 
 #about_page .page_content p {font-size: 1.6em; margin: 5px 0;}
 #about_page .page_content {padding-bottom: 450px;}
-#about_page .page_content a:link, a:visited, a:hover {color: #ed1849;}
+#about_page .page_content a:link, #about_page .page_content a:visited, #about_page .page_content a:hover {color: #ed1849;}
 #about_page .top_content p {font-size: 2em; padding-top: 0px; margin-top: 0;}
 
 #about_page .page_header div.right_content {height: 70px; padding-top: 0;}

@@ -21,7 +21,7 @@
 <body {% block bodytag %}{% endblock %}>
 
 <div id="feedback_tab">
-	
+	{#<a href="#">Give Us Feedback</a>#}
 </div>
 
     <div id="container">
@@ -32,5 +32,18 @@
         {% block content %}{% endblock %}
         {% include 'layout/footer.html' %}
     </div><!-- end of div id=container -->
+    
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-12022861-4");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>
+    <script src="http://static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">clicky.init(184772);</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/184772ns.gif" /></p></noscript>
 </body>
 </html>
