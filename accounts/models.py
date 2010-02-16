@@ -39,6 +39,33 @@ def get_settings(self):
         self._settings, new = UserSettings.objects.get_or_create(user=self)
     return self._settings
 
+def __get_items(self, Model):
+    key = '_cache__%s' % Model._meta.app_label
+    if not hasattr(self, key):
+        setattr(self, key, Model.viewable.filter(created_by=self))
+    return getattr(self, key)
+
+def secrets(self):
+    from secret.models import Secret
+    return __get_items(self, Secret)
+
+def proposals(self):
+    from comment.models import Proposal
+    return __get_items(self, Proposal)
+
+def discussions(self):
+    from discussion.models import Discussion
+    return __get_items(self, Discussion)
+
+def agreements(self):
+    from comment.models import Agreement
+    return __get_items(self, Agreement)
+
+def favourites(self):
+    from secret.models import Favourite
+    return __get_items(self, Favourite)
+
+
 def get_facebook(self):
     if not hasattr(self, '_facebook'):
         from socialauth.models import FacebookUserProfile
@@ -47,12 +74,10 @@ def get_facebook(self):
         except:
             self._facebook = None
     return self._facebook
-        
 
 @property
 def is_facebook(self):
     return True if self.get_facebook() else False
-
 
 class ProfileImage(object):
     def __init__(self, user):
@@ -76,10 +101,14 @@ __user_augments__ = (
     'get_absolute_url',
     'get_settings',
     'get_facebook',
-    
     'is_facebook',
     
     'profile_image',
+    'secrets',
+    'proposals',
+    'discussions',
+    'agreements',
+    'favourites',
 )
 
 User.get_settings = get_settings

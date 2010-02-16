@@ -30,6 +30,7 @@ class SecretSearchForm(SearchForm):
     
     # location (maps)
     location_fields = ('north', 'south', 'east', 'west')
+    location    = forms.CharField(required=False)
     south       = forms.FloatField(required=False)
     north       = forms.FloatField(required=False)
     west        = forms.FloatField(required=False)

@@ -58,7 +58,7 @@ def view(request, pk):
         return HttpResponsePermanentRedirect(seo_url)
     return context_response(request, 'secret/view.html', {
                 'secret': secret,
-            }, tabs=['secret'])
+            }, tabs=['secrets'])
 
 
 @login_required
@@ -103,7 +103,7 @@ def edit(request, pk=None, from_discussion=False):
     if request.is_ajax():
         return HttpResponse('')
     else:
-        return context_response(request, 'secret/edit.html', context, tabs=['secret', 'edit'])
+        return context_response(request, 'secret/edit.html', context, tabs=['secrets', 'edit'])
 
 
 def add_favourite_secret(request, secret_id):

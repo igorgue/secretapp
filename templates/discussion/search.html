@@ -11,17 +11,18 @@
 	</p>
 	<div class="right_content top_content">
 		<a href="{% url new_discussion %}" id="top_reply_button">New Discussion</a>
-		<form action="#" method="GET" id="discussion_filter">
-			<label>Show only discussions about: </label><input type="search" />
-			<input type="submit" value="go" class="pink_button" />
-			<div class="clear_left"></div>
-		</form>
-		
-		{% form form %}
-			{% field form.title %}<br class="clear_left" />
-			{% field form.text %}<br class="clear_left" />
-			{% comment %}<label>Tags</label>{% field form.tag %}{% endcomment %}
+		{% form search_form %}
+			<label>Show only discussions about: </label>{{ search_form.title }}
+		{% endform 'Go' 'pink_button' %}
+		<div class="clear_left"></div>
+	    
+	    <div id="add_discussion">
+	    {% form newd_form %}
+	        <label>Title</label>{{ newd_form.title }}<br class="clear_left" />
+		    <label>Description</label>{{ newd_form.text }}<br class="clear_left" />
+		    <label>Tags</label>{{ newd_form.tags }}
 		{% endform 'Discuss' 'pink_button' %}
+		</div>
 			<div class="clear_left"></div>
 		{% include 'layout/pages.html' %}
 	</div>

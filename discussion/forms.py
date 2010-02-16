@@ -1,4 +1,5 @@
 from django import forms
+from django.core.urlresolvers import reverse
 from perm.forms import UserContentForm
 from utilz.search import SearchForm
 from models import *
@@ -39,6 +40,15 @@ class DiscussionSearchForm(SearchForm):
 
 
 class DiscussionForm(UserContentForm):
+    tags = forms.CharField(required=False, widget=forms.TextInput)
     class Meta:
         model = Discussion
         fields = ('title', 'text', 'tags')
+    
+    def set_url(self, new=True):
+        if new:
+            self.Meta.url = reverse('new_discussion')
+        return self
+
+
+
