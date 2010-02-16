@@ -89,15 +89,14 @@ class UrlCacheMiddleware:
         response_content = response.content
         if request.path.startswith('/admin') or request.path.startswith(settings.MEDIA_URL):        
             return response
+        response.content = self._second_pass(request, response_content)
                 
         # remove content between special tags
         response_content = REMOVE_COMMENTS.sub('', response_content)
         
         # Has process_request decided we need to update the cache?
         if not getattr(request, '_url_cache_update_cache', False):
-            return response
-        
-        response.content = self._second_pass(request, response_content)
+            return response        
 
         # Only cache GET responses
         if request.method != 'GET':
