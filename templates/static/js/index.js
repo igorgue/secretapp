@@ -38,10 +38,10 @@ $(document).ready(function(){
 		$('#add_discussion').slideToggle('slow', function() {});
 		$('#top_reply_button').parent().height('270px');	
 	});
-	$(".thumbs img").hover(function(){
-			$(".thumbs img").fadeTo("slow", 0.0); // This sets the opacity to 0% on hover
+	$("#overlay_image img").click(function(){
+			$("#overlay_image img").fadeTo("slow", 0.0); // This sets the opacity to 0% on hover
 		},function(){
-	   		$(".thumbs img").fadeTo("slow", 1.0); // This sets the opacity back to 100% on mouseout
+	   		$("#overlay_image img").fadeTo("slow", 1.0); // This sets the opacity back to 100% on mouseout
 		});
 });
 

@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
+admin.site.disable_action('delete_selected')
 import settings
 
 urlpatterns = patterns('',
