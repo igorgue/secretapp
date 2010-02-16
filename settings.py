@@ -133,6 +133,10 @@ SEARCH_PING_URLS = ("http://%s/solr/admin/ping" % SOLR_SERVER,)
 # required to determine that it really _is_ spam.
 SPAM_THRESHOLD = 5
 
+# Cache controls
+CACHE_BACKEND = 'dummy:///'
+# CACHE_BACKEND = 'file://' + os.path.join(CWD, 'cache')'
+
 INSTALLED_APPS = (
     # django
     'django.contrib.admin',
