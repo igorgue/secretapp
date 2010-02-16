@@ -19,6 +19,11 @@ class AbstractComment(UserContent):
     def __unicode__(self):
         return u"%s" % self.pk
 
+    def short_text(self, nchars=15):
+        if len(self.text < nchars):
+            return self.text
+        else:
+            return self.text[:nchars] + "..."
 
 class SecretComment(AbstractComment):
     """ A comment on a secret. Could be assosiciated with a discussion. """
@@ -32,6 +37,9 @@ class DiscussionComment(AbstractComment):
     """ A comment on a discussion. Could have secrets associated with it. """
     discussion  = models.ForeignKey(Discussion)
     secrets     = models.ManyToManyField(Secret, through="Proposal")
+    
+    def get_absolute_url(self):
+        return "%s#comment-%s" % (self.discussion.get_absolute_url(), self.pk)
     
     def proposals(self):
         return Proposal.viewable.filter(discussion_comment=self).select_related()
@@ -77,7 +85,8 @@ class Proposal(models.Model):
         return ProposalComment.viewable.filter(proposal=self).count()
     
     def comment_form(self):
-        return ProposalCommentForm().set_url()
+        from forms import *
+        return ProposalCommentForm().set_url(self)
 
 
 class ProposalComment(AbstractComment):

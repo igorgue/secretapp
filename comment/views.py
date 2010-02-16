@@ -76,8 +76,6 @@ def create_discussion_comment(request, discussion_id):
 def create_proposal_comment(request, proposal_id):
     """ Comment on a Secret on a Discussion """
     proposal = select_related_object_or_404(Proposal, pk=proposal_id)
-    discussion = proposal.discussion
-    secret = proposal.secret
     
     if request.method == 'POST':
         form = ProposalCommentForm(request.POST)
@@ -92,18 +90,15 @@ def create_proposal_comment(request, proposal_id):
                 return context_response(request, 'comment/proposal.html', { 'comment': instance })
             # otherwise return to the page of the discussion where the secret is mentioned
             else:
-                return HttpResponseRedirect(discussion.get_secretpage_url(secret))
+                return HttpResponseRedirect(proposal.discussion_comment.get_absolute_url())
     else:
         form = ProposalCommentForm()
     
     # sets the url for ajax
     form.set_url(proposal)
-    discussion.set_page_by_secret(secret)
     
     context = {
         'form': form,
-        'discussion': discussion,
-        'secret': secret,
     }
     if request.is_ajax():
         # ajax form for discussion secret comment
