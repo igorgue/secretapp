@@ -127,6 +127,8 @@ __user_augments__ = (
     'agreements',
     'favourites',
     
+    'secret_count',
+    'agreement_count',
 )
 
 User.get_settings = get_settings
