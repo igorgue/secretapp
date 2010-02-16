@@ -54,6 +54,7 @@ h1, h2, h3, h4, h5, h6 {position:relative;}
 /*FORMS*/
 form label {display:block; float:left; margin:2px 2% 6px 0px; color:#404040;}
 form input, textarea {display:block; float:left; margin-bottom:6px; padding:4px; border:1px solid #595959; font-family:Arial, Helvetica, sans-serif; font-size:84%;}
+form input.hidden {display: none;}
 
 /*=2. CORE *************************************************************/
 

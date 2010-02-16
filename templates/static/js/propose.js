@@ -217,11 +217,12 @@ var secretListController = {
 			<span class="location"> - </span>\
 		</div>\
 		\
-		<input type="hidden" name="latitude" id="id_latitude-__id__" class="latitude" value="">\
-		<input type="hidden" name="longitude" id="id_longitude-__id__" class="longitude" value="">\
-		<input type="hidden" name="secret_pk" id="id_secret_pk-__id__" class="pk" value="">\
+		<input type="hidden" class="hidden" name="latitude" id="id_latitude-__id__" class="latitude" value="">\
+		<input type="hidden" class="hidden" name="longitude" id="id_longitude-__id__" class="longitude" value="">\
+		<input type="hidden" class="hidden" name="secret_pk" id="id_secret_pk-__id__" class="pk" value="">\
 		\
-		<input value="Delete" type="button" class="delete_button" />\
+		<input type="image" src="http://media.groupspaces.com/images/icons/silk/cross.png" class="delete_button" />\
+		<br style="clear: both;" />\
 	</li>\
 	',
 	
@@ -267,6 +268,8 @@ var secretListController = {
 			}).blur(function() {
 				if (!secretListController.hasCoords()) { secretListController.lookupAddress(); }
 			});
+		configTextBoxPrompt(, 'Name of this secret');
+		configTextBoxPrompt(, 'Location');
 	},
 	
 	collapseAllSecrets : function() {

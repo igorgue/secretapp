@@ -112,7 +112,7 @@ MIDDLEWARE_CLASSES = (
     'perm.middleware.PermissionUserMiddleware',
     # makes ajax responses pretty
     'utilz.middleware.AjaxExceptionResponse',
-    'bakery.middleware.UrlCacheMiddleware',
+#    'bakery.middleware.UrlCacheMiddleware',
 )
 
 ROOT_URLCONF = 'urls'

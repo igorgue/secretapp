@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
@@ -127,6 +128,18 @@ class UserContent(models.Model):
             return User.objects.get(pk=self.deleted_by_id)
         else:
             return None
+
+    @property
+    def content_type_id(self):
+        """ Return the content type ID as required to flag one of these
+objects as spam. """
+        clazz = self.__class__
+        if not hasattr(clazz, "_content_type_id"):
+            clazz._content_type_id = ContentType.objects.get(
+                            app_label=clazz._meta.app_label, 
+                            model=clazz._meta.module_name
+                            ).id
+        return clazz._content_type_id
     
     @property
     def deleted_by_creator(self):
@@ -157,6 +170,10 @@ if a user flags a given object more than once. This is deliberate: view logic
 can use the exception raised to drive messaging to the user."""
         SpamFlag(flagged_by=user, spammed_object=self).save()
 
+    def get_flagspam_url(self):
+        """ Return the URL to call to flag instance as spam """
+        return reverse('flag_spam', kwargs={'modelid': self.content_type_id, 
+                                     'objectid': self.id})
 
 class SpamFlag(models.Model):
     """ Record of someone flagging something as Spam. """

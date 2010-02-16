@@ -16,7 +16,7 @@ class UrlCacheMiddleware:
     """
     Simple URL Cache.
     
-    Caches just 200's GET or HEAD requests from anonymous users and serves back
+    Caches just 200's GET or HEAD requests and serves back
     that content from the cache
     
     Add to installed apps:
@@ -30,6 +30,12 @@ class UrlCacheMiddleware:
     
     If you want to dynamically opt out of using url cached data, then in the session
     set the path in the request.session['URL_CACHE_EXCEPTIONS'] list
+    
+    It is essential that pages which are cached in this way have any dynamic content
+    that must ALWAYS be processed surround by {% noproc %} {% endnoproc %}
+    
+    Such dynamic content can only include user related items as no other data will
+    be in the context.
     """
     
     def _second_pass(self, request, template):
@@ -86,18 +92,18 @@ class UrlCacheMiddleware:
         return HttpResponse(render, content_type = cached.content_type)
 
     def process_response(self, request, response):
+        # store the un-cached version
         response_content = response.content
         if request.path.startswith('/admin') or request.path.startswith(settings.MEDIA_URL):        
             return response
+        response.content = self._second_pass(request, response_content)
                 
         # remove content between special tags
         response_content = REMOVE_COMMENTS.sub('', response_content)
         
         # Has process_request decided we need to update the cache?
         if not getattr(request, '_url_cache_update_cache', False):
-            return response
-        
-        response.content = self._second_pass(request, response_content)
+            return response        
 
         # Only cache GET responses
         if request.method != 'GET':
@@ -105,10 +111,6 @@ class UrlCacheMiddleware:
             
         # Only cache 200s
         if not response.status_code == 200:
-            return response
-        
-        # don't cache if we have a user
-        if request.user.is_authenticated():
             return response
         
         # Only cache html

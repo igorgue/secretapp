@@ -19,6 +19,11 @@ class AbstractComment(UserContent):
     def __unicode__(self):
         return u"%s" % self.pk
 
+    def short_text(self, nchars=15):
+        if len(self.text < nchars):
+            return self.text
+        else:
+            return self.text[:nchars] + "..."
 
 class SecretComment(AbstractComment):
     """ A comment on a secret. Could be assosiciated with a discussion. """
