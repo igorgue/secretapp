@@ -1,3 +1,4 @@
+{% load noproc %}
 <div id="header">
 	<div id="city_logo">
 		<a href="{% url home %}" title="secretlondon"><img src="{{MEDIA_URL}}/images/logo.png" alt="secret london" /></a>
@@ -5,19 +6,21 @@
 	</div>
 	
 	<p id="auth">
-	    {% if user.is_authenticated %}
-		{% if user.profile_image.small %}<img src="{{user.profile_image.small}}" width="20" height="20" />{% endif %} 
-		    <small>
-                {{user.first_name}} Rocks!
-                {{MEMBER_LEVEL}}
-                {% if user.is_superuser %}<a href="/admin/">Admin</a>{% endif %}
-                <a href="{% url edit_profile %}">Profile</a>
-                <a href="{% url socialauth_social_logout %}">Logout</a>
-            </small>
-		{% else %}
-		<fb:login-button onlogin="facebook_onlogin();"></fb:login-button>
-		<script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
-		{% endif %}
+	    {% noproc %}
+		    {% if user.is_authenticated %}
+			{% if user.profile_image.small %}<img src="{{user.profile_image.small}}" width="20" height="20" />{% endif %} 
+			    <small>
+	                {{user.first_name}} Rocks!
+	                {{MEMBER_LEVEL}}
+	                {% if user.is_superuser %}<a href="/admin/">Admin</a>{% endif %}
+	                <a href="{% url edit_profile %}">Profile</a>
+	                <a href="{% url socialauth_social_logout %}">Logout</a>
+	            </small>
+			{% else %}
+			<fb:login-button onlogin="facebook_onlogin();"></fb:login-button>
+			<script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
+			{% endif %}
+		{% endnoproc %}
 	</p>
 	{% comment %}
 	<form id="search" >

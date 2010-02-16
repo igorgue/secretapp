@@ -4,6 +4,8 @@ import datetime
 
 from django.http import HttpResponse
 from django.conf import settings
+from django.template import Template
+from django.template.context import RequestContext
 
 from bakery.models import UrlCache
 
@@ -29,6 +31,12 @@ class UrlCacheMiddleware:
     If you want to dynamically opt out of using url cached data, then in the session
     set the path in the request.session['URL_CACHE_EXCEPTIONS'] list
     """
+    
+    def _second_pass(self, request, template):
+        t = Template(template)
+        render = t.render(RequestContext(request))
+        return render
+    
     def process_request(self, request):
         # Only serve from cache on GET or HEAD requests
         if not request.method in ('GET', 'HEAD'):
@@ -70,22 +78,14 @@ class UrlCacheMiddleware:
         
         # It's usable! Serve the request with it
         request._url_cache_used = True
-        return HttpResponse(cached.value, content_type = cached.content_type)
+        render = self._second_pass(request, cached.value)
+        return HttpResponse(render, content_type = cached.content_type)
 
     def process_response(self, request, response):
-                
-        # Store the response content so we don't remove any ad placeholders in
-        # the database
         response_content = response.content
-        
-        # Have we used the cache if so replace any ads holders
-        if getattr(settings, 'ADS_RANDOM_PLACEHOLDER', False) and \
-            settings.ADS_RANDOM_PLACEHOLDER in response.content:
-            response.content = response.content.replace(
-                settings.ADS_RANDOM_PLACEHOLDER,
-                str(random.randint(99999, 999999))
-            )
-            
+        if not request.path.startswith('/admin'):        
+            response.content = self._second_pass(request, response_content)
+                    
         # remove content between special tags
         response_content = REMOVE_COMMENTS.sub('', response_content)
         

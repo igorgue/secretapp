@@ -1,5 +1,4 @@
 {% extends 'layout/base.html' %}
-{% load noproc %}
 {# inpage css #}
 {% block pagecss %}<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />{% endblock %}
 
@@ -21,10 +20,6 @@
 {% endblock %}
 
 {% block content %}
-{% noproc %}
-	{{ hello }}
-{% endnoproc %}
-
 <div class="page_header">
 	<p id="page_title" class="left_sidebar">
 		Featured Secret
