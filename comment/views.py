@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404
 from discussion.models import Discussion
 from secret.models import Secret
 from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, redirect_back
@@ -114,8 +115,9 @@ def create_proposal_comment(request, discussion_id, secret_id):
 
 def agree_with_proposal(request, proposal_id):
     """ Clock up a favourite to a user... """
+    print proposal_id, "pid"
     if request.method == 'POST':
-        props = get_viewable_or_raise(Proposal, request.user, pk=proposal_id)
+        props = get_object_or_404(Proposal, pk=proposal_id)
         # This creates a NEW entry even if this user previously created and then deleted
         # a favourite reference to a secret
         agree, new = Agreement.objects.get_or_create(proposal=props, created_by=request.user, deleted=False)

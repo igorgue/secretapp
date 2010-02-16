@@ -46,7 +46,8 @@ class Secret(UserContent):
         return self._favourites
     
     @property
-    def comments_count(self):
+    def comment_count(self):
+        from comment.models import SecretComment
         return SecretComment.viewable.filter(secret=self).count()
     
     # PROPOSALS

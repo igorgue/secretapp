@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block pagecss %}
+{% block pagemedia %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussions.css" />
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussion.css" /><!-- including the discussions to give access to the styles for the add discussion form -->
 {% endblock %}
@@ -638,7 +638,7 @@ $(document).ready(function() {
         {% include 'comment/proposal.html' %}
     {% endfor %}
 {% endfor %}
-
+{% comment %}
 <ul>
     {% if discussion.previous_page %}<li><a href="?page={{discussion.previous_page}}">previous</a></li>{% endif %}
     {% for p in discussion.xpages %}
@@ -646,5 +646,5 @@ $(document).ready(function() {
     {% endfor %}
     {% if discussion.next_page %}<li><a href="?page={{discussion.next_page}}">next</a></li>{% endif %}
 </ul>
-
+{% endcomment %}
 {% endblock %}

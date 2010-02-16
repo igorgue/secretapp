@@ -54,7 +54,7 @@ class Proposal(models.Model):
     viewable    = ProposalManager()
     objects     = models.Manager() 
     
-    def get_agree_url():
+    def get_agree_url(self):
         return reverse('agree_with_proposal', kwargs={'proposal_id':self.pk})
     
     def agreements(self):

@@ -1,6 +1,6 @@
 #home_header
 	{
-		background: #000;
+		background: #000 url('../images/header_content_bg.jpg') 0 0 no-repeat;
 		margin: -1px 0;
 		width: 940px;
 		padding-bottom: 10px;
@@ -12,10 +12,9 @@
 
 #home_header img
 	{
-		width: 490px;
 		float: left;
 		padding: 0;
-		margin: 5px 0 0 10px;
+		margin: 27px 30px 0 30px;
 	}
 
 #home_header p
@@ -31,9 +30,8 @@
 #home_header ul
 	{
 		list-style-type: none;
-		background: yellow;
 		padding: 5px 0;
-		margin: 0 0 10px 0;
+		margin: 3px 0 7px 0;
 	}
 
 #home_header a
@@ -41,12 +39,11 @@
 		display: block;
 		float: left;
 		height: 20px;
-		background: yellow;
 		color: black;
 		text-transform: uppercase;
 		font-weight: 600;
 		font-size: 1.6em;
-		padding: 5px 20px 0 20px;
+		padding: 0 20px 0 20px;
 		margin: 0 35px;
 	
 	}
@@ -106,26 +103,29 @@
 	{
 		float: left;
 		display: block;
-		width: 135px;
+		width: 134px;
 		padding: 30px 10px;
 		text-align: center;
 		border-left: 1px solid #595959;
-		border-top: 1px solid #595959;
+		border-top: 1px solid #939393;
 		border-right: 1px solid #939393;
 		background: #757575 url('../images/75greytile.png') 0 0 repeat;
 		text-transform: uppercase;
 		letter-spacing: 3px;
 		color: white;
 		font-weight: 400;
+		-webkit-text-shadow: 5px 5px 5px red;
 	}
 
 #home_counter li:first-child
 	{
 		border-left: 0;
+		width: 139px;
 	}
-#home_counter li.last
+#home_counter li
 	{
-		border-right: 0;
+		text-shadow: 1px 1px 1px #666, -1px -1px 1px #333;
+		color: #eee;
 	}
 	
 #home_counter span
@@ -212,4 +212,9 @@ h1
 	{
 		width: 940px;
 		background: #595959 url('../images/59greytile.png') 0 0 repeat;5959 url('../images/59greytile.png') 0 0 repeat;
+	}
+
+#big_footer
+	{
+		border-top: 0;
 	}

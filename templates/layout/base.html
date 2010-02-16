@@ -4,9 +4,17 @@
 <head>
     {% include 'layout/head.html' %}
     {% block css %}
-    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/index.css" />
     {% endblock %}
-    {% block pagecss %}{% endblock %}
+    {% block js %}
+        <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+        <script type="text/javascript"> function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
+        
+        <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}/js/index.js"></script>
+    {% endblock %}
+    {% block pagemedia %}{% endblock %}
 
 </head>
 <body id="{{BODY_ID}}" {% block bodytag %}{% endblock %}>

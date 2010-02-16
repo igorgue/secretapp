@@ -5,11 +5,12 @@ from models import *
 
 
 class SecretCommentForm(UserContentForm):
+    text = forms.CharField(widget=forms.TextInput)
     class Meta:
         model = SecretComment
         fields = ('text',)
     
-    def set_url(secret, discussion=None):
+    def set_url(self, secret, discussion=None):
         if discussion:
             self.Meta.url = reverse('create_discussion_secret_comment', kwargs={'discussion_id': discussion.id, 'secret_id': secret.id })
         else:
@@ -48,3 +49,9 @@ class DiscussionCommentForm(UserContentForm):
             p.save()
         return instance
 
+
+#class ProposeCommentForm(UserContentForm):
+#    text = forms.CharField(widget=forms.TextInput)
+#    
+#    class Meta:
+#        model = Propose

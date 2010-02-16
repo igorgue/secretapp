@@ -60,10 +60,15 @@
 		float: right;
 		width: 50px;
 		text-align: center;
-		margin: 15px 10px;
+		margin: 10px 8px;
 	}
 
 .date_added a
 	{
 		font-size: 1.4em;
+	}	
+
+div.right_content p.date_added
+	{
+		width: 150px;
 	}

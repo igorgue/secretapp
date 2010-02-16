@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block pagecss %}
+{% block pagemedia %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussions.css" />
 {% endblock %}
 
@@ -22,6 +22,7 @@
 		    <label>Description</label>{{ newd_form.text }}<br class="clear_left" />
 		    <label>Tags</label>{{ newd_form.tags }}
 		{% endform 'Discuss' 'pink_button' %}
+		<br class="clear_both" />
 		</div>
 			<div class="clear_left"></div>
 		{% include 'layout/pages.html' %}

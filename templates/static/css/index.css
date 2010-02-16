@@ -133,14 +133,16 @@ ul#tabs
 ul#tabs li
 	{
 		float: left;
+		/*background: black url('../images/dark_grad_top.gif') 0 0 repeat-x;*/
 		background: black;
-		margin-top: 5px;
+		margin-top: 4px;
+		padding-top: 1px;
 	}
 
 ul#tabs li.highlight
 	{
 		margin-top: 0;
-		background: white;
+		background: white url('../images/light_grad_bottom.gif') 0 0 repeat-x;
 		-moz-border-radius-topleft: 5px;
 		-webkit-border-top-left-radius: 5px;
 		-moz-border-radius-topright: 5px;
@@ -187,6 +189,7 @@ ul#tabs li.highlight a
 		letter-spacing: 2px;
 		margin: 0;
 		text-align: right;
+		height: 61px;
 	}
 #big_footer
 	{
@@ -194,6 +197,7 @@ ul#tabs li.highlight a
 		padding: 0;
 		background: #595959 url('../images/59greytile.png') 0 0 repeat;5959 url('../images/59greytile.png') 0 0 repeat;
 		width: 940px;
+		border-top: 1px solid #d9d9d9;
 	}
 #big_footer ul
 	{
@@ -278,6 +282,7 @@ ul#tabs li.highlight a
 #footer p:first-child
 	{
 		border-left: none;
+		width: 119px;
 	}
 #footer p.design_credit
 	{
@@ -330,6 +335,7 @@ ul#tabs li.highlight a
 		letter-spacing: 2px;
 		-moz-border-radius-topleft: 30px;
 		-webkit-border-top-left-radius: 30px;
+		width: 140px;
 	}
 .top_content
 	{
@@ -364,7 +370,7 @@ ul#tabs li.highlight a
 	{
 		background: white;
 		float: left;
-		width: 720px;
+		width: 719px;
 		margin: 0;
 		padding: 30px 30px 0 30px;
 		min-height: 70px;
@@ -377,7 +383,8 @@ ul#tabs li.highlight a
 	
 .right_triangle
 	{
-		background: white url('../images/borderless_triangle.png') 0 20px no-repeat;
+		background: white url('../images/right_grey_triangle.png') 0 -80px no-repeat;
+		width: 720px;
 	}
 div.right_content p
 	{
@@ -397,7 +404,7 @@ div.right_content p.date_added
 	
 .content_line, .proposal_line
 	{
-		background: #F2F2F2;
+		background: #F2F2F2 url('../images/main_content_bg.png') 0 0 repeat-y;
 		width:940px;
 		border-top: 1px solid #d9d9d9;
 	}
@@ -445,6 +452,8 @@ div.right_content p.date_added
 		cursor: pointer;
 		margin: 0 5px;
 		border: 1px solid #595959;
+		/*background: #ed1849 url('../images/pink_shading.png') -10px -10px no-repeat;*/
+		background: #ed1849;
 		-moz-border-radius-topleft: 5px;
 		-webkit-border-top-left-radius: 5px;
 		-moz-border-radius-topright: 5px;
@@ -475,14 +484,24 @@ a.pink_button
 .left_sidebar
 	{
 		float: left;
-		width: 140px;
+		width: 139px;
 		padding-right: 20px;
 		text-align: right;
 		text-transform: uppercase;
+		margin-top: 0;
+		padding-top: 13px;
+		background: #f2f2f2 url('../images/light_grad_top.gif') 0 0 repeat-x;
 	}
+
+.wide_left
+	{
+		width: 140px;
+		background-color: transparent;
+	}
+
 .left_sidebar img
 	{
-		margin-top: 15px;
+		margin-top: 0px;
 	}
 .left_sidebar a
 	{
@@ -490,7 +509,8 @@ a.pink_button
 	}
 .left_triangle
 	{
-		background: #f2f2f2 url('../images/left_borderless_triangle.png') 145px 50px no-repeat;
+		background: #f2f2f2 url('../images/left_white_triangle.png') 145px -50px no-repeat;
+		width: 140px;
 	}
 
 .left_sidebar p.side_agreements
@@ -549,15 +569,17 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 		width: 90px;
 		border: 1px dashed #666;
 		padding-top: 65px;
-		background: transparent url('../images/white_keyhole.png') 30px 12px no-repeat;
+		background: transparent url('../images/3d_white_keyhole.png') 30px 12px no-repeat;
 		float: left;
 		margin-left: 10px;
 	}
 
 .proposal_content
 	{
-		background: #404040;
+		background: #404040 url('../images/secret_shaded_bg.png') 0 0 no-repeat;
 		width: 300px;
+		-webkit-box-shadow: 5px 5px 15px #666;
+		-moz-box-shadow: 5px 5px 15px #666;
 		-moz-border-radius-topright: 5px;
 		-webkit-border-top-right-radius: 5px;
 		-moz-border-radius-topleft: 5px;
@@ -610,6 +632,7 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 .proposal_comments p.last
 	{
 		border: 0;
+		padding-bottom: 10px;
 	}
 
 .report
@@ -650,6 +673,7 @@ a.discussion_title
 	{
 		text-decoration: none;
 		font-size: 1.4em;
+		line-height: 1em;
 	}
 
 div.right_content p.discussion_stats
@@ -673,9 +697,11 @@ span.highlight
 	{
 		width: 150px;
 		padding: 10px;
-		background: #404040;
+		background: #404040 url('../images/photo_shaded.png') 0 0 no-repeat;
 		margin: 5px;
 		float: left;
+		-webkit-box-shadow: 5px 5px 15px #666;
+		-moz-box-shadow: 5px 5px 15px #666;
 		-moz-border-radius-topleft: 10px;
 		-webkit-border-top-left-radius: 10px;
 		-moz-border-radius-topright: 10px;

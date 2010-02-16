@@ -49,7 +49,6 @@ def endform(text=_('Submit'), classes=None):
     The _('Go') is the translated action word you
     want to appear in the button
     """
-    print text
     return { 'text': text, 'classes': classes }
 
 

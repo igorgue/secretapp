@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict
 from django.shortcuts import get_object_or_404
 from discussion.models import Discussion
+from comment.forms import SecretCommentForm
 from secret.forms import SecretSearchForm
 from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required, redirect_back
 from forms import *
@@ -58,6 +59,7 @@ def view(request, pk):
         return HttpResponsePermanentRedirect(seo_url)
     return context_response(request, 'secret/view.html', {
                 'secret': secret,
+                'comment_form': SecretCommentForm().set_url(secret),
             }, tabs=['secrets'])
 
 
