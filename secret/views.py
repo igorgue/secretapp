@@ -117,7 +117,7 @@ def add_favourite_secret(request, secret_id):
         fave, new = FavouriteSecret.objects.get_or_create(secret=secret, created_by=request.user, deleted=False)
 
         if request.is_ajax():
-            return HttpResponse(secret.favourite_count)
+            return HttpResponse('%s' % secret.favourite_count)
         else:
             return redirect_back(request)
     else:

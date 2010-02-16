@@ -47,7 +47,7 @@ class DiscussionForm(UserContentForm):
     
     def set_url(self, new=True):
         if new:
-            self.Meta.url = reverse('new_discussion')
+            self.action_url = reverse('new_discussion')
         return self
 
 

@@ -10,13 +10,10 @@ urlpatterns = patterns('',
     url(r'^discussion/(?P<discussion_id>\d+)/comment/$', \
             create_discussion_comment, name='create_discussion_comment'),
     
-    url(r'^propose/(?P<discussion_id>\d+)/(?P<secret_id>\d+)/comment/$', \
+    url(r'^proposal/(?P<proposal_id>\d+)/comment/$', \
             create_proposal_comment, name='create_proposal_comment'),
     
-    url(r'^propose/(?P<discussion_id>\d+)/(?P<secret_id>\d+)/comment/$', \
-            create_proposal_comment, name='create_proposal_comment'),
-    
-    url(r'^agree/(?P<proposal_id>\d+)/$', \
+    url(r'^proposal/(?P<proposal_id>\d+)/agree/$', \
             agree_with_proposal, name='agree_with_proposal'),
     
     # delete comments
