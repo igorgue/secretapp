@@ -14,6 +14,16 @@ class sFloatField(solango.fields.Field):
             self.value = float(self.value)
 
 
+class sFloatField(solango.fields.Field):
+    """ need to define a sfloat field to do range queries """
+    dynamic_suffix = "f"
+    type = "sfloat"
+
+    def clean(self):
+        if not isinstance(self.value, float):
+            self.value = float(self.value)
+
+
 class SecretDocument(SearchDocument):
     # title / text
     title       = solango.fields.TextField(indexed=True, stored=True)

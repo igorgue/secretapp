@@ -12,17 +12,17 @@ from models import *
 #   3. Need to reindex solr
 SECRET_RENDER_TEMPLATES = ('list', 'photo', 'location')
 SECRET_RENDER_FOLDER = 'secret/render/%s.html'
-
+SORT_ORDER = (
+                ('created desc', 'Newest'),
+                ('created asc', 'Oldest'),
+            )
 class SecretSearchForm(SearchForm):
     # choose a template
     templates   = SECRET_RENDER_TEMPLATES
     template    = forms.ChoiceField(choices=[(s,s) for s in SECRET_RENDER_TEMPLATES], required=False)
     
     # sort
-    sort        = forms.ChoiceField(choices=(
-                        ('created desc', 'Newest'),
-                        ('created asc', 'Oldest'),
-                    ), required=False)
+    sort        = forms.ChoiceField(choices=SORT_ORDER, required=False)
     
     # text
     title       = forms.CharField(required=False)
@@ -40,6 +40,7 @@ class SecretSearchForm(SearchForm):
         model = Secret
         url_name = 'search_secrets'
         default_template = 'list'
+        default_sort = SORT_ORDER[0][0]
         results_per_page = 10
     
     def render_template(self):

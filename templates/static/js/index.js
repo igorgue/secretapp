@@ -39,8 +39,11 @@ $(document).ready(function(){
 		$('#top_reply_button').parent().height('270px');	
 	});
 	$('.rewritten').click(function() {
-		$(this).parent(".moderation_holder") > ".rewritten_explaination".slideToggle('slow', function() {});
+		$(this).parents('.moderation_holder').children(':first').show();
 	});
+	$('.close_explaination').click(function(){
+		$(this).parent().hide();
+	})
 });
 
 /**
