@@ -115,7 +115,6 @@ def create_proposal_comment(request, discussion_id, secret_id):
 
 def agree_with_proposal(request, proposal_id):
     """ Clock up a favourite to a user... """
-    print proposal_id, "pid"
     if request.method == 'POST':
         props = get_object_or_404(Proposal, pk=proposal_id)
         # This creates a NEW entry even if this user previously created and then deleted
