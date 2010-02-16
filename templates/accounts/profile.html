@@ -14,13 +14,13 @@
 		<div class="right_content top_content">
 			<div id="user_details">
 				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>Joined {{profile.date_joined|date:"j M Y G:i"}}</p>
-				{% if tabs.edit %}<a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}
+				{% if tabs.edit %}<!--><a href="{% url view_profile pk=profile.pk %}">Preview</a> {% endif %}
 				{# DATE TIME #}
 				<a href="#proposals" class="first">Proposals (2)</a>
 				<a href="#shares">Shares (2)</a>
 				<a href="#discussions">Discussions (1)</a>
 				<a href="#favourites">Been Theres (1)</a>
-				<p>Post to my news feed</p>
+				<p>Post to my news feed</p><-->
 			</div>
 			<div id="user_scores">
 				<p><span>{{profile.secrets|length}}</span> secrets</p>
@@ -50,7 +50,7 @@
 	</div><!-- END OF THE Edit-->
 	{% endif %}
 	
-	<div id="proposal" class="content_line">
+<!-->	<div id="proposal" class="content_line">
 		<div class="left_sidebar">
 		    <a name="proposals"></a>
 			<p><span>{{profile.proposals|length}}</span> proposals</p>
@@ -59,12 +59,12 @@
 			&nbsp;
 		</div>
 		<div class="clear_left"></div>
-	</div><!-- END OF THE PROPOSAL Header-->
+	</div><--><!-- END OF THE PROPOSAL Header-->
 	
 	{# TODO: make this a list of discussions #}
 	{% with profile.proposals as proposals %}
 	    {% for proposal in proposals %}
-	    <div class="proposal_line">
+	  <!-->  <div class="proposal_line">
 	    	<div class="left_sidebar left_triangle">
 	    		<p class="side_agreements"><span>{{proposal.agreement_count}}</span> agree</p>
 	    	</div>
@@ -86,13 +86,13 @@
 	    	</div>
 	    	{% endwith %}
 	    	<div class="clear_left"></div>
-	    </div><!-- END OF THE PROPOSALS LOOP-->
+	    </div><--><!-- END OF THE PROPOSALS LOOP-->
 	    {% endfor %}
 	{% endwith %}
 	
 	{% with profile.secrets as secrets %}
 	{% if secrets %}
-	<div id="shares" class="content_line">
+<!-->	<div id="shares" class="content_line">
 		<div class="left_sidebar">
 			<p><span>{{secrets|length}}</span> shares</p>
 		</div>
@@ -104,12 +104,12 @@
 			{#<p><a href="#">Show all secrets shared &raquo;</a></p>#}
 		</div>
 		<div class="clear_left"></div>
-	</div><!-- END OF THE SHARES-->
+	</div><--><!-- END OF THE SHARES-->
 	{% endif %}
 	{% endwith %}
 	{% with profile.discussions as discussions %}
 	{% if discussions %}
-	<div id="discussions" class="content_line">
+<!-->	<div id="discussions" class="content_line">
 		<div class="left_sidebar">
 			<p><span>{{ discussions|length }}</span> Discussions</p>
 		</div>
@@ -129,12 +129,12 @@
 			
 		</div>
 		<div class="clear_both"></div>
-	</div><!-- END OF THE DISCUSSIONS-->
+	</div> END OF THE DISCUSSIONS-->
 	{% endif %}
 	{% endwith %}
 	{% with profile.favourites as favourites %}
 	{% if favourites %}
-	<div id="been_theres" class="content_line">
+<!-->	<div id="been_theres" class="content_line">
 		<div class="left_sidebar">
 			<p><span>{{favourites|length}}</span> Been Theres</p>
 		</div>
@@ -148,7 +148,7 @@
 			{#<p><a href="#">Show all secrets I've been to &raquo;</a></p>#}
 		</div>
 		<div class="clear_left"></div>
-	</div><!-- END OF THE BEEN THERES-->
+	</div><--><!-- END OF THE BEEN THERES-->
 	{% endif %}
 	{% endwith %}
 	<div class="clear_left"></div>
