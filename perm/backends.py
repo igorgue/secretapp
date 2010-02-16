@@ -55,8 +55,11 @@ class ClaimFacebookBackend:
             about_me = unicode(fb_data['about_me'])[0:100]
             url = unicode(fb_data['profile_url'])
             fb_profile = FacebookUserProfile(facebook_uid = unicode(fb_data['uid']), user = user, profile_image_url = fb_data['pic'], profile_image_url_big = fb_data['pic_big'], profile_image_url_small = fb_data['pic_small'], location=location, about_me=about_me, url=url)
-            fb_profile.save()
-            auth_meta = AuthMeta(user=user, provider='Facebook').save()
+            try:
+                fb_profile.save()
+                auth_meta = AuthMeta(user=user, provider='Facebook').save()
+            except:
+                pass
             
             from perm.tools import PERMISSION_SESSION_NAME
             del request.session[PERMISSION_SESSION_NAME]
