@@ -1,5 +1,6 @@
+from django.contrib.auth import logout as ulogout
 from django.http import Http404
-from utilz.shortcuts import context_response
+from utilz.shortcuts import context_response, redirect_back
 from tools import *
 from forms import *
 from models import *
@@ -42,3 +43,10 @@ def edit(request):
                 'form': form,
                 'successful': successful,
             }, tabs=['profile', 'edit'])
+
+
+def logout(request):
+    "logs a user out"
+    ulogout(request)
+    return redirect_back(request)
+

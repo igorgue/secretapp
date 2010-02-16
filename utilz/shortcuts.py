@@ -37,7 +37,7 @@ def login_required(func):
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated():
             request.session['next'] = request.path
-            return HttpResponseRedirect(reverse('socialauth_login_page'))
+            return HttpResponseRedirect(reverse('render_template', kwargs={'template':'login'}))
         return func(request, *args, **kwargs)
     return wrapper
 

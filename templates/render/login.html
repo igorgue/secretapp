@@ -1,0 +1,25 @@
+{% extends 'layout/base.html' %}
+{% block pagemedia %}
+{#<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />#}
+{% endblock %}
+
+{% block content %}
+<div class="page_header">
+    <div class="clear_left"></div>
+</div>
+<div class="content_line">
+	<div class="left_sidebar">
+		Please login
+	</div>
+	<div class="right_content page_content">
+			<p>There are some area's of the site which you can only access if you log in.</p>
+			<p><fb:login-button onlogin="facebook_onlogin();"></fb:login-button></p>
+			<p>Please connect via facebook and we will automatically log you in here and create you an account. Simple.</p>
+			<br />
+			<p>Over the coming weeks we will be adding more methods to login such as twitter, google, yahoo, openauth, openid. But for now its just facebook. Sorry!</p>
+	        <br />
+	        <br />
+	</div>
+	<div class="clear_left"></div>
+</div>
+{% endblock %}
