@@ -3,9 +3,9 @@
 	<ul {% if tabs.discussions %}class="highlight"{% endif %}><li><a href="{% url search_discussions %}" title="Showing Discussions">Discussion</a></li></ul>
 	<ul {% if tabs.secrets %}class="highlight"{% endif %}><li><a href="{% url search_secrets %}">Secrets</a></li>
 			<span id="drop_down">
-				<li class="item"><a href="{% url search_secrets %}?template=photo">Photos<img src="media/images/photo_small_black.png" /></a></li>
-				<li class="item"><a href="{% url search_secrets %}?template=location">On a map<img src="media/images/map_small_black.png" /></a></li>
-				<li class="item"><a href="{% url search_secrets %}?template=list">As a list<img src="media/images/list_small_black.png" /></a></li>
+				<li class="item"><a href="{% url search_secrets %}?template=photo">Photos<img src="{{MEDIA_URL}}/images/photo_small_black.png" /></a></li>
+				<li class="item"><a href="{% url search_secrets %}?template=location">On a map<img src="{{MEDIA_URL}}/images/map_small_black.png" /></a></li>
+				<li class="item"><a href="{% url search_secrets %}?template=list">As a list<img src="{{MEDIA_URL}}/images/list_small_black.png" /></a></li>
 			</span>
 	</ul>
 	{% if user.is_authenticated %}
