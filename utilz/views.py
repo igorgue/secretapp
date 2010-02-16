@@ -9,6 +9,8 @@ from shortcuts import context_response
 import datetime
 import random
 
+START_DATE = datetime.datetime(2010,02,16)
+
 def random_secret(request):
     " Redirects you to a random secret "
     return HttpResponseRedirect(Secret.viewable.order_by('?')[0].get_absolute_url())
@@ -16,7 +18,7 @@ def random_secret(request):
 
 def home(request):
     " Landing page to site. Much more to come... "
-    START_DATE = datetime.datetime(2010,02,16)
+    
     NOW = datetime.datetime.now()
     
     ids = Proposal.viewable.values_list('id', flat=True)

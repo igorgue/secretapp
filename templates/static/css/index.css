@@ -213,7 +213,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 		background: #404040;
 		margin-left: 0;
 		-webkit-box-shadow: 5px 5px 15px black;
-		-moz-box-shadow: 5px 5px 5px black;	}
+		-moz-box-shadow: 5px 5px 15px black;	}
 
 /*footer*/
 #big_footer .left_sidebar
@@ -271,9 +271,9 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 		width: 260px;
 		background: #353333 url('../images/35greytile.png') 0 0 repeat;
 		color: #666;
-		font-size: 1.1em;
+		font-size: 1.4em;
 		line-height: 1.4em;
-		padding: 20px 10px;
+		padding: 10px 10px 30px 10px;
 		margin: 0;
 		height: 94px;
 	}

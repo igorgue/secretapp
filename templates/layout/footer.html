@@ -9,7 +9,7 @@
 		<li><a href="#">Best pub in SOHO?</a></li>
 		<li><a href="#">Best pub in SOHO?</a></li>
 	</ul>
-	<p id="credits"><a href="#">Credits</a><span> This site could not have happened without the help of</span> John Smith, Sarah Jones, John Smith, Sarah Jones, John Smith, Sarah Jones, John Smith, Sarah Jones, John Smith, Sarah Jones and John Smith.</p>
+	<p id="credits"><a href="{% url render_template template='credits' %}">Credits: </a>secretlondon.us is the product of uncountable hours of love from a community that formed around a common goal.<br /><a href="{% url render_template template='about' %}">View the full credits</a></p>
 	<div class="clear_left"></div>
 </div>
 <div id="footer">
