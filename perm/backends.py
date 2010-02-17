@@ -35,7 +35,6 @@ class ClaimFacebookBackend:
             try_count = 0
             max_count = 3
             while not fb_data and try_count < max_count:
-                print fb_data, try_count, max_count
                 try:
                     fb_data = facebook.users.getInfo([fb_user], ['uid', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
                     break
