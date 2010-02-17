@@ -14,10 +14,7 @@
 	<div class="right_content page_content">
 			<p>There are some area's of the site which you can only access if you log in.</p>
 			<p>
-<!-- FUNKY FB JS WORKAROUND BY ANDY TO FIX LOGIN IN WEBKIT WHEN USER IS ALREADY LOGGED IN TO FB -->
-<a href="#" onclick="if ($.browser.webkit || $.browser.safari) { FB.Connect.logout(function(){FB.Connect.requireSession(facebook_onlogin);return false;}); } else { FB.Connect.requireSession(facebook_onlogin); }; return false; ">
-    <img id="RES_ID_fb_login_image" src="http://static.ak.fbcdn.net/rsrc.php/zA114/hash/7e3mp7ee.gif" alt="Connect">
-</a>
+                {% include 'accounts/fb_button.html' %}
 			</p>
 			<p>Please connect via facebook and we will automatically log you in here and create you an account. Simple.</p>
 			<br />

@@ -1,0 +1,23 @@
+{% extends 'layout/generic.html' %}
+
+{% block left %}
+Comment
+{% endblock %}
+
+{% block right %}
+
+{% with proposal.discussion_comment as comment %}
+<h1>{{comment.discussion.title}}</h1>
+<p>{% with comment.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %} suggested <a href="{{proposal.secret.get_absolute_url}}">{{proposal.secret.title}}</a></p>
+{% endwith %}
+
+<h3>Comment</h3>
+{% form form %}
+{{ form.text.as_textarea }}
+<br class="clear_left"/>
+{% endform %}
+<br class="clear_left"/>
+<br /><br />
+
+
+{% endblock %}

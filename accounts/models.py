@@ -82,7 +82,7 @@ def name(self):
     return "%s %s" % (self.first_name, self.last_name)
 
 @property
-def alt_name(self):
+def name_alt(self):
     return self.name
 
 def get_facebook(self):
@@ -100,15 +100,19 @@ def is_facebook(self):
 
 class ProfileImage(object):
     def __init__(self, user):
+        # defaults
+        self.big = 'http://static.ak.connect.facebook.com/pics/d_silhouette.gif'
+        self.medium = 'http://static.ak.connect.facebook.com/pics/s_silhouette.gif'
+        self.small = 'http://static.ak.connect.facebook.com/pics/t_silhouette.gif'
+        # facebook
         fb = user.get_facebook()
         if fb:
-            self.big = fb.profile_image_url_big
-            self.medium = fb.profile_image_url
-            self.small = fb.profile_image_url_small
-        else:
-            self.big = 'http://static.ak.connect.facebook.com/pics/d_silhouette.gif'
-            self.medium = 'http://static.ak.connect.facebook.com/pics/s_silhouette.gif'
-            self.small = 'http://static.ak.connect.facebook.com/pics/t_silhouette.gif'
+            if fb.profile_image_url_big:
+                self.big = fb.profile_image_url_big
+            if fb.profile_image_url:
+                self.medium = fb.profile_image_url
+            if fb.profile_image_url_small:
+                self.small = fb.profile_image_url_small
 
 def profile_image(self):
     if not hasattr(self, '_profile_image'):
@@ -122,7 +126,7 @@ __user_augments__ = (
     'get_facebook',
     'is_facebook',
     'name',
-    'alt_name',
+    'name_alt',
     
     'profile_image',
     'secrets',

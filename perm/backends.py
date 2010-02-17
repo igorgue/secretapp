@@ -17,19 +17,11 @@ class ClaimFacebookBackend:
     def authenticate(self, request):
 
         """
-        This is exactly the same as the backend found in
+        Started at 
             http://github.com/uswaretech/Django-Socialauth/blob/master/socialauth/auth_backends.py
         
-        @@ ~ line 46
-        -- user = User.objects.create(username = username)
-        ++ user, new_user = User.objects.get_or_create(username = username)
-        ++ user.is_active = True
-        
-        ++ from perm.tools import PERMISSION_LEVEL
-        ++ del request.session[PERMISSION_SESSION_NAME]
-        ++ request.session.modified = True
+        Made massive improvements with error handling.
         """
-
         facebook =  Facebook(settings.FACEBOOK_API_KEY,
                              settings.FACEBOOK_SECRET_KEY)
                              
@@ -39,7 +31,15 @@ class ClaimFacebookBackend:
             profile = FacebookUserProfile.objects.get(facebook_uid = unicode(fb_user))
             return profile.user
         except FacebookUserProfile.DoesNotExist:
-            fb_data = facebook.users.getInfo([fb_user], ['uid', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
+            fb_data = None
+            try_count = 0
+            max_count = 3
+            while not fb_data and try_count < max_count:
+                try:
+                    fb_data = facebook.users.getInfo([fb_user], ['uid', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
+                    break
+                except:
+                    try_count += 1
             if not fb_data:
                 return None
             fb_data = fb_data[0]
@@ -62,8 +62,9 @@ class ClaimFacebookBackend:
                 pass
             
             from perm.tools import PERMISSION_SESSION_NAME
-            del request.session[PERMISSION_SESSION_NAME]
-            request.session.modified = True
+            if PERMISSION_SESSION_NAME in request.session:
+                del request.session[PERMISSION_SESSION_NAME]
+                request.session.modified = True
             return user
         except Exception, e:
             pass

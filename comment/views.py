@@ -78,7 +78,7 @@ def create_discussion_comment(request, discussion_id):
 
 
 def create_proposal_comment(request, proposal_id):
-    """ Comment on a Secret on a Discussion """
+    """ Comment on a proposal """
     proposal = select_related_object_or_404(Proposal, pk=proposal_id)
     
     if request.method == 'POST':
@@ -106,6 +106,7 @@ def create_proposal_comment(request, proposal_id):
     
     context = {
         'form': form,
+        'proposal': proposal,
     }
     if request.is_ajax():
         # ajax form for discussion secret comment

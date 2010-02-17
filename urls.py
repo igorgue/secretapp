@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     (r'^', include('comment.urls')),
     (r'^', include('perm.urls')),
     (r'^', include('discussion.urls')),
+    (r'^', include('perm.urls')),
     (r'^', include('secret.urls')),
     
     # dependancies
@@ -21,6 +22,7 @@ urlpatterns = patterns('',
     # contains landing page
     (r'^', include('utilz.urls')),
 )
+
 
 # loads all our standard template tags
 from django import template
