@@ -59,8 +59,7 @@ def call(obj, func_name, args):
     WARN: This is an ugly function. Be careful when asking for this!
     
     Template Usage:
-        {{ object|function:"small" }}
+        {% call object "small" %}
     """
     return getattr(obj, func_name)(args)
-
 

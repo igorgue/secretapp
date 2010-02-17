@@ -1,0 +1,18 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="page_header">
+    <div class="clear_left"></div>
+</div>
+<div class="content_line">
+	<div class="left_sidebar">
+		{% block left %}{% endblock%}
+	</div>
+	<div class="right_content page_content">
+	    {% block right %}{% endblock %}
+	    <br class="clear_left" />
+    	<br /><br />
+	</div>
+	<br class="clear_left" />
+</div>
+{% endblock %}

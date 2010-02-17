@@ -26,7 +26,8 @@ def delete(request, pk, model):
             return redirect_back(request)
     else:
         raise Http404
-    
+
+@login_required
 def flag_spam(request, modelid, objectid):
     msg = 'Thank you for letting us know about this post.'
     try:

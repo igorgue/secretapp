@@ -82,7 +82,7 @@ def name(self):
     return "%s %s" % (self.first_name, self.last_name)
 
 @property
-def alt_name(self):
+def name_alt(self):
     return self.name
 
 def get_facebook(self):
@@ -126,7 +126,7 @@ __user_augments__ = (
     'get_facebook',
     'is_facebook',
     'name',
-    'alt_name',
+    'name_alt',
     
     'profile_image',
     'secrets',

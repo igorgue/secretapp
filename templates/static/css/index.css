@@ -33,7 +33,7 @@ body {
 
 a, a:link {color:#ed1849; font-weight:normal; text-decoration:none;}
 a:visited {color:#ed1849;}
-a:hover, a:active {text-decoration:none;}
+a:hover, a:active {text-decoration:underline;}
 
 /*HEADINGS*/
 

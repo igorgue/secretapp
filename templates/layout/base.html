@@ -7,12 +7,16 @@
         <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/index.css" />
     {% endblock %}
     {% block js %}
+    {# FACEBOOK #}
         <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
-        <script type="text/javascript"> function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
+        <script type="text/javascript">function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
         
+    {# JQUERY #}
         <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-	<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
+    {# GMAPS #}
+	    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
+	{# INTERNAL #}
         <script type="text/javascript" src="{{MEDIA_URL}}/js/index.js"></script>
     {% endblock %}
     {% block pagemedia %}{% endblock %}
@@ -33,6 +37,7 @@
         {% include 'layout/footer.html' %}
     </div><!-- end of div id=container -->
     
+    <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
     document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
