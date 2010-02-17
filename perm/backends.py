@@ -62,8 +62,9 @@ class ClaimFacebookBackend:
                 pass
             
             from perm.tools import PERMISSION_SESSION_NAME
-            del request.session[PERMISSION_SESSION_NAME]
-            request.session.modified = True
+            if PERMISSION_SESSION_NAME in request.session:
+                del request.session[PERMISSION_SESSION_NAME]
+                request.session.modified = True
             return user
         except Exception, e:
             pass

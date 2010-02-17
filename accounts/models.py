@@ -100,15 +100,19 @@ def is_facebook(self):
 
 class ProfileImage(object):
     def __init__(self, user):
+        # defaults
+        self.big = 'http://static.ak.connect.facebook.com/pics/d_silhouette.gif'
+        self.medium = 'http://static.ak.connect.facebook.com/pics/s_silhouette.gif'
+        self.small = 'http://static.ak.connect.facebook.com/pics/t_silhouette.gif'
+        # facebook
         fb = user.get_facebook()
         if fb:
-            self.big = fb.profile_image_url_big
-            self.medium = fb.profile_image_url
-            self.small = fb.profile_image_url_small
-        else:
-            self.big = 'http://static.ak.connect.facebook.com/pics/d_silhouette.gif'
-            self.medium = 'http://static.ak.connect.facebook.com/pics/s_silhouette.gif'
-            self.small = 'http://static.ak.connect.facebook.com/pics/t_silhouette.gif'
+            if fb.profile_image_url_big:
+                self.big = fb.profile_image_url_big
+            if fb.profile_image_url:
+                self.medium = fb.profile_image_url
+            if fb.profile_image_url_small:
+                self.small = fb.profile_image_url_small
 
 def profile_image(self):
     if not hasattr(self, '_profile_image'):
