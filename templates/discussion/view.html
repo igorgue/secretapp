@@ -32,8 +32,8 @@
 <h2>{{discussion.title}}</h2>
 				<form action="#" class="discussion_reply_form">
 					<div class="discussion_reply_tabs">
-						<span class="suggest_tab pink_button"><a {% if user.is_authenticated %}href="#" class="suggest_tab_button"{% else %}href="{% url render_template template='login' %}"{% endif %}>SUGGEST</a></span>
 						<span class="comment_tab pink_button"><a {% if user.is_authenticated %}href="#" class="comment_tab_button"{% else %}href="{% url render_template template='login' %}"{% endif %}>COMMENT</a></span>
+						<span class="suggest_tab pink_button"><a {% if user.is_authenticated %}href="#" class="suggest_tab_button"{% else %}href="{% url render_template template='login' %}"{% endif %}>SUGGEST</a></span>
 						<br class="clear_right /">
 					</div>
 
