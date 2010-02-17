@@ -1,0 +1,7 @@
+<div class="right_content">
+    <a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
+    {% with discussion.lastest_comment as comment %}
+    <p class="date_added">Latest post by {% with comment.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %}<br />posted {{comment.created_at|date:"j M Y G:i"}}</p>
+    {% endwith %}
+    <p class="discussion_stats">created {{discussion.created_at|date:"j M Y G:i"}}</p>
+</div>

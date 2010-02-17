@@ -20,13 +20,11 @@
 
 {% block content %}
 <div class="page_header">
-    <p id="page_title" class="left_sidebar">
-        Featured Secret
+    <p id="page_title" class="left_sidebar" style="padding-top:20px;height:10px">
+        Featured
     </p>
     <div class="center_content top_content">
-        {% with featured.discussion_comment.discussion as dic %}
-        <h2><span class="question">{{dic.title}}</span></h2>
-        {% endwith %}
+        <h2>The latest discussions, join the conversation and add your secrets.</h2>
     </div>
     <p class="right_sidebar">
         Recent Activity
@@ -34,33 +32,33 @@
     <div class="clear_left"></div>
 </div>
 <div id="three_column">
-    <div id="left_center_column">
-        {% with featured as proposal %}
-            {% include 'comment/proposal.html' %}
-        {% endwith %}
-    
-        <div id="recent_secrets" class="content_line">
-            <p class="left_sidebar">
-                Recent Secrets
-            </p>
-            
-            <div class="center_content">
-                {% for secret in secrets %}
-                <a href="{{secret.get_absolute_url}}" class="share_holder">
-			{% if secret.latitude and secret.longitude %}
-			<img src="http://maps.google.com/maps/api/staticmap?size=150x150&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13">
-			{% else %}
-			<span class="secret_missing_image">Photos to come</span>
-			{% endif %}
-                    <h4>{{secret.title}}</h4>
-                    <p>{{secret.location}}</p>
-                </a>
-                {% endfor %}
-            </div>
+    <div id="left_center_column">    
+        <div id="recent_proposals" class="content_line right_triangle">
+            <div class="content_line">
+            	{% for discussion in discussions %}
+            	    <p class="left_sidebar">
+                        {% with discussion.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %}<br />
+                        {{ discussion.comment_count }} posts<br />
+                        {{discussion.proposal_count}} secrets
+                    </p>
+            	    <div class="right_content right_triangle" style="width:501px;padding-top:18px">
+            	    	<p class="date_added" style="width:100px">created<br />{{discussion.created_at|date:"j M Y G:i"}}</p>
+            	    	<a class="discussion_title" style="line-height:1.2em" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
+            	    	<p class="discussion_stats" style="width:400px" >{{discussion.text|truncatewords:"10"}}...</p>
+            	    	<p class="discussion_stats"> </p>
+            	    </div>
+            	    <div class="clear_left"></div>
+            	{% endfor %}
+            </div><!-- END OF THE FIRST DISCUSSION LINE-->
             <div class="clear_both"></div>
         </div>
-    
-    
+        
+        <div class="content_line">
+            {% with featured as proposal %}
+                {% include 'comment/proposal.html' %}
+            {% endwith %}
+        </div>
+        
         <div id="recent_visitors" class="content_line">
             <p class="left_sidebar">
                 Recent Visitors

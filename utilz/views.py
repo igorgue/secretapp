@@ -24,9 +24,9 @@ def home(request):
     
     # TODO: cache this and randomize
     context = {
-        'featured': Proposal.objects.filter(discussion_comment__deleted=False, secret__deleted=False).order_by('?')[0],
-        'secrets': Secret.viewable.order_by('-created_at')[:6],
-        'discussions': Discussion.viewable.all().order_by('-created_at'),
+        'featured': Proposal.objects.select_related().filter(discussion_comment__deleted=False, secret__deleted=False).order_by('?')[0],
+        'secrets': Secret.viewable.select_related().order_by('-created_at')[:6],
+        'discussions': Discussion.viewable.all().select_related().order_by('-created_at')[:4],
         #'photos'
         'users': User.objects.order_by('-last_login')[:4],
         'count' : {
