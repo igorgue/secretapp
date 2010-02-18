@@ -787,7 +787,6 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 
 a.discussion_title
 	{
-		text-decoration: none;
 		font-size: 1.4em;
 	}
 

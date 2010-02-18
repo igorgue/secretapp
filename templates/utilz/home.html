@@ -32,31 +32,25 @@
     <div class="clear_left"></div>
 </div>
 <div id="three_column">
-    <div id="left_center_column">    
+    <div id="left_center_column">
         <div id="recent_proposals" class="content_line right_triangle">
             <div class="content_line">
-            	{% for discussion in discussions %}
+            	
             	    <p class="left_sidebar">
-                        {% with discussion.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %}<br />
-                        {{ discussion.comment_count }} posts<br />
-                        {{discussion.proposal_count}} secrets
+            	        Most Recent<br />
+                        <small><a href="{% url search_discussions %}?sort=updated%20desc">view more</a></small>
                     </p>
-            	    <div class="right_content right_triangle" style="width:501px;padding-top:18px">
-            	    	<p class="date_added" style="width:150px">created<br />{{discussion.created_at|date:"j M Y G:i"}}</p>
-            	    	<a class="discussion_title" style="line-height:1.2em" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
-            	    	<p class="discussion_stats" style="width:350px" >{{discussion.text|truncatewords:"10"}}...</p>
-            	    	<p class="discussion_stats"> </p>
-            	    </div>
+                    {% for discussion in discussions %}
+            	    {% include 'discussion/multi_render.html' %}
+            	    {% if not forloop.last %}
+            	    <p class="left_sidebar" style="background-image:none">
+                    </p>
+                    {% endif %}
+            	    {% endfor %}
             	    <div class="clear_left"></div>
-            	{% endfor %}
+            	
             </div><!-- END OF THE FIRST DISCUSSION LINE-->
             <div class="clear_both"></div>
-        </div>
-        
-        <div class="content_line">
-            {% with featured as proposal %}
-                {% include 'comment/proposal.html' %}
-            {% endwith %}
         </div>
         
         <div id="recent_secrets" class="content_line">

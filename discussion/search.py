@@ -11,10 +11,10 @@ class DiscussionDocument(SearchDocument):
     blob        = solango.fields.TextField(indexed=True, stored=False)
     
     # stats
-    comments    = solango.fields.IntegerField(indexed=True, stored=False)
-    secrets     = solango.fields.IntegerField(indexed=True, stored=False)
-    created     = solango.fields.DateTimeField(indexed=True, stored=False)
-    updated     = solango.fields.DateTimeField(indexed=True, stored=False)
+    comments    = solango.fields.IntegerField(indexed=True, stored=True)
+    secrets     = solango.fields.IntegerField(indexed=True, stored=True)
+    created     = solango.fields.DateTimeField(indexed=True, stored=True)
+    updated     = solango.fields.DateTimeField(indexed=True, stored=True)
     
     # render
     render      = solango.fields.TextField(indexed=False, stored=True)

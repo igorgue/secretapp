@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.contrib.contenttypes.models import ContentType
 from secret.models import Secret
 from discussion.models import Discussion
+from discussion.forms import DiscussionSearchForm, SORT_ORDERS as DISCUSSION_SORT_ORDERS
 from comment.models import DiscussionComment, Proposal
 from shortcuts import context_response
 import datetime
@@ -24,9 +25,8 @@ def home(request):
     
     # TODO: cache this and randomize
     context = {
-        'featured': Proposal.objects.select_related().filter(discussion_comment__deleted=False, secret__deleted=False).order_by('?')[0],
         'secrets': Secret.viewable.select_related().order_by('-created_at')[:3],
-        'discussions': Discussion.viewable.all().select_related().order_by('-created_at')[:4],
+        'discussions': Discussion.viewable.select_related().order_by('-created_at')[:6],
         #'photos'
         'users': User.objects.order_by('-last_login')[:4],
         'count' : {

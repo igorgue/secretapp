@@ -1,7 +1,19 @@
-<div class="right_content">
-    <a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
-    {% with discussion.latest_comment as comment %}
-    <p class="date_added">Latest post by {% with comment.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %}<br />posted {{comment.created_at|date:"j M Y G:i"}}</p>
-    {% endwith %}
-    <p class="discussion_stats">created {{discussion.created_at|date:"j M Y G:i"}}</p>
+<div class="right_content right_triangle" style="width:501px;padding-top:18px">
+    {% with discussion.created_by as u %}
+	<p class="date_added" style="padding-top:10px;width:50px;text-align:right">
+    {{discussion.proposal_count}} secrets<br />
+    {{discussion.comment_count}} posts<br />
+    </p>
+    <div style="float:left"><img src="{{u.profile_image.small}}" alt="" /></div>
+    <div style="float:left;width:350px;margin-left:10px;">
+	    <p style="width:350px" class="discussion_stats">
+	        <a class="discussion_title" style="line-height:1.3em" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
+	    </p>
+	    <p style="width:350px" class="discussion_stats">{{discussion.text|truncatewords:"10"}}...</p>
+	    <p style="width:350px" class="discussion_stats">
+	        <a href="{{u.get_absolute_url}}">{{u.name}}</a> 
+	        created {{discussion.created_at|date:"j M Y G:i"}}
+	    </p>
+	</div>
+	{% endwith %}
 </div>

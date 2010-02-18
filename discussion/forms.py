@@ -5,8 +5,8 @@ from utilz.search import SearchForm
 from models import *
 
 SORT_ORDERS = (
-                ('updated desc', 'Activity'),
-                ('created desc', 'Newest'),
+                ('updated desc', 'Most Active'),
+                ('created desc', 'Most Recent'),
                 ('comments desc', 'Most Posts'),
                 ('secrets desc', 'Most Secrets'),
             )
