@@ -34,10 +34,6 @@ $.prototype.clickAction = function(){
 
 $(document).ready(function(){
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
-	$('#top_reply_button').click(function() {
-		$('#add_discussion').slideToggle('slow', function() {});
-		$('#top_reply_button').parent().height('270px');	
-	});
 	$('.rewritten').click(function() {
 		$(this).parents('.moderation_holder').children(':first').show();
 	});

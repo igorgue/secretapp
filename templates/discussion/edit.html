@@ -1,11 +1,18 @@
-{% extends 'layout/base.html' %}
+{% extends 'layout/generic.html' %}
 
-{% block content %}
 
+{% block left %}
+    <br />
+    <div style="margin-top:40px">{{form.title.label}}</div>
+    <div style="margin-top:25px">{{form.text.label}}</div>
+{% endblock %}
+
+
+{% block right %}
+    <h3>Create a new discussion</h3>
     {% form form %}
-        {% for f in form %}
-            {% field f %}
-        {% endfor %}
-    {% endform %}
-
+        <div>{{ form.title }}</div>
+        <div class="clear_left">{{ form.text }}</div>
+        <br class="clear_left" />
+    {% endform 'Create discussion' %}
 {% endblock %}

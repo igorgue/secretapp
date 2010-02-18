@@ -38,7 +38,10 @@
             	
             	    <p class="left_sidebar">
             	        Most Recent<br />
-                        <small><a href="{% url search_discussions %}?sort=updated%20desc">view more</a></small>
+                        <small>
+                            <a href="{% url search_discussions %}?sort=updated%20desc">view more</a>
+                            <a href="{% url new_discussion %}">create new</a>
+                        </small>
                     </p>
                     {% for discussion in discussions %}
             	    {% include 'discussion/multi_render.html' %}
@@ -56,6 +59,10 @@
         <div id="recent_secrets" class="content_line">
                     <p class="left_sidebar">
                         Recent Secrets
+                        <small>
+                            <a href="{% url search_secrets %}">view more</a>
+                            <a href="{% url new_secret %}">create new</a>
+                        </small>
                     </p>
 
                     <div class="center_content">
@@ -77,6 +84,12 @@
         <div id="recent_visitors" class="content_line">
             <p class="left_sidebar">
                 Recent Visitors
+                {% if not user.is_authenticated %}
+                <small>
+                    <a href="{% url render_template template='login' %}">login</a>
+                    <a href="{% url render_template template='login' %}">join</a>
+                </small>
+                {% endif %}
             </p>
             
             <div class="center_content">
