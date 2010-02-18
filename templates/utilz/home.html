@@ -42,9 +42,9 @@
                         {{discussion.proposal_count}} secrets
                     </p>
             	    <div class="right_content right_triangle" style="width:501px;padding-top:18px">
-            	    	<p class="date_added" style="width:100px">created<br />{{discussion.created_at|date:"j M Y G:i"}}</p>
+            	    	<p class="date_added" style="width:150px">created<br />{{discussion.created_at|date:"j M Y G:i"}}</p>
             	    	<a class="discussion_title" style="line-height:1.2em" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
-            	    	<p class="discussion_stats" style="width:400px" >{{discussion.text|truncatewords:"10"}}...</p>
+            	    	<p class="discussion_stats" style="width:350px" >{{discussion.text|truncatewords:"10"}}...</p>
             	    	<p class="discussion_stats"> </p>
             	    </div>
             	    <div class="clear_left"></div>
@@ -122,7 +122,7 @@
            }
          },
          features: {
-           scrollbar: false,
+          scrollbar: false,
           loop: true,
           live: true,
           hashtags: true,
