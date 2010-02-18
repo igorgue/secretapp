@@ -63,7 +63,7 @@ class Discussion(UserContent):
             c.user_can_edit(self.read_by)
         return comments
     
-    def lastest_comment(self):
+    def latest_comment(self):
         "gets the latest comment or returns self"
         from comment.models import DiscussionComment
         try:

@@ -19,9 +19,11 @@
 <div class="page_header">
 	<p id="page_title" class="left_sidebar">
 		Discuss {# DELETE BUTTON FOR ADMINS ONLY #}
+		{% comment %}
         {% with discussion as obj %}
             {% include 'perm/editable_logic.html' %}
         {% endwith %}
+        {% endcomment %}
 	</p>
 	<div class="right_content top_content">
 		{#<a class="discussion_nav" href="{% url search_discussions %}" title="back to discussions">&laquo; Back to discussions</a><a href="{% url new_discussion %}" class="discussion_nav" title="start a new discussion">&#43; Start a new discussion</a>#}

@@ -102,7 +102,7 @@ class SearchForm(forms.Form):
     
     def get_results(self, query):
         """ Connects to solr and actually runs sort """
-        if 'sort' in self.cleaned_data:
+        if 'sort' in self.cleaned_data and self.cleaned_data['sort']:
             sort = self.cleaned_data['sort']
         else:
             sort = self.Meta.default_sort

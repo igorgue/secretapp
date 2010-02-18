@@ -5,8 +5,8 @@ from utilz.search import SearchForm
 from models import *
 
 SORT_ORDERS = (
+                ('updated desc', 'Activity'),
                 ('created desc', 'Newest'),
-                ('updated asc', 'Activity'),
                 ('comments desc', 'Most Posts'),
                 ('secrets desc', 'Most Secrets'),
             )
@@ -23,7 +23,8 @@ class DiscussionSearchForm(SearchForm):
         model = Discussion
         url_name = 'search_discussions'
         results_per_page = 20
-        default_search = SORT_ORDERS[0][0]
+        default_sort = SORT_ORDERS[0][0]
+        cheeky = False
     
     def save(self):
         # build vars
