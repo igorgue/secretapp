@@ -9,7 +9,7 @@
 	    <p style="width:350px" class="discussion_stats">
 	        <a class="discussion_title" style="line-height:1.3em" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
 	    </p>
-	    <p style="width:350px" class="discussion_stats">{{discussion.text|truncatewords:"10"}}...</p>
+	    <p style="width:350px" class="discussion_stats">{{discussion.text|truncatewords:"16"}}</p>
 	    <p style="width:350px" class="discussion_stats">
 	        <a href="{{u.get_absolute_url}}">{{u.name}}</a> 
 	        created {{discussion.created_at|date:"j M Y G:i"}}
