@@ -41,41 +41,42 @@
                 <h1>SAVED!</h1>
             {% endif %}
             {% form form %}
-                {% for f in form %}
-                    {% field f %}
-                {% endfor %}
+                <h3>Join the mailing list!</h3>
+                {% field form.email %}
+                <p class="clear_left">Get all the latest secrets and hot discussions in beautiful curated email.</p>
             {% endform %}
+            <br /><br />
 		</div>
 		<div class="clear_left"></div>
 	</div><!-- END OF THE Edit-->
 	{% endif %}
     
     {% with profile.discussions as discussions %}
+    {% if discussions %}
     <div id="discussions" class="content_line">
 		<div class="left_sidebar">
 			<p><span>{{ discussions|length }}</span> Discussions</p>
 			<small>
-                <a href="{% url search_discussions %}?sort=updated%20desc">Show all</a>
                 <a href="{% url new_discussion %}">Create new</a>
             </small>
 		</div>
+		
 		<div class="right_content right_triangle">
-			<p class="date_added"><span class="highlight">Latest post</span> by <a href="#">Tiffany Philippou</a><br>posted 2 minutes ago</p>
-			<a class="discussion_title" href="discussion.html">What do you think of the new secretlondon Web Site?</a>
-			<p class="discussion_stats">3 posts, 0 secrets - created 2 hours ago.</p>
-
-			<div class="clear_both"></div>
-
-			<p class="date_added"><span class="highlight">Latest post</span> by <a href="#">Tiffany Philippou</a><br>posted 2 minutes ago</p>
-			<a class="discussion_title" href="discussion.html">What do you think of the new secretlondon Web Site?</a>
-			<p class="discussion_stats">3 posts, 0 secrets - created 2 hours ago.</p>
-
-			<div class="clear_both"></div>
-						<p><a href="#">Show all discussions &raquo;</a></p>
-
+		    {% for discussion in discussions %}
+		    {% with discussion.created_by as user %}
+			<p class="date_added">
+			    <span class="highlight">Latest post</span> by <a href="{{user.get_absolute_url}}">{{user.name}}</a><br />
+			    {{discussion.comment_count}} posts, {{discussion.proposal_count}} secrets.
+			</p>
+			{% endwith %}
+			<a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
+			<p class="discussion_stats">{{discussion.text|truncatewords:"10"}}</p>
+			<br class="clear_both" /><br />
+            {% endfor %}
 		</div>
 		<div class="clear_both"></div>
 	</div>
+	{% endif %}
 	{% endwith %}
 	
 	
