@@ -31,6 +31,7 @@ def edit(request):
     if request.method == 'POST':
         form = UserSettingsForm(request.POST)
         if form.is_valid():
+            form.user = request.user
             settings = form.save(commit=True)
             successful = True
     else:
