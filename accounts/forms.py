@@ -15,4 +15,4 @@ class UserSettingsForm(forms.Form):
         if 'email' in self.cleaned_data and self.cleaned_data['email']:
             self.user.email = self.cleaned_data['email']
             self.user.save()
-        return conf
+        return us
