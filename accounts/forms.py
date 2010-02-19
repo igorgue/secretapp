@@ -13,6 +13,6 @@ class UserSettingsForm(forms.Form):
             us.save()
         # user profile
         if 'email' in self.cleaned_data and self.cleaned_data['email']:
-            user.email = self.cleaned_data['email']
-            user.save()
+            self.user.email = self.cleaned_data['email']
+            self.user.save()
         return conf
