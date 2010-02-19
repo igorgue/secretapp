@@ -8,17 +8,18 @@
   <p id="auth">
       {% if user.is_authenticated %}
           <img src="{{user.profile_image.small}}" width="20" height="20" />
-          <small>{{user.first_name}} {{MEMBER_LEVEL}}
+          <small>{{user.first_name}} {{MEMBER_LEVEL}} | 
               {% if user.is_superuser %}<a href="/admin/">Admin</a>{% endif %}
-              <a href="{% url edit_profile %}">Profile</a>
-              <a href="{% url socialauth_social_logout %}">Logout</a>
+              <a href="{% url edit_profile %}">Profile</a> | 
+              <a href="{% url socialauth_social_logout %}">Logout</a> | 
           </small>
       {% else %}
           {% include 'accounts/fb_button.html' %}
       {% endif %}
-
-  </p>
-
+      <small>
+      <a href="http://secretlondon.us/discussion/300-comments-and-feedback-on-the-new-site/">Feedback</a> | 
+      <a href="http://groups.google.com/group/secretcities">Get involved</a>
+      </small>
   {% comment %}
   <form id="search" >
     <input type="search" name="search_paramater" /><input type="image" src="{{MEDIA_URL}}/images/search.png" id="search_sumbit" />

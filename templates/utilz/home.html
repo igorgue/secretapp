@@ -6,7 +6,7 @@
 {% block headnotice %}
 <img src="{{MEDIA_URL}}/images/skyline.png" id="skyline" /><div id="home_header">
     <img src="{{MEDIA_URL}}/images/title_text.png" />
-    <p>After an insane week of work, and after less than a month since the Facebook group was created, secretlondon has its own site.</p>
+    <p style="line-height:1.5em">secretlondon exists to inspire Londoners. Join the discussion to share your experiences of the city. London is brimming with undiscovered gems and we want to know about them.</p>
     <br class="clear_left" />
     <ul>
         <li><a href="{% url render_template template='about' %}">Read the story</a></li>
@@ -17,6 +17,7 @@
     <div class="clear_left"></div>
 </div>
 {% endblock %}
+
 
 {% block content %}
 <div class="page_header">
@@ -43,13 +44,7 @@
                             <a href="{% url new_discussion %}">create new</a>
                         </small>
                     </p>
-                    {% for discussion in discussions %}
-            	    {% include 'discussion/multi_render.html' %}
-            	    {% if not forloop.last %}
-            	    <p class="left_sidebar" style="background-image:none">
-                    </p>
-                    {% endif %}
-            	    {% endfor %}
+                    {% include 'discussion/render/block.html' %}
             	    <div class="clear_left"></div>
             	
             </div><!-- END OF THE FIRST DISCUSSION LINE-->

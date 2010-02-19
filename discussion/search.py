@@ -21,7 +21,7 @@ class DiscussionDocument(SearchDocument):
     
     def transform_render(self, instance):
         " Saves the render of the search result "
-        return render_to_string('discussion/render.html', {'discussion': instance })
+        return render_to_string('discussion/render/search.html', {'discussion': instance })
     
     def transform_blob(self, instance):
         " Saves all the discussion content "
