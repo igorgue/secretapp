@@ -43,17 +43,17 @@ def alt_home(request):
     
     # TODO: cache this and randomize
     context = {
-        'secrets': Secret.viewable.select_related().order_by('-created_at')[:20],
-        'discussions': Discussion.viewable.select_related().order_by('-created_at')[:30],
+        #'secrets': Secret.viewable.select_related().order_by('-created_at')[:20],
+        'discussions': Discussion.viewable.select_related().order_by('-created_at')[:20],
         #'photos'
-        'users': User.objects.order_by('-last_login')[:20],
-        'count' : {
-            'users': User.objects.count(),
-            'discussions': Discussion.viewable.count(),
-            'secrets': Secret.viewable.count(),
-            'posts': DiscussionComment.viewable.count(),
-            'days': (NOW - START_DATE).days - 1,
-        }
+        'users': User.objects.order_by('-last_login')[:5],
+        #'count' : {
+        #    'users': User.objects.count(),
+        #    'discussions': Discussion.viewable.count(),
+        #    'secrets': Secret.viewable.count(),
+        #    'posts': DiscussionComment.viewable.count(),
+        #    'days': (NOW - START_DATE).days - 1,
+        #}
     }
     return context_response(request, 'utilz/alt_home.html', context, tabs=['home'])
     

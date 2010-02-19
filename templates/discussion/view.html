@@ -84,6 +84,7 @@
 				</form>
 	    
 	    <p>{{discussion.text}}</p>
+	    {% comment %}
         <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
         {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
             {% for p in discussion.xpages %}
@@ -103,11 +104,12 @@
     			<p class="moderated">This comment has been rewritten <a class="rewritten" href="#">(why?)</a><span></p>
     		</div>
     	{% endif %}
+    	{% endcomment %}
 </div>
 <br class="clear_left" />
 </div>
 
-    {% for comment in discussion.page_comments %}
+    {% for comment in discussion.comments %}
         {% include 'comment/discussion.html' %}
         
         {% for proposal in comment.proposals %}
