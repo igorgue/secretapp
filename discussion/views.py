@@ -22,7 +22,6 @@ def search(request):
     
     return context_response(request, 'discussion/search.html', {
                 'search_form': form,
-                'newd_form': DiscussionForm().set_url(new=True),
                 'results': results,
             }, tabs=['discussions'])
 
@@ -42,7 +41,7 @@ def view(request, pk):
     
     return context_response(request, 'discussion/view.html', {
                 'discussion': discussion,
-                'reply_form': DiscussionCommentForm().set_url(discussion),
+                'reply_form': DiscussionCommentForm(permission_level=request.user.permission_level).set_url(discussion),
             }, tabs=['discussions'])
 
 
@@ -51,12 +50,12 @@ def edit(request, pk=None):
     discussion = get_editable_or_raise(Discussion, request.user, pk=pk) if pk else Discussion()
     
     if request.method == 'POST':
-        form = DiscussionForm(request.POST, instance=discussion)
+        form = DiscussionForm(request.POST, instance=discussion, permission_level=request.user.permission_level)
         if form.is_valid():
             discussion = form.save(request)
             return HttpResponseRedirect(discussion.get_absolute_url())
     
-    form = DiscussionForm(instance=discussion)
+    form = DiscussionForm(instance=discussion, permission_level=request.user.permission_level)
     return context_response(request, 'discussion/edit.html', {
                 'form': form,
                 'discussion': discussion,

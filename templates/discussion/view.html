@@ -30,8 +30,8 @@
 
 
 
-{# DISCUSSION TEXT AND TITLE #}
-<h2>{{discussion.title}}</h2>
+        {# DISCUSSION TEXT AND TITLE #}
+        <h2>{{discussion.title}}</h2>
 				<form action="#" class="discussion_reply_form">
 					<div class="discussion_reply_tabs">
 						<span class="comment_tab pink_button"><a {% if user.is_authenticated %}href="#" class="comment_tab_button"{% else %}href="{% url render_template template='login' %}"{% endif %}>COMMENT</a></span>
@@ -73,11 +73,22 @@
 						
 						<div class="comment">
 							<h4><label for="">Add a comment</label></h4>
-							<textarea id="" class="comment" name=""></textarea>
+							<textarea id="id_text" class="comment" name="text"></textarea>
+							<input type="hidden" id="id_secrets" name="secrets"/>
+							{% if reply_form.facebook_uid %}
+                                <br class="clear_left" />
+                                {% field reply_form.facebook_uid %}
+                            {% endif %}
+                            {% if reply_form.facebook_name %}
+                                <br class="clear_left" />
+                                {% field reply_form.facebook_name %}
+                            {% endif %}
+							
 						</div>
 						
 						<div class="buttons">
-							<input type="submit" name="sub_share" value="SHARE" class="pink_button">
+							<div style="float:left"><input type="submit" name="sub_share" value="SHARE" class="pink_button"></div>
+							<div style="float:left;margin-top:15px;margin-left:10px;font-weight:bold;"><a style="color:white" class="cancel_comment_button" href="#">Cancel</a></div>
 							<br class="clear_left" />
 						</div>
 					</div>

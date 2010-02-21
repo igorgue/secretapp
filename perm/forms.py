@@ -3,14 +3,35 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 class UserContentForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(UserContentForm, self).__init__(*args, **kwargs)
+    def __init__(self, data=None, permission_level=0, *args, **kwargs):
+        super(UserContentForm, self).__init__(data, *args, **kwargs)
         self.Meta.exclude = ('approved',)
+        
+        print permission_level
+        if permission_level > 2:
+            self.use_facebook = True
+            self.fields['facebook_uid'] = forms.CharField(required=False, help_text="Right click on the user name. Copy link address. Paste here.")
+            self.fields['facebook_name'] = forms.CharField(required=False, help_text="Write the firstname or initials of user here.")
+        else:
+            self.use_facebook = False
+        
     
     def save(self, request, commit=True):
         instance = super(UserContentForm, self).save(commit=False)
-        
         instance.created_by = request.user
+        
+        print self.cleaned_data
+        if self.use_facebook and 'facebook_uid' in self.cleaned_data and self.cleaned_data['facebook_uid']:
+            # take the user url and convert to fuid - so they can claim later
+            fuid = self.cleaned_data['facebook_uid'].replace('http://www.facebook.com/profile.php?id=', '')
+            from facebook import Facebook
+            fb_user, is_new = User.objects.get_or_create(username='FB:%s' % fuid, first_name=self.cleaned_data['facebook_name'])
+            instance.created_by = fb_user
+            print "created", fb_user
+        else:
+            instance.created_by = request.user
+            print "used", request.user
+        
         instance.ip = request.META['REMOTE_ADDR'] if 'REMOTE_ADDR' in request.META else None
         
         # only commit is want to
