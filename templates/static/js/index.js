@@ -36,9 +36,11 @@ $(document).ready(function(){
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
 	$('.rewritten').click(function() {
 		$(this).parents('.moderation_holder').children(':first').show();
+		return false;
 	});
 	$('.close_explaination').click(function(){
 		$(this).parent().hide();
+		return false;
 	})
 });
 
