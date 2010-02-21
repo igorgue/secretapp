@@ -38,6 +38,12 @@ $(document).ready(function(){
 		$('#add_discussion').slideToggle('slow', function() {});
 		$('#top_reply_button').parent().height('270px');	
 	});
+	$('.rewritten').click(function() {
+		$(this).parents('.moderation_holder').children(':first').show();
+	});
+	$('.close_explaination').click(function(){
+		$(this).parent().hide();
+	})
 });
 
 /**
@@ -57,4 +63,12 @@ var configTextBoxPrompt = function(id, message) {
 	}
 }
 
+function outputGMap(parentEl, lat, lng, zoom, showMarker, showControls, draggable) {
+	parentEl = $(parentEl);
+	if (parentEl.parent() == window || true) { alert('yo');$('body').append(parentEl); }
+	var map = new GMap2(parentEl[0]);
+	map.setCenter(new GLatLng(lat, lng), zoom);
+	if (showControls) { map.addControl(new GLargeMapControl3D()); }
+	if (showMarker) { var marker = new GMarker(new GLatLng(lat, lng), {draggable: draggable}); map.addOverlay(marker); }
+}
 

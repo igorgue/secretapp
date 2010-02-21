@@ -42,6 +42,12 @@ var secretListController = {
 		parentElement.find('.add_secret a').each(function() {
 			$(this).click(function() { secretListController.addSecret(); });
 		});
+		parentElement.find('.cancel').each(function() {
+			$(this).click(function() {
+				var df = $(this).closest('.discussion_reply_form');
+				df.removeClass('suggest').removeClass('comment');
+			 });
+		});
 		
 		parentElement.submit(function() { secretListController.submitHandler(); return false; });
 	},
@@ -387,6 +393,7 @@ var secretListController = {
 	
 	submitHandler : function() {
 		secrets = [];
+		this.parentElement.find('.ajax_in_progress').css('display','block');
 		if (this.parentElement.hasClass('suggest')) {
 			this.parentElement.find('.secrets_list').children().each(function() {
 				var secret = $(this);

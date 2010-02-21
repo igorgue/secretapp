@@ -374,7 +374,6 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 	{
 		padding: 10px;
 		width: 760px;
-		height: 80px;
 		border-bottom: 1px solid #d9d9d9;
 		-moz-border-radius-topright: 5px;
 		-webkit-border-top-right-radius: 5px;
@@ -704,7 +703,7 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 		margin-right: 10px;
 	}
 
-.proposal_comments form input[type="submit"]
+.proposal_comments form input[type="submit"],
 	{
 		margin-top: 15px;
 	}
@@ -898,6 +897,7 @@ span.highlight
 	}
 
 .buttons input[type="submit"]
+.buttons input[type="button"],
 	{
 		padding: 10px 20px;
 	}
