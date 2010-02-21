@@ -7,6 +7,7 @@ from secret.models import Secret
 from discussion.models import Discussion
 from discussion.forms import DiscussionSearchForm, SORT_ORDERS as DISCUSSION_SORT_ORDERS
 from comment.models import DiscussionComment, Proposal
+from city.models import CITY_SESSION_NAME
 from shortcuts import context_response
 import datetime
 import random
@@ -17,7 +18,15 @@ def random_secret(request):
 
 
 def home(request):
+    "Static page with links to all the city homes"
+    return context_response(request, 'utilz/home.html', {}, tabs=['home'])
+
+def city_home(request, city):
     " Landing page to site. Much more to come... "
+    request.session[CITY_SESSION_NAME] = city
+    request.session.modified = True
+    
+    
     START_DATE = datetime.datetime(*settings.START_DATE)
     NOW = datetime.datetime.now()
     
@@ -35,7 +44,7 @@ def home(request):
             'days': (NOW - START_DATE).days - 1,
         }
     }
-    return context_response(request, 'utilz/home.html', context, tabs=['home'])
+    return context_response(request, 'utilz/city_home.html', context, tabs=['home'])
 
 
 def alt_home(request):

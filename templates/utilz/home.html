@@ -1,150 +1,57 @@
 {% extends 'layout/base.html' %}
-{# inpage css #}
-{% block pagemedia %}<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />{% endblock %}
 
-{# welcome notice #}
-{% block headnotice %}
-<img src="{{MEDIA_URL}}/images/skyline.png" id="skyline" /><div id="home_header">
-    <img src="{{MEDIA_URL}}/images/title_text.png" />
-    <p style="line-height:1.5em">secretlondon exists to inspire Londoners. Join the discussion to share your experiences of the city. London is brimming with undiscovered gems and we want to know about them.</p>
-    <br class="clear_left" />
-    <ul>
-        <li><a href="{% url render_template template='about' %}">Read the story</a></li>
-        <li><a href="{% url search_discussions %}">Join the Discussion</a></li>
-        <li><a href="{% url random_secret %}">Get Inspired</a></li>
-        <br class="clear_left" />
-    </ul>
-    <div class="clear_left"></div>
-</div>
+{% block pagemedia %}
+<style type="text/css" media="screen">
+    body {
+        color: white;
+    }
+    #container {
+        width: 450px;
+    }
+</style>
 {% endblock %}
 
-
-{% block content %}
-<div class="page_header">
-    <p id="page_title" class="left_sidebar" style="padding-top:20px;height:10px">
-        Featured
-    </p>
-    <div class="center_content top_content">
-        <h2>The latest discussions, join the conversation and add your secrets.</h2>
-    </div>
-    <p class="right_sidebar">
-        Recent Activity
-    </p>
-    <div class="clear_left"></div>
-</div>
-<div id="three_column">
-    <div id="left_center_column">
-        <div id="recent_proposals" class="content_line right_triangle">
-            <div class="content_line">
-            	
-            	    <p class="left_sidebar">
-            	        Most Recent<br />
-                        <small>
-                            <a href="{% url search_discussions %}?sort=updated%20desc">view more</a>
-                            <a href="{% url new_discussion %}">create new</a>
-                        </small>
-                    </p>
-                    {% include 'discussion/render/block.html' %}
-            	    <div class="clear_left"></div>
-            	
-            </div><!-- END OF THE FIRST DISCUSSION LINE-->
-            <div class="clear_both"></div>
-        </div>
-        
-        <div id="recent_secrets" class="content_line">
-                    <p class="left_sidebar">
-                        Recent Secrets
-                        <small>
-                            <a href="{% url search_secrets %}">view more</a>
-                            <a href="{% url new_secret %}">create new</a>
-                        </small>
-                    </p>
-
-                    <div class="center_content">
-                        {% for secret in secrets %}
-                        <a href="{{secret.get_absolute_url}}" class="share_holder">
-                            {% if secret.latitude and secret.longitude %}
-                            <img src="http://maps.google.com/maps/api/staticmap?size=150x150&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13">
-                            {% else %}
-                            <span class="secret_missing_image">Photos to come</span>
-                            {% endif %}
-                            <h4>{{secret.title}}</h4>
-                            <p>{{secret.location}}</p>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    <div class="clear_both"></div>
-                </div>
-        
-        <div id="recent_visitors" class="content_line">
-            <p class="left_sidebar">
-                Recent Visitors
-                {% if not user.is_authenticated %}
-                <small>
-                    <a href="{% url render_template template='login' %}">login</a>
-                    <a href="{% url render_template template='login' %}">join</a>
-                </small>
-                {% endif %}
-            </p>
-            
-            <div class="center_content">
-                {% for u in users %}
-                <div class="visitor_holder">
-                    <img {% if u.profile_image.small %}src="{{u.profile_image.small}}"{% endif %} />
-                    <p class="name"><a href="{{u.get_absolute_url}}">{{u.first_name}} {{u.last_name}}</a></p>
-                    <p class="stats"><span>{{u.secret_count|default:'No '}}</span>Secrets</p>
-                    <p class="stats"><span>{{u.agreement_count|default:'No '}}</span>Agrees</p>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="clear_left"></div>
-        </div>
-    </div>
-    <div id="right_column" style="height:985px">
-        <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-        <script>
-        new TWTR.Widget({
-         version: 2,
-         type: 'search',
-         search: 'secret_london OR #secretlondon',
-         interval: 6000,
-         title: 'secretlondon',
-         subject: '',
-         width: 219,
-         height: 1270,
-         theme: {
-            shell: {
-            background: '#404040',
-            color: '#ffffff'
-           },
-           tweets: {
-             background: '#ffffff',
-             color: '#444444',
-             links: '#eb1849'
-           }
-         },
-         features: {
-          scrollbar: false,
-          loop: true,
-          live: true,
-          hashtags: true,
-          timestamp: true,
-          avatars: true,
-          behavior: 'default'
-         }
-        }).render().start();
-        </script>
-    </div>      
-    <div class="clear_left"></div>
-</div>
-
-<ul id="home_counter">
-    <li><span>{{count.users}}</span>Profiles</li>
-    <li><span>{{count.discussions}}</span>Discussions</li>
-    <li><span>{{count.secrets}}</span>Secrets</li>
-    <li><span>{{count.posts}}</span>Posts</li>
-    <li class="last"><span>{{count.days}}</span>Days Old</li>
-    <li><span>Coming</span>Photos</li>
-    <br class="clear_left" />
-</ul>
+{% block everything %}
+    <img src="{{MEDIA_URL}}/images/logo-secretcities-white.png"></img>
+    <p><b>secretcities</b> exists to inspire the world. Join the discussion to share your experiences of the. Our cities are brimming with undiscovered gems and we want to know about
+    them.</p>
+    <p><a href="{% url render_template template='about' %}">Learn more about <b>secretcities</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://blog.secretcities.com">Read the blog</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://twitter.com/secret_london">Follow us on Twitter</a></p>
+    <br /><br />
+    <h1>Live now</h1>
+    <p><h2><a href="/london/">London</a></h2></p>
+    <br /><br />
+    <h1>Coming soon</h1>
+     
+    <p>Athens - <a href="http://www.facebook.com/group.php?gid=268103777167&ref=search&sid=193109668.1063559209..1">Facebook Group</a>
+    <p>Belfast - <a href="http://www.facebook.com/group.php?gid=270632378411&ref=search&sid=193109668.3538691028..1">Facebook Group</a>
+    <p>Boston - <a href="http://Facebook.com/SecretBoston">Facebook Group</a>
+    <p>Bratislava - <a href="http://www.facebook.com/group.php?gid=314244433887&ref=search&sid=193109668.2987063588..1">Facebook Group</a>
+    <p>Brighton - <a href="http://www.facebook.com/group.php?gid=283416034276&ref=ts">Facebook Group</a>
+    <p>Brisbane - <a href="http://www.facebook.com/group.php?gid=297310581035">Facebook Group</a>
+    <p>Canberra - <a href="http://www.facebook.com/group.php?gid=296466252378">Facebook Group</a>
+    <p>Cape Town - <a href="http://www.facebook.com/group.php?gid=335120748734&ref=ts">Facebook Group</a>
+    <p>Christchurch - <a href="http://www.facebook.com/group.php?gid=268767247927&ref=ts#!/group.php?gid=290488139542">Facebook Group</a>
+    <p>Delhi - <a href="http://www.facebook.com/group.php?gid=335169925829&ref=search&sid=193109668.3528095819..1">Facebook Group</a>
+    <p>Dubai - <a href="http://www.facebook.com/group.php?gid=298681755269&ref=search&sid=193109668.1494202775..1">Facebook Group</a>
+    <p>Dublin - <a href="http://www.facebook.com/group.php?gid=293747433391&ref=search&sid=193109668.518142431..1">Facebook Group</a>
+    <p>Edinburgh - <a href="http://www.facebook.com/group.php?gid=293747433391&ref=search&sid=193109668.518142431..1">Facebook Group</a>
+    <p>Exeter - <a href="http://www.facebook.com/group.php?gid=279802854325&ref=search&sid=505609771.444135417..1">Facebook Group</a>
+    <p>Funchal - <a href="http://www.facebook.com/group.php?gid=309314404092">Facebook Group</a>
+    <p>Johannesburg - <a href="http://www.facebook.com/group.php?gid=293730701908&ref=ts">Facebook Group</a>
+    <p>Madeira - <a href="http://www.facebook.com/group.php?gid=307578738906">Facebook Group</a>
+    <p>Milan - <a href="http://www.facebook.com/group.php?gid=335046308622&ref=search&sid=193109668.3660221288..1">Facebook Group</a>
+    <p>Minneapolis - <a href="http://www.facebook.com/group.php?gid=315889552369&ref=ts">Facebook Group</a>
+    <p>New York - <a href="http://www.facebook.com/group.php?gid=302058997648&ref=ts">Facebook Group</a>
+    <p>New Zealand - <a href="http://www.facebook.com/group.php?gid=268767247927&ref=ts">Facebook Group</a>
+    <p>Norwich - <a href="http://www.facebook.com/group.php?gid=328150622552&ref=ts">Facebook Group</a>
+    <p>Paris - <a href="http://www.facebook.com/group.php?gid=286073152381&ref=ts">Facebook Group</a>
+    <p>Singapore - <a href="http://www.facebook.com/group.php?gid=296428344318&ref=ts">Facebook Group</a>
+    <p>Sydney - <a href="http://www.facebook.com/group.php?gid=301053545907">Facebook Group</a>&nbsp;|&nbsp;<a href="http://www.facebook.com/group.php?gid=291983053247">Another
+    Facebook Group</a>
+    <p>Tokyo - <a href="http://www.facebook.com/group.php?gid=307926804567">Facebook Group</a>
+    <p>Vienna - <a href="http://www.facebook.com/group.php?gid=308748891510&ref=search&sid=193109668.3024193357..1">Facebook Group</a>
+    <p>Wellington - <a href="http://www.facebook.com/group.php?gid=268767247927&ref=ts#!/group.php?gid=301875739520">Facebook Group</a>
+     
+    <h2>Everywhere else...</h2>
+    <p><b>Managing a Facebook Group and not listed? <a href="mailto:tiffany.secretlondon@gmail.com">Get in touch!</a></b></p>
 {% endblock %}

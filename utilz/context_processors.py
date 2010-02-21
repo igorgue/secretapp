@@ -1,13 +1,24 @@
 from django.conf import settings as conf
 
-
 def globals(request):
     return {
-        'FB_API_KEY':   conf.FACEBOOK_API_KEY,
-        'GOOGLE_MAPS_API': conf.GOOGLE_MAPS_API,
-        'IS_AJAX':      request.is_ajax(),
-        'MEMBER_LEVEL': member_level(request),
+        'FB_API_KEY':       conf.FACEBOOK_API_KEY,
+        'GOOGLE_MAPS_API':  conf.GOOGLE_MAPS_API,
+        'IS_AJAX':          request.is_ajax(),
+        'MEMBER_LEVEL':     member_level(request),
+        'CITY':             city(request),
     }
+
+
+def city(request):
+    """
+        Returns the City which is the user is looking at
+    """
+    from city.models import CITY_SESSION_NAME
+    if CITY_SESSION_NAME in request.session:
+        return request.session[CITY_SESSION_NAME]
+    else:
+        return 'london'
 
 
 def member_level(request):

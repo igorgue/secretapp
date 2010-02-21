@@ -25,12 +25,14 @@
 <body {% block bodytag %}{% endblock %}>
 
     <div id="container">
-        {% include 'layout/header.html' %}
-        {% block headnotice %}{% endblock %}
-        {% include 'layout/tabs.html' %}
-
-        {% block content %}{% endblock %}
-        {% include 'layout/footer.html' %}
+        {% block everything %}
+            {% include 'layout/header.html' %}
+            {% block headnotice %}{% endblock %}
+            {% include 'layout/tabs.html' %}
+            
+            {% block content %}{% endblock %}
+            {% include 'layout/footer.html' %}
+        {% endblock %}
     </div><!-- end of div id=container -->
     
     <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>

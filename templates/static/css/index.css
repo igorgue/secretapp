@@ -25,7 +25,7 @@ html, page, img, input[type="image"] {
 /*=1. GLOBAL *************************************************************/
 
 body {
-	font-size:62.5%;font-family: 'Gill sans', 'Gill Sans MT', Calibri, Trebuchet, sans-serif; color:#8e8e8e; line-height:113%;
+	font-size:62.5%;font-family: Helvetica, Arial, sans-serif; color:#8e8e8e; line-height:113%;
 	background:#111111 url(../images/bg.jpg) repeat-x center top; height:100%;
 	}
 

@@ -160,6 +160,7 @@ INSTALLED_APPS = (
     # internal
     'accounts',
     'comment',
+    'city',
     'perm',
     'discussion',
     'secret',
