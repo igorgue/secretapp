@@ -51,7 +51,7 @@ def create_discussion_comment(request, discussion_id):
     discussion = get_viewable_or_raise(Discussion, request.user, pk=discussion_id)
     
     if request.method == 'POST':
-        form = DiscussionCommentForm(request.POST)
+        form = DiscussionCommentForm(request.POST, permission_level=request.user.permission_level)
         if form.is_valid():
             # see formModel for logic
             instance = form.save(request, discussion)
@@ -65,7 +65,7 @@ def create_discussion_comment(request, discussion_id):
             else:
                 return HttpResponseRedirect(instance.discussion.get_lastpage_url())
     else:
-        form = DiscussionCommentForm()
+        form = DiscussionCommentForm(permission_level=request.user.permission_level)
     
     # sets the url for ajax
     form.set_url(discussion)
@@ -82,7 +82,7 @@ def create_proposal_comment(request, proposal_id):
     proposal = select_related_object_or_404(Proposal, pk=proposal_id)
     
     if request.method == 'POST':
-        form = ProposalCommentForm(request.POST)
+        form = ProposalCommentForm(request.POST, permission_level=request.user.permission_level)
         if form.is_valid():
             # save the details
             instance = form.save(request, commit=False)
@@ -99,7 +99,7 @@ def create_proposal_comment(request, proposal_id):
             else:
                 return HttpResponseRedirect(proposal.discussion_comment.get_absolute_url())
     else:
-        form = ProposalCommentForm()
+        form = ProposalCommentForm(permission_level=request.user.permission_level)
     
     # sets the url for ajax
     form.set_url(proposal)

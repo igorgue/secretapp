@@ -13,6 +13,15 @@
     {% form form %}
         <div>{{ form.title }}</div>
         <div class="clear_left">{{ form.text }}</div>
+        
+        {% if form.facebook_uid %}
+            <br class="clear_left" />
+            {% field form.facebook_uid %}
+        {% endif %}
+        {% if form.facebook_name %}
+            <br class="clear_left" />
+            {% field form.facebook_name %}
+        {% endif %}
         <br class="clear_left" />
     {% endform 'Create discussion' %}
 {% endblock %}

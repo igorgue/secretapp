@@ -1,19 +1,19 @@
 $(document).ready(function() {
-	$('.suggest_tab_button').each(function(index) {
-		$(this).click(function() {
-			var df = $(this).closest('.discussion_reply_form');
-			df.removeClass('comment').toggleClass('suggest');
-			//if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
-			return false;
-		});
+	$('.suggest_tab_button').click(function() {
+		var df = $(this).closest('.discussion_reply_form');
+		df.removeClass('comment').toggleClass('suggest');
+		//if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
+		return false;
 	});
-	$('.comment_tab_button').each(function(index) {
-		$(this).click(function() {
-			var df = $(this).closest('.discussion_reply_form');
-			df.removeClass('suggest').toggleClass('comment');
-			if (df.hasClass('comment')) { df.find('textarea.comment').focus(); }
-			return false;
-		});
+	$('.comment_tab_button').click(function() {
+		var df = $(this).closest('.discussion_reply_form');
+		df.removeClass('suggest').toggleClass('comment');
+		if (df.hasClass('comment')) { df.find('textarea.comment').focus(); }
+		return false;
+	});
+	$('.cancel_comment_button').click(function(){
+	    $(this).closest('.discussion_reply_form').removeClass('comment').removeClass('suggest')[0].reset();
+	    return false;
 	});
 });
 
@@ -406,7 +406,12 @@ var secretListController = {
 				});
 			});
 		}
-		$.post('/discussion/'+DISCUSSION_ID+'/comment/', {text: this.parentElement.find('textarea.comment').val(), secrets: secrets.join(',')}, function(data) { location.reload(); });
+		$.post('/discussion/'+DISCUSSION_ID+'/comment/', {
+		        text: this.parentElement.find('textarea.comment').val(),
+		        secrets: secrets.join(','),
+		        facebook_uid: this.parentElement.find('input#id_facebook_uid').val(),
+		        facebook_name: this.parentElement.find('input#id_facebook_name').val(),
+		}, function(data) { location.reload(); });
 		return false;
 	}
 };

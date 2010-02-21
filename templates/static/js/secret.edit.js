@@ -122,3 +122,4 @@ function selectMapResult(lat, lng, title, address) {
 		}
 	}, 200);
 }
+
