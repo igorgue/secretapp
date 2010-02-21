@@ -26,23 +26,23 @@ div.page_content p {padding:0px; width:700px;}
 #credits_page .page_content p {font-size: 2em; color: #888; line-height: 1.6em; margin: 10px;}
 #credits_page span.name {color: black;}
 #credits_page span.name a:link, #credits_page span.name a:visited, #credits_page span.name a:hover {color: black;}
-#credits_page span.pink {font-size: 2em; letter-spacing: 0px; word-spacing: 10px; color: #ed1849;}
-#credits_page span.lower_pink {color: #ed1849;}
+#credits_page span.pink {font-size: 1.4em; letter-spacing: 0px; word-spacing: 10px; color: #ed1849;}
+#credits_page span.lower_pink {color: #ed1849; line-height: 1.4em;}
 
 #credits_page span.wrapper {float: left; display: block; height: 60px; clear: left;}
 .bottom {width: 510px; margin-bottom: 50px;}
 .near_bottom {width: 470px; margin-bottom: 10px;}
-.above_near_bottom {width: 390px;}
-.lower_mid_bottom {width: 310px;}
-.mid_mid_bottom {width: 240px;}
-.upper_mid_bottom {width: 195px; margin-bottom: 10px;}
-.lower_top_bottom {width: 120px;}
-.top_wrapper {width: 50px; margin-bottom: 30px;}
+.above_near_bottom {width: 420px;}
+.lower_mid_bottom {width: 340px;}
+.mid_mid_bottom {width: 270px;}
+.upper_mid_bottom {width: 220px; margin-bottom: 10px;}
+.lower_top_bottom {width: 150px;}
+.top_wrapper {width: 70px; margin-bottom: 30px;}
 
 #team_page .number {color: #888;}
 #team_page p {color: black;}
 #team_page .page_content {padding: 0;}
-#team_page .page_content p { padding: 0 30px; margin: 0 0 10px 0;}
+#team_page .page_content p { padding: 0 30px; }
 #team_page #image_holder {display: block; background: url('../images/crew_colored.jpg') 0 0 no-repeat; width: 780px; height: 582px;}
 
 #about_page .page_content p {font-size: 1.6em; margin: 5px 0;}
