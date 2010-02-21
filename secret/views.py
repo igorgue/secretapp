@@ -71,7 +71,9 @@ def edit(request, pk=None, from_discussion=False):
     secret = get_editable_or_raise(Secret, user, pk=pk) if pk else Secret()
     
     if request.method == 'POST':
-        form = SecretForm(request.POST, instance=secret)
+        print request.POST
+        
+        form = SecretForm(request.POST, instance=secret, permission_level=request.user.permission_level)
         if form.is_valid():
             secret = form.save(request)
             # success and ajax
@@ -92,7 +94,7 @@ def edit(request, pk=None, from_discussion=False):
                 else:
                     return HttpResponseRedirect(secret.get_absolute_url())
     else:
-        form = SecretForm(instance=secret)
+        form = SecretForm(instance=secret, permission_level=request.user.permission_level)
         
     # set the urlG
     form.set_url(secret=secret)

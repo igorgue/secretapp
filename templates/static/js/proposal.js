@@ -400,7 +400,14 @@ var secretListController = {
 				$.ajax({
 				  type: 'POST',
 				  url: '/secret/new_discussion/',
-				  data: {title: secret.find('input.secret_name').val(), location: secret.find('input.secret_location').val(), latitude: secret.find('input.latitude').val(), longitude: secret.find('input.longitude').val()},
+				  data: {
+				      title: secret.find('input.secret_name').val(),
+				      location: secret.find('input.secret_location').val(),
+				      latitude: secret.find('input.latitude').val(),
+				      longitude: secret.find('input.longitude').val(),
+				      facebook_uid: $('.discussion_reply_form').find('input#id_facebook_uid').val(),
+      		          facebook_name: $('.discussion_reply_form').find('input#id_facebook_name').val()
+				  },
 				  success: function(data) { secrets.push(data); },
 				  async: false
 				});
@@ -410,7 +417,7 @@ var secretListController = {
 		        text: this.parentElement.find('textarea.comment').val(),
 		        secrets: secrets.join(','),
 		        facebook_uid: this.parentElement.find('input#id_facebook_uid').val(),
-		        facebook_name: this.parentElement.find('input#id_facebook_name').val(),
+		        facebook_name: this.parentElement.find('input#id_facebook_name').val()
 		}, function(data) { location.reload(); });
 		return false;
 	}

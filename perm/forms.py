@@ -23,7 +23,10 @@ class UserContentForm(forms.ModelForm):
             # take the user url and convert to fuid - so they can claim later
             fuid = self.cleaned_data['facebook_uid'].replace('http://www.facebook.com/profile.php?id=', '')
             from facebook import Facebook
-            fb_user, is_new = User.objects.get_or_create(username='FB:%s' % fuid, first_name=self.cleaned_data['facebook_name'])
+            fb_user, is_new = User.objects.get_or_create(username='FB:%s' % fuid)
+            if 'facebook_name' in self.cleaned_data:
+                fb_user.first_name = self.cleaned_data['facebook_name']
+                fb_user.save()
             instance.created_by = fb_user
         else:
             instance.created_by = request.user
