@@ -59,7 +59,7 @@ class SecretSearchForm(SearchForm):
         
         # searching only the title field
         if 'title' in data and data['title']:
-            queries.append("title:(%s*)" % data['title'])
+            queries.append("(title:(%s) OR title:(%s*))" % data['title'])
         
         # searching any text field's (may extend to comments)
         if 'text' in data and data['text']:
