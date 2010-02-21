@@ -1,3 +1,6 @@
+See the google group for discussions http://groups.google.com/group/secretcities
+See issues for bug tracking http://github.com/timjdavey/secretapp/issues
+
 == Project Description ==
 This is a community project to turn the successful facebook group "Secret London" into a website.
 Please get involved! contact [tim at onefinestay dot com]
@@ -17,6 +20,18 @@ Facebook http://www.facebook.com/group.php?gid=259068995911
 
 == LICENSE ==
 See LICENSE for details
+
+
+== Contributing ==
+If you are not yet a core-contributor to the project. Do the usual...
+    1. Fork the project
+    2. Ping me when you've got something working (with tests!)
+    3. I'll run over it and merge it into the trunk when I can
+
+If you are a core memeber. Please...
+    1. DO NOT COMMIT INTO THE MASTER BRANCH!
+    2. Please make you're own branch then alert me when its ready to go live
+        see http://www.kernel.org/pub/software/scm/git-core/docs/v1.2.6/tutorial.html
 
 
 == Dependancies ==
