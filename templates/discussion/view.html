@@ -19,9 +19,11 @@
 <div class="page_header">
 	<p id="page_title" class="left_sidebar">
 		Discuss {# DELETE BUTTON FOR ADMINS ONLY #}
+		{% comment %}
         {% with discussion as obj %}
             {% include 'perm/editable_logic.html' %}
         {% endwith %}
+        {% endcomment %}
 	</p>
 	<div class="right_content top_content">
 		{#<a class="discussion_nav" href="{% url search_discussions %}" title="back to discussions">&laquo; Back to discussions</a><a href="{% url new_discussion %}" class="discussion_nav" title="start a new discussion">&#43; Start a new discussion</a>#}
@@ -82,6 +84,7 @@
 				</form>
 	    
 	    <p>{{discussion.text}}</p>
+	    {% comment %}
         <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
         {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
             {% for p in discussion.xpages %}
@@ -101,11 +104,12 @@
     			<p class="moderated">This comment has been rewritten <a class="rewritten" href="#">(why?)</a><span></p>
     		</div>
     	{% endif %}
+    	{% endcomment %}
 </div>
 <br class="clear_left" />
 </div>
 
-    {% for comment in discussion.page_comments %}
+    {% for comment in discussion.comments %}
         {% include 'comment/discussion.html' %}
         
         {% for proposal in comment.proposals %}

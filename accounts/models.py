@@ -65,6 +65,10 @@ def discussions(self):
     from discussion.models import Discussion
     return __get_items(self, Discussion)
 
+def discussion_count(self):
+    from comment.models import Discussion
+    return Discussion.viewable.filter(created_by=self).count()
+
 def agreements(self):
     from comment.models import Agreement
     return __get_items(self, Agreement)
@@ -138,6 +142,7 @@ __user_augments__ = (
     'secret_count',
     'agreement_count',
     'proposal_count',
+    'discussion_count',
 )
 
 User.get_settings = get_settings

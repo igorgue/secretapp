@@ -99,12 +99,6 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 		width: 450px;
 		text-align: right;
 	}
-
-#header p#auth a:first-child
-	{
-		border-right: 1px solid white;
-		padding: 10px 5px 0 5px;
-	}
 /*search*/
 #search
 	{
@@ -787,7 +781,6 @@ div.right_content p.secret_missing_image, div.center_content p.secret_missing_im
 
 a.discussion_title
 	{
-		text-decoration: none;
 		font-size: 1.4em;
 	}
 

@@ -1,0 +1,7 @@
+{% for discussion in discussions %}
+    {% include 'discussion/render/singular.html' %}
+    {% if not forloop.last %}
+    <p class="left_sidebar" style="background-image:none">
+    </p>
+    {% endif %}
+{% endfor %}

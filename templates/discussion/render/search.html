@@ -3,7 +3,7 @@
 		<p class="secret_count"><span class="post_stat_count">{{ discussion.comment_count }}</span> posts</p><p class="secret_count"><span class="post_stat_count">{{discussion.proposal_count}}</span> secrets</p>
 	</div>
 	<div class="right_content right_triangle">
-	    {% with discussion.lastest_comment as comment %}
+	    {% with discussion.latest_comment as comment %}
 		<p class="date_added">Latest post by {% with comment.created_by as u %}<a href="{{u.get_absolute_url}}">{{u.name}}</a>{% endwith %}<br />posted {{comment.created_at|date:"j M Y G:i"}}</p>
 		<a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
 		{% endwith %}

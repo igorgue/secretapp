@@ -60,8 +60,7 @@ class Secret(UserContent):
     @property
     def proposal_count(self):
         from comment.models import Proposal
-        return Proposal.viewable.filter(secret=self).count()
-    
+        return Proposal.viewable.filter(secret=self).count()    
     
     # FAVOURITES (BEEN THERE)
     def favourites(self):

@@ -25,18 +25,20 @@ def view(request, pk):
 @login_required
 def edit(request):
     " Editing your profile "
-    if not request.user.is_authenticated():
-        return HttpResponse(reverse('home'))
-    settings = request.user.get_settings()
+    conf = request.user.get_settings()
     successful = False
     
     if request.method == 'POST':
-        form = UserSettingsForm(request.POST, instance=settings)
+        form = UserSettingsForm(request.POST)
         if form.is_valid():
+            form.user = request.user
             settings = form.save(commit=True)
             successful = True
     else:
-        form = UserSettingsForm(instance=settings)
+        form = UserSettingsForm(initial={
+            'email': request.user.email,
+            'publish_to_wall': conf.publish_to_wall,
+        })
     
     return context_response(request, 'accounts/profile.html', {
                 'profile': request.user,

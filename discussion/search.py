@@ -11,17 +11,17 @@ class DiscussionDocument(SearchDocument):
     blob        = solango.fields.TextField(indexed=True, stored=False)
     
     # stats
-    comments    = solango.fields.IntegerField(indexed=True, stored=False)
-    secrets     = solango.fields.IntegerField(indexed=True, stored=False)
-    created     = solango.fields.DateTimeField(indexed=True, stored=False)
-    updated     = solango.fields.DateTimeField(indexed=True, stored=False)
+    comments    = solango.fields.IntegerField(indexed=True, stored=True)
+    secrets     = solango.fields.IntegerField(indexed=True, stored=True)
+    created     = solango.fields.DateTimeField(indexed=True, stored=True)
+    updated     = solango.fields.DateTimeField(indexed=True, stored=True)
     
     # render
     render      = solango.fields.TextField(indexed=False, stored=True)
     
     def transform_render(self, instance):
         " Saves the render of the search result "
-        return render_to_string('discussion/render.html', {'discussion': instance })
+        return render_to_string('discussion/render/search.html', {'discussion': instance })
     
     def transform_blob(self, instance):
         " Saves all the discussion content "
