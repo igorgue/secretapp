@@ -7,6 +7,7 @@ class DiscussionCommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'discussion', 'text', 'deleted', 'approved', 'created_at',)
     list_filter = ('approved', 'deleted',)
     list_editable = ('approved', 'deleted')
+    search_fields = ('discussion__title', 'text')
 admin.site.register(DiscussionComment, DiscussionCommentAdmin)
 
 admin.site.register(Proposal)
