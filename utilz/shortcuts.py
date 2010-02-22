@@ -5,6 +5,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from city.models import CITY_SESSION_NAME
 from utilz.context_processors import build_tabs
 
 def context_response(request, template, context, tabs=None, *args, **kwargs):
@@ -24,8 +25,10 @@ def redirect_back(request):
     """
     if 'HTTP_REFERER' in request.META:
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    elif CITY_SESSION_NAME in request.session:
+        return HttpResponseRedirect(reverse('home', kwargs={'city': request.session[CITY_SESSION_NAME]}))
     else:
-        return HttpResponseRedirect(reverse('home'))
+        return HttpResponseRedirect(reverse('splash'))
 
 
 def login_required(func):
