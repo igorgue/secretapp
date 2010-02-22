@@ -4,6 +4,14 @@ html, page, img, input[type="image"] {
 	padding:0px; margin:0px; font-size:100%; border:none;
 }
 
+/*
+Copyright (c) 2009, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.8.0r4
+*/
+body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}select,input,button,textarea,button{font:99% arial,helvetica,clean,sans-serif;}table{font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}
+
 
 /*CONTENTS*******************************************************************************
 1. GLOBAL
@@ -25,9 +33,12 @@ html, page, img, input[type="image"] {
 /*=1. GLOBAL *************************************************************/
 
 body {
-	font-size:62.5%;font-family: Helvetica, Arial, sans-serif; color:#8e8e8e; line-height:113%;
 	background:#111111 url(../images/bg.jpg) repeat-x center top; height:100%;
 	}
+#container {
+	font-size:93%;*font-size:91%; line-height:116%; /* to ensure consistency in sizing/wrapping across MAC + PC, this must be one of the numbers in the table at http://developer.yahoo.com/yui/fonts/ */
+	font-family: Helvetica, Arial, sans-serif; color:#8e8e8e; 
+}
 
 /*LINKS*/
 
@@ -61,10 +72,9 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 	{
 		width: 960px;
 		margin: 10px auto 0 auto;
-		font-size: 1.2em;
 	}
 /*header*/
-#header	{color: white;}
+#header	{color: white; margin-bottom: 48px;}
 #header a:link, #header a:visited, #header a:hover
 		{
 			text-decoration: none;
@@ -122,22 +132,31 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 #tabs
 {
 	position: absolute;
-	list-style-type: none;
 	padding: 0;
-	margin: 20px 0 0 160px;
+	margin: -28px 0 0 160px;
 	width: 760px;
 	z-index: 3000;
+}
+#tabs_background_hack {
+/* quickfix until the mess that is the dropdowns is sorted */
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 27px;
+	background-color: black;
 }
 
 #tabs ul
 	{
 		float: left;
 		background: black;
-		margin: 4px 0 0 0;
+		margin: 0;
 		padding-top: 1px;
 		text-align: center;
 		padding-left: 0;
 		list-style-type: none;
+		position: relative; /* required for #tabs_background_hack */
 	}
 
 #tabs ul.highlight
@@ -346,7 +365,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 .page_header
 	{
 		width: 940px;
-		margin: 48px 0 0 0;
+		margin: 0;
 		padding: 0;
 		background: #7B7979;
 		-moz-border-radius-topleft: 10px;

@@ -18,26 +18,8 @@ div.page_content p {padding:0px; width:700px;}
 #story_page .page_content {padding-bottom:180px; background:white url('../images/illustrations/BenchLarge4-story.jpg') no-repeat bottom left;}
 #story_page .page_content p.lastparagraph {width:400px;}
 
-#credits_page .page_content {padding-bottom:100px; background:white url('../images/illustrations/BanksideLarge4-credits.jpg') no-repeat bottom left;}
-
 #terms_page .page_content {padding-bottom:580px; background:white url('../images/illustrations/PlugLarge4-tacpp.jpg') no-repeat bottom right;}
 #terms_page .page_content p {width:560px;}
-
-#credits_page .page_content p {font-size: 2em; color: #888; line-height: 1.6em; margin: 10px;}
-#credits_page span.name {color: black;}
-#credits_page span.name a:link, #credits_page span.name a:visited, #credits_page span.name a:hover {color: black;}
-#credits_page span.pink {font-size: 1.4em; letter-spacing: 0px; word-spacing: 10px; color: #ed1849;}
-#credits_page span.lower_pink {color: #ed1849; line-height: 1.4em;}
-
-#credits_page span.wrapper {float: left; display: block; height: 60px; clear: left;}
-.bottom {width: 510px; margin-bottom: 50px;}
-.near_bottom {width: 470px; margin-bottom: 10px;}
-.above_near_bottom {width: 420px;}
-.lower_mid_bottom {width: 340px;}
-.mid_mid_bottom {width: 270px;}
-.upper_mid_bottom {width: 220px; margin-bottom: 10px;}
-.lower_top_bottom {width: 150px;}
-.top_wrapper {width: 70px; margin-bottom: 30px;}
 
 #team_page .number {color: #888;}
 #team_page p {color: black;}
@@ -51,3 +33,51 @@ div.page_content p {padding:0px; width:700px;}
 #about_page .top_content p {font-size: 2em; padding-top: 0px; margin-top: 0;}
 
 #about_page .page_header div.right_content {height: 70px; padding-top: 0;}
+
+
+#credits_page .page_content {padding-bottom:0; background:white url('../images/illustrations/BanksideLarge4-credits.jpg') no-repeat bottom left;}
+
+#credits_page .page_content p {font-size: 200%; color: #888; line-height: 160%; margin: 10px; text-align: justify; }
+#credits_page span.name {color: black;}
+#credits_page span.name a:link, #credits_page span.name a:visited, #credits_page span.name a:hover {color: black;}
+#credits_page span.pink {font-size: 1.4em; letter-spacing: 0px; word-spacing: 10px; color: #ed1849;}
+#credits_page span.lower_pink {color: #ed1849; line-height: 1.4em;}
+
+/* 
+ * filler elements (<span>s) to float content around an interestingly shaped background image
+ *
+ * give class .rightfiller to the container to block out from the right instead of the left
+ *
+ * these are the only two values you should need to adjust when updating the text to be floated around the background image:
+ * .filler1 { height: whatever you need - based on amount of content; }
+ * .filler { margin-left: (or -right, for .rightfiller .filler) for fine-tuning/preventing overlap; }
+ * 
+ */
+.filler {
+	display: block;
+	float: left;
+	clear: left;
+	height: 50px;
+	width: 50px; /* default width - override for individual elements to fit your shape */
+	/* enable these styles for debugging
+	background-color: olive;
+	opacity: 0.6;
+	*/
+}
+.rightfiller .filler { float: right; clear: right; }
+.filler.filler1 { width: 1px; margin-left: 0; }
+/* default widths to create a 45 degree triangle - override on specific pages to create different shapes */
+.filler2  { width: 50px; }
+.filler3  { width: 100px; }
+.filler4  { width: 150px; }
+.filler5  { width: 200px; }
+.filler6  { width: 250px; }
+.filler7  { width: 300px; }
+.filler8  { width: 350px; }
+.filler9  { width: 400px; }
+.filler10 { width: 450px; }
+.filler11 { width: 500px; }
+.filler12 { width: 550px; }
+.filler13 { width: 600px; }
+.filler14 { width: 650px; }
+.filler15 { width: 700px; }

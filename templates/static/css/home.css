@@ -1,9 +1,8 @@
 #home_header
 	{
 		background: #000 url('../images/header_content_bg.jpg') 0 0 no-repeat;
-		margin: -1px 0;
+		margin: -1px 0 48px;
 		width: 940px;
-		padding-bottom: 10px;
 		-moz-border-radius-bottomright: 10px;
 		-webkit-border-bottom-right-radius: 10px;
 		-moz-border-radius-bottomleft: 10px;

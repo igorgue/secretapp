@@ -1,4 +1,5 @@
 <div id="tabs">
+	<div id="tabs_background_hack"></div>
 	<ul {% if tabs.home %}class="highlight"{% endif %}><li><a href="{% url home city=CITY %}" title="Home">Home</a></li></ul>
 	<ul {% if tabs.discussions %}class="highlight"{% endif %}><li><a href="{% url search_discussions %}" title="Showing Discussions">Discussions</a></li></ul>
 	<ul {% if tabs.secrets %}class="highlight"{% endif %}><li><a href="{% url search_secrets %}">Secrets</a></li>
