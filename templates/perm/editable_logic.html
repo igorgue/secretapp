@@ -1,4 +1,4 @@
-{% if obj.is_editable %}
+{% if obj.is_editable or user.is_superuser %}
     {% if obj.deleted %}
         <b>DELETED</b>
     {% else %}
