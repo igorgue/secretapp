@@ -84,7 +84,7 @@ class SecretSearchForm(SearchForm):
 class SecretForm(UserContentForm):
     class Meta:
         model = Secret
-        fields = ('title', 'location', 'latitude', 'longitude', 'description')
+        fields = ('title', 'location', 'latitude', 'longitude', 'description', 'url', 'google_reff')
     
     def set_url(self, secret=None):
         # handling data input

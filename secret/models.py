@@ -11,8 +11,8 @@ class Secret(UserContent):
     location        = models.CharField(help_text=_("Human readable location of secret"), max_length=250, blank=True, null=True)
     latitude        = models.FloatField(blank=True, null=True)
     longitude       = models.FloatField(blank=True, null=True)
-    google_reff     = models.CharField(max_length=250, blank=True, null=True)
-    url             = models.URLField(blank=True, null=True)
+    google_reff     = models.CharField(help_text=_("Reference to google page for result"), max_length=250, blank=True, null=True)
+    url             = models.URLField(help_text=_("Web-address of the secret"), blank=True, null=True)
     
     edit_permission = 'Keeper'
     
