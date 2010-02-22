@@ -71,8 +71,6 @@ def edit(request, pk=None, from_discussion=False):
     secret = get_editable_or_raise(Secret, user, pk=pk) if pk else Secret()
     
     if request.method == 'POST':
-        print request.POST
-        
         form = SecretForm(request.POST, instance=secret, permission_level=request.user.permission_level)
         if form.is_valid():
             secret = form.save(request)
