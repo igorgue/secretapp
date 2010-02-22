@@ -65,7 +65,6 @@ def view(request, pk):
 
 @login_required
 def edit(request, pk=None, from_discussion=False):
-
     user = request.user
     # get object
     secret = get_editable_or_raise(Secret, user, pk=pk) if pk else Secret()
@@ -96,7 +95,6 @@ def edit(request, pk=None, from_discussion=False):
         
     # set the urlG
     form.set_url(secret=secret)
-    
     
     context = {
         'form': form,

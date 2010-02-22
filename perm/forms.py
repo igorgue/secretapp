@@ -8,9 +8,12 @@ class UserContentForm(forms.ModelForm):
         self.Meta.exclude = ('approved',)
         
         if permission_level > 2:
+            if 'instance' in kwargs:
+                instance = kwargs['instance']
+                user = instance.created_by
             self.use_facebook = True
-            self.fields['facebook_uid'] = forms.CharField(required=False, help_text="Right click on the user name. Copy link address. Paste here.")
-            self.fields['facebook_name'] = forms.CharField(required=False, help_text="Write the firstname or initials of user here.")
+            self.fields['facebook_uid'] = forms.CharField(initial=user.username.replace('FB:', ''), required=False, help_text="Right click on the user name. Copy link address. Paste here.")
+            self.fields['facebook_name'] = forms.CharField(initial=user.first_name, required=False, help_text="Write the firstname or initials of user here.")
         else:
             self.use_facebook = False
         

@@ -1,6 +1,8 @@
-<div>
+<div class="clear_left">
     <label>{{ field.label_tag|safe }}</label>
-    <div>{{ field|safe }}</div>
-    <b>{{field.errors|safe}}</b>
-    <small>{{ field.help_text|safe }}</small>
+    <div class="clear_left">{{ field|safe }}</div>
+    <div class="clear_left">
+        <b>{{field.errors|safe}}</b>
+        <small>{{ field.help_text|safe }}</small>
+    </div>
 </div>
