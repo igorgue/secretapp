@@ -100,7 +100,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 		display: none;
 	}
 
-#header p#auth
+#header #auth
 	{
 		display: block;
 		margin: 20px 0 0 150px;
@@ -357,8 +357,8 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 		width: 150px;
 		float: right;
 		border: 2px solid #d9d9d9;
-		margin-right: 28px;
-		margin-top: 5px;
+		margin-right: 20px;
+		margin-top: 15px;
 	}
 
 

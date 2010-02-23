@@ -1,10 +1,12 @@
 {% extends 'layout/base.html' %}
 {# inpage css #}
-{% block pagemedia %}<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />{% endblock %}
+{% block pagemedia %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />
+{% endblock %}
 
 {# welcome notice #}
 {% block headnotice %}
-<img src="{{MEDIA_URL}}/images/skyline.png" id="skyline" /><div id="home_header">
+<div id="home_header">
     <img src="{{MEDIA_URL}}/images/title_text.png" />
     <p style="line-height:1.5em">secretlondon exists to inspire Londoners. Join the discussion to share your experiences of the city. London is brimming with undiscovered gems and we want to know about them.</p>
     <br class="clear_left" />

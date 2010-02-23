@@ -262,9 +262,10 @@ $(document).ready(function(){
     });
     
     // check to find secrets on title or location blur
-    title_field.blur(function(){ control.getSecrets() });
-    location_field.blur(function(){ control.getSecrets() });
-    location_field.blur(function(){ control.getAddress() });
+    title_field.keyup(function(){ control.getSecrets() });
+    location_field.keyup(function(){ control.getSecrets() });
+    location_field.keyup(function(){ control.getAddress() });
+    
     // onload we want to set the address
     if (latitude_field.val() !== '' && longitude_field.val() !== '') {
         control.setAddress();

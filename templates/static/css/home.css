@@ -1,3 +1,9 @@
+#header {
+    background: transparent url('../images/skyline.png') 0 0 no-repeat;
+    margin-bottom: 0px;
+    height: 102px;
+}
+
 #home_header
 	{
 		background: #000 url('../images/header_content_bg.jpg') 0 0 no-repeat;
