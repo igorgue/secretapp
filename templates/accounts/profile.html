@@ -41,9 +41,9 @@
                 <h1>SAVED!</h1>
             {% endif %}
             {% form form %}
-                <h3>Join the mailing list!</h3>
-                {% field form.email %}
-                <p class="clear_left">Get all the latest secrets and hot discussions in beautiful curated email.</p>
+                {% if not profile.email %}<h3>Join the mailing list!</h3>{% else %}<h3>Change your contact email.</h3>{% endif %}
+                {{ form.email }}
+                <p class="clear_left">Get all the latest secrets and hot discussions in a beautiful curated email.</p>
             {% endform %}
             <br /><br />
 		</div>

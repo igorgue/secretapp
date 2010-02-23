@@ -1,28 +1,29 @@
 <div id="header">
 
-  <div id="city_logo">
-    <a href="{% url home city=CITY %}" title="secretlondon"><img src="{{MEDIA_URL}}/images/logo.png" alt="secret london" /></a>
-    <p class="beta"><img src="{{MEDIA_URL}}/images/under-construction.png"></p>
-  </div>
+<div id="city_logo">
+  <a href="{% url home city=CITY %}" title="secretlondon"><img src="{{MEDIA_URL}}/images/logo.png" alt="secret london" /></a>
+  <p class="beta"><img src="{{MEDIA_URL}}/images/under-construction.png"></p>
+</div>
 
-  <div id="auth">
-      {% if user.is_authenticated %}
-          <img src="{{user.profile_image.small}}" width="20" height="20" />
-          <small>{{user.first_name}} {{MEMBER_LEVEL}} | 
-              <a href="{% url edit_profile %}">Profile</a> | 
-              <a href="{% url socialauth_social_logout %}">Logout</a> | 
-          </small>
-       {% else %}
-            {% include 'accounts/fb_button.html' %}
-       {% endif %}
-       <small>
-       <a href="/discussion/300-comments-and-feedback-on-the-new-site/">Feedback</a> | 
-       <a href="http://groups.google.com/group/secretcities">Get involved</a>
-       </small>
-       <br />
-  </div>
-  <a href="{% url new_discussion %}" id="ask_discussion_button" class="pink_button">Ask Question</a>
-  <a href="{% url new_secret %}" id="share_secret_button" class="pink_button">Share Secret</a>
-  <br class="clear_both" />
+<div id="auth">
+    {% if user.is_authenticated %}
+    <img src="{{user.profile_image.small}}" width="20" height="20" />
+    <small>{{user.first_name}} | 
+        <a href="{% url edit_profile %}">Profile</a> | 
+        <a href="{% url socialauth_social_logout %}">Logout</a> | 
+    </small>
+    {% endif %}
+    <small>
+    <a href="/discussion/300-comments-and-feedback-on-the-new-site/">Feedback</a> | 
+    <a href="http://groups.google.com/group/secretcities">Get involved</a>
+    </small>
+    <br />
+</div>
+{% if user.is_anonymous %}
+{% include 'accounts/fb_button.html' %}
+{% endif %}
+<a href="{% url new_discussion %}" id="ask_discussion_button" class="pink_button">Start Discussion</a>
+<a href="{% url new_secret %}" id="share_secret_button" class="pink_button">Share Secret</a>
+<br class="clear_both" />
 
 </div> <!--END OF THE HEADER-->

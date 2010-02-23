@@ -23,6 +23,7 @@ def home(request):
 
 def city_home(request, city):
     " Landing page to site. Much more to come... "
+    
     request.session[CITY_SESSION_NAME] = city
     request.session.modified = True
     

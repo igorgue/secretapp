@@ -1,6 +1,15 @@
 PERMISSION_LEVELS = ('Visitor', 'Member', 'Keeper', 'Seneschal', 'Secretary')
 PERMISSION_SESSION_NAME = 'permission_level'
 
+def clear_permissions(request):
+    """
+    Clears the permissions from the session so they can be reset
+    """
+    if PERMISSION_SESSION_NAME in request.session:
+        del request.session[PERMISSION_SESSION_NAME]
+        request.session.modified = True
+    return request
+
 def permission_level(name):
     """
     Makes handling permission levels easier by converting name into number

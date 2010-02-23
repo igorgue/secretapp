@@ -356,11 +356,24 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 	{
 		width: 150px;
 		float: right;
-		border: 2px solid #d9d9d9;
+		border: 1px solid white;
 		margin-right: 20px;
 		margin-top: 15px;
+		-moz-border-radius: 3px;
+    	-webkit-border-radius: 3px;
+		-webkit-box-shadow: 5px 5px 15px #111;
+    	-moz-box-shadow: 5px 5px 15px #111;
 	}
 
+.facebook-connect img {
+    border: 1px solid white;
+    float: right;
+    margin-top: 15px;
+    -moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 5px 5px 15px #111;
+	-moz-box-shadow: 5px 5px 15px #111;
+}
 
 /*page top*/
 .page_header

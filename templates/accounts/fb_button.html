@@ -1,4 +1,4 @@
 {# FUNKY FB JS WORKAROUND BY ANDY TO FIX LOGIN IN WEBKIT WHEN USER IS ALREADY LOGGED IN TO FB -- SEE layout/base.html for definition #}
-<a rel="nofollow" href="{% url render_template template='login' %}" onclick="if ($.browser.webkit || $.browser.safari) { FB.Connect.logout(function(){FB.Connect.requireSession(facebook_onlogin);return false;}); } else { FB.Connect.requireSession(facebook_onlogin); }; return false;">
-    <img id="RES_ID_fb_login_image" src="http://static.ak.fbcdn.net/rsrc.php/zA114/hash/7e3mp7ee.gif" alt="Connect" align="middle">
+<a rel="nofollow" href="{% url render_template template='login' %}" class="facebook-connect" onclick="try { FB.Connect.logout(function(){FB.Connect.requireSession(facebook_onlogin);return false;}); } catch(e) { FB.Connect.requireSession(facebook_onlogin); } return false;">
+    <img class="facebook-connect" id="RES_ID_fb_login_image" src="http://www2.sk-static.com/images/facebook-connect/connect-with-facebook.png" alt="Facebook connect" height="25" width="194" align="middle">
 </a>

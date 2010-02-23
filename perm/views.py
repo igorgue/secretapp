@@ -7,8 +7,7 @@ from tools import *
 
 @login_required
 def reset_permissions(request):
-    del request.session[PERMISSION_SESSION_NAME]
-    request.session.modified = True
+    clear_permissions(request)
     return redirect_back(request)
 
 

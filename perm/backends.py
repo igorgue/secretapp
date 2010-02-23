@@ -5,6 +5,7 @@ from facebook import Facebook
 from socialauth.models import FacebookUserProfile, AuthMeta
 from socialauth.lib.facebook import get_user_info, get_facebook_signature
 
+from tools import clear_permissions
 from datetime import datetime
 import random
 
@@ -12,7 +13,7 @@ FACEBOOK_API_KEY = getattr(settings, 'FACEBOOK_API_KEY', '')
 FACEBOOK_SECRET_KEY = getattr(settings, 'FACEBOOK_SECRET_KEY', '')
 FACEBOOK_URL = getattr(settings, 'FACEBOOK_URL', 'http://api.facebook.com/restserver.php')
 
-        
+
 class ClaimFacebookBackend:
     def authenticate(self, request):
 
@@ -22,30 +23,34 @@ class ClaimFacebookBackend:
         
         Made massive improvements with error handling.
         """
-        facebook =  Facebook(settings.FACEBOOK_API_KEY,
-                             settings.FACEBOOK_SECRET_KEY)
-                             
+        facebook =  Facebook(settings.FACEBOOK_API_KEY, settings.FACEBOOK_SECRET_KEY)
         check = facebook.check_session(request)
+        clear_permissions(request) # for internal perms
         try:
             fb_user = facebook.users.getLoggedInUser()
             profile = FacebookUserProfile.objects.get(facebook_uid = unicode(fb_user))
-            return profile.user
+            user = profile.user
+            if not user.email:
+                fb_data = facebook.users.getInfo([fb_user], ['email'])
+                user.email = fb_data[0]['email']
+                user.save()
+            return user
         except FacebookUserProfile.DoesNotExist:
             fb_data = None
             try_count = 0
             max_count = 3
             while not fb_data and try_count < max_count:
                 try:
-                    fb_data = facebook.users.getInfo([fb_user], ['uid', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
+                    fb_data = facebook.users.getInfo([fb_user], ['uid', 'email', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
                     break
                 except:
                     try_count += 1
             if not fb_data:
                 return None
             fb_data = fb_data[0]
-
             username = 'FB:%s' % fb_data['uid']
-            #user_email = '%s@example.facebook.com'%(fb_data['uid'])
+            if 'email' in fb_data:
+                user_email = fb_data['email']
             user,new_user = User.objects.get_or_create(username = username)
             user.is_active = True
             user.first_name = fb_data['first_name']
@@ -60,11 +65,6 @@ class ClaimFacebookBackend:
                 auth_meta = AuthMeta(user=user, provider='Facebook').save()
             except:
                 pass
-            
-            from perm.tools import PERMISSION_SESSION_NAME
-            if PERMISSION_SESSION_NAME in request.session:
-                del request.session[PERMISSION_SESSION_NAME]
-                request.session.modified = True
             return user
         except Exception, e:
             pass

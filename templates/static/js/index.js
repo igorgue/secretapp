@@ -1,13 +1,12 @@
 $.prototype.clickAction = function(){
     /*
         Any "form" which is given the class "clickAction"
-        which when submited will send its form contents to
-        the url.
+        will be turned into an ajax form.
         
         The result shall be posted in the DOM element
-        labeled with the class "filler".
+        labeled with the class "filler" (html injected).
         
-        Then any elements marked with "hider" will be hidden (such as the button).
+        Then any elements marked with "hider" will be hidden (such as submit button).
         
         <form method="POST" action="/ajax/" class="clickAction">
             <div class="filler">3</div>
@@ -52,8 +51,8 @@ $.prototype.defaultText = function(text){
     self.blur();
 }
 
-
-$(document).ready(function(){
+$(document).ready(function(){    
+    // actions which handle the "rewritten logic"
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
 	$('.rewritten').click(function() {
 		$(this).parents('.moderation_holder').children(':first').show();
