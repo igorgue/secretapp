@@ -6,13 +6,13 @@ class Secret(UserContent):
     """
     The social object of secretapp
     """
-    title           = models.CharField(help_text=_("Name of secret"), max_length=250)
-    description     = models.TextField(help_text=_("Description of secret. Will become wiki later."), blank=True, null=True)
-    location        = models.CharField(help_text=_("Human readable location of secret"), max_length=250, blank=True, null=True)
+    title           = models.CharField(max_length=250)
+    description     = models.TextField(blank=True, null=True)
+    location        = models.CharField(max_length=250, blank=True, null=True)
     latitude        = models.FloatField(blank=True, null=True)
     longitude       = models.FloatField(blank=True, null=True)
-    google_reff     = models.CharField(help_text=_("Reference to google page for result"), max_length=250, blank=True, null=True)
-    url             = models.URLField(help_text=_("Web-address of the secret"), blank=True, null=True)
+    google_reff     = models.CharField(max_length=250, blank=True, null=True)
+    url             = models.URLField(blank=True, null=True)
     
     edit_permission = 'Keeper'
     

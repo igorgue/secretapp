@@ -51,8 +51,8 @@ var secretCreateController = function(config) {
         localSearch         : new GlocalSearch(),
         geocoder            : new GClientGeocoder(),
         
-        existing_secret_template : '<li><b>__title__</b> in __address__<br /><a href="__href__">Add to this secret</a></li>',
-        local_secret_template : '<li><b>__titleNoFormatting__</b> in __streetAddress__, __region__<br /><a class="google_result" id="gi___gireff__" href="#">use google map</a> | <a href="__url__" target="_blank">(preview on google)</a></li>',
+        existing_secret_template : '<li><b>__title__</b> in __address__<br /><a href="__href__">Go to secret</a></li>',
+        local_secret_template : '<li><b>__titleNoFormatting__</b> in __streetAddress__, __region__<br /><a class="google_result" id="gi___gireff__" href="#">use Google\'s data</a> | <a href="__url__" target="_blank">(preview in new window)</a></li>',
         
         error_message : 'Sorry! But an error occured, could you please try again.',
 
@@ -113,7 +113,7 @@ var secretCreateController = function(config) {
                 this.existing_list_fail.hide();
             } else {
                 this.existing_list_success.hide();
-                this.existing_list_fail.hide();
+                this.existing_list_fail.show();
             }
         },
         
@@ -159,7 +159,7 @@ var secretCreateController = function(config) {
                 this.google_list_fail.hide();
             } else {
                 this.google_list_success.hide();
-                this.google_list_fail.hide();
+                this.google_list_fail.show();
             }
         },
         

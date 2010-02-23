@@ -59,7 +59,9 @@ class SecretSearchForm(SearchForm):
         
         # searching only the title field
         if 'title' in data and data['title']:
-            queries.append("(title:(%s) OR title:(%s*))" % (data['title'], data['title']))
+            # Turns "Cemetery in soh" -> "+(Cemetery Cemetery*) +(in in*) +(soh soh*)"
+            plus_title = ' '.join(['+(%s* %s)' % (x, x) for x in data['title'].split(' ')])
+            queries.append("(title:(%s))" % plus_title)
         
         # searching any text field's (may extend to comments)
         if 'text' in data and data['text']:
@@ -82,7 +84,7 @@ class SecretSearchForm(SearchForm):
 
 
 class SecretForm(UserContentForm):
-    
+    url = forms.URLField(label="Website")
     class Meta:
         model = Secret
         fields = ('title', 'location', 'latitude', 'longitude', 'description', 'url', 'google_reff')
