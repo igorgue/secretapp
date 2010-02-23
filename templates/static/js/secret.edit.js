@@ -258,7 +258,7 @@ $(document).ready(function(){
         'google_list_success' : $('#google_suggestions_success'),
         'google_list_fail' : $('#google_suggestions_fail'),
         
-        'local_extra': ' near London',
+        'local_extra': ' near '+CITY,
     });
     
     // check to find secrets on title or location blur

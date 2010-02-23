@@ -1,5 +1,7 @@
 from django import template
 from django.utils.translation import ugettext as _
+from django.template.defaultfilters import stringfilter
+import re
 
 register = template.Library()
 
@@ -63,6 +65,16 @@ def call(obj, func_name, args):
     """
     return getattr(obj, func_name)(args)
 
+@register.filter
+@stringfilter
+def urlizenf(text):
+    """
+    Same as urlize except it transforms the links to have rel="nofollow"
+        >>> www.someurl.com
+        <a href="http://www.someurl.com" rel="nofollow">www.someurl.com</a>
+    """
+    from django.utils.html import urlize
+    return urlize(text, None, True, True)
 
 
 

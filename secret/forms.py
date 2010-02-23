@@ -82,6 +82,7 @@ class SecretSearchForm(SearchForm):
 
 
 class SecretForm(UserContentForm):
+    
     class Meta:
         model = Secret
         fields = ('title', 'location', 'latitude', 'longitude', 'description', 'url', 'google_reff')
