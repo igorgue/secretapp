@@ -266,7 +266,9 @@ $(document).ready(function(){
     location_field.blur(function(){ control.getSecrets() });
     location_field.blur(function(){ control.getAddress() });
     // onload we want to set the address
-    control.getAddress();
+    if (latitude_field.val() !== '' && longitude_field.val() !== '') {
+        control.getAddress();
+    }
     
     // when you click on a google result
     $('.google_result').live('click', function(){
