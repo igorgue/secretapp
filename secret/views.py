@@ -18,8 +18,7 @@ def search(request):
     
     if request.is_ajax():
         form.Meta.default_template = 'location'
-    
-    # 
+     
     template_map_numbers = {
         'location': 50,
         'list': 10,
@@ -46,7 +45,6 @@ def search(request):
                 'results': results,
                 'search_template':  search_template,
                 # this will be hard coded into tabs
-                'template_types': SECRET_RENDER_TEMPLATES,
             }, tabs=['secrets', form.render_template()])
 
 

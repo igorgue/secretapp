@@ -396,6 +396,9 @@ $(document).ready(function() {
             //get data
         gmapFn.addSecretsToMap();
     }
+    
+    $('#id_title').defaultText('What?');
+    $('#id_location').defaultText('Where?');
 
 })
 

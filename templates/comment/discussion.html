@@ -3,7 +3,6 @@
 	<div class="left_sidebar keeper">
 		<img src="{{u.profile_image.small}}" alt="{{u.first_name}} {{u.last_name}}" />
 		<br class="clear_left" />
-		{% with c as obj %}{% include 'perm/editable_logic.html' %}{% endwith %}
 	</div>
 	<div class="right_content right_triangle">
 		<p class="date_added">{{comment.created_at|date:"j M Y G:i"}}<br /><a href="{{comment.get_flagspam_url}}">Report</a></p>

@@ -351,7 +351,8 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 
 /*=3 GLOBAL CONTENT *************************************************************/
 
-#share_secret_button
+#share_secret_button,
+#ask_discussion_button
 	{
 		width: 150px;
 		float: right;
@@ -607,14 +608,18 @@ a.pink_button
 /*pagination*/
 #pagination
 	{
-		font-size: 0.9em;
+		font-size: 1.1em;
 		margin-top: 5px;
 		color: #666;
 	}
-#pagination a
+#pagination a, #pagination b
 	{
-		margin: 0 2px;
+	    border: 1px solid #eee;
+	    display: inline;
+	    padding: 1px 4px 0px;
+		margin: 0 1px;
 	}
+
 #pages_breakdown
 	{
 		margin: 0 40px 0 20px;
