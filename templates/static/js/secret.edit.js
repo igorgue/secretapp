@@ -51,8 +51,8 @@ var secretCreateController = function(config) {
         localSearch         : new GlocalSearch(),
         geocoder            : new GClientGeocoder(),
         
-        existing_secret_template : '<li><b>__title__</b> in __address__<br /><a href="__href__">Use this secret</a> <a href="__href__" target="_blank">(Preview this)</a></li>',
-        local_secret_template : '<li><b>__titleNoFormatting__</b> in __streetAddress__, __region__<br /><a class="google_result" id="gi___gireff__" href="#">Use this secret</a> <a href="__url__" target="_blank">(Preview this)</a></li>',
+        existing_secret_template : '<li><b>__title__</b> in __address__<br /><a href="__href__">Add to this secret</a></li>',
+        local_secret_template : '<li><b>__titleNoFormatting__</b> in __streetAddress__, __region__<br /><a class="google_result" id="gi___gireff__" href="#">use google map</a> | <a href="__url__" target="_blank">(preview on google)</a></li>',
         
         error_message : 'Sorry! But an error occured, could you please try again.',
 
