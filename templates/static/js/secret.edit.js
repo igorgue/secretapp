@@ -192,7 +192,7 @@ var secretCreateController = function(config) {
             */
             var self = this;
             var location = this.location_field.val();
-            this.geocoder.getLatLng(location + ', ' this.local_extra, function(point){
+            this.geocoder.getLatLng(location + ', ' + this.local_extra, function(point){
                 self.latitude_field.val(point.lat());
                 self.longitude_field.val(point.lng());
                 self.setAddress();
@@ -267,7 +267,7 @@ $(document).ready(function(){
     location_field.blur(function(){ control.getAddress() });
     // onload we want to set the address
     if (latitude_field.val() !== '' && longitude_field.val() !== '') {
-        control.getAddress();
+        control.setAddress();
     }
     
     // when you click on a google result
