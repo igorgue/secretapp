@@ -192,7 +192,7 @@ var secretCreateController = function(config) {
             */
             var self = this;
             var location = this.location_field.val();
-            this.geocoder.getLatLng(location, function(point){
+            this.geocoder.getLatLng(location + ', ' this.local_extra, function(point){
                 self.latitude_field.val(point.lat());
                 self.longitude_field.val(point.lng());
                 self.setAddress();
