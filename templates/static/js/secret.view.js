@@ -12,3 +12,6 @@ var createMap = function(lat, lng, map_selector){
 }
 
 
+$(document).ready(function(){
+    $('#id_secretcomment #id_text').defaultText('Leave a comment here!');
+});

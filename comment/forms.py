@@ -9,6 +9,7 @@ class SecretCommentForm(UserContentForm):
     class Meta:
         model = SecretComment
         fields = ('text',)
+        id = 'secretcomment'
     
     def set_url(self, secret, discussion=None):
         self.action_url = reverse('create_secret_comment', kwargs={'secret_id': secret.id })

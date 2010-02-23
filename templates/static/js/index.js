@@ -31,6 +31,27 @@ $.prototype.clickAction = function(){
      return false;
 }
 
+$.prototype.defaultText = function(text){
+    /*
+    Description:
+        Applies default text to a input field.
+        1. If empty onBlur place text.
+        2. If text onFocus empties.
+        3. If empty onLoad place text.
+    */
+    var self = $(this);
+    self.blur(function(){
+        if (self.val() === ''){
+            self.val(text);
+        }
+    }).focus(function(){
+        if (self.val() === text){
+            self.val('');
+        }
+    });
+    self.blur();
+}
+
 
 $(document).ready(function(){
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
