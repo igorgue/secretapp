@@ -27,8 +27,8 @@ class BotoS3Storage(Storage):
             # base must end in a slash
             base = "".join([base, '/'])
         # public access base for files - can override if using cloudfront
-        if MEDIA_URL is None and settings.get('MEDIA_URL', None) is None:
-            MEDIA_URL = "%s.s3.amazon.com/%s" % (bucket, base)
+        if MEDIA_URL is None:
+            MEDIA_URL = "http://%s.s3.amazonaws.com/" % bucket
         # AWS access keys
         if AWS_ACCESS_KEY_ID is None:
             AWS_ACCESS_KEY_ID = settings.AWS_ACCESS_KEY_ID
@@ -41,6 +41,7 @@ class BotoS3Storage(Storage):
         self.MEDIA_URL = MEDIA_URL
         self.AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
         self.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+        self.public = public
     
     def _connect(self):
         """ returns a connection to s3 """
@@ -68,39 +69,23 @@ class BotoS3Storage(Storage):
         """ called by Storage.open() returns File object """
         return File(StringIO(self._key(name).get_contents_as_string()))
     
-    def _save_base(self):
-        """ creates a new folder so filestructure in s3 is correct """
-        from boto.s3.key import Key
-        folder_name = '%s_$folder$' % self.base
-        bucket = self._bucket()
-        if not bucket.get_key(folder_name):
-            k = Key(bucket)
-            k.key = folder_name
-            k.set_contents_from_string('')
-            k.close()
-        return k
-    
     def _save(self, name, content, public=False):
         """ called by Storage.save() returns name for storage """
+        from boto.s3.key import Key
         bucket = self._bucket()
-        # get_or_create folder (key) based on base
-        self._save_folder(name)
-        # save key somehow
-        i = Key(bucket)
-        i.key = self._keyname(name)
+        i = Key(bucket, self._keyname(name))
         i.set_contents_from_file(content, headers={'Content-Type':'image/png'})
         if self.public or public:
             i.set_acl('public-read')
         i.close()
-        return
+        return name
     
     def get_valid_name(self, name):
         """ gets the name """
-        pass
+        return name
     
     def get_available_name(self, name):
-        """ ? """
-        pass
+        return name
     
     def url(self, name):
         """ returns the public url where the file can be accessed """
@@ -118,7 +103,10 @@ class BotoS3Storage(Storage):
     
     def size(self, name):
         """ returns the size of the file """
-        pass
+        return self._bucket().get_key(self._keyname(name)).size
+
+    def listdir(self, path):
+        return [key.name for key in self._bucket().list()]
 
 
 

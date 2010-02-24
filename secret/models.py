@@ -38,6 +38,10 @@ class Secret(UserContent):
     def primary_image(self):
         return {'thumb': None }
     
+    def images(self):
+        from photo.models import UploadedPhoto
+        return UploadedPhoto.viewable.filter(secret=self).select_related()
+    
     # COMMENTS
     def comments(self):
         if not hasattr(self, '_comments'):

@@ -7,27 +7,31 @@ class Migration:
     
     def forwards(self, orm):
         
-        # Adding model 'TestPhoto'
-        db.create_table('photo_testphoto', (
-            ('id', orm['photo.TestPhoto:id']),
-            ('created_by', orm['photo.TestPhoto:created_by']),
-            ('deleted_by_id', orm['photo.TestPhoto:deleted_by_id']),
-            ('created_at', orm['photo.TestPhoto:created_at']),
-            ('updated_at', orm['photo.TestPhoto:updated_at']),
-            ('deleted_at', orm['photo.TestPhoto:deleted_at']),
-            ('deleted', orm['photo.TestPhoto:deleted']),
-            ('approved', orm['photo.TestPhoto:approved']),
-            ('ip', orm['photo.TestPhoto:ip']),
-            ('image', orm['photo.TestPhoto:image']),
+        # Adding model 'UploadedPhoto'
+        db.create_table('photo_uploadedphoto', (
+            ('id', orm['photo.UploadedPhoto:id']),
+            ('created_by', orm['photo.UploadedPhoto:created_by']),
+            ('deleted_by_id', orm['photo.UploadedPhoto:deleted_by_id']),
+            ('created_at', orm['photo.UploadedPhoto:created_at']),
+            ('updated_at', orm['photo.UploadedPhoto:updated_at']),
+            ('deleted_at', orm['photo.UploadedPhoto:deleted_at']),
+            ('deleted', orm['photo.UploadedPhoto:deleted']),
+            ('approved', orm['photo.UploadedPhoto:approved']),
+            ('ip', orm['photo.UploadedPhoto:ip']),
+            ('secret', orm['photo.UploadedPhoto:secret']),
+            ('original', orm['photo.UploadedPhoto:original']),
+            ('resized', orm['photo.UploadedPhoto:resized']),
+            ('thumb', orm['photo.UploadedPhoto:thumb']),
+            ('caption', orm['photo.UploadedPhoto:caption']),
         ))
-        db.send_create_signal('photo', ['TestPhoto'])
+        db.send_create_signal('photo', ['UploadedPhoto'])
         
     
     
     def backwards(self, orm):
         
-        # Deleting model 'TestPhoto'
-        db.delete_table('photo_testphoto')
+        # Deleting model 'UploadedPhoto'
+        db.delete_table('photo_uploadedphoto')
         
     
     
@@ -74,18 +78,41 @@ class Migration:
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'object_id': ('django.db.models.fields.PositiveIntegerField', [], {})
         },
-        'photo.testphoto': {
+        'photo.uploadedphoto': {
             'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'caption': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
+            'original': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
+            'resized': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
+            'secret': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['secret.Secret']"}),
             'spamflags': ('django.contrib.contenttypes.generic.GenericRelation', [], {'to': "orm['perm.SpamFlag']"}),
+            'thumb': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
+        },
+        'secret.secret': {
+            'approved': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'deleted_at': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'deleted_by_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'google_reff': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'ip': ('django.db.models.fields.IPAddressField', [], {'max_length': '15', 'null': 'True', 'blank': 'True'}),
+            'latitude': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'location': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'longitude': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'spamflags': ('django.contrib.contenttypes.generic.GenericRelation', [], {'to': "orm['perm.SpamFlag']"}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
         }
     }
     

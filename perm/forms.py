@@ -19,6 +19,8 @@ class UserContentForm(forms.ModelForm):
         Other than that acts as ordinary ModelForm. Please see docs for further details.
         Be sure to sub-class the Meta class, i.e. class Meta(UserContent.Meta)
     """
+    
+    
     def __init__(self, data=None, files=None, permission_level=0, *args, **kwargs):
         super(UserContentForm, self).__init__(data, files, *args, **kwargs)
         self.Meta.exclude = ('approved', 'created_by')
