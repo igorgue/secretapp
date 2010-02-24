@@ -1,0 +1,13 @@
+{% extends 'layout/generic.html' %}
+
+{% block left %}
+UPLOAD PHOTO
+{% endblock %}
+
+{% block right %}
+
+    {% form form %}
+        {% field form.image %}
+    {% endform %}
+    
+{% endblock %}

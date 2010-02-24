@@ -3,9 +3,25 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 class UserContentForm(forms.ModelForm):
-    def __init__(self, data=None, permission_level=0, *args, **kwargs):
-        super(UserContentForm, self).__init__(data, *args, **kwargs)
-        self.Meta.exclude = ('approved',)
+    """
+    Is used when defining a new content form.
+    Allows you
+        1. to save the user data assosciated onto a UserContent inherited model.
+        2. upload data on behalf of a facebook user
+    
+    Usage:
+        >>> form = Form(permission_level=request.user.permission_level)
+        # This sets if the upload on behalf of a facebook user functionality is enabled
+        
+        >>> instance = form.save(request)
+        # Must pass the request object at time of save
+        
+        Other than that acts as ordinary ModelForm. Please see docs for further details.
+        Be sure to sub-class the Meta class, i.e. class Meta(UserContent.Meta)
+    """
+    def __init__(self, data=None, files=None, permission_level=0, *args, **kwargs):
+        super(UserContentForm, self).__init__(data, files, *args, **kwargs)
+        self.Meta.exclude = ('approved', 'created_by')
         
         if permission_level > 2:
             try:

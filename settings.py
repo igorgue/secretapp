@@ -28,6 +28,7 @@ List of needed settings:
     SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
     SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
     SEARCH_PING_URLS = ["http://%s/solr/admin/ping" % SOLR_SERVER,]
+    
 """
 try:
     from environment import CWD
@@ -161,10 +162,12 @@ INSTALLED_APPS = (
     'accounts',
     'comment',
     'city',
-    'perm',
     'discussion',
+    'perm',
+    'photo',
     'secret',
     'utilz',
+    
     'bakery',
 )
 

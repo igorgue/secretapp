@@ -1,1 +1,1 @@
-<form action="{{ form.action_url }}" method="{{form.Meta.method|default:'POST'}}" accept-charset="utf-8" id="id_{% if id %}{{id}}{% else %}{{ form.Meta.id }}{% endif %}">
+<form action="{{ form.action_url }}" method="{{form.Meta.method|default:'POST'}}" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %} accept-charset="utf-8" id="id_{% if id %}{{id}}{% else %}{{ form.Meta.id }}{% endif %}">
