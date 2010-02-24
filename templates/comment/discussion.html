@@ -5,7 +5,7 @@
 		<br class="clear_left" />
 	</div>
 	<div class="right_content right_triangle">
-		<p class="date_added">{{comment.created_at|date:"j M Y G:i"}}<br /><a href="{{comment.get_flagspam_url}}">Report</a></p>
+		<p class="date_added">{{comment.created_at|timesince}}<br /><a href="{{comment.get_flagspam_url}}">Report</a></p>
 		<h3>{{u.first_name}} {{u.last_name}} <span class="plain">wrote:<span></h3>
 		<p>{{comment.text}}</p>
 		
