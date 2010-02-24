@@ -84,7 +84,7 @@ class SecretSearchForm(SearchForm):
 
 
 class SecretForm(UserContentForm):
-    url = forms.URLField(label="Website")
+    url = forms.URLField(label="Website", required=False)
     class Meta:
         model = Secret
         fields = ('title', 'location', 'latitude', 'longitude', 'description', 'url', 'google_reff')
