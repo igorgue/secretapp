@@ -8,3 +8,4 @@ fabfile.py
 cache/
 sysadmin/*
 *._*
+templates/static/uploaded

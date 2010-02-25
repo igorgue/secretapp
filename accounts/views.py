@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout as ulogout
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from socialauth.models import FacebookUserProfile
+
 from utilz.shortcuts import context_response, redirect_back, login_required
 from forms import *
 from models import *
@@ -26,8 +28,8 @@ def view(request, pk):
 
 def facebook_redirect(request, fid):
     """ Given a facebook fid, redirects to their profile page """
-    user = get_object_or_404(User, username="FB:%s" % fid)
-    return HttpResponseRedirect(user.get_absolute_url())
+    fuser = get_object_or_404(FacebookUserProfile, facebook_uid=fid)
+    return HttpResponseRedirect(fuser.user.get_absolute_url())
 
 
 @login_required

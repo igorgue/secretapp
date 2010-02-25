@@ -31,10 +31,13 @@ def city_home(request, city):
     START_DATE = datetime.datetime(*settings.START_DATE)
     NOW = datetime.datetime.now()
     
+    discussions = DiscussionSearchForm({'quantity':5})
+    discussions.is_valid()
+    
     # TODO: cache this and randomize
     context = {
         'secrets': Secret.viewable.select_related().order_by('-created_at')[:3],
-        'discussions': Discussion.viewable.select_related().order_by('-created_at')[:6],
+        'discussion_results': discussions.save(),
         #'photos'
         'users': User.objects.order_by('-last_login')[:4],
         'count' : {

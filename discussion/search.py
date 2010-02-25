@@ -18,10 +18,15 @@ class DiscussionDocument(SearchDocument):
     
     # render
     render      = solango.fields.TextField(indexed=False, stored=True)
+    homerender = solango.fields.TextField(indexed=False, stored=True)
     
     def transform_render(self, instance):
         " Saves the render of the search result "
         return render_to_string('discussion/render/search.html', {'discussion': instance })
+    
+    def transform_homerender(self, instance):
+        " Saves the render of the homepage result "
+        return render_to_string('discussion/render/singular.html', {'discussion': instance })
     
     def transform_blob(self, instance):
         " Saves all the discussion content "
