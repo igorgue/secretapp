@@ -67,13 +67,16 @@ class SecretSearchForm(SearchForm):
                                                                 % (text, text, text))
         
         # do quick check has all fields (ugly)
-        lcount = 0
-        for f in self.location_fields:
-            if f in data and data[f]:
-                lcount += 1
-        if lcount == 4:
+        if 'south' in data and data['south'] \
+            and 'north' in data and data['north'] \
+                and 'west' in data and data['west'] \
+                    and 'east' in data and data['east']:
             queries.append("(latitude:[%s TO %s] AND longitude:[%s TO %s])"\
             % (data['south'], data['north'], data['west'], data['east']))
+        
+        # if on photo view, only show secrets with photos
+        if hasattr(self, 'chosen_template') and self.chosen_template == 'photo':
+            queries.append("(photocount:[1 TO *])")
         
         # return
         return self.get_results(" AND ".join(queries))

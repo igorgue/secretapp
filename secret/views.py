@@ -16,8 +16,17 @@ def search(request):
     else:
         form = SecretSearchForm({'page': 1})
     
+    # setup template
+    if request.is_ajax():
+        template = 'location'
+    elif request.GET.get('template') and request.GET['template']:
+        template = request.GET['template']
+    else:
+        template = 'list'
+    
     # process form
     if form.is_valid():
+        form.chosen_template = template
         results = form.save()
     else:
         results = []
@@ -28,14 +37,6 @@ def search(request):
         'list': 10,
         'photo': 20,
     }
-    
-    # setup template
-    if request.is_ajax():
-        template = 'location'
-    elif form.cleaned_data.get('template') and form.cleaned_data['template']:
-        template = form.cleaned_data['template']
-    else:
-        template = 'list'
     
     # get the results
     search_template = 'secret/layout/%s.html' % template
@@ -50,6 +51,7 @@ def search(request):
                 'form': form,
                 'results': results,
                 'search_template':  search_template,
+                ''
                 # this will be hard coded into tabs
             }, tabs=['secrets', form.render_template])
 

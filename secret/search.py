@@ -13,15 +13,14 @@ class sFloatField(solango.fields.Field):
         if not isinstance(self.value, float):
             self.value = float(self.value)
 
-
-class sFloatField(solango.fields.Field):
+class sIntField(solango.fields.Field):
     """ need to define a sfloat field to do range queries """
     dynamic_suffix = "f"
-    type = "sfloat"
+    type = "sint"
 
     def clean(self):
-        if not isinstance(self.value, float):
-            self.value = float(self.value)
+        if not isinstance(self.value, int):
+            self.value = int(self.value)
 
 
 class SecretDocument(SearchDocument):
@@ -35,14 +34,21 @@ class SecretDocument(SearchDocument):
     latitude    = sFloatField(indexed=True, stored=True)
     longitude   = sFloatField(indexed=True, stored=True)
     
+    # photos
+    photocount = sIntField(indexed=True, stored=True)
+    
     # datetimes
     created     = solango.fields.DateTimeField(indexed=True, stored=False)
     
     def transform_created(self, instance):
         return instance.created_at
     
+    def transform_photocount(self, instance):
+        return len(instance.photos())
+    
     def render(self, template):
         return self.data_dict["render_%s" % template]
+    
     
     @classmethod
     def add_renders(self):

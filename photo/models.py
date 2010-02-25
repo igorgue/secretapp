@@ -26,7 +26,7 @@ class UploadedPhoto(UserContent):
     
     extension = 'jpeg'
     resized_proportions = (600,400)
-    thumb_proportions = (50,50)
+    thumb_proportions = (150,150)
     
     def save_files(self, image_content):
         handler = ImageHandler(image_content)
