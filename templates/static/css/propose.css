@@ -43,7 +43,7 @@
 
 .discussion_reply_form .suggest_secret {
 	display: none;
-	float: left;
+	float: right;
 	width: 48%;
 }
 .discussion_reply_form.suggest .suggest_secret {

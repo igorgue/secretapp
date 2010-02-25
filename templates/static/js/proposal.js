@@ -5,12 +5,6 @@ $(document).ready(function() {
 		//if (df.hasClass('suggest')) { df.find('.secret_name').focus(); }
 		return false;
 	});
-	$('.comment_tab_button').click(function() {
-		var df = $(this).closest('.discussion_reply_form');
-		df.removeClass('suggest').toggleClass('comment');
-		if (df.hasClass('comment')) { df.find('textarea.comment').focus(); }
-		return false;
-	});
 	$('.cancel_comment_button').click(function(){
 	    $(this).closest('.discussion_reply_form').removeClass('comment').removeClass('suggest')[0].reset();
 	    return false;
