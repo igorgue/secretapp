@@ -9,6 +9,16 @@ from forms import *
 from models import *
 
 
+def facebook_login(request):
+    """ Redirects you to home after facebook login """
+    return redirect_back(request)
+
+def fid_redirect(request, fid):
+    """ Given a facebook fid, redirects to their profile page """
+    fuser = get_object_or_404(FacebookUserProfile, facebook_uid=fid)
+    return HttpResponseRedirect(fuser.user.get_absolute_url())
+
+
 def view(request, pk):
     """ When viewing a User """
     # check permissions
@@ -24,13 +34,6 @@ def view(request, pk):
     return context_response(request, 'accounts/profile.html', {
                 'profile': u,
             }, tabs=['profile'])
-
-
-def facebook_redirect(request, fid):
-    """ Given a facebook fid, redirects to their profile page """
-    fuser = get_object_or_404(FacebookUserProfile, facebook_uid=fid)
-    return HttpResponseRedirect(fuser.user.get_absolute_url())
-
 
 @login_required
 def edit(request):
