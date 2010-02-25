@@ -1,17 +1,17 @@
 {% extends 'layout/generic.html' %}
 
 {% block left %}
-Comment
+Login
 {% endblock %}
 
 {% block right %}
-<p>There are some areas of the site which you can only access if you log in.</p>
-<p>
+
+<h2>Please login using facebook</h2>
+<p style="float: left; width:200px">
     {% include 'accounts/fb_button.html' %}
 </p>
-<p>Please connect via facebook and we will automatically log you in here and create you an account. Simple.</p>
+<br class="clear_left" />
 <br />
-<p>Over the coming weeks we will be adding more methods to login such as twitter, google, yahoo, openauth, openid. But for now its just facebook. Sorry!</p>
-<br />
+<p>We will be introducing other login method shortly. However, for now we only support facebook-connect. Cheers.</p>
 <br />
 {% endblock %}
