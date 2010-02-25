@@ -36,7 +36,7 @@
         {% endblock %}
     </div><!-- end of div id=container -->
     
-    <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}"{#, { permsToRequestOnConnect:"email" }#});</script>
+    <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}", { permsToRequestOnConnect:"email" });</script>
 {% if not DEBUG %}
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
