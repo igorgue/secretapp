@@ -46,7 +46,7 @@
                             <a href="{% url new_discussion %}">create new</a>
                         </small>
                     </p>
-                    {% for doc in discussion_results.documents %}
+                    {% for doc in discussion_results.documents|slice:"5" %}
                         {{ doc.data_dict.homerender|safe }}
                         {% if not forloop.last %}<p class="left_sidebar" style="background-image:none"></p>{% endif %}
                     {% endfor %}

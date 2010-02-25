@@ -31,7 +31,7 @@ def city_home(request, city):
     START_DATE = datetime.datetime(*settings.START_DATE)
     NOW = datetime.datetime.now()
     
-    discussions = DiscussionSearchForm({'quantity':5})
+    discussions = DiscussionSearchForm({})
     discussions.is_valid()
     
     # TODO: cache this and randomize
