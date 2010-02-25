@@ -43,9 +43,6 @@ class SecretSearchForm(SearchForm):
         default_sort = SORT_ORDER[0][0]
         results_per_page = 10
     
-    def render_template(self):
-        return self.Meta.query_dict.get('template', self.Meta.default_template)
-    
     def template_url(self, template):
         """ Returns the url to change the template but keep the same search critieon """
         q = self.Meta.query_dict.copy()

@@ -23,7 +23,9 @@ def redirect_back(request):
     """
     Returns you back 
     """
-    if 'HTTP_REFERER' in request.META:
+    if 'next' in request.session:
+        return HttpResponseRedirect(request.session['next'])
+    elif 'HTTP_REFERER' in request.META:
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     elif CITY_SESSION_NAME in request.session:
         return HttpResponseRedirect(reverse('home', kwargs={'city': request.session[CITY_SESSION_NAME]}))
