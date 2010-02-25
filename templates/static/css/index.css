@@ -135,7 +135,7 @@ form input[type="text"], textarea {display:block; float:left; margin-bottom:6px;
 	padding: 0;
 	margin: -28px 0 0 160px;
 	width: 760px;
-	z-index: 3000;
+	z-index: 99;
 }
 #tabs_background_hack {
 /* quickfix until the mess that is the dropdowns is sorted */

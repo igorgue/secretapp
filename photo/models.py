@@ -7,12 +7,16 @@ from perm.models import UserContent
 from storage import BotoS3Storage
 from handler import ImageHandler
 
-#if settings.DEBUG:
-#   fs = FileSystemStorage()
-#   upload_to = "uploaded/images"
-#else:
-photo_storage = BotoS3Storage(bucket="secret-test", base="photos")
-upload_to = "uploaded"
+if settings.DEBUG:
+    def monkey_url(self, name):
+        return "/".join((settings.MEDIA_URL, name))
+    # monkey patching store - so url point directly to media (no messing)
+    FileSystemStorage.url = monkey_url
+    photo_storage = FileSystemStorage()
+    upload_to = "uploaded/images"
+else:
+    photo_storage = BotoS3Storage(bucket="secret-test", base="photos")
+    upload_to = "uploaded"
 
 class UploadedPhoto(UserContent):
     """
@@ -25,17 +29,17 @@ class UploadedPhoto(UserContent):
     caption     = models.TextField(blank=True, null=True)
     
     extension = 'jpeg'
-    resized_proportions = (600,400)
-    thumb_proportions = (150,150)
+    resized_proportions = (900, 700)
+    thumb_proportions = (150, 150)
     
     def save_files(self, image_content):
-        handler = ImageHandler(image_content)
+        original = ImageHandler(image_content)
         # save original
-        self.original.save("o_%s.%s" % (self.pk, self.extension), handler.content_file())
+        self.original.save("o_%s.%s" % (self.pk, self.extension), original.content_file())
         # save resize
-        handler.resize(self.resized_proportions)
-        self.resized.save("%s.%s" % (self.pk, self.extension), handler.content_file())
+        resized = original.resize(self.resized_proportions)
+        self.resized.save("%s.%s" % (self.pk, self.extension), resized.content_file())
         # save thumb
-        handler.resize(self.thumb_proportions)
-        self.thumb.save("t_%s.%s" % (self.pk, self.extension), handler.content_file())
+        thumb = original.fit(self.thumb_proportions)
+        self.thumb.save("t_%s.%s" % (self.pk, self.extension), thumb.content_file())
         return self

@@ -35,10 +35,14 @@ class Secret(UserContent):
         return reverse('delete_secret', kwargs={'pk': self.pk})
     
     # IMAGES
-    def primary_image(self):
-        return {'thumb': None }
+    def primary_photo(self):
+        from photo.models import UploadedPhoto
+        try:
+            return UploadedPhoto.viewable.filter(secret=self).order_by('created_at')[0]
+        except:
+            return None
     
-    def images(self):
+    def photos(self):
         from photo.models import UploadedPhoto
         return UploadedPhoto.viewable.filter(secret=self).select_related()
     

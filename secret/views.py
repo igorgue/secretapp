@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from discussion.models import Discussion
 from comment.forms import SecretCommentForm
 from secret.forms import SecretSearchForm
+from photo.forms import UploadPhotoForm
 from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, login_required, redirect_back
 from forms import *
 from models import *
@@ -51,7 +52,6 @@ def search(request):
                 'form': form,
                 'results': results,
                 'search_template':  search_template,
-                ''
                 # this will be hard coded into tabs
             }, tabs=['secrets', form.render_template])
 
@@ -66,6 +66,7 @@ def view(request, pk):
     return context_response(request, 'secret/view.html', {
                 'secret': secret,
                 'comment_form': SecretCommentForm().set_url(secret),
+                'photo_form': UploadPhotoForm().set_url(secret)
             }, tabs=['secrets'])
 
 
