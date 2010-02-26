@@ -8,6 +8,7 @@ from discussion.models import Discussion
 from discussion.forms import DiscussionSearchForm, SORT_ORDERS as DISCUSSION_SORT_ORDERS
 from comment.models import DiscussionComment, Proposal
 from city.models import CITY_SESSION_NAME
+from photo.models import UploadedPhoto
 from shortcuts import context_response
 import datetime
 import random
@@ -45,6 +46,7 @@ def city_home(request, city):
             'discussions': Discussion.viewable.count(),
             'secrets': Secret.viewable.count(),
             'posts': DiscussionComment.viewable.count(),
+            'photos': UploadedPhoto.viewable.count(),
             'days': (NOW - START_DATE).days - 1,
         }
     }

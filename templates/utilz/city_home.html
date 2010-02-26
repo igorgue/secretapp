@@ -68,11 +68,17 @@
                     <div class="center_content">
                         {% for secret in secrets %}
                         <a href="{{secret.get_absolute_url}}" class="share_holder">
-                            {% if secret.latitude and secret.longitude %}
-                            <img src="http://maps.google.com/maps/api/staticmap?size=150x150&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13">
-                            {% else %}
-                            <span class="secret_missing_image">Photos to come</span>
-                            {% endif %}
+                            {% with secret.primary_photo as pp %}
+            			        {% if pp %}
+            			            <img src="{{pp.thumb.url}}" alt="{{pp.caption}}" />
+            			        {% else %}
+                                    {% if secret.latitude and secret.longitude %}
+                                    <img src="http://maps.google.com/maps/api/staticmap?size=150x150&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13">
+                                    {% else %}
+                                    <span class="secret_missing_image"></span>
+                                    {% endif %}
+                                {% endif %}
+                            {% endwith %}
                             <h4>{{secret.title}}</h4>
                             <p>{{secret.location}}</p>
                         </a>
@@ -105,7 +111,7 @@
             <div class="clear_left"></div>
         </div>
     </div>
-    <div id="right_column" style="height:985px">
+    <div id="right_column" style="height:949px">
         <script src="http://widgets.twimg.com/j/2/widget.js"></script>
         <script>
         new TWTR.Widget({
@@ -116,7 +122,7 @@
          title: 'secretlondon',
          subject: '',
          width: 219,
-         height: 1270,
+         height: 1200,
          theme: {
             shell: {
             background: '#404040',
@@ -148,8 +154,8 @@
     <li><span>{{count.discussions}}</span>Discussions</li>
     <li><span>{{count.secrets}}</span>Secrets</li>
     <li><span>{{count.posts}}</span>Posts</li>
-    <li class="last"><span>{{count.days}}</span>Days Old</li>
-    <li><span>Coming</span>Photos</li>
+    <li><span>{{count.days}}</span>Days Old</li>
+    <li class="last"><span>{{count.photos}}</span>Photos</li>
     <br class="clear_left" />
 </ul>
 {% endblock %}
