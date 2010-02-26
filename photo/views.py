@@ -21,4 +21,4 @@ def upload(request, secret_id):
     context = {
         'form': form
     }
-    return context_response(request, 'photo/edit.html', context)
+    return context_response(request, 'photo/edit.html', context, tabs=['secret','photo'])

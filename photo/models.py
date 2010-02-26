@@ -15,7 +15,7 @@ if settings.DEBUG:
     photo_storage = FileSystemStorage()
     upload_to = "uploaded/images"
 else:
-    photo_storage = BotoS3Storage(bucket="secret-test", base="photos")
+    photo_storage = BotoS3Storage(bucket="secret-uploads", base="photos")
     upload_to = "uploaded"
 
 class UploadedPhoto(UserContent):
