@@ -37,7 +37,8 @@
 				    {% with proposal.comment_form as form %}
 				        {% form form %}
 				            {% field form.text %}
-				        {% endform '&#43; add comment' 'pink_button' %}
+				        <input type="submit" value="&#43; add comment" style="font-size:0.6em" class="pink_button">
+				        </form>
 					<br class="clear_left" />
 				    {% endwith %}
 				{% else %}
