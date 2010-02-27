@@ -17,11 +17,18 @@
 		<div class="proposal_holder">
 		    {# secret itself #}
 			<div class="proposal_content">
-				{% if secret.latitude and secret.longitude %}
-				<p class="secret_map_image"><img src="http://maps.google.com/maps/api/staticmap?size=90x90&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13"></p>
-				{% else %}
-				<p class="secret_missing_image">Photos to come</p>
-				{% endif %}
+			    {% with secret.primary_photo as pi %}
+        	    {% if pi %}
+        	        <a href="{{pi.resized.url}}" class="-lightbox"><img src="{{pi.thumb.url}}" width="90px" /><br />view photos</a>
+        	    {% else %}
+        		    {% if secret.latitude and secret.longitude %}
+    				<p class="secret_map_image"><img src="http://maps.google.com/maps/api/staticmap?size=90x90&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13"></p>
+    				{% else %}
+    				<p class="secret_missing_image">Photos to come</p>
+    				{% endif %}
+        		{% endif %}
+                {% endwith %}
+				
 				<span class="secret_details">
 					<h3>{{secret.title}}</h3>
 					<p>{{secret.location|default:""}}</p>
