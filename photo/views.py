@@ -14,7 +14,6 @@ def upload(request, secret_id):
         if form.is_valid():
             form.secret = secret
             instance = form.save(request, commit=True)
-            secret.save() # to reindex search
             return HttpResponseRedirect(secret.get_absolute_url())
     else:
         form = UploadPhotoForm()

@@ -388,23 +388,27 @@ var secretListController = {
 	submitHandler : function() {
 		secrets = [];
 		this.parentElement.find('.ajax_in_progress').css('display','block');
+		var title_text = this.title_hinttext;
+		var location_text = this.location_hinttext;
 		if (this.parentElement.hasClass('suggest')) {
 			this.parentElement.find('.secrets_list').children().each(function() {
 				var secret = $(this);
-				$.ajax({
-				  type: 'POST',
-				  url: '/secret/new_discussion/',
-				  data: {
-				      title: secret.find('input.secret_name').val(),
-				      location: secret.find('input.secret_location').val(),
-				      latitude: secret.find('input.latitude').val(),
-				      longitude: secret.find('input.longitude').val(),
-				      facebook_uid: $('.discussion_reply_form').find('input#id_facebook_uid').val(),
-      		          facebook_name: $('.discussion_reply_form').find('input#id_facebook_name').val()
-				  },
-				  success: function(data) { secrets.push(data); },
-				  async: false
-				});
+				if (secret.find('input.secret_name').val()!== title_text && secret.find('input.secret_location').val() !== location_text){
+				    $.ajax({
+				      type: 'POST',
+				      url: '/secret/new_discussion/',
+				      data: {
+				          title: secret.find('input.secret_name').val(),
+				          location: secret.find('input.secret_location').val(),
+				          latitude: secret.find('input.latitude').val(),
+				          longitude: secret.find('input.longitude').val(),
+				          facebook_uid: $('.discussion_reply_form').find('input#id_facebook_uid').val(),
+      		              facebook_name: $('.discussion_reply_form').find('input#id_facebook_name').val()
+				      },
+				      success: function(data) { secrets.push(data); },
+				      async: false
+				    });
+			    }
 			});
 		}
 		$.post('/discussion/'+DISCUSSION_ID+'/comment/', {

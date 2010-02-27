@@ -43,3 +43,12 @@ class UploadedPhoto(UserContent):
         thumb = original.fit(self.thumb_proportions)
         self.thumb.save("t_%s.%s" % (self.pk, self.extension), thumb.content_file())
         return self
+    
+    def save(self, *args, **kwargs):
+        super(UploadedPhoto, self).save(*args, **kwargs)
+        try:
+            # to reindex - not massively important
+            self.secret.save()
+        except:
+            pass
+        
