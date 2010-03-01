@@ -88,7 +88,7 @@
 					</div>
 				</form>
 	    <p>asked by <a href="{{user.get_absolute_url}}">{{user.name}}</a></p>
-	    <p>{{discussion.text}}</p>
+	    <p>{{discussion.text|linebreaks}}</p>
 	    {% endwith %}
 	    {% comment %}
         <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
