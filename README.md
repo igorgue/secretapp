@@ -1,6 +1,11 @@
 # Secret-app
 Secret-app is the source code for the website http://secretcities.com
 
+We happily encourage contributions to the source. Is there a cool feature you'd like to add? Do you want to positively improve the experience of tens of thousands of users? Then get involved. Thats one of the strongest and most important facts about this group, is that you'll be working on a living breathing project used by a living breathing very active community.
+
+So get involved and join in!
+
+
 ## Contents
 1. General
 2. Contributing
@@ -24,11 +29,12 @@ http://github.com/timjdavey/secretapp/blob/master/LICENSE
 
 
 ## Contributing
-If you are not yet a core-contributor to the project. Do the usual...
-1. Fork the project
-2. Ping me when you've got something working (with tests!)
-3. I'll run over it and merge it into the trunk when I can
+To get involved in the project, we do a thing called "forking". See http://help.github.com/forking/ for more details.
+Once you've got that down and understand how that works. Following the "Getting setup" to get the project setup on your local machine.
+Then you can submit patches, features, designs to you're hearts content.
 
+Obviously if you are an active contributor we'll pull you into the core team.
+Also get chatting on our google dev group. http://groups.google.com/group/secretcities/
 
 
 ## Getting setup
