@@ -5,7 +5,7 @@ try:
     from cStringIO import StringIO
 except:
     import StringIO
-import boto
+
 
 class BotoS3Storage(Storage):
     """
@@ -43,8 +43,9 @@ class BotoS3Storage(Storage):
         self.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
         self.public = public
     
-    def _connect(self):
+    def _connect(self):    	
         """ returns a connection to s3 """
+        import boto
         if hasattr(self, 'connection'):
             return self.connection
         self.connection = boto.connect_s3(self.AWS_ACCESS_KEY_ID, self.AWS_SECRET_ACCESS_KEY)

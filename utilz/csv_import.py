@@ -107,7 +107,7 @@ def secret_import(file_name):
 
 def import_data():
     from settings import CWD
-    #discussion_import('%s/utilz/csv/discussions-4txt.csv' % CWD)
+    discussion_import('%s/utilz/csv/discussions-4txt.csv' % CWD)
     comment_import('%s/utilz/csv/comments-4txt.csv' % CWD)
     secret_import('%s/utilz/csv/secrets-4txt.csv' % CWD)
 
