@@ -22,6 +22,9 @@ List of needed settings:
     DATABASE_PORT = ''      # Set to empty string for default. Not used with sqlite3.
     
     # facebook api confs (simply the keys provided from the app)
+    # you will not be able to login via facebook to test
+    # if you want to do so, you will need to setup a new sandbox app
+    # with domain as http://localhost:8000/
     FACEBOOK_API_KEY = 'x'
     FACEBOOK_SECRET_KEY = 'x'
     
