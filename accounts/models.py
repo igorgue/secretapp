@@ -55,6 +55,7 @@ def secret_count(self):
 
 def proposals(self):
     from comment.models import Proposal
+    #does this work? created_by does not exist on Proposal
     return __get_items(self, Proposal)
 
 def proposal_count(self):
@@ -76,6 +77,10 @@ def agreements(self):
 def agreement_count(self):
     from comment.models import Agreement
     return Agreement.viewable.filter(created_by=self).count()
+
+def agreed_with_me_count(self):
+    from comment.models import Agreement
+    return Agreement.viewable.filter(proposal__discussion_comment__created_by=self).count()
 
 def favourites(self):
     from secret.models import FavouriteSecret
@@ -141,6 +146,7 @@ __user_augments__ = (
     
     'secret_count',
     'agreement_count',
+    'agreed_with_me_count',
     'proposal_count',
     'discussion_count',
 )

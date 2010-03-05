@@ -1,0 +1,21 @@
+{% extends 'layout/generic.html' %}
+
+{% block left %}
+Comment
+{% endblock %}
+
+{% block right %}
+
+
+<h1>{{discussion.title}}</h1>
+
+<h3>Comment</h3>
+{% form form %}
+{{ form.text.as_textarea }}
+<br class="clear_left"/>
+{% endform %}
+<br class="clear_left"/>
+<br /><br />
+
+
+{% endblock %}

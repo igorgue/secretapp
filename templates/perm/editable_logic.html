@@ -1,8 +1,9 @@
+<div style="display:none">{% call obj "user_can_edit" user %}</div>
 {% if obj.is_editable or user.is_superuser %}
     {% if obj.deleted %}
         <b>DELETED</b>
     {% else %}
-        <a href="{{ obj.get_edit_url }}">Edit</a>
+        &nbsp; <a href="{{ obj.get_edit_url }}" class="" title="Edit">Edit</a> &nbsp;
         {% with obj.get_delete_url as delete_url %}
             {% include 'perm/delete_button.html' %}
         {% endwith %}

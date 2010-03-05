@@ -29,6 +29,9 @@ class SecretComment(AbstractComment):
     """ A comment on a secret. Could be assosiciated with a discussion. """
     secret      = models.ForeignKey(Secret)
 
+    def get_edit_url(self):
+        return reverse('edit_secret_comment', kwargs={'secret_id': self.secret.pk, 'comment_id': self.pk})
+    
     def get_delete_url(self):
         return reverse('delete_secret_comment', kwargs={'pk': self.pk})
 
@@ -43,6 +46,9 @@ class DiscussionComment(AbstractComment):
     
     def proposals(self):
         return Proposal.viewable.filter(discussion_comment=self).select_related()
+    
+    def get_edit_url(self):
+        return reverse('edit_discussion_comment', kwargs={'discussion_id': self.discussion.pk, 'comment_id': self.pk})
     
     def get_delete_url(self):
         return reverse('delete_discussion_comment', kwargs={'pk': self.pk})
@@ -92,6 +98,9 @@ class Proposal(models.Model):
 class ProposalComment(AbstractComment):
     """ A comment on a Proposal. """
     proposal        = models.ForeignKey(Proposal)
+
+    def get_edit_url(self):
+        return reverse('edit_proposal_comment', kwargs={'proposal_id': self.proposal.pk, 'comment_id': self.pk})
 
     def get_delete_url(self):
         return reverse('delete_proposal_comment', kwargs={'pk': self.pk})

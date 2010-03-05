@@ -94,6 +94,10 @@ class Discussion(UserContent):
         "gets absolute url - with seo string attached"
         return "%s%s/" % (reverse('view_discussion', kwargs={'pk': self.pk }), self.safe_title())
     
+    def get_edit_url(self):
+        "gets the url needed to edit the page"
+        return reverse('edit_discussion', kwargs={'pk': self.pk})
+    
     def get_delete_url(self):
         "gets the url needed to POST to delete the page"
         return reverse('delete_discussion', kwargs={'pk': self.pk})
