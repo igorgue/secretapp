@@ -3,6 +3,7 @@ from django.contrib.auth import logout as ulogout
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
+from communication.forms import UserCommunicationSettingsForm
 from utilz.shortcuts import context_response, redirect_back, login_required
 from forms import *
 from models import *
@@ -59,6 +60,20 @@ def edit(request):
             }, tabs=['profile', 'edit'])
 
 
+@login_required
+def edit_communication(request):
+    if request.method == 'POST':
+        form = UserCommunicationSettingsForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect_back(request)
+    else:
+        form = UserCommunicationSettingsForm(user=request.user)
+    return context_response(request, 'accounts/communication.html', 
+                    {'form': form }, tabs=['profile', 'edit', 'communication'])
+
+
+@login_required
 def logout(request):
     "logs a user out"
     ulogout(request)

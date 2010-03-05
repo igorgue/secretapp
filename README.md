@@ -129,7 +129,7 @@ For mysql (want utf8 character set)
 Next you need to create the tables
 
     # standard django
-    ./manage.py syncdb
+    ./manage.py syncdb --noinput
     
     # south syncdb
     ./manage.py migrate
@@ -155,9 +155,24 @@ See the solango docs for more details http://www.screeley.com/djangosolr/tutoria
 
 
 ### Load data
-We currently experiencing problems with our data load. We will try and get some example data soon!
+There is a large django dumpfile in 
+    
+    ./manage.py loaddata /fixtures/example_data.json
+    
+    ./manage.py solr --reindex
+
+This also contains an admin with username:`admin` password:`admin`
 
 
+This file may go out of date in comparison to the models. So if you would like to import the data raw. 
+We'll turn this into a `./manage.py dumpdata` file soon. But for now run the following from `./manage.py shell`.
+
+    from utilz.csv_import import import_data
+    import_data()
+
+There will be a few numbers outputted at this point. Ignore those.
+Then just check all the data is loaded by going into the db or admin interface!
 
 
+Enjoy!
 

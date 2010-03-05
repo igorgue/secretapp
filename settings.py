@@ -162,13 +162,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     # dependancies
-    'socialauth',
     'openid_consumer',
+    'socialauth',
     'solango',
     'south',
     # internal
     'accounts',
     'comment',
+    'communication',
     'city',
     'discussion',
     'perm',
@@ -176,7 +177,7 @@ INSTALLED_APPS = (
     'secret',
     'utilz',
     
-    'bakery',
+    #'bakery',
 )
 
 # see top of document for notes
