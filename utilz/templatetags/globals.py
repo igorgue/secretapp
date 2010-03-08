@@ -53,7 +53,6 @@ def endform(text=_('Submit'), classes=None):
     """
     return { 'text': text, 'classes': classes }
 
-
 @register.simple_tag
 def call(obj, func_name, args):
     """

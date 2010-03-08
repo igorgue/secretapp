@@ -1,0 +1,7 @@
+{% extend 'communication/base.txt' %}{% block content %}
+Thank you for starting a discussion on {{discussion.title}} I hope you find what you're looking for! 
+
+To view your discussion follow this link {{discussion.get_absolute_url}}
+
+Best of luck,  hope to see you back on secretlondon again. 
+Tiff x{% endblock %}

@@ -1,0 +1,7 @@
+{% extend 'communication/base.txt' %}{% block content %}
+{{ replier.name }} commented on {{ secret.title }} which you shared on secretlondon.
+
+To view your secret's profile, upload a photo, or add to its description, follow this link
+{{ secret.get_absolute_url }}
+ 
+Thank you for using secretcities.com and hope you share more secrets with us soon!{% endblock %}

@@ -2,10 +2,9 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db import models
-from django.template.loader import render_to_string
+from django.template import RequestContext, loader
 
 SEND_FROM_EMAIL = getattr(settings, 'COMMUNICATION_EMAIL', settings.EMAIL_HOST_USER)
-
 
 class CommunicationTrigger(models.Model):
     """
@@ -43,23 +42,41 @@ class CommunicationTrigger(models.Model):
     
     default = models.BooleanField(default=True)
     optional = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
     
     
     def __unicode__(self):
         return u"%s" % self.name
     
-    def create_communication(self, user, context, subject_template, body_template, web_template=False):
+    def create_communication(self, user, context, subject=None, body=None, \
+                    subject_template=None, body_template=None, web_template=None):
         """
         This creates a new communication.
         """
         com = Communication(user=user, trigger=self)
-        # renders the messages
-        com.subject = render_to_string(subject_template, context)
-        com.body = render_to_string(body_template, context)
+        # renders
+        def render_or_template(line, template, error):
+            if line is not None:
+                return line
+            else:
+                if template is not None:
+                    return loader.render_to_string(template,
+                                context, context_instance=RequestContext(request))
+                else:
+                    raise ValueError, error
+        
+        
+        # renders the message subject
+        com.subject = render_or_template(subject, subject_template,\
+                            "Please provide a `subject` or `subject_template`")
+        com.body = render_or_template(body, body_template,\
+                            "Please provide a `body` or `body_template`")
+        
+        
         # checks if its to be shown on the web
         if web_template:
             com.web_visable = True
-            com.web = render_to_string(body_template, context)
+            com.web = loader.render_to_string(body_template, context)
         else:
             com.web_visable = False
         return com.save()
@@ -94,6 +111,11 @@ class CommunicationManager(models.Manager):
         return successful
     
     def send_unsent(self, force=False):
+        """
+        Accessable via the command line
+            
+            ./manage.py send_unsent_mail
+        """
         return self.__send_mail('unsent', force)
     
     def resend_failed(self, force=False):
