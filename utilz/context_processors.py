@@ -7,6 +7,7 @@ def globals(request):
         'IS_AJAX':          request.is_ajax(),
         'MEMBER_LEVEL':     member_level(request),
         'CITY':             city(request),
+        'DOMAIN':           conf.BASE_DOMAIN,
     }
 
 

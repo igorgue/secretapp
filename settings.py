@@ -82,6 +82,10 @@ MEDIA_ROOT = '%s/templates/static/' % CWD
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/static'
 
+# The default domain of the `Site`
+# set to http://localhost:8000
+BASE_DOMAIN = 'http://localhost:8000'
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
