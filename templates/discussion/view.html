@@ -13,6 +13,12 @@
 {% endblock %}
 
 
+{% block facebook_js %}
+{% ifequal request.GET.fb "d" %}
+    {% include "discussion/render/facebook_publish.html" %}
+{% endifequal %}
+{% endblock %}
+
 {% block content %}
 
 
@@ -93,6 +99,9 @@
         {% endwith %}	    
 	    </div> 
 	    <p>{{discussion.text|linebreaksbr}}</p>
+	    <div style="padding-bottom:10px">
+	       {% include "render/share_page_buttons.html" %}
+	    </div>    
 	    {% endwith %}
 	    {% comment %}
         <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>

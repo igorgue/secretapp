@@ -115,7 +115,7 @@ MIDDLEWARE_CLASSES = (
     # facebook middleware, checks auth and gets info
     'facebook.djangofb.FacebookMiddleware',
     # gives a user a permission_level (see `perm` module)
-    'perm.middleware.PermissionUserMiddleware',
+    'perm.middleware.PermissionUserMiddleware',  
     # makes ajax responses pretty
     'utilz.middleware.AjaxExceptionResponse',
 #    'bakery.middleware.UrlCacheMiddleware',
