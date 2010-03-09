@@ -1,5 +1,6 @@
 {% extends 'layout/generic.html' %}
 
+{% block pagemedia %}{% endblock %}
 
 {% block left %}
     <br />
@@ -10,7 +11,7 @@
 
 {% block right %}
     <h3>Create a new discussion</h3>
-    {% form form %}
+    <form action="" method="POST"  accept-charset="utf-8" id="id_new_discussion">
         <div>{{ form.title }}</div>
         <div class="clear_left">{{ form.text }}</div>
         
@@ -22,6 +23,7 @@
             <br class="clear_left" />
             {% field form.facebook_name %}
         {% endif %}
-        <br class="clear_left" />
-    {% endform 'Create discussion' %}
+        <br class="clear_left" />        
+        <input type="submit" class="None" value="{% if pk %}Edit{% else %}Create{% endif %} discussion">
+    </form>
 {% endblock %}

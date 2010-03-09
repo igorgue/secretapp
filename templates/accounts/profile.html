@@ -5,6 +5,20 @@
 {% endblock %}
 
 
+{% block facebook_js %}
+<script type="text/javascript">
+    FB.ensureInit(function() { 
+        FB.Connect.showPermissionDialog("email", function(perms) {
+            if (!perms) {
+                //do nothing
+            } else {
+                //TODO grab email somehow
+            }
+        });        
+    });   
+</script>
+{% endblock %}
+
 {% block content %}
 
     <div class="page_header">

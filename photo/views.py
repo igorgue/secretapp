@@ -14,7 +14,7 @@ def upload(request, secret_id):
         if form.is_valid():
             form.secret = secret
             instance = form.save(request, commit=True)
-            return HttpResponseRedirect(secret.get_absolute_url())
+            return HttpResponseRedirect(secret.get_absolute_url()+"?fb=p")
     else:
         form = UploadPhotoForm()
     context = {
