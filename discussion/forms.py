@@ -45,6 +45,7 @@ class DiscussionSearchForm(SearchForm):
 
 class DiscussionForm(UserContentForm):
     tags = forms.CharField(required=False, widget=forms.TextInput)
+    facebook_publish = forms.BooleanField(required=False, initial=True)
     class Meta:
         model = Discussion
         fields = ('title', 'text', 'tags')

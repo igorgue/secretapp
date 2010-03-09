@@ -48,12 +48,13 @@ def view(request, pk):
 @login_required
 def edit(request, pk=None):
     discussion = get_editable_or_raise(Discussion, request.user, pk=pk) if pk else Discussion()
-    
+        
     if request.method == 'POST':
         form = DiscussionForm(request.POST, instance=discussion, permission_level=request.user.permission_level)
         if form.is_valid():
             discussion = form.save(request)
             extra = "?fb=d" if not pk else ""
+
             return HttpResponseRedirect(discussion.get_absolute_url() + extra)
     
     form = DiscussionForm(instance=discussion, permission_level=request.user.permission_level)

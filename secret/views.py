@@ -96,7 +96,10 @@ def edit(request, pk=None, from_discussion=False):
                     return HttpResponseRedirect(reverse('new_secret'))
                 # otherwise send to new page
                 else:
-                    return HttpResponseRedirect(secret.get_absolute_url())
+                    extra = ""
+                    if not pk:
+                        extra = "?fb=s"
+                    return HttpResponseRedirect(secret.get_absolute_url()+extra)
     else:
         form = SecretForm(instance=secret, permission_level=request.user.permission_level)
         

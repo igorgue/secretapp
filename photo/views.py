@@ -16,7 +16,7 @@ def upload(request, secret_id):
             instance = form.save(request, commit=True)
             from comment.views import __secret_send_mail
             __secret_send_mail(request, secret, instance, action='secret_photographed')
-            return HttpResponseRedirect(secret.get_absolute_url())
+            return HttpResponseRedirect(secret.get_absolute_url()+"?fb=p")
     else:
         form = UploadPhotoForm()
     context = {

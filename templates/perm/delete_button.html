@@ -1,1 +1,1 @@
-<form action="{{delete_url}}" method="POST" accept-charset="utf-8"><input type="submit" value="Delete"></form>
+<form action="{{delete_url}}?next=/discussions/" method="POST" accept-charset="utf-8" style="display:inline;"><a href="#" onclick="$(this).parent().trigger('submit');return false;">Delete</a><input type="hidden" name="next" value="{{request.path}}"/></form>

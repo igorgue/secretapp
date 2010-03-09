@@ -84,6 +84,7 @@ class SecretSearchForm(SearchForm):
 
 
 class SecretForm(UserContentForm):
+    title = forms.CharField(label="Secret")
     url = forms.URLField(label="Website", required=False)
     class Meta:
         model = Secret

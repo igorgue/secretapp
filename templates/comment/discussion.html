@@ -5,17 +5,18 @@
 		<br class="clear_left" />
 	</div>
 	<div class="right_content right_triangle">
-		<p class="date_added">{{comment.created_at|timesince}}<br /><a href="{{comment.get_flagspam_url}}">Report</a></p>
+		<p class="date_added">
+		{{comment.get_time_since_created}}<br /><a href="{{comment.get_flagspam_url}}" class="modalize" title="Report this comment">Report</a>
+		{% with comment as obj %}
+        {% include "perm/editable_logic.html" %}
+        {% endwith %}
+		</p>
 		<h3><a href="{{u.get_absolute_url}}">{{u.name}}</a> <span class="plain">wrote:<span></h3>
 		<p>{{comment.text|linebreaks}}</p>
 		
 	{% if comment.was_before_birth %}
 		<div class="moderation_holder">
-			<div class="rewritten_explaination">
-				<p>In order to comply with Facebook's terms of use, we've had to re-write this posting in order to view it outside Facebook. If you aren't happy with this, when logged in you can change your postings back to what they were or delete them. If you're really, really not happy, then <a href="mailto:deletemystuffnow@secretlondon.us">email us</a> making sure to include a link to your Facebook profile page, and we'll be happy to delete all your stuff for good.</p>
-				<a href="#" class="close_explaination">OK</a>
-			</div>
-			<p class="moderated">This comment has been rewritten <a class="rewritten" href="#">(why?)</a><span></p>
+			<p class="moderated">This comment has been rewritten <a href="/note/rewritten/" class="modalize" title="Why has this comment been rewritten?">Why?</a></p>
 		</div>
 	{% endif %}
 	</div>
