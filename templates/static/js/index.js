@@ -37,6 +37,8 @@ $.prototype.defaultText = function(text){
         1. If empty onBlur place text.
         2. If text onFocus empties.
         3. If empty onLoad place text.
+    Usage:
+        $('#id_location').defaultText('Where are you looking?');
     */
     var self = $(this);
     self.blur(function(){
@@ -51,9 +53,28 @@ $.prototype.defaultText = function(text){
     self.blur();
 }
 
+$.prototype.modalize = function() {
+	/* 
+	Description:
+		Returns the contents of a link in a modal dialog box. Uses href attribute for the URL, and title
+		attribute for the title of the modal dialog.
+	Usage:
+		<a href="/do/this/action/123/" class="modalize" title="Thanks for doing this">Do this</a>
+	*/	
+	var self = $(this);
+    $.get(self.attr('href'), 
+    	function(data) {
+	  		self.after("<div id='modalized'>"+data+"</div>");
+	  		$('#modalized').dialog({ title:self.attr('title'),modal:true,resizable:false,draggable:false, buttons: { "Close": function() { $(this).dialog("close"); } } });
+		}
+	);
+    return false;
+}
+
 $(document).ready(function(){    
     // actions which handle the "rewritten logic"
     $('.clickAction').submit(function(){ return $(this).clickAction(); });
+    $('a.modalize').click( function() { return $(this).modalize();} )
 	$('.rewritten').click(function() {
 		$(this).parents('.moderation_holder').children(':first').show();
 		return false;

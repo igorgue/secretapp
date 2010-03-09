@@ -87,8 +87,12 @@
 						<div class="ajax_in_progress">Saving..</div>
 					</div>
 				</form>
-	    <p>asked by <a href="{{user.get_absolute_url}}">{{user.name}}</a></p>
-	    <p>{{discussion.text|linebreaks}}</p>
+	    <div>asked by <a href="{{user.get_absolute_url}}">{{user.name}}</a> &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
+	    {% with discussion as obj %}
+        {% include "perm/editable_logic.html" %}
+        {% endwith %}	    
+	    </div> 
+	    <p>{{discussion.text|linebreaksbr}}</p>
 	    {% endwith %}
 	    {% comment %}
         <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
@@ -103,11 +107,7 @@
         {% if discussion.next_page %}<a href="?page={{discussion.next_page}}">Next</a>{% endif %}
         {% if discussion.was_before_birth %}
     		<div class="moderation_holder">
-    			<div class="rewritten_explaination">
-    				<p>In order to comply with Facebook's terms of use, we've had to re-write this posting in order to view it outside Facebook. If you aren't happy with this, when logged in you can change your postings back to what they were or delete them. If you're really, really not happy, then <a href="mailto:deletemystuffnow@secretlondon.us">email us</a> making sure to include a link to your Facebook profile page, and we'll be happy to delete all your stuff for good.</p>
-    				<a href="#" class="close_explaination">OK</a>
-    			</div>
-    			<p class="moderated">This comment has been rewritten <a class="rewritten" href="#">(why?)</a><span></p>
+    			<p class="moderated">This topic has been rewritten <a href="/note/rewritten/" class="modalize" title="Why has this topic been rewritten?">Why?</a></p>
     		</div>
     	{% endif %}
     	{% endcomment %}

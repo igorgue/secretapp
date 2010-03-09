@@ -49,3 +49,44 @@ def calculate_permission_name(user):
         name = 'Visitor'
     # return the name
     return name
+
+
+
+def calculate_time_since(then):
+    from datetime import datetime, timedelta
+    from django.template.defaultfilters import date as formatdate  
+    
+    if not then:
+        return "unknown"
+    
+    now = datetime.now()
+    
+    if then >= now:
+        return "just now"
+    
+    diff = now - then
+    
+    seconds = diff.seconds
+    if seconds < 60:
+        return "%s seconds ago" % (str(seconds))
+    
+    minutes = seconds / 60    
+    if minutes < 60:
+        return "%s minutes ago" % (str(minutes))
+
+    hours = minutes / 60
+    if hours <= 12:
+        return "%s hours ago" % (str(hours))
+    
+    if now.year == then.year:
+        if diff.days < 7:
+            return "last %s" % (formatdate(then, "l"))
+        else:
+            return formatdate(then, "M d") 
+    else:
+        return formatdate(then, "M d, Y") 
+    
+    
+    
+    
+    
