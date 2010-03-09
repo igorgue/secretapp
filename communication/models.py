@@ -6,6 +6,10 @@ from django.template import RequestContext, loader
 
 SEND_FROM_EMAIL = getattr(settings, 'COMMUNICATION_EMAIL', settings.EMAIL_HOST_USER)
 
+class ActiveTriggerManager(models.Manager):
+    def get_query_set(self):
+        return super(ActiveTriggerManager, self).get_query_set().filter(active=True)
+
 class CommunicationTrigger(models.Model):
     """
     An instance of where a user gets contacted.
@@ -15,14 +19,15 @@ class CommunicationTrigger(models.Model):
     Usage:
         # say at the event insert the following code
         # firstly we get the trigger which when this occurs
-        trigger = CommunicationTrigger.objects.get('friend_request')
+        trigger = CommunicationTrigger.alive.get(name='friend_request')
         
         # top tip here: if you use get_or_create for the trigger
         # this means the database will automatically keep itself upto date
         # warning: may get messy if trigger same communication from two different places
         
         # create a new communication from the trigger
-        com = trigger.create_communication(request.user,
+        com = trigger.create_communication( \
+                request, request.user,
                 # context to passed to templates
                 {'friend': friend },
                 # templates to be rendered
@@ -35,25 +40,36 @@ class CommunicationTrigger(models.Model):
         # if not called, it gets put on the stack for later
         com.send_mail()
         
+        # or call in a cron
+        ./manage.py send_unsent_mail
+        
     """
     name = models.CharField(max_length=250)
     label = models.CharField(max_length=250)
     description = models.CharField(max_length=250)
     
-    default = models.BooleanField(default=True)
-    optional = models.BooleanField(default=True)
-    active = models.BooleanField(default=True)
+    default = models.BooleanField(default=True, help_text="Sets if opt-in or opt-out. opt-in is default=False.")
+    optional = models.BooleanField(default=True, help_text="Sets if user is allowed to change opt-in/out")
+    active = models.BooleanField(default=True, help_text="Is this trigger still active?")
+    web_visible = models.BooleanField(default=False)
+    
+    objects = models.Manager()
+    alive = ActiveTriggerManager()
     
     
     def __unicode__(self):
         return u"%s" % self.name
     
-    def create_communication(self, user, context, subject=None, body=None, \
+    def create_communication(self, request, user, context, subject=None, body=None, \
                     subject_template=None, body_template=None, web_template=None):
         """
         This creates a new communication.
         """
         com = Communication(user=user, trigger=self)
+        
+        # overrides user in context
+        context.update({'recipient': user })
+        
         # renders
         def render_or_template(line, template, error):
             if line is not None:
@@ -74,23 +90,23 @@ class CommunicationTrigger(models.Model):
         
         
         # checks if its to be shown on the web
-        if web_template:
-            com.web_visable = True
-            com.web = loader.render_to_string(body_template, context)
-        else:
-            com.web_visable = False
+        if self.web_visible:
+            if web_template:
+                com.web = loader.render_to_string(web_template, context)
+            else:
+                raise ValueError, "Expected a `web_template` for trigger `%s`" % self
         return com.save()
 
 
 class CommunicationSetting(models.Model):
-    user    = models.ForeignKey(User)
-    trigger = models.ForeignKey(CommunicationTrigger)
+    user    = models.ForeignKey(User, db_index=True)
+    trigger = models.ForeignKey(CommunicationTrigger, db_index=True)
     is_on   = models.BooleanField(default=True)
 
 
 class CommunicationManager(models.Manager):
     def websafe(self):
-        return self.filter(web_visible=True)
+        return self.filter(trigger__web_visible=True)
     
     def unsent(self):
         return self.filter(sent=False, read=False, failed=False, deleted=False)
@@ -103,10 +119,10 @@ class CommunicationManager(models.Manager):
         Runs send_mail on all communications.
         Returns bool if all were successful.
         """
-        coms = getattr(Communication.objects, func_name)()
+        coms = getattr(Communication.objects, func_name)().select_related()
         successful = True
         for com in coms:
-            if not com.send_mail(*args, **kwargs):
+            if com.send_mail(*args, **kwargs) is False:
                 successful = False
         return successful
     
@@ -127,15 +143,14 @@ class Communication(models.Model):
     user    = models.ForeignKey(User)
     trigger = models.ForeignKey(CommunicationTrigger, help_text="Textual reference. What triggered this notification")
     
-    web     = models.TextField(null=False, blank=False)
-    subject = models.TextField(null=False, blank=False)
-    body    = models.TextField(null=False, blank=False)
+    web     = models.TextField(null=True, blank=True)
+    subject = models.TextField(null=True, blank=True)
+    body    = models.TextField(null=True, blank=True)
     
-    sent    = models.BooleanField(default=True)
-    read    = models.BooleanField(default=False)
-    deleted = models.BooleanField(default=False)
-    failed  = models.BooleanField(default=False)
-    web_visable = models.BooleanField(default=True)
+    sent    = models.BooleanField(default=False, db_index=True)
+    read    = models.BooleanField(default=False, db_index=True)
+    deleted = models.BooleanField(default=False, db_index=True)
+    failed  = models.BooleanField(default=False, db_index=True)
     
     objects = CommunicationManager()
     
@@ -155,9 +170,13 @@ class Communication(models.Model):
         Returns:
             Bool if is successful
         """
-        if CommunicationSetting.objects.filter(user=self.user, trigger=self.trigger, is_on=True).count() > 0:
+        # TODO: would like to get these in one call when doing as bulk
+        setting, is_new = CommunicationSetting.objects.get_or_create(\
+                                user=self.user, trigger=self.trigger, defaults={'is_on':self.trigger.default})
+        
+        if setting.is_on:
             try:
-                send_mail(self.subject, self.body, SEND_FROM_EMAIL, [user.email], fail_silently=False)
+                send_mail(self.subject, self.body, SEND_FROM_EMAIL, [self.user.email], fail_silently=False)
             except:
                 self.failed = True
                 successful = False
@@ -165,7 +184,9 @@ class Communication(models.Model):
                 self.sent = True
                 successful = True
             self.save()
-        return successful
+            return successful
+        else:
+            return None
 
 
 

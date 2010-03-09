@@ -1,6 +1,6 @@
-{% block content %}{% endcontent %}
-{% block footer %}___
-This message was intended for {{user.name}} ({{user.email}}). If you do not wish to receive this type of email from us in the future, please click on the link below to unsubscribe. {{DOMAIN}}{% url edit_communication_settings %}
-
-secretlondon towers are located at a secret location in London. If you wish to contact us email info@secretcities.com
+{% block content %}{% endblock %}
+{% block footer %}
+___
+This message was intended for {{user.name}} ({{user.email}}). To turn off notifications, click the link below
+{{DOMAIN}}{% url edit_communication_settings %}
 {% endblock %}

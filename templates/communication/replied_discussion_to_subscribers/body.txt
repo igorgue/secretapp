@@ -1,9 +1,0 @@
-{% extend 'communication/base.txt' %}{% block content %}
-{{ replier.name }} made a secret suggestion about {{ discussion.title }} which you have taken part in!
-
-To see what others have been saying about {{ discussion.title }} follow this link
-{{discussion.get_absolute_url}}
-
-Thanks and hope you continue to enjoy talking about London's secrets!
-Tiff x{% endblock %}
-

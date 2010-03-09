@@ -47,12 +47,15 @@ def view(request, pk):
 
 @login_required
 def edit(request, pk=None):
+    is_new = not pk
     discussion = get_editable_or_raise(Discussion, request.user, pk=pk) if pk else Discussion()
     
     if request.method == 'POST':
         form = DiscussionForm(request.POST, instance=discussion, permission_level=request.user.permission_level)
         if form.is_valid():
             discussion = form.save(request)
+            if is_new:
+                __send_mail(request, discussion)
             return HttpResponseRedirect(discussion.get_absolute_url())
     
     form = DiscussionForm(instance=discussion, permission_level=request.user.permission_level)
@@ -61,4 +64,16 @@ def edit(request, pk=None):
                 'discussion': discussion,
             }, tabs=['discussions', 'edit'])
 
+
+def __send_mail(request, discussion):
+    "Send notification to a users on new discussion"
+    from communication.models import CommunicationTrigger
+    trigger = CommunicationTrigger.alive.get('new_discussion')
+    trigger.create_communication( \
+            request, request.user,
+            # context to passed to templates
+            {'discussion': discussion },
+            # templates to be rendered
+            subject_template='communication/new_discussion/subject.html',
+            body_template='communication/new_discussion/body.html')
 

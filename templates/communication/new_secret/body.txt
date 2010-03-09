@@ -1,8 +1,0 @@
-{% extend 'communication/base.txt' %}{% block content %}
-Thanks for sharing {{ secret.title }} on secretlondon. It's amazing when Londoner's share their secrets, it will be cool to see how many people check it out and like your secret! 
-
-To view your secret's profile, upload a photo, or add to its description, follow this link
-{{ secret.get_absolute_url}}
- 
-Thank you for using secretcities.com and hope you share more secrets with us soon! 
-Tiff x{% endblock %}

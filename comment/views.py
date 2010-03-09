@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from discussion.models import Discussion
 from secret.models import Secret
 from utilz.shortcuts import context_response, get_editable_or_raise, get_viewable_or_raise, redirect_back, select_related_object_or_404
+from utilz.manipulators import unique
 from forms import *
 from models import *
 
@@ -20,7 +21,7 @@ def create_secret_comment(request, secret_id):
             instance.save()
             # search save hook on secret
             secret.save()
-            
+            __secret_send_mail(request, secret, instance)
             # if successful
             if request.is_ajax():
                 # return the rendered comment to be inserted
@@ -57,6 +58,9 @@ def create_discussion_comment(request, discussion_id):
             instance = form.save(request, discussion)
             # search save hook
             discussion.save()
+            
+            # sends mail once the comment is made
+            __discussion_send_mail(request, discussion, instance)
             
             # if successful just show discussion comment inline
             if request.is_ajax():
@@ -132,3 +136,65 @@ def agree_with_proposal(request, proposal_id):
         raise Http404
 
 
+def __unique_contributors(items, contributor, creator):
+    """ Gets a unique list of all the """
+    contributors = dict([(c.created_by, None) for c in items])
+    if contributor in contributors:
+        del contributors[contributor]
+    if creator in contributors:
+        del contributors[creator]
+    return unique(contributors.keys())
+
+
+def __discussion_send_mail(request, discussion, comment):
+    "sends notification when someone comments on a discussion"
+    from communication.models import CommunicationTrigger
+    context = {'discussion': discussion, 'comment': comment }
+    
+    # send message to discussion creator
+    trigger = CommunicationTrigger.alive.get(name='replied_discussion_creator')
+    trigger.create_communication(request,
+            discussion.created_by, context,
+            subject_template='communication/replied_discussion/creator/subject.txt',
+            body_template='communication/replied_discussion/creator/body.txt')
+    
+    # send messages to contributors (unique by user)
+    trigger = CommunicationTrigger.alive.get(name='replied_discussion_contributor')
+    contributors = __unique_contributors(discussion.comments(), request.user, discussion.created_by)
+    for contributor in contributors:
+        trigger.create_communication(request,
+                contributor, context,
+                subject_template='communication/replied_discussion/contributor/subject.txt',
+                body_template='communication/replied_discussion/contributor/body.txt')
+
+
+def __secret_send_mail(request, secret, action_item, action=None):
+    "sends notification when someone comments on a secret"
+    # this is also used in secret_photographed
+    if not action:
+        action = 'secret_commented'
+    
+    from communication.models import CommunicationTrigger
+    trigger = CommunicationTrigger.alive.get(name='replied_secret_creator')
+    context = {'secret': secret, 'action_item': action_item }
+    user = request.user
+    creator = secret.created_by
+    
+    # send message to secret creator
+    trigger.create_communication(request,
+            creator, context,
+            subject_template='communication/%s/creator/subject.txt' % action,
+            body_template='communication/%s/creator/body.txt' % action)
+    
+    # send message to contributors
+    trigger = CommunicationTrigger.alive.get(name='replied_secret_creator')
+    
+    # send message to commentators, photographers
+    for items, name in ((secret.comments(), 'commentor'), (secret.photos(), 'photographer')):
+        contributors = __unique_contributors(items, user, creator)
+        for contributor in contributors:
+            trigger.create_communication(request,
+                contributor, context,
+                subject_template='communication/%s/%s/subject.txt' % (action, name),
+                body_template='communication/%s/%s/body.txt' % (action, name))
+    

@@ -1,0 +1,6 @@
+{% extends 'communication/base.txt' %}{% block content %}{% with action_item.created_by as u %}{{u.name}} commented on your "{{discussion.title}}" discussion. To see what secrets {{u.first_name}} has shared with you follow this link
+{{DOMAIN}}{{discussion.get_absolute_url}}
+
+Hope to see you at secretlondon again soon. 
+
+Tiff x{% endwith %}{% endblock %}

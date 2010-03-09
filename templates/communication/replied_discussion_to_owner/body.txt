@@ -1,6 +1,0 @@
-{% extend 'communication/base.txt' %}{% block content %}
-{{ replier.name }} commented on your {{ discussion.title }} discussion, to see what secrets {{ replier.first_name }} has shared with you follow this link {{ discussion.title }}
-
-Hope to see you back at secretlondon soon. 
-
-Tiff x{% endblock %}

@@ -21,7 +21,7 @@ class UserCommunicationSettingsForm(forms.Form):
         super(UserCommunicationSettingsForm, self).__init__(*args, **kwargs)
         
         # get all fields which are optional and the users current preferences
-        self.options = CommunicationTrigger.objects.filter(optional=True)
+        self.options = list(CommunicationTrigger.objects.filter(optional=True))
         self.preferences = list(CommunicationSetting.objects.filter(user=self.user))
         
         # setup the fields

@@ -1,0 +1,7 @@
+{% extends 'communication/base.txt' %}{% block content %}{% with action_item.created_by as u %}{{u.name}} also commented on "{{secret.title}}". Find out what {{u.first_name}} and others have been saying by following this link
+
+{{DOMAIN}}{{secret.get_absolute_url}}
+
+Thanks and hope you continue to enjoy talking about London's secrets!
+
+Tiff x{% endwith %}{% endblock %}
