@@ -54,7 +54,6 @@ def edit(request, pk=None):
         if form.is_valid():
             discussion = form.save(request)
             extra = "?fb=d" if not pk else ""
-
             return HttpResponseRedirect(discussion.get_absolute_url() + extra)
     
     form = DiscussionForm(instance=discussion, permission_level=request.user.permission_level)

@@ -60,7 +60,7 @@ def create_secret_comment(request, secret_id, comment_id):
         return context_response(request, 'comment/edit_secret.html', context)
 
 
-def create_discussion_comment(request, discussion_id, comment_id):
+def create_discussion_comment(request, discussion_id, comment_id=None):
     """ Comment directly on a Discussion """
     discussion = get_viewable_or_raise(Discussion, request.user, pk=discussion_id)
     
@@ -84,7 +84,7 @@ def create_discussion_comment(request, discussion_id, comment_id):
             
             # if successful just show discussion comment inline
             if request.is_ajax():
-                return context_response(request, 'comment/discussion.html', { 'instance': instance })
+                return HttpResponse('success')
             # otherwise go to last page of discussion
             else:
                 return HttpResponseRedirect(instance.discussion.get_lastpage_url())
@@ -189,18 +189,16 @@ def __unique_contributors(items, contributor, creator):
     return unique(contributors.keys())
 
 
-def __discussion_send_mail(request, discussion, comment):
+def __discussion_send_mail(request, discussion, action_item):
     "sends notification when someone comments on a discussion"
     from communication.models import CommunicationTrigger
-    context = {'discussion': discussion, 'comment': comment }
-    
+    context = {'discussion': discussion, 'action_item': action_item }
     # send message to discussion creator
     trigger = CommunicationTrigger.alive.get(name='replied_discussion_creator')
     trigger.create_communication(request,
             discussion.created_by, context,
             subject_template='communication/replied_discussion/creator/subject.txt',
             body_template='communication/replied_discussion/creator/body.txt')
-    
     # send messages to contributors (unique by user)
     trigger = CommunicationTrigger.alive.get(name='replied_discussion_contributor')
     contributors = __unique_contributors(discussion.comments(), request.user, discussion.created_by)
