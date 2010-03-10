@@ -160,7 +160,7 @@ def agree_with_proposal(request, proposal_id):
     """ Clock up a favourite to a user... """
     if request.method == 'POST':
         proposal = get_object_or_404(Proposal, pk=proposal_id)
-        if request.user_id == proposal.secret.created_by_id:
+        if request.user.id == proposal.secret.created_by_id:
             if request.is_ajax():
                 return HttpResponse('%s' % proposal.agreement_count)
             else:
