@@ -48,7 +48,7 @@ In summary for objects:
         Anyone can view anything which is not deleted
         Only superusers can view deleted items
 
-The user logic (permission upscalling and group assignment)
+The user logic (permission upscaling and group assignment)
 will then be handled according to the above spec.
 
 The users group level is assigned and saved in a middleware.
@@ -84,6 +84,8 @@ class UserContent(models.Model):
     # make edit_permission default to highest
     edit_permission = 'Secretary'
     
+    has_run_can = False
+    
     class Meta:
         abstract = True
     
@@ -93,11 +95,13 @@ class UserContent(models.Model):
         return datetime.datetime(*settings.START_DATE) > self.created_at
     
     def __user_can(self, user):
-        self.read_by = user
-        self._is_editable = user.permission_level >= \
-            permission_level(self.edit_permission) or self.created_by == user
-        self._is_viewable = not self.deleted or \
-            (user is not None and user.is_superuser)
+        if not self.has_run_can:
+            self.read_by = user
+            self._is_editable = user.permission_level >= \
+                permission_level(self.edit_permission) or self.created_by == user
+            self._is_viewable = not self.deleted or \
+                (user is not None and user.is_superuser)
+            self.has_run_can = True
         return self
     
     def user_can_edit(self, user):
@@ -155,7 +159,7 @@ objects as spam. """
         if self.user_can_edit(user):
             self.deleted = True
             self.deleted_at = datetime.datetime.now()
-            # would make this nicer - but only used for refference in emergency
+            # would make this nicer - but only used for reference in emergency
             self.deleted_by_id = user.id
             self.save()
         return self
@@ -179,6 +183,14 @@ can use the exception raised to drive messaging to the user."""
         """ Return the URL to call to flag instance as spam """
         return reverse('flag_spam', kwargs={'modelid': self.content_type_id, 
                                      'objectid': self.id})
+    
+    def get_time_since_created(self):
+        """ Return the time since the object was created (ex: "2 min ago") """
+        return calculate_time_since(self.created_at)
+    
+    def get_time_since_updated(self):
+        """ Return the time since the object was updated (ex: "2 min ago") """
+        return calculate_time_since(self.updated_at)
 
 class SpamFlag(models.Model):
     """ Record of someone flagging something as Spam. """

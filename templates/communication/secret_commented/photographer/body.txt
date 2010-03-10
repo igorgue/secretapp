@@ -1,0 +1,8 @@
+{% extends 'communication/base.txt' %}{% block content %}{% with action_item.created_by as u %}{{u.name}} commented on "{{secret.title}}" which you uploaded a photo to!
+
+To view this secret's profile, upload a photo, or add to its description, follow this link
+{{DOMAIN}}{{secret.get_absolute_url}}
+
+Thanks for using secretcities.com and I hope you come back to tell us what you think of other's secrets and share more photos with us soon!
+
+Tiff x{% endwith %}{% endblock %}

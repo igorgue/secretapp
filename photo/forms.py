@@ -17,7 +17,12 @@ class UploadPhotoForm(UserContentForm):
         instance = super(UploadPhotoForm, self).save(request, commit=False)
         instance.secret = self.secret
         instance.save()
-        instance.save_files(self.cleaned_data['image'])
+        try:
+            instance.save_files(self.cleaned_data['image'])
+        except:
+            # if it fails to save, we want to delete the image
+            instance.deleted = True
+            instance.save()
         return instance
 
     def set_url(self, secret):

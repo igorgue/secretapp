@@ -13,27 +13,35 @@ List of needed settings:
     # make up some key - mash the keyboard
     SECRET_KEY = '123abc'
     
-    # database settings - see notes below for details
-    DATABASE_*
+    # database settings
+    DATABASE_ENGINE = ''    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_NAME = ''      # Or path to database file if using sqlite3.
+    DATABASE_USER = ''      # Not used with sqlite3.
+    DATABASE_PASSWORD = ''  # Not used with sqlite3.
+    DATABASE_HOST = ''      # Set to empty string for localhost. Not used with sqlite3.
+    DATABASE_PORT = ''      # Set to empty string for default. Not used with sqlite3.
     
     # facebook api confs (simply the keys provided from the app)
+    # you will not be able to login via facebook to test
+    # if you want to do so, you will need to setup a new sandbox app
+    # with domain as http://localhost:8000/
     FACEBOOK_API_KEY = 'x'
     FACEBOOK_SECRET_KEY = 'x'
     
     # Solr / Solango configs
-    SOLR_SERVER = 'localhost:8080'
-    SOLR_ROOT = '/usr/lib/tomcat6/data/solr'
-    SOLR_SCHEMA_PATH = SOLR_ROOT + '/conf/schema.xml'
-    SOLR_DATA_DIR = SOLR_ROOT + '/data'
-    SEARCH_UPDATE_URL = "http://%s/solr/update" % SOLR_SERVER
-    SEARCH_SELECT_URL = "http://%s/solr/select" % SOLR_SERVER
-    SEARCH_PING_URLS = ["http://%s/solr/admin/ping" % SOLR_SERVER,]
+    # see http://timjdavey.com/post/423973736/installing-solr-on-mac-osx
+    SOLR_SERVER = 'localhost:8983'
+    SOLR_ROOT = ''
+    SOLR_SCHEMA_PATH = "".join([SOLR_ROOT, '/solr/conf/schema.xml'])
+    SOLR_DATA_DIR = "".join([SOLR_ROOT,'/solr/data'])
     
 """
 try:
-    from environment import CWD
+    import environment
 except:
     raise ImportError, "Please create environment.py file in your base directory - see settings.py for details"
+else:
+    from environment import CWD
 
 # Django settings for secret project.
 
@@ -74,6 +82,10 @@ MEDIA_ROOT = '%s/templates/static/' % CWD
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/static'
 
+# The default domain of the `Site`
+# set to http://localhost:8000
+BASE_DOMAIN = 'http://localhost:8000'
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
@@ -110,7 +122,7 @@ MIDDLEWARE_CLASSES = (
     # facebook middleware, checks auth and gets info
     'facebook.djangofb.FacebookMiddleware',
     # gives a user a permission_level (see `perm` module)
-    'perm.middleware.PermissionUserMiddleware',
+    'perm.middleware.PermissionUserMiddleware',  
     # makes ajax responses pretty
     'utilz.middleware.AjaxExceptionResponse',
 #    'bakery.middleware.UrlCacheMiddleware',
@@ -154,13 +166,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     # dependancies
-    'socialauth',
     'openid_consumer',
+    'socialauth',
     'solango',
     'south',
     # internal
     'accounts',
     'comment',
+    'communication',
     'city',
     'discussion',
     'perm',
@@ -168,7 +181,7 @@ INSTALLED_APPS = (
     'secret',
     'utilz',
     
-    'bakery',
+    #'bakery',
 )
 
 # see top of document for notes

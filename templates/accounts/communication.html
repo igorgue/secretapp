@@ -1,0 +1,13 @@
+{% extends 'layout/generic.html' %}
+
+{% block left %}Communication settings{% endblock %}
+
+{% block right %}
+
+    {% form form %}
+        {% for f in form %}
+            {% field f %}
+        {% endfor %}
+    {% endform %}
+
+{% endblock %}

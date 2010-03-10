@@ -1,0 +1,8 @@
+{% extends 'communication/base.txt' %}{% block content %}{% with action_item.created_by as u %}{{u.name}} commented on "{{secret.title}}" which you told us about on secretlondon.
+
+To view your secret's profile, upload a photo, or add to its description, follow this link
+{{DOMAIN}}{{secret.get_absolute_url}}
+ 
+Thank you for using secretcities.com and hope you share more secrets with us soon! 
+
+Tiff x{% endwith %}{% endblock %}

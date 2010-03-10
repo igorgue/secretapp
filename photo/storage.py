@@ -42,7 +42,7 @@ class BotoS3Storage(Storage):
         self.AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
         self.public = public
     
-    def _connect(self):
+    def _connect(self):    	
         """ returns a connection to s3 """
         import boto
         if hasattr(self, 'connection'):

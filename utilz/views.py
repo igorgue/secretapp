@@ -35,6 +35,7 @@ def city_home(request, city):
     discussions = DiscussionSearchForm({})
     discussions.is_valid()
     
+    
     # TODO: cache this and randomize
     context = {
         'secrets': Secret.viewable.select_related().order_by('-created_at')[:3],

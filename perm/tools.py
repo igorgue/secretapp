@@ -49,3 +49,64 @@ def calculate_permission_name(user):
         name = 'Visitor'
     # return the name
     return name
+
+
+def remove_user_contributions(user):
+    """
+    Given a user. This set all UserContent contributions by that user to the anonymous user (pk=1)
+    """
+    from django.contrib.contenttypes.models import ContentType
+    from django.contrib.auth.models import User
+    
+    # define old user
+    if isinstance(user, (int, long, float)):
+        user = User.objects.get(pk=user)
+    elif not isinstance(user, User):
+        raise "Please provide user as a User object or its primary key"
+    
+    # define anonymous user
+    anon = User.objects.get(pk=1)
+    
+    # find all the content-types
+    for ct in ContentType.objects.all():
+        # check that it is a UserContent instance
+        model = ct.model_class()
+        if hasattr(model, 'created_by'):
+            # swap the objects over to anon
+            model.objects.filter(created_by=user).update(created_by=anon)
+    
+    return user
+
+def calculate_time_since(then):
+    from datetime import datetime, timedelta
+    from django.template.defaultfilters import date as formatdate  
+    
+    if not then:
+        return "unknown"
+    
+    now = datetime.now()
+    
+    if then >= now:
+        return "just now"
+    
+    diff = now - then
+    
+    seconds = diff.seconds
+    if seconds < 60:
+        return "%s seconds ago" % (str(seconds))
+    
+    minutes = seconds / 60    
+    if minutes < 60:
+        return "%s minutes ago" % (str(minutes))
+
+    hours = minutes / 60
+    if hours <= 12:
+        return "%s hours ago" % (str(hours))
+    
+    if now.year == then.year:
+        if diff.days < 7:
+            return "last %s" % (formatdate(then, "l"))
+        else:
+            return formatdate(then, "M d") 
+    else:
+        return formatdate(then, "M d, Y") 

@@ -1,0 +1,6 @@
+{% extends 'communication/base.txt' %}{% block content %}{% with action_item.created_by as u %}{{u.name}} made a secret suggestion about "{{discussion.title}}" which you have also commented on. To see what {{u.first_name}} and others have been saying, follow this link
+{{DOMAIN}}{{discussion.get_absolute_url}}
+
+Thanks and hope you continue to enjoy talking about London's secrets!
+
+Tiff x{% endwith %}{% endblock %}

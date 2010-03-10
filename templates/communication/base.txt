@@ -1,0 +1,6 @@
+{% block content %}{% endblock %}
+{% block footer %}
+___
+This message was intended for {{user.name}} ({{user.email}}). To turn off notifications, click the link below
+{{DOMAIN}}{% url edit_communication_settings %}
+{% endblock %}

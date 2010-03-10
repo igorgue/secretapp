@@ -1,0 +1,20 @@
+<script type="text/javascript"> 
+    function reload_page(){window.location='{{request.path}}';}
+    FB.ensureInit(function() { 
+        var media = [{'type':'image','src':'http://secretcities.com/images/icon.png','href':'http://secretcities.com{{discussion.get_absolute_url}}'}];
+        var attachment = {
+        'name':"{{discussion.title}}",
+        'href':"http://secretcities.com{{discussion.get_absolute_url}}",
+        'caption':"{*actor*} asked this on secretlondon",
+        'description':"", 
+        'media': media};
+        var action_links = [{'text':'Reply to this', 'href':'http://secretcities.com{{discussion.get_absolute_url}}'}];        
+        FB.Connect.showPermissionDialog("publish_stream", function(perms) {
+            if (!perms) {
+                FB.Connect.streamPublish('', attachment, action_links, null, null, reload_page, false );    
+            } else {
+                FB.Connect.streamPublish('', attachment, action_links, null, null, reload_page, true );    
+            }
+        });        
+    });
+</script>

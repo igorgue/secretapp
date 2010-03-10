@@ -1,0 +1,58 @@
+[
+    {
+        "pk": 1, 
+        "model": "communication.communicationtrigger", 
+        "fields": {
+            "name": "replied_discussion_creator",
+            "label": "Discussion (which you own) updates", 
+            "description": "Get a message when someone responses to a discussion you started",
+            "default": 1, 
+            "active": 1, 
+            "optional": 1, 
+            "web_visible": 0
+        }
+    }, 
+
+    {
+        "pk": 2, 
+        "model": "communication.communicationtrigger", 
+        "fields": {
+            "name": "replied_discussion_contributor",
+            "label": "Discussion (which you contributed to) updates", 
+            "description": "Get a message when someone responses to a discussion you commented on",
+            "default": 1, 
+            "active": 1, 
+            "optional": 1, 
+            "web_visible": 0
+        }
+    },
+    
+    {
+        "pk": 3, 
+        "model": "communication.communicationtrigger", 
+        "fields": {
+            "name": "replied_secret_creator",
+            "label": "Secret (which you own) updates", 
+            "description": "Get a message when someone comments on, adds a photo to etc... a secret you created",
+            "default": 1, 
+            "active": 1, 
+            "optional": 1, 
+            "web_visible": 0
+        }
+    },
+    
+    {
+        "pk": 4, 
+        "model": "communication.communicationtrigger", 
+        "fields": {
+            "name": "replied_secret_contributor",
+            "label": "Secret (which you contributed to) updates", 
+            "description": "Get a message when someone comments on, adds a photo to etc... a secret you have also added to",
+            "default": 1, 
+            "active": 1, 
+            "optional": 1, 
+            "web_visible": 0
+        }
+    }
+    
+]
