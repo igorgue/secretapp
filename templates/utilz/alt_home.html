@@ -4,200 +4,121 @@
 <head>
     <title>Alternative Homepage</title>
     {# styles #}
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/alt.css" />
     <style type="text/css" media="screen">
         /* General structure */
         {% comment %}
         http://a1.twimg.com/profile_background_images/73874876/SL_TwitBackground.png - twitter page
-        http://farm3.static.flickr.com/2464/3598490051_b8791a0bac_o.jpg - pink tower bridge
-        
+        http://farm3.static.flickr.com/2464/3598490051_b8791a0bac_o.jpg - pink tower bridge        
         {% endcomment %}
-        body {
-            background: black url(http://farm3.static.flickr.com/2464/3598490051_b8791a0bac_o.jpg);
-            font: 69.9% Helvetica;
-            line-height: 1.4em;
-        }
-        .container {
-            background: transparent url('http://media.onefinestay.com/images/bg/trans/white-0.9.png') repeat scroll top left;
-            margin: 30px auto;
-            padding: 20px;
-            width: 900px;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-        }
-        .column {
-            float: left;
-        }
-        /* Helpers */
-        a {
-            color: black;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        a img {
-            border: 0;
-            text-decoration: none;
-        }
-        p {
-            padding: 0;
-            margin: 0;
-        }
-        h1, .h1 {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: -1px;
-        }
-        .clear {
-            clear: both;
-        }
-        /* Menu */
-        .menu a.h1 {
-            color: #666;
-            display: inline;
-            opacity: 0.3;
-        }
-        .menu a.h1.selected,
-        .menu a.h1:hover {
-            color: black;
-            opacity: 1;
-        }
-        /* Users */
-        .user {
-            clear: left;
-            float: left;
-            width: 60px;
-        }
-        .user .image {
-            height: 50px;
-            width: 50px;
-            margin-bottom: 5px;
-        }
-        /* Discussions */
-        .column.discussions {
-            width: 600px;
-        }
-        .discussion {
-            clear: left;
-            margin: 20px;
-        }
-        .discussion .text {
-            float: left;
-            padding: 5px;
-            width: 400px;
-        }
-        .discussion .text a {
-            color: black;
-            display: block;
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: -0.3px;
-            line-height: 1.2em;
-            padding-bottom: 5px;
-        }
-        /* profiles */
-        .column.profiles {
-            float: right;
-            width: 180px;
-        }
-        .profile {
-            margin: 20px 0 ;
-        }
-        .profile .text {
-            float: left;
-            padding: 5px;
-        }
+        
     </style>
     
     {# scripts #}
     <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-    
-    <script type="text/javascript" charset="utf-8">
-        // Pick a random background
-        $(document).ready(function(){
-            var tadaa = function(selector, func){
-                // shows an item
-                $('.'+selector+'.waiting:last').removeClass('waiting')[func](600);
-            }
-            
-            var pile = function(selector){
-                // randomly shows a new item
-                setTimeout(function(){
-                    tadaa(selector, 'slideDown');
-                    pile(selector);
-                }, Math.random()*3000 + 2000);
-            }
-            
-            var selectors = ['discussion'];
-            var preShown = 5;
-            
-            for (var i=0; i < selectors.length; i++) {
-                var name = selectors[i];
-                $('.'+name).addClass('waiting').hide();
-                // pre-shows a bunch of people
-                for (var j=0; j < preShown; j++){
-                    tadaa(name, 'show');
-                }
-                pile(name);
-            }
-        });
-    </script>
 </head>
 <body>
-
-    <div class="container">
-        {# Discussions #}
-        <div class="column discussions">
-            {# menu #}
-            <div class="menu">
-                <a class="h1 hot selected">Hot Topics</a>
-                <a class="h1 new">New Topics</a>
-                <a class="h1 posts">Most Posts</a>
-                <a class="h1 secrets">Most Secrets</a>
-            </div>
-            
-            {# list #}
-            {% for discussion in discussions %}
-                <div class="discussion" id="discussion_{{discussion.pk}}">
-                    <div class="user">
-                        {% with discussion.created_by as user %}
-                        <div class="image" style="background-image: url({{user.profile_image.small}})"></div>
-                        <a href="{{user.get_absolute_url}}">{{user.first_name}} {{user.last_name|first}}</a>
-                        {% endwith %}
-                    </div>
-                    <div class="text">
-                        <p><a href="{{discussion.get_absolute_url}}">{{discussion.title}}</a></p>
-                        <p>{{discussion.proposal_count}} secrets, {{discussion.comment_count}} posts, a few minutes ago</p>
-                    </div>
-                    <br class="clear" />
-                </div>
-            {% endfor %}
-        </div>
-        
-        {# Users #}
-        <div class="column profiles">
-            {# menu #}
-            <div class="menu">
-                <a class="h1 recent selected">Recent Users</a>
-            </div>
-            {# list #}
-            {% for user in users %}
-                <div class="profile" id="profile_{{user.pk}}">
-                    <div class="user">
-                        <div class="image" style="background-image: url({{user.profile_image.small}})"></div>
-                    </div>
-                    <div class="text">
-                        <p><b><a href="{{user.get_absolute_url}}">{{user.first_name}} {{user.last_name|first}}</a></b></p>
-                        <p>{{user.secret_count}} secrets</p>
-                        <p>{{user.discussion_count}} discussions</p>
-                    </div>
-                    <br class="clear" />
-                </div>
-            {% endfor %}
-        </div>
-        <br class="clear" />
+    <div id="wrap">
+    <div id="headliner" class="rbot">
+        <strong>Today's Deal</strong> &nbsp; <a href="" style="color:#ed1849;">Free pints at RCPub</a>
     </div>
-
+    <div id="header">
+        <div class="column logo">
+            <a href="/alt/"><img src="{{MEDIA_URL}}/images/logo.png" width="180"/></a>            
+        </div>
+        <div class="column links">
+            <a href="/alt/">Discussions</a> 
+            <a href="/alt/">Secrets</a>
+        </div>
+        <div class="column account">
+            <a href="/alt/">Johnny</a>
+        </div>
+        <div class="column search">
+            <input type="text" value="Search" id="query"/>
+        </div>
+        <div class="clear"></div>
+    </div>       
+    <div id="intro" class="rtop">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
+    </div>
+    <div id="body" class="rtop rbot">        
+        <div class="clear"></div>
+        {# Discussions #}
+        <div id="content" class="rbot">
+            <div class="column discussions">
+                {# menu #}
+                <div class="menu">
+                    <a class="h1 hot">Hot Topics</a>
+                </div>            
+                {# list #}
+                {% for discussion in discussions %}
+                    <div class="discussion" id="discussion_{{discussion.pk}}">
+                        <div class="left">
+                            {% with discussion.created_by as user %}
+                            <div class="image" style="background-image: url({{user.profile_image.small}})"></div>
+                            <a href="{{user.get_absolute_url}}">{{user.first_name}} {{user.last_name|first}}</a>
+                            {% endwith %}
+                        </div>
+                        <div class="right">
+                            <a href="{{discussion.get_absolute_url}}" class="title">{{discussion.title}}</a>
+                            <br/>
+                            {{discussion.text}}
+                            
+                            <p>{{discussion.time_since_created}} {{discussion.proposal_count}} secrets, {{discussion.comment_count}} posts</p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                {% endfor %}
+            </div>            
+            {# Users #}
+            <div class="column profiles">
+                {# menu #}
+                <div class="menu">
+                    <a class="h1 recent selected">Recent Users</a>
+                </div>
+                {# list #}
+                {% for user in users %}
+                    <div class="profile" id="profile_{{user.pk}}">
+                        <div class="user">
+                            <div class="image" style="background-image: url({{user.profile_image.small}})"></div>
+                        </div>
+                        <div class="text">
+                            <p><b><a href="{{user.get_absolute_url}}">{{user.first_name}} {{user.last_name|first}}</a></b></p>
+                            <p>{{user.secret_count}} secrets</p>
+                            <p>{{user.discussion_count}} discussions</p>
+                        </div>
+                        <br class="clear" />
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="column" style="width:400px">
+            <div style="padding-right:50px">
+            <strong>secretcities &copy; 2010</strong> <br/>
+            secretcities is the product of uncountable hours of love from a community that formed around a common goal. 
+            <a href="">View full credits</a>
+            </div>
+        </div>
+        <div class="column" style="width:150px">
+            <a href="">About Us</a><br/>
+            <a href="">Team</a><br/>
+            <a href="">Twitter</a><br/>
+            <a href="">Blog</a><br/>
+        </div>
+        <div class="column" style="width:150px">
+            <a href="">Terms & Conditions</a><br/>
+            <a href="">Privacy Policy</a><br/>
+        </div>
+        <div class="column" style="width:150px">
+            <strong>Blog</strong> <br/>
+            <a href="">A post that was posted</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
 </body>
 </html>

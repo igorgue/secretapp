@@ -60,7 +60,7 @@ def alt_home(request):
     # TODO: cache this and randomize
     context = {
         #'secrets': Secret.viewable.select_related().order_by('-created_at')[:20],
-        'discussions': Discussion.viewable.select_related().order_by('-created_at')[:20],
+        'discussions': Discussion.viewable.select_related().order_by('created_at')[:5],
         #'photos'
         'users': User.objects.order_by('-last_login')[:5],
         #'count' : {
