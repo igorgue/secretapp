@@ -24,8 +24,8 @@
 
 <div class="page_header">
 	<p id="page_title" class="left_sidebar">
-	    {% with discussion.created_by as user %}
-	        <img src="{{user.profile_image.small}}" alt="{{user.name}}" />
+	    {% with discussion.created_by as creator %}
+	        <img src="{{creator.profile_image.small}}" alt="{{creator.name}}" />
 	    
 	</p>
 	<div class="right_content top_content">
@@ -93,7 +93,7 @@
 						<div class="ajax_in_progress">Saving..</div>
 					</div>
 				</form>
-	    <div>asked by <a href="{{user.get_absolute_url}}">{{user.name}}</a> &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
+	    <div>asked by <a href="{{creator.get_absolute_url}}">{{creator.name}}</a> &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
 	    {% with discussion as obj %}
         {% include "perm/editable_logic.html" %}
         {% endwith %}	    

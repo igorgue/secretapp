@@ -78,10 +78,8 @@ def create_discussion_comment(request, discussion_id, comment_id=None):
             instance = form.save(request, discussion)
             # search save hook
             discussion.save()
-            
             # sends mail once the comment is made
             __discussion_send_mail(request, discussion, instance)
-            
             # if successful just show discussion comment inline
             if request.is_ajax():
                 return HttpResponse('success')
