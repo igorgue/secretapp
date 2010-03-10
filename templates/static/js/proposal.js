@@ -411,12 +411,17 @@ var secretListController = {
 			    }
 			});
 		}
-		$.post('/discussion/'+DISCUSSION_ID+'/comment/', {
+		$.ajax({
+		    type: 'POST',
+		    url: '/discussion/'+DISCUSSION_ID+'/comment/',
+		    data: {
 		        text: this.parentElement.find('textarea.comment').val(),
 		        secrets: secrets.join(','),
 		        facebook_uid: this.parentElement.find('input#id_facebook_uid').val(),
 		        facebook_name: this.parentElement.find('input#id_facebook_name').val()
-		}, function(data) { location.reload(); });
+		    },
+		    success: function(data) { document.location.reload(); }
+		});
 		return false;
 	}
 };

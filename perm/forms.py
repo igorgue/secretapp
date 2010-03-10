@@ -47,7 +47,6 @@ class UserContentForm(forms.ModelForm):
         if self.use_facebook and 'facebook_uid' in self.cleaned_data and self.cleaned_data['facebook_uid']:
             # take the user url and convert to fuid - so they can claim later
             fuid = self.cleaned_data['facebook_uid'].replace('http://www.facebook.com/profile.php?id=', '')
-            from facebook import Facebook
             fb_user, is_new = User.objects.get_or_create(username='FB:%s' % fuid)
             if 'facebook_name' in self.cleaned_data:
                 fb_user.first_name = self.cleaned_data['facebook_name']
@@ -57,7 +56,6 @@ class UserContentForm(forms.ModelForm):
             instance.created_by = request.user
         
         instance.ip = request.META['REMOTE_ADDR'] if 'REMOTE_ADDR' in request.META else None
-        
         # only commit is want to
         if commit:
             instance.save()
