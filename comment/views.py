@@ -159,18 +159,18 @@ def create_proposal_comment(request, proposal_id, comment_id):
 def agree_with_proposal(request, proposal_id):
     """ Clock up a favourite to a user... """
     if request.method == 'POST':
-        props = get_object_or_404(Proposal, pk=proposal_id)
-        if request.user.id == proposal.secret.created_by.id:
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        if request.user == proposal.secret.created_by:
             if request.is_ajax():
-                return HttpResponse('%s' % props.agreement_count)
+                return HttpResponse('%s' % proposal.agreement_count)
             else:
                 return redirect_back(request)
         # This creates a NEW entry even if this user previously created and then deleted
         # a favourite reference to a secret
-        agree, new = Agreement.objects.get_or_create(proposal=props, created_by=request.user, deleted=False)
+        agree, new = Agreement.objects.get_or_create(proposal=proposal, created_by=request.user, deleted=False)
         
         if request.is_ajax():
-            return HttpResponse('%s' % props.agreement_count)
+            return HttpResponse('%s' % proposal.agreement_count)
         else:
             return redirect_back(request)
     else:
