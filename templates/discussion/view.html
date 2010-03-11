@@ -1,9 +1,6 @@
 {% extends 'layout/base.html' %}
 
 {% block pagemedia %}
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussions.css" />
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussion.css" /><!-- including the discussions to give access to the styles for the add discussion form -->
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/propose.css" />
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
 <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key={{GOOGLE_MAPS_API}}" type="text/javascript"></script>
 <script src="{{MEDIA_URL}}/js/proposal.js" type="text/javascript"></script> 
@@ -20,8 +17,51 @@
 {% endblock %}
 
 {% block content %}
-
-
+<div class="g9">
+    <div class="chunk">
+        <h1>{{discussion.title}}</h1>
+        <p>{{discussion.text}}</p>
+    </div>
+</div>
+<div class="g3">
+    {% with discussion.created_by as u %}    
+    <div class="menu">
+        <div class="float-left" style="padding-right:10px;">
+            <img src="{{u.profile_image.small}}" alt="{{u.name}}"/>
+        </div>
+        <h3>Posted&nbsp;by<br/><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        <p>{{discussion.get_time_since_created}}</p>
+    </div>
+    {% endwith %}
+</div>
+<div class="clear"></div>
+<div class="border-top">
+    <div class="g9 prefix_3">
+        <div class="chunk">
+        <h3 class="caps subtle">{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}} in {{discussion.comment_count}} comment{{discussion.comment_count|pluralize}}</h3>
+        </div>
+    </div>
+    {% for comment in discussion.comments %}
+    <div class="g3">
+        <div class="chunk">
+        {% with comment.created_by as u %}
+        <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
+        <h3><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        {% endwith %}            
+        </div>
+    </div>
+    <div class="g9">
+        <div class="chunk">
+            {{comment.text|linebreaksbr}}
+                            
+            {% for proposal in comment.proposals %}
+                {% include 'comment/proposal.html' %}
+            {% endfor %}&nbsp;
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="clear"></div>
 <div class="page_header">
 	<p id="page_title" class="left_sidebar">
 	    {% with discussion.created_by as creator %}
@@ -93,6 +133,7 @@
 						<div class="ajax_in_progress">Saving..</div>
 					</div>
 				</form>
+
 	    <div>asked by <a href="{{creator.get_absolute_url}}">{{creator.name}}</a> &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
 	    {% with discussion as obj %}
         {% include "perm/editable_logic.html" %}
@@ -103,8 +144,12 @@
 	       {% include "render/share_page_buttons.html" %}
 	    </div>    
 	    {% endwith %}
+
+	    <p>asked by <a href="{{user.get_absolute_url}}">{{user.name}}</a></p>
+	    <p>{{discussion.text|linebreaks}}</p>
+
 	    {% comment %}
-        <p><i>posted by {% with discussion.created_by as u %}<a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a>{% endwith %} &nbsp; at {{discussion.created_at|date:"j M Y G:i"}}. {{discussion.comment_count}} comments, {{discussion.proposal_count}} secrets</i></p>
+        <p> {{discussion.created_at|date:"j M Y G:i"}}. </i></p>
         {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
             {% for p in discussion.xpages %}
                 {% ifequal p discussion.page %}
@@ -124,12 +169,6 @@
 <br class="clear_left" />
 </div>
 
-    {% for comment in discussion.comments %}
-        {% include 'comment/discussion.html' %}
-        
-        {% for proposal in comment.proposals %}
-            {% include 'comment/proposal.html' %}
-        {% endfor %}
-    {% endfor %}
+    
 
 {% endblock %}

@@ -64,10 +64,10 @@
                             <a href="{{discussion.get_absolute_url}}" class="title">{{discussion.title}}</a>
                             <br/>
                             {{discussion.text}}
-                            
-                            <p>{{discussion.time_since_created}} {{discussion.proposal_count}} secrets, {{discussion.comment_count}} posts</p>
-                        </div>
-                        <div class="clear"></div>
+                    </div>
+                    <div class="text">
+                        <p><a href="{{discussion.get_absolute_url}}">{{discussion.title}}</a></p>
+                        <p>{{discussion.proposal_count}} secrets, {{discussion.comment_count}} posts, a few minutes ago</p>
                     </div>
                 {% endfor %}
             </div>            

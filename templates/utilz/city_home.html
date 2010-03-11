@@ -1,12 +1,10 @@
 {% extends 'layout/base.html' %}
 {# inpage css #}
-{% block pagemedia %}
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/home.css" />
-{% endblock %}
+{% block pagemedia %}{% endblock %}
 
 {# welcome notice #}
 {% block headnotice %}
-<div id="home_header">
+<div id="intro" class="rtop">
     <img src="{{MEDIA_URL}}/images/title_text.png" />
     <p style="line-height:1.5em">secretlondon exists to inspire Londoners. Join the discussion to share your experiences of the city. London is brimming with undiscovered gems and we want to know about them.</p>
     <br class="clear_left" />
@@ -22,140 +20,30 @@
 
 
 {% block content %}
-<div class="page_header">
-    <p id="page_title" class="left_sidebar" style="padding-top:20px;height:10px">
-        Featured
-    </p>
-    <div class="center_content top_content">
-        <h2>The latest discussions, join the conversation and add your secrets.</h2>
+<div class="g7">
+    <div class="menu">
+        <h1>Hot Discussions</h1>
     </div>
-    <p class="right_sidebar">
-        Recent Activity
-    </p>
-    <div class="clear_left"></div>
-</div>
-<div id="three_column">
-    <div id="left_center_column">
-        <div id="recent_proposals" class="content_line right_triangle">
-            <div class="content_line">
-            	
-            	    <p class="left_sidebar">
-            	        Most Recent<br />
-                        <small>
-                            <a href="{% url search_discussions %}?sort=updated%20desc">view more</a>
-                            <a href="{% url new_discussion %}">create new</a>
-                        </small>
-                    </p>
-                    {% for doc in discussion_results.documents|slice:"5" %}
-                        {{ doc.data_dict.homerender|safe }}
-                        {% if not forloop.last %}<p class="left_sidebar" style="background-image:none"></p>{% endif %}
-                    {% endfor %}
-            	    <div class="clear_left"></div>
-            	
-            </div><!-- END OF THE FIRST DISCUSSION LINE-->
-            <div class="clear_both"></div>
+    <div class="chunk">
+    {% for discussion in discussions %}
+        <div class="discussion" id="discussion_{{discussion.pk}}">
+            {% include "discussion/render/singular.html" %}
         </div>
-        
-        <div id="recent_secrets" class="content_line">
-                    <p class="left_sidebar">
-                        Recent Secrets
-                        <small>
-                            <a href="{% url search_secrets %}">view more</a>
-                            <a href="{% url new_secret %}">create new</a>
-                        </small>
-                    </p>
-
-                    <div class="center_content">
-                        {% for secret in secrets %}
-                        <a href="{{secret.get_absolute_url}}" class="share_holder">
-                            {% with secret.primary_photo as pp %}
-            			        {% if pp %}
-            			            <img src="{{pp.thumb.url}}" alt="{{pp.caption}}" />
-            			        {% else %}
-                                    {% if secret.latitude and secret.longitude %}
-                                    <img src="http://maps.google.com/maps/api/staticmap?size=150x150&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13">
-                                    {% else %}
-                                    <span class="secret_missing_image"></span>
-                                    {% endif %}
-                                {% endif %}
-                            {% endwith %}
-                            <h4>{{secret.title}}</h4>
-                            <p>{{secret.location}}</p>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    <div class="clear_both"></div>
-                </div>
-        
-        <div id="recent_visitors" class="content_line">
-            <p class="left_sidebar">
-                Recent Visitors
-                {% if not user.is_authenticated %}
-                <small>
-                    <a href="{% url render_template template='login' %}">login</a>
-                    <a href="{% url render_template template='login' %}">join</a>
-                </small>
-                {% endif %}
-            </p>
-            
-            <div class="center_content">
-                {% for u in users %}
-                <div class="visitor_holder">
-                    <img {% if u.profile_image.small %}src="{{u.profile_image.small}}"{% endif %} />
-                    <p class="name"><a href="{{u.get_absolute_url}}">{{u.first_name}} {{u.last_name}}</a></p>
-                    <p class="stats"><span>{{u.secret_count|default:'No '}}</span>Secrets</p>
-                    <p class="stats"><span>{{u.agreement_count|default:'No '}}</span>Agrees</p>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="clear_left"></div>
-        </div>
+    {% endfor %}
     </div>
-    <div id="right_column" style="height:949px">
-        <script src="http://widgets.twimg.com/j/2/widget.js"></script>
-        <script>
-        new TWTR.Widget({
-         version: 2,
-         type: 'search',
-         search: 'secret_london OR #secretlondon',
-         interval: 6000,
-         title: 'secretlondon',
-         subject: '',
-         width: 219,
-         height: 1200,
-         theme: {
-            shell: {
-            background: '#404040',
-            color: '#ffffff'
-           },
-           tweets: {
-             background: '#ffffff',
-             color: '#444444',
-             links: '#eb1849'
-           }
-         },
-         features: {
-          scrollbar: false,
-          loop: true,
-          live: true,
-          hashtags: true,
-          timestamp: true,
-          avatars: true,
-          behavior: 'default'
-         }
-        }).render().start();
-        </script>
-    </div>      
-    <div class="clear_left"></div>
+    <div class="menu">
+        <h1><a href="{% url search_discussions %}">Browse more discussions</a></h1>
+    </div>
+</div>            
+{# Users #}
+<div class="g5">
+    <div class="menu">
+        <h1>Photos</h1>
+    </div>
+    <div class="chunk">
+    {% for photo in photos %}
+        {{photo}}
+    {% endfor %}
+    </div>
 </div>
-
-<ul id="home_counter">
-    <li><span>{{count.users}}</span>Profiles</li>
-    <li><span>{{count.discussions}}</span>Discussions</li>
-    <li><span>{{count.secrets}}</span>Secrets</li>
-    <li><span>{{count.posts}}</span>Posts</li>
-    <li><span>{{count.days}}</span>Days Old</li>
-    <li class="last"><span>{{count.photos}}</span>Photos</li>
-    <br class="clear_left" />
-</ul>
 {% endblock %}

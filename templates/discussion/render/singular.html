@@ -1,19 +1,13 @@
-<div class="right_content" style="width:501px;padding-top:18px;border-top:1px solid #f5f5f5;padding-bottom:10px">
-    {% with discussion.created_by as u %}
-	<p class="date_added" style="padding-top:10px;width:80px;text-align:right">
-    {{discussion.proposal_count}} secrets<br />
-    {{discussion.comment_count}} posts<br />
+{% with discussion.created_by as created_by_user %}
+<div class="right">
+    <a href="{{discussion.get_absolute_url}}" class="title">{{discussion.title}}</a>
+    <p>{{discussion.text|truncatewords:16}}</p> 
+    <p>
+    <a href="{{discussion.get_absolute_url}}?only=secrets">{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}}</a> in {{discussion.comment_count}} posts &nbsp;
+    <span class="subtle">
+    Posted by <a href="{{created_by_user.get_absolute_url}}">{{created_by_user.first_name}} {{created_by_user.last_name|first}}</a> &nbsp;
+    {{discussion.get_time_since_created}}</span>
     </p>
-    <div style="float:left"><img src="{{u.profile_image.small}}" alt="" /></div>
-    <div style="float:left;width:350px;margin-left:10px;">
-	    <p style="width:350px" class="discussion_stats">
-	        <a class="discussion_title" style="line-height:1.3em" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
-	    </p>
-	    <p style="width:350px" class="discussion_stats">{{discussion.text|truncatewords:"16"}}</p>
-	    <p style="width:350px" class="discussion_stats">
-	        <a href="{{u.get_absolute_url}}">{{u.name}}</a> 
-	        created {{discussion.get_time_since_created}}
-	    </p>
-	</div>
-	{% endwith %}
 </div>
+{% endwith %}
+<div class="clear"></div>

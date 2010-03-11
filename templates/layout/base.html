@@ -4,7 +4,7 @@
 <head>
     {% include 'layout/head.html' %}
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/alt.css" />
         <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/jquery-ui/css/pepper-grinder/jquery-ui-1.7.2.custom.css" />
     {% endblock %}
     {% block js %}
@@ -44,16 +44,16 @@
 <body {% block bodytag %}{% endblock %}>
 <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script>
 <script type="text/javascript">function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
-    <div id="container">
-        {% block everything %}
-            {% include 'layout/header.html' %}
-            {% block headnotice %}{% endblock %}
-            {% include 'layout/tabs.html' %}
-            
-            {% block content %}{% endblock %}
-            {% include 'layout/footer.html' %}
-        {% endblock %}
-    </div><!-- end of div id=container -->
+<div id="wrap">
+    {% block everything %}        
+        {% include 'layout/header.html' %}
+        {% block headnotice %}{% endblock %}   
+        <div id="body" class="rtop rbot">        
+            {% block content %}{% endblock content %}
+            <div class="clear"></div>
+        </div>
+        {% include 'layout/footer.html' %}    
+    {% endblock everything %}
     
     <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
     {% block facebook_js %}{% endblock %}
@@ -71,5 +71,6 @@
     <script type="text/javascript">clicky.init(184772);</script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="http://static.getclicky.com/184772ns.gif" /></p></noscript>
 {% endif %}
+</div>    
 </body>
 </html>
