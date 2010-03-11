@@ -139,9 +139,16 @@ class Communication(models.Model):
         return mail.EmailMessage(self.subject, self.body, SEND_FROM_EMAIL, [self.user.email])
     
     def should_send(self):
-        setting, is_new = CommunicationSetting.objects.get_or_create(\
-                                user=self.user, trigger=self.trigger, defaults={'is_on':self.trigger.default})
-        return setting.is_on
+        # checks email
+        u = self.user
+        email_ok = u.email and not u.email.strip() == '' and '@proxymail.face' not in u.email
+        if email_ok:
+            # checks setting
+            setting, is_new = CommunicationSetting.objects.get_or_create(\
+                                    user=u, trigger=self.trigger, defaults={'is_on':self.trigger.default})
+            return setting.is_on
+        else:
+            return False
     
     def send_mail(self, force=False):
         if self.should_send() or force:
