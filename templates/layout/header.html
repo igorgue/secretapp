@@ -6,9 +6,15 @@
     <div class="g3 logo">
         <a href="{% url home city=CITY %}"><img src="{{MEDIA_URL}}/images/logo.png" width="180"/></a>            
     </div>
-    <div class="g3 links">
-        <a href="{% url search_discussions %}">Discussions</a> 
-        <a href="{% url search_secrets %}?template=photo">Secrets</a>
+    <div class="g6 links {% if not q %}search{% endif %}">        
+        {% if not show_large_search %}
+        <form action="/{{CITY}}/" method="GET"  accept-charset="utf-8" id="id_" style="display:inline;">
+            <input id="top_query" type="text" name="title" class="smallquery"/>
+            <input type="hidden" name="usort" id="id_sort" value="popular"/>
+        </form>       
+        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 
+        {% endif %}
+        <a href="/inspire/">Random</a> &nbsp;
     </div>
     <div class="g3 account" {% if user.is_anonymous %}style="padding-top:4px;"{% endif %}>
         {% if user.is_anonymous %}
@@ -17,12 +23,6 @@
             <a href="{% url edit_profile %}">Johnny</a>
             <a href="{% url logout %}">Log out</a>
         {% endif %}
-    </div>
-    <div class="g3 search">
-        <form action="/discussions/" method="GET"  accept-charset="utf-8" id="id_">
-            <input type="text" value="Search" name="title" id="query"/>
-            <input type="hidden" name="sort" id="id_sort" value="updated desc"/>
-        </form>       
     </div>
     <div class="clear"></div>
 </div> 

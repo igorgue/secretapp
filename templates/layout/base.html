@@ -3,10 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
     {% include 'layout/head.html' %}
-    {% block css %}
-        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/alt.css" />
-        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/jquery-ui/css/pepper-grinder/jquery-ui-1.7.2.custom.css" />
-    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/alt.css" />
+    <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/jquery-ui/css/pepper-grinder/jquery-ui-1.7.2.custom.css" />
+    {% block css %}{% endblock %}
     {% block js %}
         <script type="text/javascript" charset="utf-8">CITY="{{CITY}}"</script>
     {# FACEBOOK #}

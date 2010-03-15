@@ -12,10 +12,23 @@ from models import *
 #   3. Need to reindex solr
 SECRET_RENDER_TEMPLATES = ('list', 'photo', 'location')
 SECRET_RENDER_FOLDER = 'secret/render/%s.html'
+
 SORT_ORDER = (
                 ('created desc', 'Newest'),
                 ('created asc', 'Oldest'),
+                ('comments desc', 'Most Popular'),
+                ('comments asc', 'Least Popular'),
             )
+
+SORT_MAPPING = {'latest':'updated desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
+
+         
+USER_SORT_ORDER = (
+                ('latest', 'Latest'),
+                ('popular', 'Popular'),
+                ('undiscovered', 'Undiscovered'),
+            )
+            
 class SecretSearchForm(SearchForm):
     # choose a template
     templates   = SECRET_RENDER_TEMPLATES
@@ -23,6 +36,7 @@ class SecretSearchForm(SearchForm):
     
     # sort
     sort        = forms.ChoiceField(choices=SORT_ORDER, required=False)
+    usort   = forms.ChoiceField(choices=USER_SORT_ORDER, required=False)
     
     # text
     title       = forms.CharField(required=False)
@@ -42,6 +56,15 @@ class SecretSearchForm(SearchForm):
         default_template = 'list'
         default_sort = SORT_ORDER[0][0]
         results_per_page = 10
+    
+    def clean_sort(self):
+        data = self.cleaned_data['sort']
+        if 'usort' in self.data:
+            usort = self.data['usort']
+            if usort in SORT_MAPPING:
+                data = SORT_MAPPING[usort]
+
+        return data
     
     def template_url(self, template):
         """ Returns the url to change the template but keep the same search critieon """

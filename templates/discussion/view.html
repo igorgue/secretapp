@@ -1,6 +1,7 @@
 {% extends 'layout/base.html' %}
 
 {% block pagemedia %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussion.css" />
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
 <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key={{GOOGLE_MAPS_API}}" type="text/javascript"></script>
 <script src="{{MEDIA_URL}}/js/proposal.js" type="text/javascript"></script> 
@@ -17,158 +18,155 @@
 {% endblock %}
 
 {% block content %}
-<div class="g9">
-    <div class="chunk">
-        <h1>{{discussion.title}}</h1>
-        <p>{{discussion.text}}</p>
-    </div>
-</div>
 <div class="g3">
     {% with discussion.created_by as u %}    
-    <div class="menu">
+    <div class="chunk tops">
         <div class="float-left" style="padding-right:10px;">
             <img src="{{u.profile_image.small}}" alt="{{u.name}}"/>
         </div>
         <h3>Posted&nbsp;by<br/><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
-        <p>{{discussion.get_time_since_created}}</p>
+        <p class="subtle">{{discussion.get_time_since_created}}</p>
     </div>
     {% endwith %}
 </div>
-<div class="clear"></div>
-<div class="border-top">
-    <div class="g9 prefix_3">
-        <div class="chunk">
-        <h3 class="caps subtle">{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}} in {{discussion.comment_count}} comment{{discussion.comment_count|pluralize}}</h3>
-        </div>
-    </div>
-    {% for comment in discussion.comments %}
-    <div class="g3">
-        <div class="chunk">
-        {% with comment.created_by as u %}
-        <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
-        <h3><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
-        {% endwith %}            
-        </div>
-    </div>
-    <div class="g9">
-        <div class="chunk">
-            {{comment.text|linebreaksbr}}
-                            
-            {% for proposal in comment.proposals %}
-                {% include 'comment/proposal.html' %}
-            {% endfor %}&nbsp;
-        </div>
-    </div>
-    {% endfor %}
-</div>
-<div class="clear"></div>
-<div class="page_header">
-	<p id="page_title" class="left_sidebar">
-	    {% with discussion.created_by as creator %}
-	        <img src="{{creator.profile_image.small}}" alt="{{creator.name}}" />
-	    
-	</p>
-	<div class="right_content top_content">
-        {# DISCUSSION TEXT AND TITLE #}
-        <h2>{{discussion.title}}</h2>
-				<form action="#" class="discussion_reply_form">
-					<div class="discussion_reply_tabs">
-						<span class="suggest_tab pink_button"><a {% if user.is_authenticated %}href="#" class="suggest_tab_button"{% else %}href="{% url render_template template='login' %}"{% endif %}>REPLY</a></span>
-						<br class="clear_right /">
-					</div>
-
-					<div class="discussion_reply_form_body">
-						<div class="suggest_secret">
-							<h4>Suggest a secret</h4>
-							<ul class="secrets_list">
-							</ul>
-							
-							<div class="map">
-								<div class="map_search_results">
-									<p class="map_search_not_found">Not found</p>
-									<div class="map_search_results_list">
-										<p>Did you mean..</p>
-										<ol>
-										</ol>
-									</div>
-								</div>
-								<div class="map_canvas" id="map_canvas"></div>
-								<div class="map_canvas_small_placeholder" id="map_canvas_small_placeholder"></div>
-								<div class="map_canvas_small" id="map_canvas_small"></div>
-							</div>
-
-							<p class="add_secret"><a href="#">&#43; Add another secret</a></p>
-						</div>
-						
-						<div class="existing_secrets">
-							<h3>Choose existing secret</h3>
-							<ul class="existing_secrets_list">
-								<li class="existing_secret">
-									
-								</li>
-							</ul>
-						</div>
-						
-						<div class="comment">
-							<h4><label for="">Add a comment</label></h4>
-							<textarea id="id_text" class="comment" name="text"></textarea>
-							<input type="hidden" id="id_secrets" name="secrets"/>
-							{% if reply_form.facebook_uid %}
-                                <br class="clear_left" />
-                                {% field reply_form.facebook_uid %}
-                            {% endif %}
-                            {% if reply_form.facebook_name %}
-                                <br class="clear_left" />
-                                {% field reply_form.facebook_name %}
-                            {% endif %}
-							
-						</div>
-						
-						<div class="buttons">
-							<input type="submit" name="sub_share" value="SHARE" class="pink_button">
-							<input type="button" name="sub_cancel" value="CANCEL" class="pink_button cancel">
-							<br class="clear_left" />
-						</div>
-
-						<div class="ajax_in_progress">Saving..</div>
-					</div>
-				</form>
-
-	    <div>asked by <a href="{{creator.get_absolute_url}}">{{creator.name}}</a> &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
-	    {% with discussion as obj %}
+<div class="g9">
+    <div class="chunk">
+        <h1>{{discussion.title}}</h1>
+        <p>{{discussion.text}}</p>
+        <p>{% include "render/share_page_buttons.html" %} &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
+        {% with discussion as obj %}
         {% include "perm/editable_logic.html" %}
         {% endwith %}	    
-	    </div> 
-	    <p>{{discussion.text|linebreaksbr}}</p>
-	    <div style="padding-bottom:10px">
-	       {% include "render/share_page_buttons.html" %}
-	    </div>    
-	    {% endwith %}
-
-	    <p>asked by <a href="{{user.get_absolute_url}}">{{user.name}}</a></p>
-	    <p>{{discussion.text|linebreaks}}</p>
-
-	    {% comment %}
-        <p> {{discussion.created_at|date:"j M Y G:i"}}. </i></p>
-        {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
-            {% for p in discussion.xpages %}
-                {% ifequal p discussion.page %}
-                    <b>{{p}}</b>
-                {% else %}
-                    <a href="?page={{p}}">{{p}}</a>
-                {% endifequal %}
-            {% endfor %}
-        {% if discussion.next_page %}<a href="?page={{discussion.next_page}}">Next</a>{% endif %}
-        {% if discussion.was_before_birth %}
-    		<div class="moderation_holder">
-    			<p class="moderated">This topic has been rewritten <a href="/note/rewritten/" class="modalize" title="Why has this topic been rewritten?">Why?</a></p>
-    		</div>
-    	{% endif %}
-    	{% endcomment %}
+        </p>
+    </div>
 </div>
-<br class="clear_left" />
+<div id="proposals" class="clear-border"></div>
+<div class="g9 prefix_3">
+    <div class="chunk">
+    <h3 class="caps">{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}}<span class="subtle"> in {{discussion.comment_count}} post{{discussion.comment_count|pluralize}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#reply" class="button">Post a Reply</a></h3>
+    </div>
 </div>
-
+<div id="" class="clear-border"></div>
+{% for comment in discussion.comments %}
+<div class="g3">
+    <div class="chunk">
+    {% with comment.created_by as u %}
+    <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
+    <h3><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+    {% endwith %}            
+    </div>
+</div>
+<div class="g9">
+    <div class="chunk">
+        {{comment.text|linebreaksbr}}
+                        
+        {% for proposal in comment.proposals %}
+            {% include 'comment/proposal.html' %}
+        {% endfor %}&nbsp;
+    </div>
+</div>
+{% endfor %}
+<div id="reply" class="clear-border"></div>
+<div class="prefix_3 g9">
+    <form action="" class="chunk">
+        <h2 class="subtle caps">Reply</h2>
+        <div class="bottom">
+            <textarea id="id_text" name="text" style="width:400px;height:90px;"></textarea>
+        </div>
+        <div class="top">
+            <div id="add_location">
+                <a href="" onclick="return swap('#add_location','#input_location');">+ Add a location</a>
+            </div>
+            <div id="input_location">
+                <input id="id_title" type="text" name="location_title" class="large" value=""/><br/>
+                <span class="subtle">eg. 5 Holly Rd, Museum</span> or <a href="">use a map</a>
+            </div>
+        </div>
+        <div class="top">
+            <div id="add_location">
+                <a href="" onclick="return swap('#add_location','#input_location');">+ Add a link</a>
+            </div>
+            <div id="input_location">
+                <input id="id_title" type="text" name="link_url" class="large" value=""/><br/>
+                <span class="subtle">eg. http://www.secretcities.com</span>
+            </div>
+        </div>
     
+		<div class="discussion_reply_form_body">
+			<div class="suggest_secret">
+				<h4>Suggest a secret</h4>
+				<ul class="secrets_list">
+				</ul>
+				
+				<div class="map">
+					<div class="map_search_results">
+						<p class="map_search_not_found">Not found</p>
+						<div class="map_search_results_list">
+							<p>Did you mean..</p>
+							<ol>
+							</ol>
+						</div>
+					</div>
+					<div class="map_canvas" id="map_canvas"></div>
+					<div class="map_canvas_small_placeholder" id="map_canvas_small_placeholder"></div>
+					<div class="map_canvas_small" id="map_canvas_small"></div>
+				</div>
 
+				<p class="add_secret"><a href="#">&#43; Add another secret</a></p>
+			</div>
+			
+			<div class="existing_secrets">
+				<h3>Choose existing secret</h3>
+				<ul class="existing_secrets_list">
+					<li class="existing_secret">
+						
+					</li>
+				</ul>
+			</div>
+			
+			<div class="comment">
+				<h4><label for="">Add a comment</label></h4>
+				
+				<input type="hidden" id="id_secrets" name="secrets"/>
+				{% if reply_form.facebook_uid %}
+                    <br class="clear_left" />
+                    {% field reply_form.facebook_uid %}
+                {% endif %}
+                {% if reply_form.facebook_name %}
+                    <br class="clear_left" />
+                    {% field reply_form.facebook_name %}
+                {% endif %}
+				
+			</div>
+			
+			<div class="buttons">
+				<input type="submit" name="sub_share" value="SHARE" class="pink_button">
+				<input type="button" name="sub_cancel" value="CANCEL" class="pink_button cancel">
+				<br class="clear_left" />
+			</div>
+
+			<div class="ajax_in_progress">Saving..</div>
+		</div>
+	</form>
+</div> 
+<div class="clear-border"></div>
+<div class="chunk">
+    {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
+    {% for p in discussion.xpages %}
+        {% ifequal p discussion.page %}
+            <b>{{p}}</b>
+        {% else %}
+            <a href="?page={{p}}">{{p}}</a>
+        {% endifequal %}
+    {% endfor %}
+    {% if discussion.next_page %}<a href="?page={{discussion.next_page}}">Next</a>{% endif %}
+</div>
+{% if discussion.was_before_birth %}
+    <div class="clear-border"></div>
+    <div class="chunk">        
+		<div class="moderation_holder">
+			<p class="moderated">This topic has been rewritten <a href="/note/rewritten/" class="modalize" title="Why has this topic been rewritten?">Why?</a></p>
+		</div>    
+    </div>           
+{% endif %}
 {% endblock %}

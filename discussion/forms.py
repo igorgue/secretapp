@@ -9,11 +9,21 @@ SORT_ORDERS = (
                 ('created desc', 'Most Recent'),
                 ('comments desc', 'Most Posts'),
                 ('secrets desc', 'Most Secrets'),
+                ('secrets asc', 'Fewest Secrets'),
+            )
+
+SORT_MAPPING = {'latest':'updated desc', 'popular':'secrets desc', 'undiscovered':"secrets asc" }
+
+USER_SORT_ORDERS = (
+                ('latest', 'Latest'),
+                ('popular', 'Popular'),
+                ('undiscovered', 'Undiscovered'),
             )
 
 class DiscussionSearchForm(SearchForm):
     # sort
     sort    = forms.ChoiceField(choices=SORT_ORDERS, required=False)
+    usort    = forms.ChoiceField(choices=USER_SORT_ORDERS, required=False)
     
     # text searches
     title   = forms.CharField(required=False)
@@ -22,9 +32,19 @@ class DiscussionSearchForm(SearchForm):
     class Meta(SearchForm.Meta):
         model = Discussion
         url_name = 'search_discussions'
-        results_per_page = 20
+        results_per_page = 10
         default_sort = SORT_ORDERS[0][0]
         cheeky = False
+    
+    
+    def clean_sort(self):
+        data = self.cleaned_data['sort']
+        if 'usort' in self.data:
+            usort = self.data['usort']
+            if usort in SORT_MAPPING:
+                data = SORT_MAPPING[usort]
+
+        return data
     
     def save(self):
         # build vars

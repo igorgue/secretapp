@@ -5,7 +5,7 @@ from models import *
 
 
 class SecretCommentForm(UserContentForm):
-    text = forms.CharField(widget=forms.TextInput)
+    text = forms.CharField(widget=forms.Textarea)
     class Meta:
         model = SecretComment
         fields = ('text',)
@@ -19,7 +19,7 @@ class SecretCommentForm(UserContentForm):
         return self
 
 class ProposalCommentForm(UserContentForm):
-    text = forms.CharField(widget=forms.TextInput)
+    text = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = ProposalComment
@@ -35,6 +35,7 @@ class ProposalCommentForm(UserContentForm):
 
 
 class DiscussionCommentForm(UserContentForm):
+    text = forms.CharField(widget=forms.Textarea)
     secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")
     
     class Meta:

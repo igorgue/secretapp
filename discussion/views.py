@@ -20,8 +20,16 @@ def search(request):
     else:
         results = []
     
+    d_ids = []
+    for r in results.documents:
+        d_ids.append(r.pk_field.value)
+    
+    #TODO sorting here
+    discussions = Discussion.objects.filter(pk__in=d_ids).order_by("-created_at")
+    
     return context_response(request, 'discussion/search.html', {
                 'search_form': form,
+                'discussions': discussions,
                 'results': results,
             }, tabs=['discussions'])
 

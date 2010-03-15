@@ -1,49 +1,136 @@
 {% extends 'layout/base.html' %}
 {# inpage css #}
-{% block pagemedia %}{% endblock %}
+{% block pagemedia %}
+<script type="text/javascript" src="{{MEDIA_URL}}/js/jquery.scrollto-min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
+    QUERY = "{{CURRENT_QUERY}}";
+    SORT = "{{CURRENT_SORT}}";
+    NEXT_PAGE = {{CURRENT_PAGE}}+1;   
+    
+    function do_highlight(){ 
+        if(SEARCH_PERFORMED){
+            var area = $('.dohighlight');
+            area.removeHighlight()
+            $.each(QUERY.split(" "), function(idx, val) { area.highlight(val); })
+        }
+    }
+    function load_more_results()
+    {
+        swap("#do_load","#loading");
+        $.post(
+            '/{{CITY}}/',
+            $('#main_search').serialize(),
+            function(data) {
+                $('#discussions').append(data.discussions);
+                $('#secrets').append(data.secrets);
+                do_highlight();
+                NEXT_PAGE = NEXT_PAGE + 1;
+                $('#page-input').val(NEXT_PAGE);
+                swap("#loading","#do_load");
+            },
+            "json"
+        );
+        return false;
+    }
+    
+    function select_choice(choice){
+        $('#the-sort').html(choice);
+        $('#sort-input').val(choice);
+        $('#choose-sort').hide();                            
+        return false;
+    }
+    
+    $(document).ready(function(){    
+        $("#li-sort").hover(
+          function () { $("#choose-sort").show(); }, 
+          function () { $("#choose-sort").hide(); }
+        );
+
+        do_highlight();
+        $("#load_next").click(function(){return load_more_results();})
+    });
+</script>
+{% endblock %}
 
 {# welcome notice #}
 {% block headnotice %}
-<div id="intro" class="rtop">
-    <img src="{{MEDIA_URL}}/images/title_text.png" />
-    <p style="line-height:1.5em">secretlondon exists to inspire Londoners. Join the discussion to share your experiences of the city. London is brimming with undiscovered gems and we want to know about them.</p>
-    <br class="clear_left" />
-    <ul>
-        <li><a href="{% url render_template template='about' %}">Read the story</a></li>
-        <li><a href="{% url search_discussions %}">Join the Discussion</a></li>
-        <li><a href="{% url random_secret %}">Get Inspired</a></li>
-        <br class="clear_left" />
-    </ul>
-    <div class="clear_left"></div>
+<div id="intro" class="rtop center">
+    <h3>Secret London exists to inspire Londoners. Join the discussion to share your experiences of the city.</h3>
 </div>
 {% endblock %}
 
-
 {% block content %}
-<div class="g7">
-    <div class="menu">
-        <h1>Hot Discussions</h1>
-    </div>
-    <div class="chunk">
-    {% for discussion in discussions %}
-        <div class="discussion" id="discussion_{{discussion.pk}}">
-            {% include "discussion/render/singular.html" %}
+<div id="top" class="g12 border-bottom">
+<div class="center bottom">
+    <form action="/{{CITY}}/" method="GET"  accept-charset="utf-8" id="main_search">
+        <div class="">
+          <ul class="searchbar">
+            <li>Search for</li>        
+            <li id="li-sort" class="menu">
+                <script type="text/javascript">
+                    
+                </script>
+              <a id="the-sort" href="#" class="choose" onclick="return false;">{{CURRENT_SORT}}</a>
+              <div id='choose-sort' class="searchmenu">
+                    <a href="#" onclick="return select_choice('latest');">latest</a><br/>                   
+                    <a href="#" onclick="return select_choice('popular');">popular</a><br/>
+                    <a href="#" onclick="return select_choice('undiscovered');">undiscovered</a><br/>
+                    <input id="sort-input" type="hidden" name="usort" value="latest"/>
+                    <input id="page-input" type="hidden" name="page" value="{{CURRENT_PAGE}}"/>
+              </div>
+            </li>        
+            <li>discussions & secrets</li>
+          </ul>
         </div>
-    {% endfor %}
-    </div>
-    <div class="menu">
-        <h1><a href="{% url search_discussions %}">Browse more discussions</a></h1>
+        <input type="text" value="{{CURRENT_QUERY}}" name="title" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO"/>
+        <div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?title=restaurants">restaurants</a> &nbsp;&nbsp; <a href="?title=east end">East End</a> &nbsp;&nbsp; <a href="?title=best pizza in london">Best pizza in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    </form>
+    <div class="clear"></div>
+</div>
+</div>
+<div class="g12 center top dohighlight">
+    <h2 class="subtle caps">Showing {{CURRENT_SORT}} Discussions & Secrets {% if CURRENT_QUERY %}for {{CURRENT_QUERY}}{% endif %}</h2>
+</div>
+{% if secrets or discussions %}
+<div class="g6">    
+    <div id="discussions" class="chunk dohighlight">        
+        {% for discussion in discussions %}
+            {% include "discussion/render/singular.html" %}
+        {% empty %}
+            <div class="top bottom">
+                We did not find any discussions
+            </div>
+        {% endfor %}
     </div>
 </div>            
 {# Users #}
-<div class="g5">
-    <div class="menu">
-        <h1>Photos</h1>
-    </div>
-    <div class="chunk">
-    {% for photo in photos %}
-        {{photo}}
-    {% endfor %}
+<div class="g6">
+    <div id="secrets" class="chunk dohighlight">
+        {% for secret in secrets %}
+            {% include "secret/render/singular.html" %}
+        {% empty %}
+            <div class="top bottom">
+                <h4>We did not find any secrets</h4>
+            </div>
+        {% endfor %}
     </div>
 </div>
+<div class="clear-border"></div>
+<div class="g12 center">
+    <div class="chunk">
+        <div class="do_load" class="top">
+        <a id="load_next" href="#" class="button">Load more results</a><br/><br/>
+        <a href="#top">&uarr; Back to top</a>
+        </div>
+        <img id="loading" src="{{MEDIA_URL}}/images/loading.gif" style="display:none;"/>
+    </div>
+</div>
+{% else %}
+<div class="g12 center" style="padding:60px 0px;font-size:20px;line-height:26px;">
+    We didn't find any discussions or secrets matching your search. <br/><br/>
+    
+    Would you like to <a href="">start a discussion</a> or <a href="">share a secret</a>?
+</div>
+{% endif %}
 {% endblock %}

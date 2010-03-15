@@ -1,32 +1,37 @@
 {% extends 'layout/base.html' %}
 
 {% block pagemedia %}
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussions.css" />
+
 {% endblock %}
 
 {% block content %}
+<div class="g8 prefix_2 suffix_2">
+    <div class="menu">
+        {% form search_form %}
+        <h3 class="inline">{{ search_form.sort }} Discussions on</h3> {{ search_form.title }}	
+    	{% endform 'Go' 'pink_button' %}
+    </div>
+    <div class="chunk">
+    {% for discussion in discussions %}
+        <div class="discussion" id="discussion_{{discussion.pk}}">
+            {% include "discussion/render/singular.html" %}
+        </div>
+    {% endfor %}
+    </div>
+</div>
+<div class="clear"></div>
 <div class="page_header">
 	<p id="page_title" class="left_sidebar">
 		Filter
 	</p>
 	<div class="right_content top_content">
 		<a href="{% url new_discussion %}" id="top_reply_button">New Discussion</a>
-		{% form search_form %}
-			<label>Show only discussions about: </label>
-			<div class="clear_left">{{ search_form.title }}</div>
-		    <div style="float:left;margin:5px;">{{ search_form.sort }}</div>
 		
-		{% endform 'Go' 'pink_button' %}
 		
 		<div class="clear_left"></div>
 		{% include 'layout/pages.html' %}		
 	</div>
 	<div class="clear_left"></div>
 </div><!-- END OF THE DISCUSSIONS HEADER id=page headeric-->
-{% if results %}
-    {% for d in results.documents %}
-        {{ d.data_dict.render|safe }}
-    {% endfor %}
-{% endif %}
 
 {% endblock %}
