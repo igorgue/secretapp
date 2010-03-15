@@ -6,7 +6,14 @@
 
     {% form form %}
         {% for f in form %}
-            {% field f %}
+        <p class="cl">
+            <label><b>{{ f.label }}</b></label><br />
+        </p>
+        <p class="cl">
+            {{ f }}
+            <small>{{ f.help_text }}</small>
+        </p>
+        
         {% endfor %}
     {% endform %}
 

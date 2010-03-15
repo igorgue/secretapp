@@ -49,6 +49,8 @@ class UserCommunicationSettingsForm(forms.Form):
             pref = CommunicationSetting.objects.create(\
                     user=self.user, trigger=trigger, is_on=trigger.default)
             self.preferences.append(pref)
+        else:
+            pref = pref[0]
         return pref
     
     def save(self):
