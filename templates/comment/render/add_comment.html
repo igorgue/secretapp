@@ -1,0 +1,15 @@
+<div class="comment">    
+    {% if user.is_authenticated %}
+		<div class="cphoto">
+            <img src="{{ user.profile_image.small }}" alt="{{ user.first_name }} {{ user.last_name }}">
+        </div>
+        <div class="ctext">
+            {% form comment_form %}
+        	    {{ comment_form.text }}
+        	{% endform 'Comment' 'pink_button' %}
+        </div>		
+	{% else %}
+	    Please <a href="{% url render_template template='login' %}">login</a> using Facebook to comment. Thanks!
+	{% endif %}
+	<div class="clear"></div>
+</div>

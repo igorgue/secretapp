@@ -1,0 +1,16 @@
+{% with comment.created_by as u %}
+<div class="comment">
+	<div class="cphoto">
+		<img src="{{ u.profile_image.small }}" alt="{{ u.first_name }} {{ u.last_name }}">
+	</div>
+	<div class="ctext">
+		<div class="float-right">
+            <a href="#" class="subtle">Report</a>
+		</div>
+		<a href="">{{ u.first_name }} {{ u.last_name }}</a> &nbsp;
+		{{ comment.text|linebreaksbr }}
+		<p><span class="subtle">{{comment.get_time_since_created}}</span></p>
+	</div>
+	<div class="clear"></div>
+</div>
+{% endwith %}
