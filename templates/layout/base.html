@@ -55,7 +55,7 @@
         {% endblock %}
     </div><!-- end of div id=container -->
     
-    <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}");</script>
+    <script type="text/javascript">FB.init("{{ FB_API_KEY }}", "{% url socialauth_xd_receiver %}", { permsToRequestOnConnect:"email"});</script>
     {% block facebook_js %}{% endblock %}
 {% if not DEBUG %}
     <script type="text/javascript">
