@@ -82,7 +82,7 @@ def search(request, city):
 
     elif CURRENT_TYPE == "photos":
         secret_form = SecretSearchForm(req_dict)
-        secret_form.chosen_template = "photos"
+        secret_form.chosen_template = "photo"
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
         s_ids = []
         secret_results = None
