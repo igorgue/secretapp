@@ -127,6 +127,15 @@ jQuery.fn.removeHighlight = function() {
  }).end();
 };
 
+function fb_login(){
+    FB.ensureInit(function() { 
+        try { FB.Connect.logout(function(){FB.Connect.requireSession(facebook_onlogin);return false;}); }
+        catch(e) { FB.Connect.requireSession(facebook_onlogin); return false; }       
+        return false;
+    });
+    return false;
+}
+
 
 $(document).ready(function(){    
     // actions which handle the "rewritten logic"

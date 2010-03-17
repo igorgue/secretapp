@@ -33,6 +33,9 @@ def get_absolute_url(self):
     from django.core.urlresolvers import reverse
     return reverse('view_profile', kwargs={'pk': self.pk })
 
+def get_time_since_joined(self):
+    from perm.tools import calculate_time_since
+    return calculate_time_since(self.date_joined)    
 
 def get_settings(self):
     if not hasattr(self, '_settings'):
@@ -130,6 +133,7 @@ def profile_image(self):
 
 # Actually append these functions on the user object
 __user_augments__ = (
+    'get_time_since_joined',
     'get_absolute_url',
     'get_settings',
     'get_facebook',

@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^alt/$', alt_home, name='alt_home'),
     url(r'^doc/(?P<template>\w+)/$', render, name='render_template'),
     url(r'^(?P<city>\w+)/$', city_home, name='home'),
+    url(r'^(?P<city>\w+)/search/$', search, name='search'),
 )

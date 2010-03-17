@@ -1,80 +1,35 @@
-<div id="discussion_line_proposal" class="proposal_line">
-	<div class="left_sidebar left_triangle">
-	    {# proposal agree #}
-	        <p class="side_agreements"><span class="filler">{{proposal.agreement_count}}</span>agree</p><br class="clear_right" />
-	    {% if user.is_authenticated %}    	    
-    	    {% ifequal user.id proposal.secret.created_by.id %}
-    	    {% else %}
-    	    <form method="POST" action="{{proposal.get_agree_url}}" class="clickAction">    		   
-    		    <input type="submit" class="hider pink_button" value="I Agree" />
-    		</form>
-    		{% endifequal %}
-		{% else %}
-		<p class="side_agreements"><span class="filler">{{proposal.agreement_count}}</span>agree</p><br class="clear_right" />
-		Please <a href="/accounts/login/">log in</a><br /> to agree
-		{% endif %}
-	</div>
-	{% with proposal.secret as secret %}
-	<div class="right_content proposal">
-		<h2 class="question_asked"><span class="highlight">{{ featured.discussion_comment.created_by.name }}</span> proposed:</h2>
-		<div class="proposal_holder">
-		    {# secret itself #}
-			<div class="proposal_content">
-			    {% with secret.primary_photo as pi %}
-        	    {% if pi %}
-        	        <p class="secret_map_image"><img src="{{pi.thumb.url}}" width="90px" /></p>
-        	    {% else %}
-        		    {% if secret.latitude and secret.longitude %}
-    				<p class="secret_map_image"><img src="http://maps.google.com/maps/api/staticmap?size=90x90&markers={{secret.latitude}},{{secret.longitude}}&sensor=false&zoom=13"></p>
-    				{% else %}
-    				<p class="secret_missing_image">Photos to come</p>
-    				{% endif %}
-        		{% endif %}
-                {% endwith %}
-				
-				<span class="secret_details">
-					<h3>{{secret.title}}</h3>
-					<p>{{secret.location|default:""}}</p>
-				<a class="pink_button" href="{{secret.get_absolute_url}}">View Details</a>
-				<div class="clear_left"></div>
-				</span>
-			</div>
-            
-            {# secret comments #}
-			<div class="proposal_comments">
-				
-				{% if user.is_authenticated %}
-				    {% with proposal.comment_form as form %}
-				        {% form form %}
-				            {% field form.text %}
-				        <input type="submit" value="&#43; add comment" style="font-size:0.6em" class="pink_button">
-				        </form>
-					<br class="clear_left" />
-				    {% endwith %}
-				{% else %}
-				<div style="margin-top:16px;">Please login above using facebook-connect to comment. Thanks!</div>
-				<br class="clear_left" />
-				{% endif %}
-				{% with proposal.comments as pcs %}
-        		{% if pcs %}
-				<p class="comment_summary">{{pcs|length}} comments in this discussion. {{proposal.comment_count}} comments in total. {#<a href="#">View all Comments</a></p>#}
-				<div class="clear_right"></div>
-				{% for pc in pcs %}
-				    {% with pc.created_by as u %}
-				        <div {% if forloop.last %}class="last"{% endif %}><span class="highlight">{{u.first_name}} {{u.last_name}}</span> {{pc.text}} <span class="comment_posted_time">{{comment.get_time_since_created}}</span>
-				        <a href="{{pc.get_flagspam_url}}" class="modalize" title="Report this comment">Report</a>
-				        {% with pc as obj %}
-				        {% include "perm/editable_logic.html" %}
-				        {% endwith %}
-				        </div>
-			        {% endwith %}
-			    {% endfor %}
-			    {% endif %}
-        		{% endwith %}
-			</div>
-
-		</div>
-	</div>
+{% with proposal.secret as secret %}
+<div id="proposal-{{proposal.id}}" class="tops">
+    <div class="isecret">
+    <h3><a href="{{secret.get_absolute_url}}" class="dohighlight">{{secret.title}}</a></h3>
+    <p class="dohighlight">{{secret.location}}</p> 
+    </div>    
+    <div class="comment">        
+        {% ifequal user.id proposal.discussion_comment.created_by.id %}        
+        {% else %}
+        <form id="agree_{{proposal.pk}}" method="POST" action="{{proposal.get_agree_url}}" style="display:inline">
+        <a href="#" onclick="$('#agree_{{proposal.pk}}').submit();return false;" class="bold">I agree</a>&nbsp;
+    	</form>
+    	{% endifequal %}
+    	{% with proposal.agreement_count as agreement_count %}
+         ({{agreement_count}} {{agreement_count|pluralize:"person,people"}} agree{{agreement_count|pluralize:"s,"}})
+        {% endwith %}
+    	&nbsp;&nbsp;
+    	<a href="{{secret.get_absolute_url}}#add-photo" class="bold">Add a photo</a>
+	</div>	
+	{% with proposal.comments as comments %}
+    	{% if comments %}
+        <div id="comments">
+            {% for comment in comments %}
+                {% include "comment/render/comment.html" %}
+        	{% endfor %}
+        </div>
+        {% endif %}
+        {% with proposal.comment_form as comment_form %}
+        {% with proposal.pk as the_id %}
+            {% include "comment/render/add_comment.html" %}
+        {% endwith %}
+        {% endwith %}
 	{% endwith %}
-	<div class="clear_left"></div>
 </div>
+{% endwith %}

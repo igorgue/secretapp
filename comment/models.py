@@ -42,7 +42,7 @@ class DiscussionComment(AbstractComment):
     secrets     = models.ManyToManyField(Secret, through="Proposal")
     
     def get_absolute_url(self):
-        return "%s#comment-%s" % (self.discussion.get_absolute_url(), self.pk)
+        return "%s#response-%s" % (self.discussion.get_absolute_url(), self.pk)
     
     def proposals(self):
         return Proposal.viewable.filter(discussion_comment=self).select_related()
@@ -97,8 +97,8 @@ class Proposal(models.Model):
 
 class ProposalComment(AbstractComment):
     """ A comment on a Proposal. """
-    proposal        = models.ForeignKey(Proposal)
-
+    proposal = models.ForeignKey(Proposal)
+    
     def get_edit_url(self):
         return reverse('edit_proposal_comment', kwargs={'proposal_id': self.proposal.pk, 'comment_id': self.pk})
 

@@ -40,7 +40,7 @@ class ClaimFacebookBackend:
             max_count = 3
             while not fb_data and try_count < max_count:
                 try:
-                    fb_data = facebook.users.getInfo([fb_user], ['uid', 'email', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_small', 'current_location', 'profile_url'])
+                    fb_data = facebook.users.getInfo([fb_user], ['uid', 'email', 'about_me', 'first_name', 'last_name', 'pic_big', 'pic', 'pic_square', 'current_location', 'profile_url'])
                     break
                 except:
                     try_count += 1
@@ -58,7 +58,7 @@ class ClaimFacebookBackend:
             location = unicode(fb_data['current_location'])
             about_me = unicode(fb_data['about_me'])[0:100]
             url = unicode(fb_data['profile_url'])
-            fb_profile = FacebookUserProfile(facebook_uid = unicode(fb_data['uid']), user = user, profile_image_url = fb_data['pic'], profile_image_url_big = fb_data['pic_big'], profile_image_url_small = fb_data['pic_small'], location=location, about_me=about_me, url=url)
+            fb_profile = FacebookUserProfile(facebook_uid = unicode(fb_data['uid']), user = user, profile_image_url = fb_data['pic'], profile_image_url_big = fb_data['pic_big'], profile_image_url_small = fb_data['pic_square'], location=location, about_me=about_me, url=url)
             try:
                 fb_profile.save()
                 auth_meta = AuthMeta(user=user, provider='Facebook').save()

@@ -85,7 +85,7 @@ def create_discussion_comment(request, discussion_id, comment_id=None):
                 return HttpResponse('success')
             # otherwise go to last page of discussion
             else:
-                return HttpResponseRedirect(instance.discussion.get_lastpage_url())
+                return HttpResponseRedirect(instance.get_absolute_url())
     else:
         if comment_id:
             form = DiscussionCommentForm(permission_level=request.user.permission_level, instance=comment)
@@ -160,7 +160,7 @@ def agree_with_proposal(request, proposal_id):
     """ Clock up a favourite to a user... """
     if request.method == 'POST':
         props = get_object_or_404(Proposal, pk=proposal_id)
-        if request.user.id == proposal.secret.created_by.id:
+        if request.user.id == props.secret.created_by.id:
             if request.is_ajax():
                 return HttpResponse('%s' % props.agreement_count)
             else:

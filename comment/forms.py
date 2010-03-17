@@ -36,7 +36,12 @@ class ProposalCommentForm(UserContentForm):
 
 class DiscussionCommentForm(UserContentForm):
     text = forms.CharField(widget=forms.Textarea)
-    secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")
+    secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")    
+    title = forms.CharField(required=False)
+    location = forms.CharField(required=False)
+    latitude = forms.FloatField(required=False)
+    longitude = forms.FloatField(required=False)
+    google_reff = forms.URLField(required=False)    
     
     class Meta:
         model = DiscussionComment
@@ -61,10 +66,28 @@ class DiscussionCommentForm(UserContentForm):
                 pass
             else:
                 lst.append(x)
-        secrets = Secret.viewable.filter(pk__in=lst)
-        for s in secrets:
-            p = Proposal()
-            p.secret = s
-            p.discussion_comment = instance
-            p.save()
+        
+        if len(lst) > 0:
+            #ADD ANY EXISTING SECRETS (OPTIONAL)
+            secrets = Secret.viewable.filter(pk__in=lst)
+            for s in secrets:
+                p = Proposal()
+                p.secret = s
+                p.discussion_comment = instance
+                p.save()
+        else:        
+            #ADD NEW SECRET FROM GOOGLE OR MANUAL ENTRY (OPTIONAL)
+            title = self.cleaned_data['title']
+            location = self.cleaned_data['location']
+            if title and location:
+                latitude = self.cleaned_data['latitude']
+                longitude = self.cleaned_data['longitude']
+                google_reff = self.cleaned_data['google_reff']
+                new_secret = Secret(title=title, location=location, latitude=self.cleaned_data['latitude'], longitude=self.cleaned_data['longitude'], google_reff=self.cleaned_data['google_reff'], created_by=request.user)
+                new_secret.save()
+                p = Proposal()
+                p.secret = new_secret
+                p.discussion_comment = instance
+                p.save()
+            
         return instance

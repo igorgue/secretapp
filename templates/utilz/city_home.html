@@ -6,7 +6,7 @@
     SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
     QUERY = "{{CURRENT_QUERY}}";
     SORT = "{{CURRENT_SORT}}";
-    NEXT_PAGE = {{CURRENT_PAGE}}+1;   
+    NEXT_PAGE = {{NEXT_PAGE}};   
     
     function do_highlight(){ 
         if(SEARCH_PERFORMED){
@@ -22,115 +22,109 @@
             '/{{CITY}}/',
             $('#main_search').serialize(),
             function(data) {
-                $('#discussions').append(data.discussions);
-                $('#secrets').append(data.secrets);
-                do_highlight();
-                NEXT_PAGE = NEXT_PAGE + 1;
-                $('#page-input').val(NEXT_PAGE);
-                swap("#loading","#do_load");
+                if (data.num_results > 0){
+                    $('#results').append(data.rendered_results);
+                    do_highlight();
+                    NEXT_PAGE = NEXT_PAGE + 1;
+                    $('#page-input').val(NEXT_PAGE);
+                    if (data.has_more_results)
+                    {
+                        swap("#loading","#do_load");
+                    }
+                    else
+                    {
+                        swap("#loading","#no_more_results");
+                    }                    
+                }
+                else
+                {
+                    swap("#loading","#no_more_results");
+                }
             },
             "json"
         );
         return false;
     }
-    
-    function select_choice(choice){
-        $('#the-sort').html(choice);
-        $('#sort-input').val(choice);
-        $('#choose-sort').hide();                            
+        
+    function select_choice(select, choice){
+        $('#the-'+select).html(choice);
+        $('#'+select+'-input').val(choice);
+        $('#choose-'+select).hide();                            
         return false;
     }
+    function select_type(choice){ return select_choice('type',choice); }
+    function select_sort(choice){ return select_choice('sort',choice); }
     
     $(document).ready(function(){    
         $("#li-sort").hover(
           function () { $("#choose-sort").show(); }, 
           function () { $("#choose-sort").hide(); }
         );
-
+        $("#li-type").hover(
+          function () { $("#choose-type").show(); }, 
+          function () { $("#choose-type").hide(); }
+        );
         do_highlight();
         $("#load_next").click(function(){return load_more_results();})
+        var DEFAULT_TEXT = "Search...";
+        $("#query-input").defaultText(DEFAULT_TEXT);
+        $("#main_search").submit(function() { 
+            if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
+        });
+        $('#header_{{CURRENT_TYPE}}').addClass('header-selected');
     });
 </script>
 {% endblock %}
 
 {# welcome notice #}
-{% block headnotice %}
-<div id="intro" class="rtop center">
-    <h3>Secret London exists to inspire Londoners. Join the discussion to share your experiences of the city.</h3>
-</div>
-{% endblock %}
-
 {% block content %}
-<div id="top" class="g12 border-bottom">
-<div class="center bottom">
-    <form action="/{{CITY}}/" method="GET"  accept-charset="utf-8" id="main_search">
-        <div class="">
-          <ul class="searchbar">
-            <li>Search for</li>        
-            <li id="li-sort" class="menu">
-                <script type="text/javascript">
-                    
-                </script>
-              <a id="the-sort" href="#" class="choose" onclick="return false;">{{CURRENT_SORT}}</a>
-              <div id='choose-sort' class="searchmenu">
-                    <a href="#" onclick="return select_choice('latest');">latest</a><br/>                   
-                    <a href="#" onclick="return select_choice('popular');">popular</a><br/>
-                    <a href="#" onclick="return select_choice('undiscovered');">undiscovered</a><br/>
-                    <input id="sort-input" type="hidden" name="usort" value="latest"/>
-                    <input id="page-input" type="hidden" name="page" value="{{CURRENT_PAGE}}"/>
-              </div>
-            </li>        
-            <li>discussions & secrets</li>
-          </ul>
-        </div>
-        <input type="text" value="{{CURRENT_QUERY}}" name="title" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO"/>
-        <div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?title=restaurants">restaurants</a> &nbsp;&nbsp; <a href="?title=east end">East End</a> &nbsp;&nbsp; <a href="?title=best pizza in london">Best pizza in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-    </form>
-    <div class="clear"></div>
+<div class="g12 blk rtop rbot">
+    <div class="chunk center">
+        <h3 style="color:#fff;">Secret London exists to inspire Londoners. Join the discussion to share your experiences of the city.</h3>
+    </div>
 </div>
-</div>
-<div class="g12 center top dohighlight">
-    <h2 class="subtle caps">Showing {{CURRENT_SORT}} Discussions & Secrets {% if CURRENT_QUERY %}for {{CURRENT_QUERY}}{% endif %}</h2>
-</div>
-{% if secrets or discussions %}
-<div class="g6">    
-    <div id="discussions" class="chunk dohighlight">        
+<div class="g7">
+    <div class="chunk">
+        <h2 class="caps">Latest Discussions</h2>
         {% for discussion in discussions %}
             {% include "discussion/render/singular.html" %}
-        {% empty %}
-            <div class="top bottom">
-                We did not find any discussions
-            </div>
         {% endfor %}
-    </div>
-</div>            
-{# Users #}
-<div class="g6">
-    <div id="secrets" class="chunk dohighlight">
-        {% for secret in secrets %}
-            {% include "secret/render/singular.html" %}
-        {% empty %}
-            <div class="top bottom">
-                <h4>We did not find any secrets</h4>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-<div class="clear-border"></div>
-<div class="g12 center">
-    <div class="chunk">
-        <div class="do_load" class="top">
-        <a id="load_next" href="#" class="button">Load more results</a><br/><br/>
-        <a href="#top">&uarr; Back to top</a>
+        <div class="tops">
+        <a href="{% url search city=CITY %}?type=discussions" class="button" style="font-size:14px;">Browse all discussions</a>
         </div>
-        <img id="loading" src="{{MEDIA_URL}}/images/loading.gif" style="display:none;"/>
     </div>
 </div>
-{% else %}
-<div class="g12 center" style="padding:60px 0px;font-size:20px;line-height:26px;">
-    We didn't find any discussions or secrets matching your search. <br/><br/>
-    
-    Would you like to <a href="">start a discussion</a> or <a href="">share a secret</a>?
+<div class="g5">
+    <div class="chunk">
+        <h2 class="caps">Latest Photos</h2>
+        {% for photo in photos %}
+            <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{photo.thumb.url}}" alt="{{photo.caption}}" /></a>
+        {% endfor %}
+        <div class="tops">
+        <a href="{% url search city=CITY %}?type=photos" class="button" style="font-size:14px;">Browse all photos</a>
+        </div>
+    </div>    
+    <div class="chunk">
+        <h2 class="caps">Latest Secrets</h2>
+        {% for secret in secrets %}
+            {% with "1" as hide_photo %}
+            {% include "secret/render/singular.html" %}
+            {% endwith %}
+        {% endfor %}
+        <div class="tops">
+        <a href="{% url search city=CITY %}?type=secrets" class="button" style="font-size:14px;">Browse all secrets</a>
+        </div>
+    </div>    
 </div>
-{% endif %}
+<div class="g12">
+    <div class="chunk">
+        <h2 class="caps">Latest Visitors</h2>
+        <div class="center">
+        {% for profile in profiles %}
+            {% include "accounts/render/singular.html" %}
+        {% endfor %}
+        <div class="clear"></div>
+        </div>
+    </div>
+</div>
 {% endblock %}

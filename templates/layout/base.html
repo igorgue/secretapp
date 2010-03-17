@@ -18,6 +18,7 @@
 	    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
         <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key={{GOOGLE_MAPS_API}}" type="text/javascript"></script>
 	{# INTERNAL #}
+        <script type="text/javascript">function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
         <script type="text/javascript" src="{{MEDIA_URL}}/js/index.js"></script>
     
     {# GET SATISFACTION #}
@@ -42,7 +43,7 @@
 </head>
 <body {% block bodytag %}{% endblock %}>
 <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script>
-<script type="text/javascript">function facebook_onlogin(){ window.location = "{% url socialauth_facebook_login_done %}"}</script>
+
 <div id="wrap">
     {% block everything %}        
         {% include 'layout/header.html' %}

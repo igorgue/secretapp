@@ -51,10 +51,10 @@ var secretCreateController = function(config) {
         localSearch         : new GlocalSearch(),
         geocoder            : new GClientGeocoder(),
         
-        existing_secret_template : '<li><b>__title__</b> in __address__<br /><a href="__href__">Go to secret</a></li>',
-        local_secret_template : '<li><b>__titleNoFormatting__</b> in __streetAddress__, __region__<br /><a class="google_result" id="gi___gireff__" href="#">use Google\'s data</a> | <a href="__url__" target="_blank">(preview in new window)</a></li>',
+        existing_secret_template : '<li class="isecret"><h4><a class="secret_result" id="si___sreff__" href="#">__title__</a></h4>__address__</li>',
+        local_secret_template : '<li class="isecret"><h4><a class="google_result" id="gi___gireff__" href="#">__titleNoFormatting__</a></h4>__streetAddress__, __region__</li>',
         
-        error_message : 'Sorry! But an error occured, could you please try again.',
+        error_message : 'Sorry! But an error occurred, could you please try again.',
 
         getExistingSecrets  : function(search){
             /*
@@ -100,21 +100,28 @@ var secretCreateController = function(config) {
                 nothing
             */
             var results = this.existingSearch.results;
+            
             if (results.length > 0){
+                
                 // clears existing examples
                 this.existing_list.html('');
                 // renders the new examples
                 for (var i=0; i < results.length && i < 5; i++){
-                    var html = render_template(this.existing_secret_template, results[i]);
+                    var result= results[i];
+                    result.sreff = i; // used when selecting
+                    var html = render_template(this.existing_secret_template, result);
                     this.existing_list.append(html); // appends the new ones
                 }
                 // handles the rest
                 this.existing_list_success.show();
                 this.existing_list_fail.hide();
             } else {
+                
                 this.existing_list_success.hide();
                 this.existing_list_fail.show();
             }
+            
+            this.renderResults();
         },
         
         getGoogleLocalSecrets : function(search){
@@ -144,6 +151,7 @@ var secretCreateController = function(config) {
             */
             var results = this.localSearch.results;
             if (results.length > 0){
+                
                 // clears existing examples
                 this.google_list.html('');
                 
@@ -161,6 +169,22 @@ var secretCreateController = function(config) {
                 this.google_list_success.hide();
                 this.google_list_fail.show();
             }
+            
+            this.renderResults();
+            
+        },
+        
+        renderResults: function(){
+            if( this.localSearch.results.length > 0 || this.existingSearch.results.length > 0)
+            {
+                this.results_success.show();
+                this.results_fail.show();
+            }
+            else
+            {
+                this.results_success.hide();
+                this.results_fail.show();
+            }                
         },
         
         getSecrets : function(){
@@ -174,10 +198,10 @@ var secretCreateController = function(config) {
                    title_field + location_field for getGoogleLocalSe..
             */
             var title = this.title_field.val();
-            var location = this.location_field.val();
+            var location = CITY;//this.location_field.val();
             
             this.getExistingSecrets(title);
-            this.getGoogleLocalSecrets(title +', '+ location +' '+ this.local_extra);
+            this.getGoogleLocalSecrets(title +', '+ CITY);
         },
         
         getAddress : function(){
@@ -207,6 +231,10 @@ var secretCreateController = function(config) {
                 google_map and lat, lng need to be set
                 latitude_field and longitude_field both needs val
             */
+            
+            //disable me
+            if(true) return false;
+            
             var lat = this.latitude_field.val();
             var lng = this.longitude_field.val();
             var latlng = new GLatLng(lat, lng);
@@ -220,6 +248,23 @@ var secretCreateController = function(config) {
             // set the center
             this.map.setCenter(latlng, 15);
             this.map.addOverlay(new GMarker(latlng, {draggable: true}));
+        },
+        
+        resetAll : function() {            
+            $("#selected_title").val("");
+            $("#selected_address").val("");
+            $("#id_title").val("");
+            $("#id_location").val("");
+            $("#id_longitude").val("");
+            $("#id_latitude").val("");
+            $("#id_google_reff").val("");
+            $('#id_secret_id').val("");
+            $('#error_message').text("");
+            this.google_list.html('');
+            this.existing_list.html('');
+            this.results_success.hide();
+            this.results_fail.hide();
+            $("#results_manual").hide();
         }
     }
     
@@ -235,10 +280,18 @@ var secretCreateController = function(config) {
 
 $(document).ready(function(){
     // Defines fields
+    var has_started_looking = false;
+    var has_finished_looking = false;
+   
+    var error_message = $("#error_message");
+    var existing_secret_id = $('#id_secret_id');
     var title_field = $('#id_title');
     var location_field = $('#id_location');
     var latitude_field = $('#id_latitude');
     var longitude_field = $('#id_longitude');
+    var google_reff_field = $('#id_google_reff');
+    var results_success = $('#results_success');
+    var results_fail = $('#results_fail');
     
     
     // Builds controller
@@ -249,6 +302,9 @@ $(document).ready(function(){
         'longitude_field': longitude_field,
         
         'google_map': $('#google_map'),
+        
+        'results_success' : results_success,
+        'results_fail' : results_fail,
         
         'existing_list': $('#existing_suggestions'),
         'existing_list_success' : $('#existing_suggestions_success'),
@@ -262,14 +318,97 @@ $(document).ready(function(){
     });
     
     // check to find secrets on title or location blur
-    title_field.keyup(function(){ control.getSecrets() });
-    location_field.keyup(function(){ control.getSecrets() });
-    location_field.keyup(function(){ control.getAddress() });
+    title_field.keyup(function(e){ 
+        has_started_looking=true;
+        if(e.keyCode != 13)
+        {
+            if (title_field.val() == "")
+                control.resetAll();
+            else
+                control.getSecrets();     
+        }
+        else
+            return false;
+        
+    });
+    //location_field.keyup(function(){ control.getSecrets() });
+    //location_field.keyup(function(){ control.getAddress() });
     
     // onload we want to set the address
     if (latitude_field.val() !== '' && longitude_field.val() !== '') {
         control.setAddress();
     }
+    
+    $(".reset_selected").click( function() { 
+        control.resetAll(); 
+        swap("#selected_result","#select_result");
+        title_field.focus();
+        has_finished_looking=false;
+        return false;
+    });
+    
+    
+    function do_manual(){
+        $("#results_success").hide();
+        $("#error_message").text("");
+        swap("#results_fail","#results_manual");
+        location_field.focus();        
+        return false;
+    }
+    
+    $('.select_manual').click(function() {
+        return do_manual();
+    });
+
+    $('#close_results').click(function() {
+        return do_manual();
+    });    
+    
+    $('#post_response').click(function(){
+        error_message.html("");
+        if(has_started_looking && !has_finished_looking)
+        {
+            if(title_field.val()!="")
+                {error_message.html("Please finish entering the secret place");return false;}
+            else
+                {control.resetAll();}
+        }
+        if($("#id_response_text").val() == "")
+            {error_message.html("Please write a response to the discussion");return false;}
+        
+        return true;
+    });
+    
+    $('#finished_manual').click(function() {
+        //set displayed result values
+        $("#selected_title").html(title_field.val());
+        $("#selected_address").html(location_field.val());
+        swap("#select_result","#selected_result");
+        has_finished_looking = true;
+        return false;
+    });    
+    
+    $('.secret_result').live('click', function() {
+        var index = this.id.replace('si_','');
+        var result = control.existingSearch.results[index];
+        
+        // set hidden form values
+        existing_secret_id.val(result.pk);
+        title_field.val(result.title);
+        location_field.val(result.address);
+        
+        //set displayed result values
+        $("#selected_title").html(title_field.val());
+        $("#selected_address").html(location_field.val());
+        
+        //show selected result
+        swap("#select_result","#selected_result");
+        results_success.hide();
+        results_fail.hide();
+        has_finished_looking = true;
+        
+        return false;
+    });
     
     // when you click on a google result
     $('.google_result').live('click', function(){
@@ -282,13 +421,26 @@ $(document).ready(function(){
         */
         var index = this.id.replace('gi_','');
         var result = control.localSearch.results[index];
+        var full_location = result.streetAddress;
+        if (result.region != "")
+            full_location = full_location + ", " + result.region;
        
-        // set values
+        // set hidden form values
         title_field.val(result.titleNoFormatting);
-        location_field.val(result.streetAddress +', '+ result.region);
+        location_field.val(full_location);
         latitude_field.val(result.lat);
         longitude_field.val(result.lng);
-        $('#id_google_reff').val(result.url);
+        google_reff_field.val(result.url);
+        
+        //set displayed result values
+        $("#selected_title").html(title_field.val());
+        $("#selected_address").html(location_field.val());
+        
+        //show selected result
+        swap("#select_result","#selected_result");        
+        results_success.hide();
+        results_fail.hide();
+        has_finished_looking = true;
         
         // reset the map
         control.setAddress();

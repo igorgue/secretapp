@@ -1,136 +1,58 @@
 {% extends 'layout/base.html' %}
 
-{% block pagemedia %}
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/profile.css" />
-{% endblock %}
-
-
-{% block facebook_js %}
-<script type="text/javascript">
-    FB.ensureInit(function() { 
-        FB.Connect.showPermissionDialog("email", function(perms) {
-            if (!perms) {
-                //do nothing
-            } else {
-                //TODO grab email somehow
-            }
-        });        
-    });   
-</script>
-{% endblock %}
+{% block pagemedia %}{% endblock %}
 
 {% block content %}
-
-    <div class="page_header">
-		<div id="page_title" class="left_sidebar">
-			<img src="{{profile.profile_image.small}}" />
-		</div>
-		<div class="right_content top_content">
-			<div id="user_details">
-				<h1>{{profile.first_name}} {{profile.last_name}}</h1><p>Joined {{profile.date_joined|date:"j M Y G:i"}}</p>
-				{% comment %}<a href="{% url view_profile pk=profile.pk %}">Preview</a>
-				{# DATE TIME #}
-				<a href="#proposals" class="first">Proposals (2)</a>
-				<a href="#shares">Shares (2)</a>
-				<a href="#discussions">Discussions (1)</a>
-				<a href="#favourites">Been Theres (1)</a>
-				<p>Post to my news feed</p>{% endcomment %}
-			</div>
-			<div id="user_scores">
-				<p><span>{{profile.secrets|length}}</span> secrets</p>
-				<p><span>{{profile.agreed_with_me_count}}</span> agrees</p>
-			</div>
-		</div>
-		<div class="clear_left"></div>
-	</div>
-	
-	
-	{% if tabs.edit %}
-	<div id="edit" class="content_line">
-		<div class="left_sidebar">
-			<p>Edit settings</p>
-		</div>
-		<div class="right_content right_triangle">
+    <div class="g4">
+        <div class="chunk">
+            <img src="{{profile.profile_image.big}}" />
+            <h1>{{profile.first_name}} {{profile.last_name}}</h1>
+            <p>Joined {{profile.get_time_since_joined}}</p>
+            <p></p>
+        </div>
+    </div>
+    <div class="g8">
+        {% if tabs.edit %}
+    	<div id="edit" class="chunk border-bottom bottom">
 			{% if successful %}
                 <h1>SAVED!</h1>
             {% endif %}
             {% form form %}
-                {% if not profile.email %}<h3>Join the mailing list!</h3>{% else %}<h3>Change your contact email.</h3>{% endif %}
-                {{ form.email }}
+                {% if not profile.email %}<h3>Join the mailing list!</h3>{% else %}<h3>Edit your profile</h3>{% endif %}
                 <p class="clear_left">Get all the latest secrets and hot discussions in a beautiful curated email.</p>
+                <strong>Email</strong> {{ form.email }}
             {% endform %}
-            <br /><br />
-		</div>
-		<div class="clear_left"></div>
-	</div><!-- END OF THE Edit-->
-	{% endif %}
-    
-    {% with profile.discussions as discussions %}
-    {% if discussions %}
-    <div id="discussions" class="content_line">
-		<div class="left_sidebar">
-			<p><span>{{ discussions|length }}</span> Discussions</p>
-			<small>
-                <a href="{% url new_discussion %}">Create new</a>
-            </small>
-		</div>
-		
-		<div class="right_content right_triangle">
-		    {% for discussion in discussions %}
-		    {% with discussion.created_by as user %}
-			<p class="date_added">
-			    <span class="highlight">Latest post</span> by <a href="{{user.get_absolute_url}}">{{user.name}}</a><br />
-			    {{discussion.comment_count}} posts, {{discussion.proposal_count}} secrets.
-			</p>
-			{% endwith %}
-			<a class="discussion_title" href="{{discussion.get_absolute_url}}">{{discussion.title}}</a>
-			<p class="discussion_stats">{{discussion.text|truncatewords:"10"}}</p>
-			<br class="clear_both" /><br />
-            {% endfor %}
-		</div>
-		<div class="clear_both"></div>
-	</div>
-	{% endif %}
-	{% endwith %}
-	{% with profile.secrets as secrets %}
-	{% if secrets %}
-    <div id="shares" class="content_line">
-		<div class="left_sidebar">
-			<p><span>{{secrets|length}}</span> secrets</p>
-		</div>
-		<div class="right_content right_triangle">
-			{% for secret in secrets %}
-			    {% include 'secret/render/photo.html' %}
-			{% endfor %}
-			<div class="clear_left"></div>
-			{#<p><a href="#">Show all secrets shared &raquo;</a></p>#}
-		</div>
-		<div class="clear_left"></div>
-	</div>
-	{% endif %}
-	{% endwith %}
-	
-{% comment %}
-	
-	{% with profile.favourites as favourites %}
-	{% if favourites %}
-<!-->	<div id="been_theres" class="content_line">
-		<div class="left_sidebar">
-			<p><span>{{favourites|length}}</span> Been Theres</p>
-		</div>
-		<div class="right_content right_triangle">
-			{% for fav in favourites %}
-			    {% with fav.secret as secret %}
-			    {% include 'secret/render/photo.html' %}
-			    {% endwith %}
-			{% endfor %}
-			<div class="clear_left"></div>
-			{#<p><a href="#">Show all secrets I've been to &raquo;</a></p>#}
-		</div>
-		<div class="clear_left"></div>
-	</div><--><!-- END OF THE BEEN THERES-->
-	{% endif %}
-	{% endwith %}
-	<div class="clear_left"></div>
-{% endcomment %}
+    	</div>
+    	{% endif %}        
+        
+        <div class="chunk">
+        {% with profile.secrets as secrets %}
+            {% if secrets %}
+                {% with secrets|length as num_secrets %}
+                <h2 class="caps">Shared {{ num_secrets }} secret{{num_secrets|pluralize}}</h2>
+                {% endwith %}
+                <div id="secrets">
+                {% for secret in secrets %}
+                    {% include "secret/render/singular_for_creator.html" %}    
+                {% endfor %}
+                </div>
+            {% endif %}
+    	{% endwith %}
+        </div>
+        <div class="chunk">
+        {% with profile.discussions as discussions %}
+            {% if discussions %}
+                {% with discussions|length as num_discussions %}
+                <h2 class="caps">Started {{ num_discussions }} discussion{{num_discussions|pluralize}}</h2>
+                {% endwith %}
+                <div id="discussions">
+                {% for discussion in discussions %}
+                    {% include "discussion/render/singular.html" %}    
+                {% endfor %}
+                </div>
+            {% endif %}
+    	{% endwith %}
+    	</div>
+    </div>
+    <div class="clear"></div>
 {% endblock %}

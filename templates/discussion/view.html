@@ -4,9 +4,11 @@
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussion.css" />
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
 <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key={{GOOGLE_MAPS_API}}" type="text/javascript"></script>
-<script src="{{MEDIA_URL}}/js/proposal.js" type="text/javascript"></script> 
+<!--<script src="{{MEDIA_URL}}/js/proposal.js" type="text/javascript"></script>-->
+<script src="{{MEDIA_URL}}/js/secret.edit.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
     DISCUSSION_ID = '{{discussion.pk}}';
+    $(document).ready(function(){$('#header_discussions').addClass('header-selected'); });
 </script>
 {% endblock %}
 
@@ -24,7 +26,7 @@
         <div class="float-left" style="padding-right:10px;">
             <img src="{{u.profile_image.small}}" alt="{{u.name}}"/>
         </div>
-        <h3>Posted&nbsp;by<br/><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        <h3>Posted&nbsp;by<br/><a href="/account/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
         <p class="subtle">{{discussion.get_time_since_created}}</p>
     </div>
     {% endwith %}
@@ -43,114 +45,112 @@
 <div id="proposals" class="clear-border"></div>
 <div class="g9 prefix_3">
     <div class="chunk">
-    <h3 class="caps">{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}}<span class="subtle"> in {{discussion.comment_count}} post{{discussion.comment_count|pluralize}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#reply" class="button">Post a Reply</a></h3>
+    <h3 class="caps">{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}}<span class="subtle"> in {{discussion.comment_count}} post{{discussion.comment_count|pluralize}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#reply" class="button" style="font-size:16px;">Post a Reply</a></h3>
     </div>
 </div>
-<div id="" class="clear-border"></div>
+<div id="" class="clear"></div>
 {% for comment in discussion.comments %}
-<div class="g3">
-    <div class="chunk">
-    {% with comment.created_by as u %}
-    <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
-    <h3><a href="/accounts/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
-    {% endwith %}            
+<div class="border-top">
+    <div class="g3">
+        <div class="chunk">
+        {% with comment.created_by as u %}
+        <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
+        <h3><a href="/account/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        {% endwith %}
+        <div class="clear"></div>            
+        </div>
     </div>
-</div>
-<div class="g9">
-    <div class="chunk">
-        {{comment.text|linebreaksbr}}
-                        
-        {% for proposal in comment.proposals %}
-            {% include 'comment/proposal.html' %}
-        {% endfor %}&nbsp;
+    <div id="response-{{comment.pk}}" class="g8 suffix_1">
+        <div class="chunk">
+            <div class="float-right">
+                {% with comment as obj %}
+                {% include "perm/editable_logic.html" %}
+                {% endwith %}
+            </div>
+            {{comment.text|linebreaksbr}}
+            {% for proposal in comment.proposals %}
+                {% include 'comment/proposal.html' %}
+            {% endfor %}&nbsp;
+        </div>
     </div>
+    <div class="clear"></div>
 </div>
 {% endfor %}
 <div id="reply" class="clear-border"></div>
-<div class="prefix_3 g9">
-    <form action="" class="chunk">
-        <h2 class="subtle caps">Reply</h2>
-        <div class="bottom">
-            <textarea id="id_text" name="text" style="width:400px;height:90px;"></textarea>
+<div class="g3">
+    <div class="chunk">
+        {% with request.user as u %}
+        <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
+        <h3>{{u.first_name}} {{u.last_name}}</h3>
+        {% endwith %}
+        <div class="clear"></div>            
         </div>
-        <div class="top">
-            <div id="add_location">
-                <a href="" onclick="return swap('#add_location','#input_location');">+ Add a location</a>
-            </div>
-            <div id="input_location">
-                <input id="id_title" type="text" name="location_title" class="large" value=""/><br/>
-                <span class="subtle">eg. 5 Holly Rd, Museum</span> or <a href="">use a map</a>
-            </div>
+</div>
+<div class="g8 suffix_1" style="padding-bottom: 150px;">
+    <form id="response_form" action="/discussion/{{discussion.pk}}/comment/" method="post" class="chunk">
+        <div class="bottoms">
+            <h3>{{discussion.title}}</h3>
+            <textarea id="id_response_text" name="text" style="width:97%;height:90px;padding: 5px;margin-top:5px;"></textarea>
+            <div id="error_message" class="tops" style="color:red;font-weight:bold;"></div>
         </div>
-        <div class="top">
-            <div id="add_location">
-                <a href="" onclick="return swap('#add_location','#input_location');">+ Add a link</a>
+        <div style="width:350px;float:left">
+            <h4 class="hidden">Mention a secret place</h4>
+            <div id="selected_result" class="hidden isecret">
+                <a href="#" class="float-right reset_selected" style="font-weight:bold;font-size:18px;">X</a>
+                <div class="ctext">            
+                <h3 id="selected_title"></h3>
+                <p id="selected_address"></p>
+                </div>
+                <div class="clear"></div>
+            </div>    		
+            <div id="select_result" class="isecret">            
+                <strong>Mention a secret place</strong><br/>
+                <input type="text" name="title" id="id_title" style="width:95%;font-weight:bold;font-size:16px;line-height:16px;padding: 5px;"/>
+                <div id="results_manual" class="hidden">
+                    <strong>Address</strong><br/>
+                    <input id="id_location" type="text" name="location" maxlength="250" />
+                    <input type="button" value="Finished" id="finished_manual"/>
+                </div>
+    		</div>
+    		<div id="results_fail" class="tops isecret hidden">
+                <h3><a href="#" class="select_manual">Create new secret place</a></h3>
+                <p class="subtle">If you haven't found what you're looking for</p>                        
             </div>
-            <div id="input_location">
-                <input id="id_title" type="text" name="link_url" class="large" value=""/><br/>
-                <span class="subtle">eg. http://www.secretcities.com</span>
+    		<div id="results_success" class="hidden tops" style="padding:5px 0px;">                
+                <div class="">
+                    <h3 class="subtle">Or, did you mean...</h3>
+                </div>
+                <div class="tops bottoms">
+                <div id="existing_suggestions_success" class="hidden">                        
+                    <ul id="existing_suggestions" class="suggestion"></ul>
+                </div>               
+                <div id="google_suggestions_success" class="hidden">
+                    <ul id="google_suggestions" class="suggestion"></ul>
+                </div>
+                </div>                
             </div>
-        </div>
-    
-		<div class="discussion_reply_form_body">
-			<div class="suggest_secret">
-				<h4>Suggest a secret</h4>
-				<ul class="secrets_list">
-				</ul>
-				
-				<div class="map">
-					<div class="map_search_results">
-						<p class="map_search_not_found">Not found</p>
-						<div class="map_search_results_list">
-							<p>Did you mean..</p>
-							<ol>
-							</ol>
-						</div>
-					</div>
-					<div class="map_canvas" id="map_canvas"></div>
-					<div class="map_canvas_small_placeholder" id="map_canvas_small_placeholder"></div>
-					<div class="map_canvas_small" id="map_canvas_small"></div>
-				</div>
-
-				<p class="add_secret"><a href="#">&#43; Add another secret</a></p>
-			</div>
-			
-			<div class="existing_secrets">
-				<h3>Choose existing secret</h3>
-				<ul class="existing_secrets_list">
-					<li class="existing_secret">
-						
-					</li>
-				</ul>
-			</div>
-			
-			<div class="comment">
-				<h4><label for="">Add a comment</label></h4>
-				
-				<input type="hidden" id="id_secrets" name="secrets"/>
-				{% if reply_form.facebook_uid %}
-                    <br class="clear_left" />
-                    {% field reply_form.facebook_uid %}
-                {% endif %}
-                {% if reply_form.facebook_name %}
-                    <br class="clear_left" />
-                    {% field reply_form.facebook_name %}
-                {% endif %}
-				
-			</div>
-			
-			<div class="buttons">
-				<input type="submit" name="sub_share" value="SHARE" class="pink_button">
-				<input type="button" name="sub_cancel" value="CANCEL" class="pink_button cancel">
-				<br class="clear_left" />
-			</div>
-
-			<div class="ajax_in_progress">Saving..</div>
 		</div>
+		<div class="buttons text-right" style="float:right;width: 175px;">
+			<input id="post_response" type="submit" name="sub_share" value="Post" class="button" style="font-size:16px;">
+			<!--<input type="button" name="sub_cancel" value="CANCEL" class="pink_button cancel">-->
+			<br class="clear_left" />
+		</div>
+		<div class="clear"></div>
+		<div class="hidden">
+    		<div id="google_map" style="display:none;width:300px;height:300px;"></div>
+            <div id="google_suggestions_fail" class="hidden">&nbsp;</div>
+            <div id="existing_suggestions_fail" class="hidden">&nbsp;</div>
+            <input id="id_secret_id" type="text" name="secrets" maxlength="250" />
+            
+            <input id="id_google_reff" type="text" name="google_reff" maxlength="250" /><br/>
+            <input type="text" name="latitude" id="id_latitude" /><br/>
+            <input type="text" name="longitude" id="id_longitude" /><br/>
+        </div>
 	</form>
 </div> 
+<!--
 <div class="clear-border"></div>
-<div class="chunk">
+<div class="chunk center">
     {% if discussion.previous_page %}<a href="?page={{discussion.previous_page}}">Prev</a>{% endif %}
     {% for p in discussion.xpages %}
         {% ifequal p discussion.page %}
@@ -161,6 +161,7 @@
     {% endfor %}
     {% if discussion.next_page %}<a href="?page={{discussion.next_page}}">Next</a>{% endif %}
 </div>
+-->
 {% if discussion.was_before_birth %}
     <div class="clear-border"></div>
     <div class="chunk">        
