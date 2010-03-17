@@ -1,17 +1,13 @@
-{% extends 'layout/generic.html' %}
+{% extends 'layout/base.html' %}
 
-{% block left %}
-Login
+{% block content %}
+    <div class="prefix_3 suffix_3 gr6 top bottom">    
+    <h2>Please login using facebook</h2>
+    <p>{% include 'accounts/fb_button.html' %}</p>
+    <div class="tops">
+        <p>We will be introducing other login method shortly. However, for now we only support facebook-connect. Cheers.</p>
+    </div>
+
+    </div>
 {% endblock %}
 
-{% block right %}
-
-<h2>Please login using facebook</h2>
-<p style="float: left; width:200px">
-    <!--{% include 'accounts/fb_button.html' %}-->
-</p>
-<br class="clear_left" />
-<br />
-<p>We will be introducing other login method shortly. However, for now we only support facebook-connect. Cheers.</p>
-<br />
-{% endblock %}

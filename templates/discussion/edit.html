@@ -1,29 +1,44 @@
-{% extends 'layout/generic.html' %}
+{% extends 'layout/base.html' %}
 
-{% block pagemedia %}{% endblock %}
-
-{% block left %}
-    <br />
-    <div style="margin-top:40px">{{form.title.label}}</div>
-    <div style="margin-top:25px">{{form.text.label}}</div>
+{% block pagemedia %}
+<style type="text/css">
+    #id_title { width: 80%; font-size: 16px; padding: 5px; }
+    #id_text { width: 100%; height: 100px; font-size: 14px; padding: 5px; }
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){    
+        $('#header_discussions').addClass('header-selected');
+    });
+</script>
 {% endblock %}
 
-
-{% block right %}
-    <h3>Create a new discussion</h3>
+{% block content %}
+    <div class="prefix_2 suffix_2 gr8">    
     <form action="" method="POST"  accept-charset="utf-8" id="id_new_discussion">
-        <div>{{ form.title }}</div>
-        <div class="clear_left">{{ form.text }}</div>
-        
+        <div class="chunk">
+            <h2>Create a new discussion</h2>
+        </div>
+        <div class="chunk">
+            <h3>What is your question?</h3>
+            {{ form.title }}<br/>
+            {{ form.title.errors }}
+        </div>
+        <div class="chunk">
+            <h3>More details</h3>
+            {{ form.text }}
+            {{ form.text.errors }}
+        </div>
+        <div class="chunk">
         {% if form.facebook_uid %}
-            <br class="clear_left" />
             {% field form.facebook_uid %}
         {% endif %}
         {% if form.facebook_name %}
-            <br class="clear_left" />
             {% field form.facebook_name %}
         {% endif %}
-        <br class="clear_left" />        
-        <input type="submit" class="None" value="{% if pk %}Edit{% else %}Create{% endif %} discussion">
+        </div>
+        <div class="chunk">
+            <input type="submit" class="button" value="{% if pk %}Edit{% else %}Create{% endif %} discussion" >
+        </div>
     </form>
+    </div>
 {% endblock %}

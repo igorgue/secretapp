@@ -2,25 +2,26 @@
     <strong>Today's Deal</strong> &nbsp; <a href="" style="color:#ed1849;">Great deal at great place</a>
 </div>-->
 
+<div class="text-right rights tops">
+    {% if user.is_anonymous %}
+        {% include 'accounts/fb_button.html' %}
+    {% else %}
+        <a href="{% url edit_profile %}" id="header_account" class="header rtop rbot">My Account</a>
+        <a href="{% url logout %}">Log out</a>
+    {% endif %}
+</div>
 <div id="header">
     <div class="g3 logo">
         <a href="{% url home city=CITY %}"><img src="{{MEDIA_URL}}/images/logo.png" width="180"/></a>            
     </div>
     <div class="g6 links">        
-        
         <a href="/{{CITY}}/search/?type=discussions" id="header_discussions" class="header rtop rbot">Discussions</a>
         <a href="/{{CITY}}/search/?type=secrets" id="header_secrets" class="header rtop rbot">Secret Places</a>
         <a href="/{{CITY}}/search/?type=photos" id="header_photos" class="header rtop rbot">Photos</a>
-        <!--<a href="/inspire/">Random</a> &nbsp;-->
-        {% if user.is_anonymous %}
-            {% include 'accounts/fb_button.html' %}
-        {% else %}
-            <a href="{% url edit_profile %}" id="header_account" class="header rtop rbot">{{user.first_name}}</a>
-            <!--<a href="{% url logout %}">Log out</a>-->
-        {% endif %}
+        <!--<a href="/inspire/">Random</a> &nbsp;-->       
     </div>
     <div class="g3 search" style="text-align:right">
-        <form action="/{{CITY}}/" method="GET"  accept-charset="utf-8" id="id_" style="display:inline;">
+        <form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="id_" style="display:inline;">
             <input id="top_query" type="text" name="title" class="smallquery"/>
             <input type="hidden" name="usort" id="id_sort" value="popular"/>
         </form>               

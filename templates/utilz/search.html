@@ -76,13 +76,6 @@
 </script>
 {% endblock %}
 
-{# welcome notice #}
-{% block headnotice %}
-<div id="intro" class="rtop center">
-    <h3>Secret London exists to inspire Londoners. Join the discussion to share your experiences of the city.</h3>
-</div>
-{% endblock %}
-
 {% block content %}
 <div id="top" class="g12 blk rtop">
 <div class="center bottom top">
@@ -158,12 +151,15 @@
 <div id="no_more_results" class="g12 center" style="{% if num_results and HAS_MORE_RESULTS %}display:none{% endif %}">
     <div class="chunk">
     <h3>Didn't find what you were looking for?</h3>
-    
-        Would  you like to <a href="">start a discussion</a> or <a href="">share a secret</a>?
+    <div class="tops">
+        <a href="/discussion/new/" class="button" style="font-size:14px;">Ask the community</a>
+    </div>
     </div>
 </div>
+{% if num_results %}
 <div class="clear-border"></div>
 <div class="chunk center">
     <a href="#top">&uarr; Back to top</a>
 </div>
+{% endif %}
 {% endblock %}
