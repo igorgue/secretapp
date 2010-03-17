@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.core import mail
 from django.conf import settings
 from django.db import models
 from django.template import RequestContext, loader
@@ -113,29 +113,6 @@ class CommunicationManager(models.Manager):
     
     def failed(self):
         return self.filter(failed=True, deleted=False)
-    
-    def __send_mail(self, func_name, *args, **kwargs):
-        """
-        Runs send_mail on all communications.
-        Returns bool if all were successful.
-        """
-        coms = getattr(Communication.objects, func_name)().select_related()
-        successful = True
-        for com in coms:
-            if com.send_mail(*args, **kwargs) is False:
-                successful = False
-        return successful
-    
-    def send_unsent(self, force=False):
-        """
-        Accessable via the command line
-            
-            ./manage.py send_unsent_mail
-        """
-        return self.__send_mail('unsent', force)
-    
-    def resend_failed(self, force=False):
-        return self.__send_mail('failed', force)
 
 
 class Communication(models.Model):
@@ -158,25 +135,26 @@ class Communication(models.Model):
     def __unicode__(self, *args, **kwargs):
         return u"%s: %s" % (self.trigger, self.user.name)
     
+    def email_message(self):
+        return mail.EmailMessage(self.subject, self.body, SEND_FROM_EMAIL, [self.user.email])
+    
+    def should_send(self):
+        # checks email
+        u = self.user
+        email_ok = u.email and not u.email.strip() == '' and '@proxymail.face' not in u.email
+        if email_ok:
+            # checks setting
+            setting, is_new = CommunicationSetting.objects.get_or_create(\
+                                    user=u, trigger=self.trigger, defaults={'is_on':self.trigger.default})
+            return setting.is_on
+        else:
+            return False
     
     def send_mail(self, force=False):
-        """
-        Description:
-            Tries to send the notification by email.
-            If fails model is marked as `failed` ready to be re-tried later.
-        Arguments:
-            Bool to force send the mail.
-                if force==False, then it will check that the user has a setting which he wants that note
-        Returns:
-            Bool if is successful
-        """
-        # TODO: would like to get these in one call when doing as bulk
-        setting, is_new = CommunicationSetting.objects.get_or_create(\
-                                user=self.user, trigger=self.trigger, defaults={'is_on':self.trigger.default})
-        
-        if setting.is_on:
+        if self.should_send() or force:
             try:
-                send_mail(self.subject, self.body, SEND_FROM_EMAIL, [self.user.email], fail_silently=False)
+                message = self.email_message()
+                message.send()
             except:
                 self.failed = True
                 successful = False
@@ -186,6 +164,8 @@ class Communication(models.Model):
             self.save()
             return successful
         else:
+            self.deleted = True
+            self.save()
             return None
 
 
