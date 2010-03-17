@@ -1,0 +1,169 @@
+{% extends 'layout/base.html' %}
+{# inpage css #}
+{% block pagemedia %}
+<script type="text/javascript" src="{{MEDIA_URL}}/js/jquery.scrollto-min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
+    QUERY = "{{CURRENT_QUERY}}";
+    SORT = "{{CURRENT_SORT}}";
+    NEXT_PAGE = {{NEXT_PAGE}};   
+    
+    function do_highlight(){ 
+        if(SEARCH_PERFORMED){
+            var area = $('.dohighlight');
+            area.removeHighlight()
+            $.each(QUERY.split(" "), function(idx, val) { area.highlight(val); })
+        }
+    }
+    function load_more_results()
+    {
+        swap("#do_load","#loading");
+        $.post(
+            '/{{CITY}}/search/',
+            $('#main_search').serialize(),
+            function(data) {
+                if (data.num_results > 0){
+                    $('#results').append(data.rendered_results);
+                    do_highlight();
+                    NEXT_PAGE = NEXT_PAGE + 1;
+                    $('#page-input').val(NEXT_PAGE);
+                    if (data.has_more_results)
+                    {
+                        swap("#loading","#do_load");
+                    }
+                    else
+                    {
+                        swap("#loading","#no_more_results");
+                    }                    
+                }
+                else
+                {
+                    swap("#loading","#no_more_results");
+                }
+            },
+            "json"
+        );
+        return false;
+    }
+        
+    function select_choice(select, choice){
+        $('#the-'+select).html(choice);
+        $('#'+select+'-input').val(choice);
+        $('#choose-'+select).hide();                            
+        return false;
+    }
+    function select_type(choice){ return select_choice('type',choice); }
+    function select_sort(choice){ return select_choice('sort',choice); }
+    
+    $(document).ready(function(){    
+        $("#li-sort").hover(
+          function () { $("#choose-sort").show(); }, 
+          function () { $("#choose-sort").hide(); }
+        );
+        $("#li-type").hover(
+          function () { $("#choose-type").show(); }, 
+          function () { $("#choose-type").hide(); }
+        );
+        do_highlight();
+        $("#load_next").click(function(){return load_more_results();})
+        var DEFAULT_TEXT = "Search...";
+        $("#query-input").defaultText(DEFAULT_TEXT);
+        $("#main_search").submit(function() { 
+            if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
+        });
+        $('#header_{{CURRENT_TYPE}}').addClass('header-selected');
+    });
+</script>
+{% endblock %}
+
+{# welcome notice #}
+{% block headnotice %}
+<div id="intro" class="rtop center">
+    <h3>Secret London exists to inspire Londoners. Join the discussion to share your experiences of the city.</h3>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="top" class="g12 blk rtop">
+<div class="center bottom top">
+    <form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="main_search">
+        <input id="page-input" type="hidden" name="page" value="{{NEXT_PAGE}}"/>
+        <input id="page-input" type="hidden" name="usort" value="{{CURRENT_SORT}}"/>
+        <input id="page-input" type="hidden" name="type" value="{{CURRENT_TYPE}}"/>
+        <input id="query-input" type="text" value="{{CURRENT_QUERY}}" name="title" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
+        <!--<div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?title=museum">museum</a> &nbsp;&nbsp; <a href="?title=east end">East End</a> &nbsp;&nbsp; <a href="?title=best pizza in london&type=discussions">Best restaurants in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>-->
+    </form>
+</div>
+</div>
+<div class="clear"></div>
+<div class="g12 center blk rbot">
+    <ul class="tabs">
+    <li>
+        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=discussions" class="rtop menubar{% ifequal CURRENT_TYPE 'discussions' %}-selected{% endifequal %}">discussions</a>
+    </li>
+    <li>
+        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=secrets" class="rtop menubar{% ifequal CURRENT_TYPE 'secrets' %}-selected{% endifequal %}">secret places</a>
+    </li>
+    <li>
+        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=photos" class="rtop menubar{% ifequal CURRENT_TYPE 'photos' %}-selected{% endifequal %}">photos</a>
+    </li>
+    </ul>
+    <div class="clear"></div>
+    <!--<h2 class="subtle caps">Showing {{CURRENT_TYPE}} {% if CURRENT_QUERY %}matching <span class="highlight">{{CURRENT_QUERY}}</span>{% endif %} sorted by {{CURRENT_SORT}} </h2>-->
+</div>
+{% if num_results %}
+<div class="g8">    
+    <div id="results" class="chunk">        
+        {{rendered_results|safe}}
+    </div>
+    <div class="clear"></div>
+</div>  
+<div class="g4">
+    <div class="chunk">
+    <ul class="submenu">
+        <li>
+        <b class="">Sort by</b>
+    </li>
+    <li>
+        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=latest" class="submenubar{% ifequal CURRENT_SORT 'latest' %}-selected{% endifequal %}">latest</a>
+    </li>
+    <li>
+        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=popular" class="submenubar{% ifequal CURRENT_SORT 'popular' %}-selected{% endifequal %}">popularity</a>
+    </li>
+    <li>
+        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=undiscovered" class="submenubar{% ifequal CURRENT_SORT 'undiscovered' %}-selected{% endifequal %}">undiscovered</a>
+    </li>
+    </ul>
+    </div>
+</div>
+<div class="clear"></div>
+{% if HAS_MORE_RESULTS %}
+<div class="g12 center">
+    <div class="chunk">
+        <div id="do_load" class="">
+            <a id="load_next" href="#" class="button">Load more results</a>        
+        </div>
+        <img id="loading" src="{{MEDIA_URL}}/images/loading.gif" class="hidden"/>
+    </div>
+</div>
+{% endif %}
+{% else %}
+<div class="g12 center">    
+    <div style="padding:40px 0px;">        
+        <h4 class="">No {{CURRENT_TYPE}} found</h4>
+    </div>
+</div>
+{% endif %}
+<div class="clear-border"></div>
+<div id="no_more_results" class="g12 center" style="{% if num_results and HAS_MORE_RESULTS %}display:none{% endif %}">
+    <div class="chunk">
+    <h3>Didn't find what you were looking for?</h3>
+    
+        Would  you like to <a href="">start a discussion</a> or <a href="">share a secret</a>?
+    </div>
+</div>
+<div class="clear-border"></div>
+<div class="chunk center">
+    <a href="#top">&uarr; Back to top</a>
+</div>
+{% endblock %}
