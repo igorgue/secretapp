@@ -86,7 +86,7 @@
         <input id="page-input" type="hidden" name="usort" value="{{CURRENT_SORT}}"/>
         <input id="page-input" type="hidden" name="type" value="{{CURRENT_TYPE}}"/>
         <input id="query-input" type="text" value="{{CURRENT_QUERY}}" name="text" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
-        <div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?text=museum">museum</a> &nbsp;&nbsp; <a href="?text=east end">East End</a> &nbsp;&nbsp; <a href="?text=best pizza in london&type=discussions">Best restaurants in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?text=afternoon tea">afternoon tea</a> &nbsp;&nbsp; <a href="?text=east end">East End</a> &nbsp;&nbsp; <a href="?text=best pizza in london&type=discussions">Vegetarian restaurants?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 
 </div>
 </div>
@@ -104,12 +104,17 @@
     </li>
     </ul>
     <div class="clear"></div>
-    <!--<h2 class="subtle caps">Showing {{CURRENT_TYPE}} {% if CURRENT_QUERY %}matching <span class="highlight">{{CURRENT_QUERY}}</span>{% endif %} sorted by {{CURRENT_SORT}} </h2>-->
 </div>
-{% if num_results %}
+
 <div class="g8">    
     <div id="results" class="chunk">        
-        {{rendered_results|safe}}
+        {% if num_results %}
+            {{rendered_results|safe}}
+        {% else %}
+            <div style="padding:40px 0px;" class="center">        
+                <h3 class="">No {{CURRENT_TYPE}} found</h3>
+            </div>
+        {% endif %}
     </div>
     <div class="clear"></div>
 </div>  
@@ -127,7 +132,7 @@
             </li>
             {% for sort, sort_title in available_sorts %}
             <li>
-                <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort={{sort}}" class="submenubar{% ifequal CURRENT_SORT '{{sort}}' %}-selected{% endifequal %}">{{sort_title}}</a>
+                <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&location={{CURRENT_LOCATION}}&type={{CURRENT_TYPE}}&usort={{sort}}" class="submenubar{% ifequal CURRENT_SORT sort %}-selected{% endifequal %}">{{sort_title}}</a>
             </li>
             {% endfor %}
         </ul>
@@ -141,19 +146,12 @@
 <div class="clear"></div>
 </form>
 {% if HAS_MORE_RESULTS %}
-<div class="g12">
-    <div class="chunk">
+<div class="g8 suffix_4">
+    <div class="bottom center">
         <div id="do_load" class="">
             <a id="load_next" href="#" class="button">Load more results</a>        
         </div>
         <img id="loading" src="{{MEDIA_URL}}/images/loading.gif" class="hidden"/>
-    </div>
-</div>
-{% endif %}
-{% else %}
-<div class="g12 center">    
-    <div style="padding:40px 0px;">        
-        <h4 class="">No {{CURRENT_TYPE}} found</h4>
     </div>
 </div>
 {% endif %}

@@ -8,7 +8,7 @@ from secret.models import Secret
 
 class AbstractComment(UserContent):
     """ Helper abstract model. Pretty useless now. May add more later. """
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
     
     # see perm.models for details
     edit_permission = 'Keeper'

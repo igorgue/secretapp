@@ -35,7 +35,7 @@ class ProposalCommentForm(UserContentForm):
 
 
 class DiscussionCommentForm(UserContentForm):
-    text = forms.CharField(widget=forms.Textarea)
+    text = forms.CharField(widget=forms.Textarea, required=False)
     secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")    
     title = forms.CharField(required=False)
     location = forms.CharField(required=False)

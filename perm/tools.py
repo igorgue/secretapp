@@ -104,8 +104,10 @@ def calculate_time_since(then):
         return "%s hours ago" % (str(hours))
     
     if now.year == then.year:
-        if diff.days < 7:
-            return "last %s" % (formatdate(then, "l"))
+        if diff.days <= 1:
+            return "yesterday"
+        elif diff.days < 7:
+            return "%s" % (formatdate(then, "l"))
         else:
             return formatdate(then, "M d") 
     else:

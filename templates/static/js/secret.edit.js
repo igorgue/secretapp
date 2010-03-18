@@ -198,10 +198,9 @@ var secretCreateController = function(config) {
                    title_field + location_field for getGoogleLocalSe..
             */
             var title = this.title_field.val();
-            var location = CITY;//this.location_field.val();
             
             this.getExistingSecrets(title);
-            this.getGoogleLocalSecrets(title +', '+ CITY);
+            this.getGoogleLocalSecrets(title + this.local_extra);
         },
         
         getAddress : function(){
@@ -215,8 +214,7 @@ var secretCreateController = function(config) {
                 sets latitude_field and longitude_field
             */
             var self = this;
-            var location = this.location_field.val();
-            this.geocoder.getLatLng(location + ', ' + this.local_extra, function(point){
+            this.geocoder.getLatLng(this.location_field.val() + this.local_extra, function(point){
                 self.latitude_field.val(point.lat());
                 self.longitude_field.val(point.lng());
                 self.setAddress();
@@ -230,11 +228,7 @@ var secretCreateController = function(config) {
             Takes:
                 google_map and lat, lng need to be set
                 latitude_field and longitude_field both needs val
-            */
-            
-            //disable me
-            if(true) return false;
-            
+            */    
             var lat = this.latitude_field.val();
             var lng = this.longitude_field.val();
             var latlng = new GLatLng(lat, lng);
@@ -265,6 +259,8 @@ var secretCreateController = function(config) {
             this.results_success.hide();
             this.results_fail.hide();
             $("#results_manual").hide();
+            $("#google_map").hide();
+            this.title_field.removeAttr("disabled");
         }
     }
     
@@ -314,7 +310,7 @@ $(document).ready(function(){
         'google_list_success' : $('#google_suggestions_success'),
         'google_list_fail' : $('#google_suggestions_fail'),
         
-        'local_extra': ' near '+CITY,
+        'local_extra': ', ' + CITY + ", " + COUNTRY,
     });
     
     // check to find secrets on title or location blur
@@ -332,7 +328,7 @@ $(document).ready(function(){
         
     });
     //location_field.keyup(function(){ control.getSecrets() });
-    //location_field.keyup(function(){ control.getAddress() });
+    location_field.keyup(function(){ control.getAddress() });
     
     // onload we want to set the address
     if (latitude_field.val() !== '' && longitude_field.val() !== '') {
@@ -345,19 +341,31 @@ $(document).ready(function(){
         title_field.focus();
         has_finished_looking=false;
         return false;
-    });
-    
+    });    
     
     function do_manual(){
         $("#results_success").hide();
         $("#error_message").text("");
         swap("#results_fail","#results_manual");
+        title_field.attr("disabled","disabled");
         location_field.focus();        
+        return false;
+    }
+    
+    function undo_manual(){
+        var temp_title = title_field.val();
+        control.resetAll();
+        title_field.val(temp_title);
+        title_field.focus();
         return false;
     }
     
     $('.select_manual').click(function() {
         return do_manual();
+    });
+
+    $('.unselect_manual').click(function() {
+        return undo_manual();
     });
 
     $('#close_results').click(function() {
@@ -366,15 +374,19 @@ $(document).ready(function(){
     
     $('#post_response').click(function(){
         error_message.html("");
+        if($("#id_response_text").val() == "")
+        {
+            if(title_field.val() == "")
+            {
+                error_message.html("Please write a response or mention a secret place");
+                return false;
+            }
+        }
         if(has_started_looking && !has_finished_looking)
         {
-            if(title_field.val()!="")
-                {error_message.html("Please finish entering the secret place");return false;}
-            else
-                {control.resetAll();}
+            error_message.html("Please finish entering the secret place");
+            return false;
         }
-        if($("#id_response_text").val() == "")
-            {error_message.html("Please write a response to the discussion");return false;}
         
         return true;
     });
@@ -406,6 +418,8 @@ $(document).ready(function(){
         results_success.hide();
         results_fail.hide();
         has_finished_looking = true;
+        
+        control.getAddress();
         
         return false;
     });
@@ -443,7 +457,7 @@ $(document).ready(function(){
         has_finished_looking = true;
         
         // reset the map
-        control.setAddress();
+        control.getAddress();
         return false;
     });
 });
