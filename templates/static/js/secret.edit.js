@@ -242,6 +242,7 @@ var secretCreateController = function(config) {
             // set the center
             this.map.setCenter(latlng, 15);
             this.map.addOverlay(new GMarker(latlng, {draggable: true}));
+            $("#google_map").show();
         },
         
         resetAll : function() {            
@@ -387,6 +388,8 @@ $(document).ready(function(){
             error_message.html("Please finish entering the secret place");
             return false;
         }
+        
+        title_field.removeAttr("disabled");
         
         return true;
     });

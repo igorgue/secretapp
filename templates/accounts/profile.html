@@ -8,7 +8,14 @@
             <img src="{{profile.profile_image.big}}" />
             <h1>{{profile.first_name}} {{profile.last_name}}</h1>
             <p>Joined {{profile.get_time_since_joined}}</p>
-            <p></p>
+            <div class="top">
+                {% with profile.secret_count as secret_count %}
+                    <h4>{{secret_count}} secret{{secret_count|pluralize}} shared</h4>
+                {% endwith %}
+                {% with profile.agreed_with_me_count as agree_count %}
+                    <h4>{{agree_count}} {{agree_count|pluralize:"person,people"}} {{agree_count|pluralize:"has,have"}} agreed with {{profile.first_name}}</h4>
+                {% endwith %}
+            </div>
         </div>
     </div>
     <div class="g8">
@@ -29,11 +36,11 @@
         {% with profile.secrets as secrets %}
             {% if secrets %}
                 {% with secrets|length as num_secrets %}
-                <h2 class="caps">Shared {{ num_secrets }} secret{{num_secrets|pluralize}}</h2>
+                <h2 class="caps">Latest secrets</h2>
                 {% endwith %}
                 <div id="secrets">
                 {% for secret in secrets %}
-                    {% include "secret/render/singular_for_creator.html" %}    
+                    {% include "secret/render/singular.html" %}    
                 {% endfor %}
                 </div>
             {% endif %}

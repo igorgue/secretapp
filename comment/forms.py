@@ -83,7 +83,7 @@ class DiscussionCommentForm(UserContentForm):
                 latitude = self.cleaned_data['latitude']
                 longitude = self.cleaned_data['longitude']
                 google_reff = self.cleaned_data['google_reff']
-                new_secret = Secret(title=title, location=location, latitude=self.cleaned_data['latitude'], longitude=self.cleaned_data['longitude'], google_reff=self.cleaned_data['google_reff'], created_by=request.user)
+                new_secret = Secret(title=title, location=location, latitude=latitude, longitude=longitude, google_reff=google_reff, created_by=request.user)
                 new_secret.save()
                 p = Proposal()
                 p.secret = new_secret
