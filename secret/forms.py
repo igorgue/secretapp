@@ -72,6 +72,9 @@ class SecretSearchForm(SearchForm):
         q['template'] = template
         return "?%s" % q.urlencode()
     
+    def get_available_sort_orders(self):
+        return USER_SORT_ORDER
+        
     def save(self):
         # build vars
         data = self.cleaned_data

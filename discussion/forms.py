@@ -12,12 +12,12 @@ SORT_ORDERS = (
                 ('secrets asc', 'Fewest Secrets'),
             )
 
-SORT_MAPPING = {'latest':'updated desc', 'popular':'secrets desc', 'undiscovered':"secrets asc" }
+SORT_MAPPING = {'latest':'updated desc', 'popular':'secrets desc', 'unanswered':"secrets asc" }
 
 USER_SORT_ORDERS = (
                 ('latest', 'Latest'),
                 ('popular', 'Popular'),
-                ('undiscovered', 'Undiscovered'),
+                ('unanswered', 'Unanswered'),
             )
 
 class DiscussionSearchForm(SearchForm):
@@ -45,6 +45,9 @@ class DiscussionSearchForm(SearchForm):
                 data = SORT_MAPPING[usort]
 
         return data
+    
+    def get_available_sort_orders(self):
+        return USER_SORT_ORDERS
     
     def save(self):
         # build vars

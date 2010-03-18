@@ -3,10 +3,11 @@
 {% block pagemedia %}
 <script type="text/javascript" src="{{MEDIA_URL}}/js/jquery.scrollto-min.js"></script>
 <script type="text/javascript" charset="utf-8">
-    SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
-    QUERY = "{{CURRENT_QUERY}}";
-    SORT = "{{CURRENT_SORT}}";
-    NEXT_PAGE = {{NEXT_PAGE}};   
+    var DEFAULT_TEXT = "Search...";
+    var SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
+    var QUERY = "{{CURRENT_QUERY}}";
+    var SORT = "{{CURRENT_SORT}}";
+    var NEXT_PAGE = {{NEXT_PAGE}};   
     
     function do_highlight(){ 
         if(SEARCH_PERFORMED){
@@ -18,6 +19,7 @@
     function load_more_results()
     {
         swap("#do_load","#loading");
+        if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
         $.post(
             '/{{CITY}}/search/',
             $('#main_search').serialize(),
@@ -66,7 +68,7 @@
         );
         do_highlight();
         $("#load_next").click(function(){return load_more_results();})
-        var DEFAULT_TEXT = "Search...";
+        
         $("#query-input").defaultText(DEFAULT_TEXT);
         $("#main_search").submit(function() { 
             if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
@@ -114,24 +116,20 @@
 <div class="g4">
     {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
-        <strong style="font-size:16px;">Near</strong><br/>
+        <strong style="font-size:16px;">Address</strong><br/>
         <input type="text" name="location" value="{{CURRENT_LOCATION}}"/><input class="button small" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
     </div>
     {% endifequal %}
     <div class="chunk">
         <ul class="submenu">
             <li>
-            <b class="">Sort by</b>
-        </li>
-        <li>
-            <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=latest" class="submenubar{% ifequal CURRENT_SORT 'latest' %}-selected{% endifequal %}">latest</a>
-        </li>
-        <li>
-            <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=popular" class="submenubar{% ifequal CURRENT_SORT 'popular' %}-selected{% endifequal %}">popularity</a>
-        </li>
-        <li>
-            <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=undiscovered" class="submenubar{% ifequal CURRENT_SORT 'undiscovered' %}-selected{% endifequal %}">undiscovered</a>
-        </li>
+                <b class="">Browse</b>
+            </li>
+            {% for sort, sort_title in available_sorts %}
+            <li>
+                <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort={{sort}}" class="submenubar{% ifequal CURRENT_SORT '{{sort}}' %}-selected{% endifequal %}">{{sort_title}}</a>
+            </li>
+            {% endfor %}
         </ul>
     </div>
     {% ifequal CURRENT_TYPE "discussions" %}
@@ -143,7 +141,7 @@
 <div class="clear"></div>
 </form>
 {% if HAS_MORE_RESULTS %}
-<div class="g12 center">
+<div class="g12">
     <div class="chunk">
         <div id="do_load" class="">
             <a id="load_next" href="#" class="button">Load more results</a>        

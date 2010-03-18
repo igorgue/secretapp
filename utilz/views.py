@@ -65,6 +65,7 @@ def search(request, city):
     
     if CURRENT_TYPE == "discussions":
         discussion_form = DiscussionSearchForm(req_dict)
+        available_sorts = discussion_form.get_available_sort_orders()
         RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
         d_ids = []
         discussion_results = None
@@ -83,6 +84,7 @@ def search(request, city):
 
     elif CURRENT_TYPE == "photos":
         secret_form = SecretSearchForm(req_dict)
+        available_sorts = secret_form.get_available_sort_orders()
         secret_form.chosen_template = "photo"
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
         s_ids = []
@@ -101,6 +103,7 @@ def search(request, city):
             num_results += 1
     else:        
         secret_form = SecretSearchForm(req_dict)
+        available_sorts = secret_form.get_available_sort_orders()
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
         s_ids = []
         secret_results = None
