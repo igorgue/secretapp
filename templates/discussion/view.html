@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="g3">
+<div id="top" class="g3">
     {% with discussion.created_by as u %}    
     <div class="chunk tops">
         <div class="float-left" style="padding-right:10px;">
@@ -56,6 +56,7 @@
         {% with comment.created_by as u %}
         <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
         <h3><a href="/account/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        <p class="subtle">{{comment.get_time_since_created}}</p>
         {% endwith %}
         <div class="clear"></div>            
         </div>
@@ -77,6 +78,7 @@
 </div>
 {% endfor %}
 <div id="reply" class="clear-border"></div>
+{% if user.is_authenticated %}
 <div class="g3">
     <div class="chunk">
         {% with request.user as u %}
@@ -86,7 +88,7 @@
         <div class="clear"></div>            
         </div>
 </div>
-<div class="g8 suffix_1" style="padding-bottom: 150px;">
+<div class="g8 suffix_1" style="padding-bottom: 150px;">    
     <form id="response_form" action="/discussion/{{discussion.pk}}/comment/" method="post" class="chunk">
         <div class="bottoms">
             <h3>{{discussion.title}}</h3>
@@ -147,7 +149,22 @@
             <input type="text" name="longitude" id="id_longitude" /><br/>
         </div>
 	</form>
+	
 </div> 
+{% else %}
+<div class="chunk center">
+   <h3>To reply to this discussion, please login via Facebook</h3>
+   <div class="tops">
+   {% include 'accounts/fb_button.html' %}
+   </div>
+</div>
+{% endif %}
+{% if num_results %}
+<div class="clear-border"></div>
+<div class="chunk center">
+    <a href="#top">&uarr; Back to top</a>
+</div>
+{% endif %}
 <!--
 <div class="clear-border"></div>
 <div class="chunk center">

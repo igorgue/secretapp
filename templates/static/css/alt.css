@@ -181,11 +181,11 @@ p {
 }
 
 .secret {
-    padding: 15px 0px;
+    padding: 10px 0px;
 }
 
 .proposal {
-    padding: 15px 0px;
+    padding: 10px 0px;
 }
 
 /* Inline Secrets */
@@ -244,13 +244,17 @@ p {
 /* Main Search */
 
 #main_search {
-     font-size: 24px;
+     
 }
 
 #main_search input.searchquery {
      font-size: 20px;
      padding: 6px;
      width: 320px;
+}
+
+.searchsection{
+    font-size: 24px;
 }
 
 
@@ -388,6 +392,16 @@ a.button {
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+input.button.small,
+.button.small input,
+a.button.small {
+    font-size: 12px;
+    padding: 3px 8px;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius:4px;
 }
 
 input.button.large,

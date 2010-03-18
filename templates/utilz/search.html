@@ -77,28 +77,28 @@
 {% endblock %}
 
 {% block content %}
+<form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="main_search">
 <div id="top" class="g12 blk rtop">
-<div class="center bottom top">
-    <form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="main_search">
+<div class="center bottom top searchsection">    
         <input id="page-input" type="hidden" name="page" value="{{NEXT_PAGE}}"/>
         <input id="page-input" type="hidden" name="usort" value="{{CURRENT_SORT}}"/>
         <input id="page-input" type="hidden" name="type" value="{{CURRENT_TYPE}}"/>
-        <input id="query-input" type="text" value="{{CURRENT_QUERY}}" name="title" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
-        <!--<div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?title=museum">museum</a> &nbsp;&nbsp; <a href="?title=east end">East End</a> &nbsp;&nbsp; <a href="?title=best pizza in london&type=discussions">Best restaurants in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>-->
-    </form>
+        <input id="query-input" type="text" value="{{CURRENT_QUERY}}" name="text" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
+        <div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?text=museum">museum</a> &nbsp;&nbsp; <a href="?text=east end">East End</a> &nbsp;&nbsp; <a href="?text=best pizza in london&type=discussions">Best restaurants in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
 </div>
 </div>
 <div class="clear"></div>
 <div class="g12 center blk rbot">
     <ul class="tabs">
     <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=discussions" class="rtop menubar{% ifequal CURRENT_TYPE 'discussions' %}-selected{% endifequal %}">discussions</a>
+        <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type=discussions" class="rtop menubar{% ifequal CURRENT_TYPE 'discussions' %}-selected{% endifequal %}">discussions</a>
     </li>
     <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=secrets" class="rtop menubar{% ifequal CURRENT_TYPE 'secrets' %}-selected{% endifequal %}">secret places</a>
+        <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type=secrets" class="rtop menubar{% ifequal CURRENT_TYPE 'secrets' %}-selected{% endifequal %}">secret places</a>
     </li>
     <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=photos" class="rtop menubar{% ifequal CURRENT_TYPE 'photos' %}-selected{% endifequal %}">photos</a>
+        <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type=photos" class="rtop menubar{% ifequal CURRENT_TYPE 'photos' %}-selected{% endifequal %}">photos</a>
     </li>
     </ul>
     <div class="clear"></div>
@@ -112,24 +112,36 @@
     <div class="clear"></div>
 </div>  
 <div class="g4">
+    {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
-    <ul class="submenu">
-        <li>
-        <b class="">Sort by</b>
-    </li>
-    <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=latest" class="submenubar{% ifequal CURRENT_SORT 'latest' %}-selected{% endifequal %}">latest</a>
-    </li>
-    <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=popular" class="submenubar{% ifequal CURRENT_SORT 'popular' %}-selected{% endifequal %}">popularity</a>
-    </li>
-    <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=undiscovered" class="submenubar{% ifequal CURRENT_SORT 'undiscovered' %}-selected{% endifequal %}">undiscovered</a>
-    </li>
-    </ul>
+        <strong style="font-size:16px;">Near</strong><br/>
+        <input type="text" name="location" value="{{CURRENT_LOCATION}}"/><input class="button small" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
     </div>
+    {% endifequal %}
+    <div class="chunk">
+        <ul class="submenu">
+            <li>
+            <b class="">Sort by</b>
+        </li>
+        <li>
+            <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=latest" class="submenubar{% ifequal CURRENT_SORT 'latest' %}-selected{% endifequal %}">latest</a>
+        </li>
+        <li>
+            <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=popular" class="submenubar{% ifequal CURRENT_SORT 'popular' %}-selected{% endifequal %}">popularity</a>
+        </li>
+        <li>
+            <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=undiscovered" class="submenubar{% ifequal CURRENT_SORT 'undiscovered' %}-selected{% endifequal %}">undiscovered</a>
+        </li>
+        </ul>
+    </div>
+    {% ifequal CURRENT_TYPE "discussions" %}
+    <div class="chunk">
+        <a href="/discussion/new/" class="button" style="font-size:12px">Start a new discussion</a>
+    </div>
+    {% endifequal %}
 </div>
 <div class="clear"></div>
+</form>
 {% if HAS_MORE_RESULTS %}
 <div class="g12 center">
     <div class="chunk">

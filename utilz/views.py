@@ -30,9 +30,9 @@ def city_home(request, city):
     request.session.modified = True
     
     secrets = Secret.viewable.order_by("-created_at")[:5]
-    discussions = Discussion.viewable.order_by("-updated_at")[:5]
-    profiles = User.objects.order_by('-date_joined')[:15]
-    photos = UploadedPhoto.objects.order_by("-created_at")[:9]
+    discussions = Discussion.viewable.order_by("-updated_at")[:10]
+    profiles = User.objects.order_by('-date_joined')[:5]
+    photos = UploadedPhoto.objects.order_by("-created_at")[:6]
     
     return context_response(request, 'utilz/city_home.html', locals(), tabs=['home'])
 
@@ -56,10 +56,11 @@ def search(request, city):
     else:
         req_dict = {'page':1}
     
-    CURRENT_QUERY = req_dict.get('title', '')
+    CURRENT_QUERY = req_dict.get('text', '')
     CURRENT_SORT = req_dict.get('usort', 'latest')
     CURRENT_PAGE = int(req_dict.get('page', 1))
     CURRENT_TYPE = req_dict.get('type', 'secrets')
+    CURRENT_LOCATION = req_dict.get('location','')
     NEXT_PAGE = CURRENT_PAGE + 1
     
     if CURRENT_TYPE == "discussions":
