@@ -58,8 +58,7 @@ def secret_count(self):
 
 def proposals(self):
     from comment.models import Proposal
-    #does this work? created_by does not exist on Proposal
-    return __get_items(self, Proposal)
+    return Proposal.viewable.filter(discussion_comment__created_by=self)
 
 def proposal_count(self):
     from comment.models import Proposal

@@ -8,13 +8,27 @@
             <img src="{{profile.profile_image.big}}" />
             <h1>{{profile.first_name}} {{profile.last_name}}</h1>
             <p>Joined {{profile.get_time_since_joined}}</p>
-            <div class="top">
+            <div class="top bottom">
                 {% with profile.secret_count as secret_count %}
                     <h4>{{secret_count}} secret{{secret_count|pluralize}} shared</h4>
                 {% endwith %}
                 {% with profile.agreed_with_me_count as agree_count %}
                     <h4>{{agree_count}} {{agree_count|pluralize:"person,people"}} {{agree_count|pluralize:"has,have"}} agreed with {{profile.first_name}}</h4>
                 {% endwith %}
+            </div>
+            <div class="top">
+            {% with profile.secrets as secrets %}
+                {% if secrets %}
+                    {% with secrets|length as num_secrets %}
+                    <h2 class="caps subtle">Shared secrets</h2>
+                    {% endwith %}
+                    <div id="secrets">
+                    {% for secret in secrets %}
+                        {% include "secret/render/singular.html" %}    
+                    {% endfor %}
+                    </div>
+                {% endif %}
+        	{% endwith %}
             </div>
         </div>
     </div>
@@ -30,27 +44,12 @@
                 <strong>Email</strong> {{ form.email }}
             {% endform %}
     	</div>
-    	{% endif %}        
-        
-        <div class="chunk">
-        {% with profile.secrets as secrets %}
-            {% if secrets %}
-                {% with secrets|length as num_secrets %}
-                <h2 class="caps">Latest secrets</h2>
-                {% endwith %}
-                <div id="secrets">
-                {% for secret in secrets %}
-                    {% include "secret/render/singular.html" %}    
-                {% endfor %}
-                </div>
-            {% endif %}
-    	{% endwith %}
-        </div>
+    	{% endif %}
         <div class="chunk">
         {% with profile.discussions as discussions %}
             {% if discussions %}
                 {% with discussions|length as num_discussions %}
-                <h2 class="caps">Started {{ num_discussions }} discussion{{num_discussions|pluralize}}</h2>
+                <h2 class="caps subtle">Started {{ num_discussions }} discussion{{num_discussions|pluralize}}</h2>
                 {% endwith %}
                 <div id="discussions">
                 {% for discussion in discussions %}
@@ -60,6 +59,22 @@
             {% endif %}
     	{% endwith %}
     	</div>
+        <div class="chunk">
+        {% with profile.proposals as proposals %}
+            {% if proposals %}
+                {% with proposals|length as proposals_length %}
+                <h2 class="caps subtle">Latest responses</h2>
+                {% endwith %}
+                <div id="secrets">
+                {% for proposal in proposals %}
+                    <div class="top">
+                    {% include "secret/render/proposal.html" %}
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+    	{% endwith %}
+        </div>
     </div>
     <div class="clear"></div>
 {% endblock %}

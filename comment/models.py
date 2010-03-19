@@ -26,7 +26,7 @@ class AbstractComment(UserContent):
             return self.text[:nchars] + "..."
 
 class SecretComment(AbstractComment):
-    """ A comment on a secret. Could be assosiciated with a discussion. """
+    """ A comment on a secret. Could be associated with a discussion. """
     secret      = models.ForeignKey(Secret)
 
     def get_edit_url(self):
