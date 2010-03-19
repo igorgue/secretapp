@@ -66,7 +66,8 @@ def proposal_count(self):
 
 def discussions(self):
     from discussion.models import Discussion
-    return __get_items(self, Discussion)
+    #return __get_items(self, Discussion)
+    return Discussion.viewable.filter(created_by=self).order_by("-created_at")
 
 def discussion_count(self):
     from comment.models import Discussion
@@ -74,7 +75,8 @@ def discussion_count(self):
 
 def agreements(self):
     from comment.models import Agreement
-    return __get_items(self, Agreement)
+    #return __get_items(self, Agreement)
+    return Agreement.viewable.filter(created_by=self).order_by("-created_at")
 
 def agreement_count(self):
     from comment.models import Agreement
