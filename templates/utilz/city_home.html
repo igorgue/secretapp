@@ -99,9 +99,11 @@
 <div class="g5">
     <div class="chunk">
         <h2 class="caps subtle">Latest Photos</h2>
+        <div class="tops">
         {% for photo in photos %}
             <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{photo.thumb.url}}" alt="{{photo.caption}}" /></a>
         {% endfor %}
+        </div>
         <div class="tops">
         <a href="{% url search city=CITY %}?type=photos" class="button" style="font-size:14px;">Browse all photos</a>
         </div>
