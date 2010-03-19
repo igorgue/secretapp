@@ -49,7 +49,7 @@ class DiscussionDocument(SearchDocument):
     
     def transform_updated(self, instance):
         " Last time the discussion was commented on - or falls back to when it was created "
-        return instance.latest_comment().created_at
+        return instance.updated_at
 
 
 solango.register(Discussion, DiscussionDocument)

@@ -79,7 +79,7 @@ def remove_user_contributions(user):
 
 def calculate_time_since(then):
     from datetime import datetime, timedelta
-    from django.template.defaultfilters import date as formatdate  
+    from django.template.defaultfilters import pluralize, date as formatdate
     
     if not then:
         return "unknown"
@@ -91,24 +91,24 @@ def calculate_time_since(then):
     
     diff = now - then
     
-    seconds = diff.seconds
-    if seconds < 60:
-        return "%s seconds ago" % (str(seconds))
-    
-    minutes = seconds / 60    
-    if minutes < 60:
-        return "%s minutes ago" % (str(minutes))
-
-    hours = minutes / 60
-    if hours <= 12:
-        return "%s hours ago" % (str(hours))
-    
-    if now.year == then.year:
-        if diff.days <= 1:
-            return "yesterday"
-        elif diff.days < 7:
-            return "%s" % (formatdate(then, "l"))
-        else:
+    if diff.days > 7:
+        if now.year == then.year:
             return formatdate(then, "M d") 
-    else:
-        return formatdate(then, "M d, Y") 
+        else:
+            return formatdate(then, "M d, Y") 
+    elif diff.days > 1:
+        return "%s" % (formatdate(then, "l"))
+    elif diff.days == 1:
+        return "yesterday"
+    
+    seconds = diff.seconds
+    minutes = seconds/60
+    hours = minutes/60
+    
+    if hours >= 1:
+        return "%s hour%s ago" % (str(hours), pluralize(hours))
+
+    if minutes >= 1:
+        return "%s minute%s ago" % (str(minutes), pluralize(minutes))
+
+    return "%s second%s ago" % (str(seconds), pluralize(seconds))
