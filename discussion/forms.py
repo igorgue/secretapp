@@ -43,6 +43,8 @@ class DiscussionSearchForm(SearchForm):
             usort = self.data['usort']
             if usort in SORT_MAPPING:
                 data = SORT_MAPPING[usort]
+        else:
+            data = self.Meta.default_sort
 
         return data
     
