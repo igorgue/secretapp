@@ -265,12 +265,12 @@ p {
 .bottom { padding-bottom:20px; }
 .left { padding-left:20px; }
 .right { padding-right:20px; }
-
+.pad { padding:20px; }
 .tops { padding-top:10px; }
 .bottoms { padding-bottom:10px; }
 .lefts { padding-left:10px; }
 .rights { padding-right:10px; }
-
+.pads { padding: 10px; }
 .chunk { margin:20px; }
 
 .blk { background: transparent url('../images/grey-0.9.png') repeat scroll top left; }
