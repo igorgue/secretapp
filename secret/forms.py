@@ -15,18 +15,16 @@ SECRET_RENDER_FOLDER = 'secret/render/%s.html'
 
 SORT_ORDER = (
                 ('created desc', 'Newest'),
-                ('created asc', 'Oldest'),
-                ('comments desc', 'Most Popular'),
-                ('comments asc', 'Least Popular'),
+                ('created asc', 'Oldest')
             )
 
-SORT_MAPPING = {'latest':'updated desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
+SORT_MAPPING = {'latest':'created desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
 
          
 USER_SORT_ORDER = (
                 ('latest', 'Latest'),
-                ('popular', 'Popular'),
-                ('undiscovered', 'Undiscovered'),
+                #('popular', 'Popular'),
+                #('undiscovered', 'Undiscovered'),
             )
             
 class SecretSearchForm(SearchForm):

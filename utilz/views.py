@@ -36,6 +36,20 @@ def city_home(request, city):
     
     return context_response(request, 'utilz/city_home.html', locals(), tabs=['home'])
 
+def search_and_sort(the_form, ):
+    d_ids = []
+    the_results = None
+    if the_form.is_valid():
+        the_results = the_form.save()      
+        for r in the_results.documents:
+            d_ids.append(r.pk_field.value)
+    
+    #TODO sorting here
+    discussions = Discussion.objects.filter(pk__in=d_ids)
+    num_results = 0
+    rendered_results = ""
+
+
 def search(request, city):
     " Landing page to site. Much more to come... "
     
@@ -66,59 +80,33 @@ def search(request, city):
     if CURRENT_TYPE == "discussions":
         discussion_form = DiscussionSearchForm(req_dict)
         available_sorts = discussion_form.get_available_sort_orders()
-        d_ids = []
-        discussion_results = None
+               
+        num_results = 0
+        rendered_results = ""
         if discussion_form.is_valid():
             discussion_results = discussion_form.save()      
             for r in discussion_results.documents:
-                d_ids.append(r.pk_field.value)
+                rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': Discussion.objects.get(pk=r.pk_field.value), 'show_image': True })
+                num_results += 1
         
-        #TODO sorting here
-        discussions = Discussion.objects.filter(pk__in=d_ids).order_by("created_at")
-        num_results = 0
-        rendered_results = ""
-        for discussion in discussions:
-            rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': discussion, 'show_image': True })
-            num_results += 1
         RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
         
-    elif CURRENT_TYPE == "photos":
+    else:
         secret_form = SecretSearchForm(req_dict)
         available_sorts = secret_form.get_available_sort_orders()
-        secret_form.chosen_template = "photo"
-        s_ids = []
-        secret_results = None
+        template = 'secret/render/singular.html'
+        if CURRENT_TYPE == "photos":
+            secret_form.chosen_template = "photo"
+            template = 'secret/render/photo.html'
+        
+        num_results = 0
+        rendered_results = ""
         if secret_form.is_valid():
             secret_results = secret_form.save()      
             for r in secret_results.documents:
-                s_ids.append(r.pk_field.value)
+                rendered_results += render_to_string(template, { 'secret': Secret.objects.get(pk=r.pk_field.value) })
+                num_results += 1
         
-        #TODO sorting here
-        secrets = Secret.objects.filter(pk__in=s_ids).order_by("created_at")     
-        num_results = 0
-        rendered_results = ""
-        for secret in secrets:
-            rendered_results += render_to_string('secret/render/photo.html', { 'secret': secret })
-            num_results += 1
-        
-        RESULTS_PER_PAGE = secret_form.Meta.results_per_page
-    else:        
-        secret_form = SecretSearchForm(req_dict)
-        available_sorts = secret_form.get_available_sort_orders()        
-        s_ids = []
-        secret_results = None
-        if secret_form.is_valid():
-            secret_results = secret_form.save()      
-            for r in secret_results.documents:
-                s_ids.append(r.pk_field.value)
-        
-        #TODO sorting here
-        secrets = Secret.objects.filter(pk__in=s_ids).order_by("created_at")     
-        num_results = 0
-        rendered_results = ""
-        for secret in secrets:
-            rendered_results += render_to_string('secret/render/singular.html', { 'secret': secret })
-            num_results += 1
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
     
     if CURRENT_PAGE > 1:    
