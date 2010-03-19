@@ -106,8 +106,8 @@
     <div class="clear"></div>
 </div>
 
-<div class="{% if photo_browse %}g12 center{% else %}g8{% endif %}">    
-    <div id="results" class="chunk">        
+<div class="{% if photo_browse %}g12{% else %}g8{% endif %}">    
+    <div id="results" class="chunk {% if photo_browse %}center{% endif %}">        
         {% if num_results %}
             {{rendered_results|safe}}
         {% else %}
@@ -119,7 +119,7 @@
     <div class="clear"></div>
 </div>  
 {% if not photo_browse %}
-<div class="g4">
+<div class="g4 top">
     {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
         <strong style="font-size:16px;">Location</strong> (e.g., Soho, Shoreditch)<br/>
