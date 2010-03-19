@@ -68,6 +68,9 @@ class Proposal(models.Model):
     viewable    = ProposalManager()
     objects     = models.Manager() 
     
+    def get_absolute_url(self):
+        return self.discussion_comment.get_absolute_url()
+    
     def get_agree_url(self):
         return reverse('agree_with_proposal', kwargs={'proposal_id':self.pk})
     

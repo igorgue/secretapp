@@ -172,7 +172,7 @@ def agree_with_proposal(request, proposal_id):
         if request.is_ajax():
             return HttpResponse('%s' % props.agreement_count)
         else:
-            return redirect_back(request)
+            return HttpResponseRedirect(proposal.get_absolute_url())
     else:
         raise Http404
 
