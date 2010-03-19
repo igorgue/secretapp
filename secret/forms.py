@@ -106,7 +106,7 @@ class SecretSearchForm(SearchForm):
         # if on photo view, only show secrets with photos
         if hasattr(self, 'chosen_template') and self.chosen_template == 'photo':
             queries.append("(photocount:[1 TO *])")
-            self.Meta.results_per_page = 16
+            self.Meta.results_per_page = 24
         
         # return
         return self.get_results(" AND ".join(queries))

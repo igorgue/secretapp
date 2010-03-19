@@ -98,6 +98,7 @@ def search(request, city):
         if CURRENT_TYPE == "photos":
             secret_form.chosen_template = "photo"
             template = 'secret/render/photo.html'
+            photo_browse = True
         
         num_results = 0
         rendered_results = ""

@@ -106,7 +106,7 @@
     <div class="clear"></div>
 </div>
 
-<div class="g8">    
+<div class="{% if photo_browse %}g12 center{% else %}g8{% endif %}">    
     <div id="results" class="chunk">        
         {% if num_results %}
             {{rendered_results|safe}}
@@ -118,6 +118,7 @@
     </div>
     <div class="clear"></div>
 </div>  
+{% if not photo_browse %}
 <div class="g4">
     {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
@@ -144,6 +145,7 @@
     </div>
     {% endifequal %}
 </div>
+{% endif %}
 <div class="clear"></div>
 </form>
 {% if HAS_MORE_RESULTS %}
@@ -161,7 +163,7 @@
     <div class="chunk">
     <h3>Didn't find what you were looking for?</h3>
     <div class="tops">
-        <a href="/discussion/new/" class="button" style="font-size:14px;">Ask the community</a>
+        <a href="/discussion/new/" class="button" style="font-size:14px;">Ask Secret {{CITY}}</a>
     </div>
     </div>
 </div>
