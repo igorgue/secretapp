@@ -108,7 +108,7 @@
         <h2 class="caps">Latest Secrets</h2>
         {% for secret in secrets %}
             {% with "1" as hide_photo %}
-            {% include "secret/render/singular.html" %}
+                {% include "secret/render/singular.html" %}
             {% endwith %}
         {% endfor %}
         <div class="tops">
