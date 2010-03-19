@@ -34,8 +34,7 @@ class DiscussionSearchForm(SearchForm):
         url_name = 'search_discussions'
         results_per_page = 10
         default_sort = SORT_ORDERS[0][0]
-        cheeky = False
-    
+        cheeky = False    
     
     def clean_sort(self):
         data = self.cleaned_data['sort']
@@ -43,8 +42,8 @@ class DiscussionSearchForm(SearchForm):
             usort = self.data['usort']
             if usort in SORT_MAPPING:
                 data = SORT_MAPPING[usort]
-        else:
-            data = self.Meta.default_sort
+            else:
+                data = self.Meta.default_sort
 
         return data
     
