@@ -100,6 +100,7 @@ def search(request, city):
         for secret in secrets:
             rendered_results += render_to_string('secret/render/photo.html', { 'secret': secret })
             num_results += 1
+        
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
     else:        
         secret_form = SecretSearchForm(req_dict)
