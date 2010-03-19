@@ -66,7 +66,6 @@ def search(request, city):
     if CURRENT_TYPE == "discussions":
         discussion_form = DiscussionSearchForm(req_dict)
         available_sorts = discussion_form.get_available_sort_orders()
-        RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
         d_ids = []
         discussion_results = None
         if discussion_form.is_valid():
@@ -81,12 +80,12 @@ def search(request, city):
         for discussion in discussions:
             rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': discussion, 'show_image': True })
             num_results += 1
-
+        RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
+        
     elif CURRENT_TYPE == "photos":
         secret_form = SecretSearchForm(req_dict)
         available_sorts = secret_form.get_available_sort_orders()
         secret_form.chosen_template = "photo"
-        RESULTS_PER_PAGE = secret_form.Meta.results_per_page
         s_ids = []
         secret_results = None
         if secret_form.is_valid():
@@ -101,10 +100,10 @@ def search(request, city):
         for secret in secrets:
             rendered_results += render_to_string('secret/render/photo.html', { 'secret': secret })
             num_results += 1
+        RESULTS_PER_PAGE = secret_form.Meta.results_per_page
     else:        
         secret_form = SecretSearchForm(req_dict)
-        available_sorts = secret_form.get_available_sort_orders()
-        RESULTS_PER_PAGE = secret_form.Meta.results_per_page
+        available_sorts = secret_form.get_available_sort_orders()        
         s_ids = []
         secret_results = None
         if secret_form.is_valid():
@@ -119,6 +118,7 @@ def search(request, city):
         for secret in secrets:
             rendered_results += render_to_string('secret/render/singular.html', { 'secret': secret })
             num_results += 1
+        RESULTS_PER_PAGE = secret_form.Meta.results_per_page
     
     if CURRENT_PAGE > 1:    
         rendered_results = "<div id='page%s' class='paged'>%s</div>" % (CURRENT_PAGE, rendered_results)
