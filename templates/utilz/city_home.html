@@ -85,9 +85,11 @@
 </div>
 <div class="g7">
     <div class="chunk">
-        <h2 class="caps">Latest Discussions</h2>
+        <h2 class="caps subtle">Latest Discussions</h2>
         {% for discussion in discussions %}
+            {% with "1" as show_image %}
             {% include "discussion/render/singular.html" %}
+            {% endwith %}
         {% endfor %}
         <div class="tops">
         <a href="{% url search city=CITY %}?type=discussions" class="button" style="font-size:14px;">Browse all discussions</a>
@@ -96,7 +98,7 @@
 </div>
 <div class="g5">
     <div class="chunk">
-        <h2 class="caps">Latest Photos</h2>
+        <h2 class="caps subtle">Latest Photos</h2>
         {% for photo in photos %}
             <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{photo.thumb.url}}" alt="{{photo.caption}}" /></a>
         {% endfor %}
@@ -105,11 +107,9 @@
         </div>
     </div>    
     <div class="chunk">
-        <h2 class="caps">Latest Secrets</h2>
+        <h2 class="caps subtle">Latest Secrets</h2>
         {% for secret in secrets %}
-            {% with "1" as hide_photo %}
-                {% include "secret/render/singular.html" %}
-            {% endwith %}
+            {% include "secret/render/singular.html" %}
         {% endfor %}
         <div class="tops">
         <a href="{% url search city=CITY %}?type=secrets" class="button" style="font-size:14px;">Browse all secrets</a>
@@ -118,7 +118,7 @@
 </div>
 <div class="g12">
     <div class="chunk">
-        <h2 class="caps">Latest Visitors</h2>
+        <h2 class="caps subtle">Latest Visitors</h2>
         <div class="center">
         {% for profile in profiles %}
             {% include "accounts/render/singular.html" %}
