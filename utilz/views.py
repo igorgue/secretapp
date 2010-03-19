@@ -32,7 +32,7 @@ def city_home(request, city):
     secrets = Secret.viewable.order_by("-created_at")[:5]
     discussions = Discussion.viewable.order_by("-updated_at")[:10]
     profiles = User.objects.order_by('-date_joined')[:5]
-    photos = UploadedPhoto.objects.order_by("-created_at")[:6]
+    photos = UploadedPhoto.viewable.order_by("-created_at")[:6]
     
     return context_response(request, 'utilz/city_home.html', locals(), tabs=['home'])
 
