@@ -58,7 +58,7 @@ def secret_count(self):
 
 def proposals(self):
     from comment.models import Proposal
-    return Proposal.viewable.filter(discussion_comment__created_by=self)
+    return Proposal.viewable.filter(discussion_comment__created_by=self).order_by("-discussion_comment__created_at")
 
 def proposal_count(self):
     from comment.models import Proposal
