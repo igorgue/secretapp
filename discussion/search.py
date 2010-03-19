@@ -32,7 +32,9 @@ class DiscussionDocument(SearchDocument):
         " Saves all the discussion content "
         output = ""
         for c in instance.comments():
-            output += "\n\n\n%s\n\n\n" % c.text
+            output += "\n\n\n%s\n\n\n" % (c.text)
+            for s in c.secrets.all():
+                output += "\n\n\n%s\n\n\n" % (s.title)
         return output
     
     def transform_comments(self, instance):

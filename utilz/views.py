@@ -9,6 +9,7 @@ from discussion.forms import DiscussionSearchForm
 from secret.forms import SecretSearchForm
 from comment.models import DiscussionComment, Proposal
 from city.models import CITY_SESSION_NAME
+from django.template import RequestContext
 from django.template.loader import render_to_string
 from photo.models import UploadedPhoto
 from shortcuts import context_response
@@ -35,20 +36,6 @@ def city_home(request, city):
     photos = UploadedPhoto.viewable.order_by("-created_at")[:6]
     
     return context_response(request, 'utilz/city_home.html', locals(), tabs=['home'])
-
-def search_and_sort(the_form, ):
-    d_ids = []
-    the_results = None
-    if the_form.is_valid():
-        the_results = the_form.save()      
-        for r in the_results.documents:
-            d_ids.append(r.pk_field.value)
-    
-    #TODO sorting here
-    discussions = Discussion.objects.filter(pk__in=d_ids)
-    num_results = 0
-    rendered_results = ""
-
 
 def search(request, city):
     " Landing page to site. Much more to come... "
@@ -86,7 +73,7 @@ def search(request, city):
         if discussion_form.is_valid():
             discussion_results = discussion_form.save()      
             for r in discussion_results.documents:
-                rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': Discussion.objects.get(pk=r.pk_field.value), 'show_image': True })
+                rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': Discussion.objects.get(pk=r.pk_field.value), 'show_image': True }, RequestContext(request))
                 num_results += 1
         
         RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
@@ -105,7 +92,7 @@ def search(request, city):
         if secret_form.is_valid():
             secret_results = secret_form.save()      
             for r in secret_results.documents:
-                rendered_results += render_to_string(template, { 'secret': Secret.objects.get(pk=r.pk_field.value) })
+                rendered_results += render_to_string(template, { 'secret': Secret.objects.get(pk=r.pk_field.value) }, RequestContext(request))
                 num_results += 1
         
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
@@ -122,8 +109,7 @@ def search(request, city):
         
         return HttpResponse(simplejson.dumps(response_dict))
     else:
-        context = locals()
-        return context_response(request, 'utilz/search.html', context, tabs=['home'])
+        return context_response(request, 'utilz/search.html', locals(), tabs=['home'])
 
 
 def alt_home(request):

@@ -6,8 +6,8 @@
     {% if user.is_anonymous %}
         {% include 'accounts/fb_button.html' %}
     {% else %}
-        <a href="{% url edit_profile %}" id="header_account" class="header rtop rbot">My Account</a>
-        <a href="{% url logout %}">Log out</a>
+        <a href="{% url edit_profile %}" id="header_account" class="acct header rtop rbot">My Account</a>
+        <a href="{% url logout %}" class="acct">Log out</a>
     {% endif %}
 </div>
 <div id="header">
