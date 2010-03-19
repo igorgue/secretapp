@@ -11,6 +11,9 @@ div.left_sidebar {padding:20px; width:120px;}
 .page_content {padding:0px 20px 200px 20px; width:740px;}
 div.page_content p {padding:0px; width:700px;}
 
+#body { background-color: #fff;}
+
+
 
 #about_page .page_content {padding-bottom:400px; background:white url('../images/illustrations/FlowersLarge4-about.jpg') no-repeat bottom left;}
 
@@ -81,3 +84,5 @@ div.page_content p {padding:0px; width:700px;}
 .filler13 { width: 600px; }
 .filler14 { width: 650px; }
 .filler15 { width: 700px; }
+.menuu { padding:20px;  padding-bottom: 35px; text-align: center; }
+.menuu a { font-size: 16px; padding: 0px 10px;}

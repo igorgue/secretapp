@@ -136,8 +136,9 @@ def alt_home(request):
 
 def render(request, template):
     " Displays any misc pages "
+    return context_response(request, 'render/%s.html' % template, {}, tabs=['doc', template])
     try:
-        return context_response(request, 'render/%s.html' % template, {}, tabs=['doc', template])
+        pass
     except:
         raise Http404
     
