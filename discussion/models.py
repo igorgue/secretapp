@@ -43,7 +43,7 @@ class Discussion(UserContent):
         if not hasattr(self, '_comments'):
             from comment.models import DiscussionComment
             # TODO: cache this
-            self._comments = DiscussionComment.viewable.filter(discussion=self).select_related()
+            self._comments = DiscussionComment.viewable.filter(discussion=self).select_related().order_by("created_at")
         return self._comments
     
     @property
