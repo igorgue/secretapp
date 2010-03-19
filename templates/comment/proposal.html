@@ -2,12 +2,8 @@
 <div id="proposal-{{proposal.id}}" class="tops">
     <div class="isecret">
     <div class="float-left rights">
-        {% with secret.primary_photo as pi %}
-    	    {% if pi %}
-    	        <a href="{{pi.resized.url}}"><img src="{{pi.thumb.url}}"  height="50" /></a>
-    	    {% else %}
-    		    <img src="{{MEDIA_URL}}/images/3d_white_keyhole.png" height="50" />
-    		{% endif %}
+        {% with "50" as photo_width %}
+            {% include "photo/render/secret_photo.html" %}
         {% endwith %}
     </div>
     <div style="padding-top:5px;">
