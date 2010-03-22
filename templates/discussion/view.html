@@ -68,7 +68,7 @@
                 {% include "perm/editable_logic.html" %}
                 {% endwith %}
             </div>
-                {{comment.text|linebreaksbr}}
+                {{comment.text|urlizetrunc:25|linebreaksbr}}
             {% for proposal in comment.proposals %}
                 {% include 'comment/proposal.html' %}
             {% endfor %}&nbsp;
