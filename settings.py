@@ -114,6 +114,10 @@ AUTHENTICATION_BACKENDS = (
     'perm.backends.ClaimFacebookBackend',
 )
 
+# basic highlighting for solango
+SEARCH_HL_PARAMS = [
+    ("hl", "true"),  # basic highlighting
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',

@@ -26,7 +26,7 @@
         <div class="float-left" style="padding-right:10px;">
             <img src="{{u.profile_image.small}}" alt="{{u.name}}"/>
         </div>
-        <h3>Posted&nbsp;by<br/><a href="/account/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        <h3>Posted&nbsp;by<br/><a href="/account/{{u.pk}}/">{{u.name}}</a></h3>
         <p class="subtle">{{discussion.get_time_since_created}}</p>
     </div>
     {% endwith %}
@@ -34,7 +34,7 @@
 <div class="g9">
     <div class="chunk">
         <h1>{{discussion.title}}</h1>
-        <p>{{discussion.text}}</p>
+        <p>{{discussion.text|linebreaksbr}}</p>
         <p>{% include "render/share_page_buttons.html" %} &nbsp; <a href="{{discussion.get_flagspam_url}}" class="modalize" title="Report this topic">Report</a>
         {% with discussion as obj %}
         {% include "perm/editable_logic.html" %}
@@ -55,7 +55,7 @@
         <div class="chunk">
         {% with comment.created_by as u %}
         <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
-        <h3><a href="/account/{{u.pk}}/">{{u.first_name}} {{u.last_name}}</a></h3>
+        <h3><a href="{{u.get_absolute_url}}">{{u.name}}</a></h3>
         <p class="subtle">{{comment.get_time_since_created}}</p>
         {% endwith %}
         <div class="clear"></div>            
@@ -68,7 +68,7 @@
                 {% include "perm/editable_logic.html" %}
                 {% endwith %}
             </div>
-            {{comment.text|linebreaksbr}}
+                {{comment.text|linebreaksbr}}
             {% for proposal in comment.proposals %}
                 {% include 'comment/proposal.html' %}
             {% endfor %}&nbsp;
@@ -83,7 +83,7 @@
     <div class="chunk">
         {% with request.user as u %}
         <img src="{{u.profile_image.small}}" alt="{{u.name}}" class="float-left" style="padding-right:10px;"/> 
-        <h3>{{u.first_name}} {{u.last_name}}</h3>
+        <h3>{{u.name}}</h3>
         {% endwith %}
         <div class="clear"></div>            
         </div>

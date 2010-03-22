@@ -1,13 +1,13 @@
 {% with comment.created_by as u %}
 <div id="comment-{{comment.pk}}" class="comment">
 	<div class="cphoto">
-		<img src="{{ u.profile_image.small }}" alt="{{ u.first_name }} {{ u.last_name }}">
+		<img src="{{ u.profile_image.small }}" alt="{{ u.name }}">
 	</div>
 	<div class="ctext">
 		<div class="float-right">
             <a href="#" class="subtle">Report</a>
 		</div>
-		<a href="">{{ u.first_name }} {{ u.last_name }}</a> &nbsp;
+		<a href="{{u.get_absolute_url}}">{{ u.name }}</a> &nbsp;
 		{{ comment.text|linebreaksbr }}
 		<div style="padding-top:5px"><span class="subtle">{{comment.get_time_since_created}}</span>
 		    {% with comment as obj %}

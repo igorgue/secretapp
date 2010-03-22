@@ -92,7 +92,7 @@ def favourites(self):
 
 @property
 def name(self):
-    return "%s %s" % (self.first_name, self.last_name)
+    return "%s %s" % (self.first_name, self.last_name[:1])
 
 @property
 def name_alt(self):

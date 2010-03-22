@@ -73,7 +73,9 @@ def search(request, city):
         rendered_results = ""
         if discussion_form.is_valid():
             discussion_results = discussion_form.save()      
-            for r in discussion_results.documents:
+            import pdb
+            pdb.set_trace()
+            for r in discussion_results.documents:                
                 rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': Discussion.objects.get(pk=r.pk_field.value), 'show_image': True }, RequestContext(request))
                 num_results += 1
         
