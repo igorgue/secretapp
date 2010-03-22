@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% block pagemedia %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />
+
+<!-- inline styles just for this page -->
+<style type="text/css">
+/* these are the only two values you should need to adjust when updating the text to be floated around the background image */
+.filler1 { height: 520px; }
+.filler { margin-left: 20px; }
+/* -end- */
+/* we use the default widths for .filler[1-15] as specified in info-pages.css to create a 45 degree triangle */
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content_line">
+	<div class="">
+		<a href="{% url render_template template="about" %}">About</a>
+		<a href="{% url render_template template="team" %}">Team</a>
+		<a href="{% url render_template template="credits" %}">Credits</a>
+		<a href="http://blog.secretlondon.us">Blog</a>
+		<a href="{% url render_template template="terms" %}">Terms of use</a>
+		<a href="{% url render_template template="privacy" %}">Privacy Policy</a>
+		<a href="http://twitter.com/secret_london">Twitter</a>
+	</div>
+	<div class="page_content">
+    {% block page_content %}
+        
+    {% endblock %}
+	</div>
+	<div class="clear_left"></div>
+</div>
+
+{% endblock %}
