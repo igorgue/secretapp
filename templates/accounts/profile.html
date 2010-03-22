@@ -8,6 +8,9 @@
             <img src="{{profile.profile_image.big}}" />
             <h1>{{profile.first_name}} {{profile.last_name}}</h1>
             <p>Joined {{profile.get_time_since_joined}}</p>
+            {% with profile.facebook.url as facebook_url %}
+            {% if facebook_url %}<p><a href="{{facebook_url}}">Facebook profile</a></p>{% endif %}
+            {% endwith %}
             <div class="top bottom">
                 {% with profile.secret_count as secret_count %}
                     <h4>{{secret_count}} secret{{secret_count|pluralize}} shared</h4>
