@@ -23,8 +23,8 @@
 <div id="top" class="g3">
     {% with discussion.created_by as u %}    
     <div class="chunk tops">
-        <div class="float-left" style="padding-right:10px;">
-            <img src="{{u.profile_image.small}}" alt="{{u.name}}"/>
+        <div class="bottoms">
+            <img src="{{u.profile_image.medium}}" alt="{{u.name}}"/>
         </div>
         <h3>Posted&nbsp;by<br/><a href="/account/{{u.pk}}/">{{u.name}}</a></h3>
         <p class="subtle">{{discussion.get_time_since_created}}</p>
