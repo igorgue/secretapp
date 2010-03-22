@@ -304,7 +304,7 @@ ul.submenu { list-style: none; font-size: 16px; line-height: 24px; padding: 0px;
 ul.suggestion { list-style: none; font-size: 16px; line-height: 22px; margin: 0px; padding: 0px;}
 
 .header { padding: 4px 8px; }
-.header-selected { background-color: #ed1849; }
+.header-selected { background-color: #333; }
 
 /* Helpers */
 
