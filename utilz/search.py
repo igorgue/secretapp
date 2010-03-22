@@ -90,7 +90,7 @@ class SearchForm(forms.Form):
     @property
     def base_query(self):
         """ The starter query to make sure you get the right model, not deleted etc etc... """
-        return 'model:(+%s) ' % solango.solr.get_model_key(self.Meta.model)
+        return '{!lucene q.op=AND} model:(+%s) ' % solango.solr.get_model_key(self.Meta.model)
     
     @property
     def start_page(self):

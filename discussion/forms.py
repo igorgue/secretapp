@@ -51,18 +51,21 @@ class DiscussionSearchForm(SearchForm):
         return USER_SORT_ORDERS
     
     def save(self):
+        import re
         # build vars
         data = self.cleaned_data
         queries = [self.base_query]
         
         # searching only the title field
         if 'title' in data and data['title']:
-            queries.append("(title:(%s)^3 OR title:(%s*))" % (data['title'], data['title']))
+            title = data['title']
+            queries.append("(title:(%s)^3 OR title:(%s*))" % (title, title))
         
         # searching for any text
         if 'text' in data and data['text']:
+            text = data['text']
             queries.append("(title:(%s)^3 OR text:(%s)^3 OR blob:(%s))"\
-                            % (data['text'], data['text'], data['text']))
+                            % (text,text,text))
         # return
         return self.get_results(" AND ".join(queries))
 

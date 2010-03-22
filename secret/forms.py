@@ -94,8 +94,8 @@ class SecretSearchForm(SearchForm):
         
         # searching any text field's (may extend to comments)
         if 'location' in data and data['location']:
-            text = data['location']
-            queries.append("(location:(%s) OR description:(%s))" % (text, text))
+            location = data['location']
+            queries.append("(location:(%s) OR description:(%s))" % (location, location))
         
         # do quick check has all fields (ugly)
         if 'south' in data and data['south'] \
