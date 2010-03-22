@@ -21,11 +21,15 @@
         <!--<a href="/inspire/">Random</a> &nbsp;-->       
     </div>
     <div class="g3 search" style="text-align:right">
+        {% if not show_large_search %}
         <form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="id_" style="display:inline;">
             <input id="top_query" type="text" name="text" class="smallquery"/>
             <input type="hidden" name="usort" id="id_sort" value="popular"/>
             <input type="hidden" name="type" id="id_sort" value="discussions"/>
-        </form>               
+        </form>
+        {% else %}
+        &nbsp;
+        {% endif %}
     </div>
     <div class="clear"></div>
 </div> 

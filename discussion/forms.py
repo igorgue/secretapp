@@ -5,6 +5,7 @@ from utilz.search import SearchForm
 from models import *
 
 SORT_ORDERS = (
+                ('score desc', 'Most Relevant'),
                 ('updated desc', 'Most Active'),
                 ('created desc', 'Most Recent'),
                 ('comments desc', 'Most Posts'),
@@ -12,9 +13,10 @@ SORT_ORDERS = (
                 ('secrets asc', 'Fewest Secrets'),
             )
 
-SORT_MAPPING = {'latest':'updated desc', 'popular':'secrets desc', 'unanswered':"secrets asc" }
+SORT_MAPPING = {'relevance':'score desc', 'latest':'updated desc', 'popular':'secrets desc', 'unanswered':"secrets asc" }
 
 USER_SORT_ORDERS = (
+                ('relevance', 'Most Relevant'),
                 ('latest', 'Latest'),
                 ('popular', 'Popular'),
                 ('unanswered', 'Unanswered'),

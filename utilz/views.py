@@ -58,17 +58,15 @@ def search(request, city):
         req_dict = {'page':1}
     
     CURRENT_QUERY = req_dict.get('text', '')
-    
+    CURRENT_SORT = req_dict.get('usort', 'relevance')
     CURRENT_PAGE = int(req_dict.get('page', 1))
     CURRENT_TYPE = req_dict.get('type', 'secrets')
     CURRENT_LOCATION = req_dict.get('location','')
     NEXT_PAGE = CURRENT_PAGE + 1
     
     if CURRENT_TYPE == "discussions":
-        CURRENT_SORT = req_dict.get('usort', 'latest')
         discussion_form = DiscussionSearchForm(req_dict)
-        available_sorts = discussion_form.get_available_sort_orders()
-               
+        available_sorts = discussion_form.get_available_sort_orders()               
         num_results = 0
         rendered_results = ""
         if discussion_form.is_valid():
@@ -77,13 +75,13 @@ def search(request, city):
                 discussion = Discussion.objects.get(pk=r.pk_field.value)
                 discussion.title = r.fields['title'].highlighting()
                 discussion.text = r.fields['text'].highlighting()
+                discussion.highlighted_body = r.fields['blob'].highlighting()
                 rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': discussion, 'show_image': True }, RequestContext(request))
                 num_results += 1
         
         RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
         
-    else:
-        CURRENT_SORT = req_dict.get('usort', 'relevance')
+    else:        
         secret_form = SecretSearchForm(req_dict)
         available_sorts = secret_form.get_available_sort_orders()
         template = 'secret/render/singular.html'
@@ -91,7 +89,6 @@ def search(request, city):
             secret_form.chosen_template = "photo"
             template = 'secret/render/photo.html'
             photo_browse = True
-        
         num_results = 0
         rendered_results = ""
         if secret_form.is_valid():

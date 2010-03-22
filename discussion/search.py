@@ -8,7 +8,7 @@ class DiscussionDocument(SearchDocument):
     # title / text
     title       = solango.fields.TextField(indexed=True, stored=True)
     text        = solango.fields.TextField(indexed=True, stored=True)
-    blob        = solango.fields.TextField(indexed=True, stored=False)
+    blob        = solango.fields.TextField(indexed=True, stored=True)
     
     # stats
     comments    = solango.fields.IntegerField(indexed=True, stored=True)

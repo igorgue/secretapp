@@ -16,6 +16,8 @@ class Discussion(UserContent):
     comments_per_page = 5
     page = 1
     
+    highlighted_body = ""
+    
     # PAGES
     @property
     def pages(self):

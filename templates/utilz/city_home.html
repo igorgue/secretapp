@@ -10,6 +10,9 @@
 </div>
 <div class="g7">
     <div class="chunk">
+        <div class="float-right">
+            <a href="/discussion/new/" class="button small">Start a new discussion</a>
+        </div>
         <h2 class="caps subtle">Latest Discussions</h2>
         {% for discussion in discussions %}
             {% with "1" as show_image %}
@@ -17,12 +20,15 @@
             {% endwith %}
         {% endfor %}
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=discussions" class="button" style="font-size:14px;">Browse all discussions</a>
+        <a href="{% url search city=CITY %}?type=discussions" class="button small">Browse all discussions</a>
         </div>
     </div>
 </div>
 <div class="g5">
     <div class="chunk">
+        <div class="float-right">
+            <a href="/secret/new/" class="button small">Upload a photo</a>
+        </div>
         <h2 class="caps subtle">Latest Photos</h2>
         <div class="tops">
         {% for photo in photos %}
@@ -30,16 +36,16 @@
         {% endfor %}
         </div>
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=photos" class="button" style="font-size:14px;">Browse all photos</a>
+        <a href="{% url search city=CITY %}?type=photos" class="button small">Browse all photos</a>
         </div>
     </div>    
     <div class="chunk">
-        <h2 class="caps subtle">Latest Secrets</h2>
+        <h2 class="top caps subtle">Latest Secrets</h2>
         {% for secret in secrets %}
             {% include "secret/render/singular.html" %}
         {% endfor %}
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=secrets" class="button" style="font-size:14px;">Browse all secrets</a>
+        <a href="{% url search city=CITY %}?type=secrets" class="button small">Browse all secrets</a>
         </div>
     </div>    
 </div>
