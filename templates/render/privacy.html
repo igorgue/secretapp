@@ -3,12 +3,12 @@
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/info-pages.css" />
 {% endblock %}
 
-	{% block bodytag %}id="terms_page"{% endblock %}
+{% block bodytag %}id="terms_page"{% endblock %}
 
 {% block content %}
 
 <div class="content_line">
-    <div class="menuu">
+	<div class="menuu">
 		<a href="{% url render_template template="about" %}">About</a>
 		<a href="{% url render_template template="team" %}">Team</a>
 		<a href="{% url render_template template="credits" %}">Credits</a>
@@ -17,7 +17,7 @@
 		<a href="{% url render_template template="privacy" %}">Privacy Policy</a>
 		<a href="http://twitter.com/secret_london">Twitter</a>
 	</div>
-	<div class="page_content">
+	<div class="bottom g8 prefix_2 suffix_2" style="font-size: 16px;line-height: 24px;">
 		<h2>Introduction</h2>
 		<p><ol>
 		<li><b>secretcities</b> (“we” or “us”) takes the privacy of your information very seriously. This policy explains how and for what purposes we use the information collected about you via this web site (referred to below as the “Site”). Please read this privacy policy carefully. By using the Site and any services we offer via the Site, you are agreeing to be bound by this policy in respect of the information collected about you via this Site.</li>
