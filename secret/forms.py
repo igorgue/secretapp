@@ -128,7 +128,6 @@ class SecretForm(UserContentForm):
         id = 'secret'
     
     def save(self, request):        
-        import pdb
         is_existing_secret = False
         if self.cleaned_data['secrets']:
             #adding something to an existing secret
@@ -141,7 +140,7 @@ class SecretForm(UserContentForm):
             #adding a brand new secret
             the_secret = super(SecretForm, self).save(request)
             the_secret.save()
-        pdb.set_trace()
+
         if not the_secret is None:           
             if self.cleaned_data['image']:
                 from photo.models import UploadedPhoto
