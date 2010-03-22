@@ -1,7 +1,7 @@
 {% with comment.created_by as u %}
 <div id="comment-{{comment.pk}}" class="comment">
 	<div class="cphoto">
-		<img src="{{ u.profile_image.small }}" alt="{{ u.name }}">
+		<a href="{{u.get_absolute_url}}"><img src="{{ u.profile_image.small }}" alt="{{ u.name }}"></a>
 	</div>
 	<div class="ctext">
 		<div class="float-right">
