@@ -123,12 +123,20 @@
 <div class="g4 top">
     {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
+        <a href="/secret/new/" class="button">Share a secret</a>
+    </div>
+    {% endifequal %}
+    {% ifequal CURRENT_TYPE "discussions" %}
+    <div class="chunk">
+        <a href="/discussion/new/" class="button">Start a new discussion</a>
+    </div>
+    {% endifequal %}
+    {% ifequal CURRENT_TYPE "secrets" %}
+    <div class="chunk">
         <strong style="font-size:16px;">Location</strong> (e.g., Soho, Shoreditch)<br/>
         <input type="text" name="location" value="{{CURRENT_LOCATION}}"/><input class="button small" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
     </div>
     {% endifequal %}
-    
-
     <div class="chunk">
         <ul class="submenu">
             <li>
@@ -141,11 +149,6 @@
             {% endfor %}
         </ul>
     </div>
-    {% ifequal CURRENT_TYPE "discussions" %}
-    <div class="chunk">
-        <a href="/discussion/new/" class="button" style="font-size:12px">Start a new discussion</a>
-    </div>
-    {% endifequal %}
 </div>
 {% endif %}
 <div class="clear"></div>
@@ -165,7 +168,10 @@
     <div class="chunk">
     <h3>Didn't find what you were looking for?</h3>
     <div class="tops">
-        <a href="/discussion/new/" class="button" style="font-size:14px;">Ask Secret {{CITY}}</a>
+        <a href="/discussion/new/" class="button">Ask Secret {{CITY}}</a>
+        {% ifequal CURRENT_TYPE "photos" %}
+            &nbsp;&nbsp;<a href="/secret/new/?t=photo" class="button">Upload a photo</a>
+        {% endifequal %}
     </div>
     </div>
 </div>

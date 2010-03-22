@@ -27,7 +27,7 @@
 <div class="g5">
     <div class="chunk">
         <div class="float-right">
-            <!--<a href="/secret/new/" class="button small">Upload a photo</a>-->
+            <a href="/secret/new/?t=photo" class="button small">Upload a photo</a>
         </div>
         <h2 class="caps subtle">Latest Photos</h2>
         <div class="tops">
@@ -39,8 +39,11 @@
         <a href="{% url search city=CITY %}?type=photos" class="button small">Browse all photos</a>
         </div>
     </div>    
-    <div class="chunk">
-        <h2 class="top caps subtle">Latest Secrets</h2>
+    <div class="chunk" style="padding-top:45px;">
+        <div class="float-right">
+            <a href="/secret/new/" class="button small">Share a secret</a>
+        </div>
+        <h2 class="caps subtle">Latest Secrets</h2>
         {% for secret in secrets %}
             {% include "secret/render/singular.html" %}
         {% endfor %}

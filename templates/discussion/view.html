@@ -1,11 +1,8 @@
 {% extends 'layout/base.html' %}
 
 {% block pagemedia %}
-<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/discussion.css" />
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key={{GOOGLE_MAPS_API}}" type="text/javascript"></script> 
 <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key={{GOOGLE_MAPS_API}}" type="text/javascript"></script>
-<!--<script src="{{MEDIA_URL}}/js/proposal.js" type="text/javascript"></script>-->
-<script src="{{MEDIA_URL}}/js/secret.edit.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
     DISCUSSION_ID = '{{discussion.pk}}';
     $(document).ready(function(){$('#header_discussions').addClass('header-selected'); });
@@ -89,66 +86,18 @@
         </div>
 </div>
 <div class="g8 suffix_1" style="padding-bottom: 150px;">    
-    <form id="response_form" action="/discussion/{{discussion.pk}}/comment/" method="post" class="chunk">
+    <form id="the_form" action="/discussion/{{discussion.pk}}/comment/" method="post" class="chunk">
         <div class="bottoms">
             <h3>{{discussion.title}}</h3>
             <textarea id="id_response_text" name="text" style="width:97%;height:90px;padding: 5px;margin-top:5px;"></textarea>
             <div id="error_message" class="tops" style="color:red;font-weight:bold;"></div>
         </div>
-        <div style="width:350px;float:left">
-            <h4 class="hidden">Mention a secret place</h4>
-            <div id="selected_result" class="hidden isecret">
-                <a href="#" class="float-right reset_selected" style="font-weight:bold;font-size:18px;">X</a>
-                <div class="ctext">            
-                <h3 id="selected_title"></h3>
-                <p id="selected_address"></p>
-                </div>
-                <div class="clear"></div>
-            </div>    		
-            <div id="select_result" class="isecret">            
-                <strong>Mention a secret place</strong><br/>
-                <input type="text" name="title" id="id_title" style="width:95%;font-weight:bold;font-size:16px;line-height:16px;padding: 5px;"/>
-                <div id="results_manual" class="hidden">
-                    <strong>Address</strong><br/>
-                    <input id="id_location" type="text" name="location" maxlength="250" />
-                    <input type="button" value="Finished" id="finished_manual"/> or <a href="#" class="unselect_manual">edit name</a>
-                </div>
-    		</div>
-    		<div id="results_fail" class="tops isecret hidden">
-                <h3><a href="#" class="select_manual">Create new secret place</a></h3>
-                <p class="subtle">If you haven't found what you're looking for</p>                        
-            </div>
-    		<div id="results_success" class="hidden tops" style="padding:5px 0px;">                
-                <div class="">
-                    <h3 class="subtle">Or, did you mean...</h3>
-                </div>
-                <div class="tops bottoms">
-                <div id="existing_suggestions_success" class="hidden">                        
-                    <ul id="existing_suggestions" class="suggestion"></ul>
-                </div>               
-                <div id="google_suggestions_success" class="hidden">
-                    <ul id="google_suggestions" class="suggestion"></ul>
-                </div>
-                </div>                
-            </div>
-		</div>
-		<div class="buttons text-right" style="float:right;width: 175px;">
-			<input id="post_response" type="submit" name="sub_share" value="Post" class="button" style="font-size:16px;">
-			<!--<input type="button" name="sub_cancel" value="CANCEL" class="pink_button cancel">-->
-			<br class="clear_left" />
-		</div>
-		<div class="clear"></div>
-		<div id="google_map" style="display:none;width:340px;height:170px;"></div>
-		<div class="hidden">    		
-            <div id="google_suggestions_fail" class="hidden">&nbsp;</div>
-            <div id="existing_suggestions_fail" class="hidden">&nbsp;</div>
-            <input id="id_secret_id" type="text" name="secrets" maxlength="250" />            
-            <input id="id_google_reff" type="text" name="google_reff" maxlength="250" /><br/>
-            <input type="text" name="latitude" id="id_latitude" /><br/>
-            <input type="text" name="longitude" id="id_longitude" /><br/>
+        {% include "render/attach_secret.html" %}
+        <div class="buttons text-right" style="float:right;width: 175px;">
+        	<input id="submit_the_form" type="submit" name="sub_share" value="Post" class="button" style="font-size:16px;">
         </div>
-	</form>
-	
+        <div class="clear"></div>
+	</form>	
 </div> 
 {% else %}
 <div class="chunk center">

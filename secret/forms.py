@@ -120,10 +120,43 @@ class SecretSearchForm(SearchForm):
 class SecretForm(UserContentForm):
     title = forms.CharField(label="Secret")
     url = forms.URLField(label="Website", required=False)
+    secrets = forms.IntegerField(required=False)
+    image = forms.ImageField(required=False)
     class Meta:
         model = Secret
         fields = ('title', 'location', 'latitude', 'longitude', 'description', 'url', 'google_reff')
         id = 'secret'
+    
+    def save(self, request):        
+        if self.cleaned_data['secrets']:
+            #adding something to an existing secret
+            try:
+                the_secret = Secret.viewable.get(pk=self.cleaned_data['secrets'])
+                from comment.models import SecretComment
+                if self.cleaned_data['description']:
+                    new_comment = SecretComment(secret=the_secret, created_by=request.user)
+                    new_comment.text = self.cleaned_data['description']
+                    new_comment.save()
+            except:
+                the_secret = None            
+        else:        
+            #adding a brand new secret
+            the_secret = super(SecretForm, self).save(request)
+            the_secret.save()
+        
+        if not the_secret is None:           
+            if self.cleaned_data['image']:
+                from photo.models import UploadedPhoto
+                new_photo = UploadedPhoto(secret=the_secret)
+                new_photo.caption = self.cleaned_data['description']
+                new_photo.save()
+                try:
+                    new_photo.save_files(self.cleaned_data['image'])
+                except:
+                    # If save fails, delete image
+                    new_photo.deleted = True
+                    new_photo.save()            
+        return the_secret
     
     def set_url(self, secret=None):
         # handling data input

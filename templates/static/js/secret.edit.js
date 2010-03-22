@@ -373,7 +373,7 @@ $(document).ready(function(){
         return do_manual();
     });    
     
-    $('#post_response').click(function(){
+    $('#submit_the_form').click(function(){
         error_message.html("");
         if($("#id_response_text").val() == "")
         {
