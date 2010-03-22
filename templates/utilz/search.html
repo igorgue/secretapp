@@ -127,7 +127,7 @@
     </div>
     {% endifequal %}
     
-    {% ifequal CURRENT_TYPE "discussions" %}
+
     <div class="chunk">
         <ul class="submenu">
             <li>
@@ -140,6 +140,7 @@
             {% endfor %}
         </ul>
     </div>
+    {% ifequal CURRENT_TYPE "discussions" %}
     <div class="chunk">
         <a href="/discussion/new/" class="button" style="font-size:12px">Start a new discussion</a>
     </div>

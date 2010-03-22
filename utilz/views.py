@@ -58,13 +58,14 @@ def search(request, city):
         req_dict = {'page':1}
     
     CURRENT_QUERY = req_dict.get('text', '')
-    CURRENT_SORT = req_dict.get('usort', 'latest')
+    
     CURRENT_PAGE = int(req_dict.get('page', 1))
     CURRENT_TYPE = req_dict.get('type', 'secrets')
     CURRENT_LOCATION = req_dict.get('location','')
     NEXT_PAGE = CURRENT_PAGE + 1
     
     if CURRENT_TYPE == "discussions":
+        CURRENT_SORT = req_dict.get('usort', 'latest')
         discussion_form = DiscussionSearchForm(req_dict)
         available_sorts = discussion_form.get_available_sort_orders()
                
@@ -79,6 +80,7 @@ def search(request, city):
         RESULTS_PER_PAGE = discussion_form.Meta.results_per_page
         
     else:
+        CURRENT_SORT = req_dict.get('usort', 'relevance')
         secret_form = SecretSearchForm(req_dict)
         available_sorts = secret_form.get_available_sort_orders()
         template = 'secret/render/singular.html'

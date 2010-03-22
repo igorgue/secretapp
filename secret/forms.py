@@ -23,7 +23,7 @@ SORT_MAPPING = {'relevance':'score desc', 'latest':'created desc', 'popular':'co
 
   
 USER_SORT_ORDER = (
-                ('relevance', 'Relevance'),
+                ('relevance', 'Most Relevant'),
                 ('latest', 'Latest'),
                 #('popular', 'Popular'),
                 #('undiscovered', 'Undiscovered'),
