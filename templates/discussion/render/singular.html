@@ -6,8 +6,8 @@
             <a href="{{created_by_user.get_absolute_url}}"><img src="{{created_by_user.profile_image.small}}"/></a>
         </div>
     {% endif %}
-    <h2 class="discussion_title"><a href="{{discussion.get_absolute_url}}" class="dohighlight">{{discussion.title}}</a></h2>
-    <p class="dohighlight">{{discussion.text|truncatewords:50}}</p> 
+    <h2 class="discussion_title"><a href="{{discussion.get_absolute_url}}" class="dohighlight">{{discussion.title|safe}}</a></h2>
+    <p class="dohighlight">{{discussion.text|safe|truncatewords:50}}</p> 
     <p>
     <strong>{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}} in {{discussion.comment_count}} posts</strong> &nbsp;
     <span class="subtle">

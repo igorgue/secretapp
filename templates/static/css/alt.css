@@ -308,8 +308,9 @@ ul.suggestion { list-style: none; font-size: 16px; line-height: 22px; margin: 0p
 
 /* Helpers */
 
-span.highlight { 
+.dohighlight em { 
     background-color: #FFFFAA;
+    font-style: normal;
 }
 
 div.paged {

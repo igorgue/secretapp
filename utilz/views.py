@@ -73,8 +73,11 @@ def search(request, city):
         rendered_results = ""
         if discussion_form.is_valid():
             discussion_results = discussion_form.save()      
-            for r in discussion_results.documents:                
-                rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': Discussion.objects.get(pk=r.pk_field.value), 'show_image': True }, RequestContext(request))
+            for r in discussion_results.documents:   
+                discussion = Discussion.objects.get(pk=r.pk_field.value)
+                discussion.title = r.fields['title'].highlighting()
+                discussion.text = r.fields['text'].highlighting()
+                rendered_results += render_to_string('discussion/render/singular.html', { 'discussion': discussion, 'show_image': True }, RequestContext(request))
                 num_results += 1
         
         RESULTS_PER_PAGE = discussion_form.Meta.results_per_page

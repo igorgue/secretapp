@@ -5,8 +5,8 @@
 {% block content %}
     <div class="g4">
         <div class="chunk">
-            <img src="{{profile.profile_image.big}}" />
-            <h1>{{profile.first_name}} {{profile.last_name}}</h1>
+            <img src="{{profile.profile_image.big}}"  alt="{{profile.name}}"/>
+            <h1>{{profile.name}}</h1>
             <p>Joined {{profile.get_time_since_joined}}</p>
             {% with profile.get_facebook.url as facebook_url %}
             {% if facebook_url %}<p><a href="{{facebook_url}}">Facebook profile</a></p>{% endif %}
