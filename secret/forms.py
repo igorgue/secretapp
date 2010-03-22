@@ -128,26 +128,24 @@ class SecretForm(UserContentForm):
         id = 'secret'
     
     def save(self, request):        
+        import pdb
+        is_existing_secret = False
         if self.cleaned_data['secrets']:
             #adding something to an existing secret
             try:
                 the_secret = Secret.viewable.get(pk=self.cleaned_data['secrets'])
-                from comment.models import SecretComment
-                if self.cleaned_data['description']:
-                    new_comment = SecretComment(secret=the_secret, created_by=request.user)
-                    new_comment.text = self.cleaned_data['description']
-                    new_comment.save()
             except:
-                the_secret = None            
+                the_secret = None   
+            is_existing_secret = True
         else:        
             #adding a brand new secret
             the_secret = super(SecretForm, self).save(request)
             the_secret.save()
-        
+        pdb.set_trace()
         if not the_secret is None:           
             if self.cleaned_data['image']:
                 from photo.models import UploadedPhoto
-                new_photo = UploadedPhoto(secret=the_secret)
+                new_photo = UploadedPhoto(secret=the_secret, created_by=request.user)
                 new_photo.caption = self.cleaned_data['description']
                 new_photo.save()
                 try:
@@ -155,7 +153,12 @@ class SecretForm(UserContentForm):
                 except:
                     # If save fails, delete image
                     new_photo.deleted = True
-                    new_photo.save()            
+                    new_photo.save()
+            elif self.cleaned_data['description'] and is_existing_secret:
+                from comment.models import SecretComment
+                new_comment = SecretComment(secret=the_secret, created_by=request.user)
+                new_comment.text = self.cleaned_data['description']
+                new_comment.save()           
         return the_secret
     
     def set_url(self, secret=None):
