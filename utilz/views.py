@@ -94,7 +94,10 @@ def search(request, city):
         if secret_form.is_valid():
             secret_results = secret_form.save()      
             for r in secret_results.documents:
-                rendered_results += render_to_string(template, { 'secret': Secret.objects.get(pk=r.pk_field.value) }, RequestContext(request))
+                secret = Secret.objects.get(pk=r.pk_field.value)
+                secret.title = r.fields['title'].highlighting()
+                secret.location = r.fields['location'].highlighting()
+                rendered_results += render_to_string(template, { 'secret': secret }, RequestContext(request))
                 num_results += 1
         
         RESULTS_PER_PAGE = secret_form.Meta.results_per_page
