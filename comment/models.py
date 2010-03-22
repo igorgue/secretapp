@@ -94,7 +94,7 @@ class Proposal(models.Model):
         return ProposalComment.viewable.filter(proposal=self).count()
     
     def comment_form(self):
-        from forms import *
+        from forms import ProposalCommentForm
         return ProposalCommentForm().set_url(self)
 
 
