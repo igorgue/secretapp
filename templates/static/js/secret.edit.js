@@ -421,7 +421,6 @@ $(document).ready(function(){
         results_success.hide();
         results_fail.hide();
         has_finished_looking = true;
-        alert(existing_secret_id.val());
         
         control.getAddress();
         

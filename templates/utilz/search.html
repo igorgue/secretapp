@@ -124,7 +124,9 @@
     {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
         <a href="/secret/new/" class="button">Share a secret</a>
+        <div class="tops">
         <a href="/secret/new/?t=photo" class="button">Upload a photo</a>
+        </div>
     </div>
     {% endifequal %}
     {% ifequal CURRENT_TYPE "discussions" %}
