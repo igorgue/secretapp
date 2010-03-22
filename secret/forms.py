@@ -14,14 +14,16 @@ SECRET_RENDER_TEMPLATES = ('list', 'photo', 'location')
 SECRET_RENDER_FOLDER = 'secret/render/%s.html'
 
 SORT_ORDER = (
+                ('score desc', 'Most Relevant'),
                 ('created desc', 'Newest'),
                 ('created asc', 'Oldest')
             )
 
-SORT_MAPPING = {'latest':'created desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
+SORT_MAPPING = {'relevance':'score desc', 'latest':'created desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
 
-         
+  
 USER_SORT_ORDER = (
+                ('relevance', 'Relevance'),
                 ('latest', 'Latest'),
                 #('popular', 'Popular'),
                 #('undiscovered', 'Undiscovered'),
