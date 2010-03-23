@@ -2,7 +2,7 @@
     function reload_page(){window.location='{{request.path}}';}
     FB.ensureInit(function() { 
         {% if secret.primary_photo %}
-        var media = [{'type':'image','src':'{{secret.primary_photo.thumb.url}}','href':'http://secretcities.com{{secret.get_absolute_url}}'}];
+        var media = [{'type':'image','src':'{% if secret.primary_photo %}{{secret.primary_photo.thumb.url}}{% else %}http://media.secretcities.com/images/icon.png{% endif %}','href':'http://secretcities.com{{secret.get_absolute_url}}'}];
         {% else %}
         var media = null;
         {% endif %}
