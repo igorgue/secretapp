@@ -154,7 +154,7 @@ class SecretForm(UserContentForm):
                     new_photo.deleted = True
                     new_photo.save()
                 new_secret.save()
-            elif self.cleaned_data['description'] and is_existing_secret:
+            elif self.cleaned_data['description']:
                 from comment.models import SecretComment
                 new_comment = SecretComment(secret=the_secret, created_by=request.user)
                 new_comment.text = self.cleaned_data['description']
