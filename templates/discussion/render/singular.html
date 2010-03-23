@@ -16,7 +16,7 @@
     <strong>{{discussion.proposal_count}} secret{{discussion.proposal_count|pluralize}} in {{discussion.comment_count}} posts</strong> &nbsp;
     <span class="subtle">
     Latest {{discussion.get_time_since_updated}} &nbsp; 
-    Posted by <a href="{{created_by_user.get_absolute_url}}">{{created_by_user.name}}</a></span>
+    Started by <a href="{{created_by_user.get_absolute_url}}">{{created_by_user.name}}</a></span>
     </p>
 </div>
 {% endwith %}
