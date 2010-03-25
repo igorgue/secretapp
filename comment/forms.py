@@ -35,7 +35,7 @@ class ProposalCommentForm(UserContentForm):
 
 
 class DiscussionCommentForm(UserContentForm):
-    text = forms.CharField(widget=forms.Textarea)
+    text = forms.CharField(widget=forms.Textarea, required=False)
     secrets = forms.CharField(required=False, help_text="Comma seperated list of secret ids. e.g. 1,5,8,9 ")    
     title = forms.CharField(required=False)
     location = forms.CharField(required=False)
@@ -83,7 +83,7 @@ class DiscussionCommentForm(UserContentForm):
                 latitude = self.cleaned_data['latitude']
                 longitude = self.cleaned_data['longitude']
                 google_reff = self.cleaned_data['google_reff']
-                new_secret = Secret(title=title, location=location, latitude=self.cleaned_data['latitude'], longitude=self.cleaned_data['longitude'], google_reff=self.cleaned_data['google_reff'], created_by=request.user)
+                new_secret = Secret(title=title, location=location, latitude=latitude, longitude=longitude, google_reff=google_reff, created_by=request.user)
                 new_secret.save()
                 p = Proposal()
                 p.secret = new_secret

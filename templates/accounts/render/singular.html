@@ -1,6 +1,6 @@
 <div id="profile_{{profile.pk}}" class="profile float-left" style="width: 20%;" >
-    <img src="{{profile.profile_image.medium}}"/>
+    <a href="{{profile.get_absolute_url}}"><img src="{{profile.profile_image.medium}}"/></a>
     <div class="tops">
-    <h3>{{profile.first_name}} {{profile.last_name}}</h3>
+    <h3><a href="{{profile.get_absolute_url}}">{{profile.name}}</a></h3>
     </div>
 </div>

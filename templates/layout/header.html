@@ -6,13 +6,13 @@
     {% if user.is_anonymous %}
         {% include 'accounts/fb_button.html' %}
     {% else %}
-        <a href="{% url edit_profile %}" id="header_account" class="header rtop rbot">My Account</a>
-        <a href="{% url logout %}">Log out</a>
+        <a href="{% url edit_profile %}" id="header_account" class="acct header rtop rbot">My Account</a>
+        <a href="{% url logout %}" class="acct">Log out</a>
     {% endif %}
 </div>
 <div id="header">
     <div class="g3 logo">
-        <a href="{% url home city=CITY %}"><img src="{{MEDIA_URL}}/images/logo.png" width="180"/></a>            
+        <a href="{% url home city=CITY %}"><img src="{{MEDIA_URL}}/images/logo.png" width="195"/></a>
     </div>
     <div class="g6 links">        
         <a href="/{{CITY}}/search/?type=discussions" id="header_discussions" class="header rtop rbot">Discussions</a>
@@ -21,10 +21,15 @@
         <!--<a href="/inspire/">Random</a> &nbsp;-->       
     </div>
     <div class="g3 search" style="text-align:right">
+        {% if not show_large_search %}
         <form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="id_" style="display:inline;">
-            <input id="top_query" type="text" name="title" class="smallquery"/>
+            <input id="top_query" type="text" name="text" class="smallquery"/>
             <input type="hidden" name="usort" id="id_sort" value="popular"/>
-        </form>               
+            <input type="hidden" name="type" id="id_sort" value="discussions"/>
+        </form>
+        {% else %}
+        &nbsp;
+        {% endif %}
     </div>
     <div class="clear"></div>
 </div> 

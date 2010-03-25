@@ -5,6 +5,7 @@ from utilz.search import SearchForm
 from models import *
 
 SORT_ORDERS = (
+                ('score desc', 'Most Relevant'),
                 ('updated desc', 'Most Active'),
                 ('created desc', 'Most Recent'),
                 ('comments desc', 'Most Posts'),
@@ -12,12 +13,13 @@ SORT_ORDERS = (
                 ('secrets asc', 'Fewest Secrets'),
             )
 
-SORT_MAPPING = {'latest':'updated desc', 'popular':'secrets desc', 'undiscovered':"secrets asc" }
+SORT_MAPPING = {'relevance':'score desc', 'latest':'updated desc', 'popular':'secrets desc', 'unanswered':"secrets asc" }
 
 USER_SORT_ORDERS = (
+                ('relevance', 'Most Relevant'),
                 ('latest', 'Latest'),
                 ('popular', 'Popular'),
-                ('undiscovered', 'Undiscovered'),
+                ('unanswered', 'Unanswered'),
             )
 
 class DiscussionSearchForm(SearchForm):
@@ -34,8 +36,7 @@ class DiscussionSearchForm(SearchForm):
         url_name = 'search_discussions'
         results_per_page = 10
         default_sort = SORT_ORDERS[0][0]
-        cheeky = False
-    
+        cheeky = False    
     
     def clean_sort(self):
         data = self.cleaned_data['sort']
@@ -43,22 +44,30 @@ class DiscussionSearchForm(SearchForm):
             usort = self.data['usort']
             if usort in SORT_MAPPING:
                 data = SORT_MAPPING[usort]
+            else:
+                data = self.Meta.default_sort
 
         return data
     
+    def get_available_sort_orders(self):
+        return USER_SORT_ORDERS
+    
     def save(self):
+        import re
         # build vars
         data = self.cleaned_data
         queries = [self.base_query]
         
         # searching only the title field
         if 'title' in data and data['title']:
-            queries.append("(title:(%s)^3 OR title:(%s*))" % (data['title'], data['title']))
+            title = data['title']
+            queries.append("(title:(%s)^3 OR title:(%s*))" % (title, title))
         
         # searching for any text
         if 'text' in data and data['text']:
-            queries.append("(title:(%s)^10 OR text:(%s)^3 OR blob:(%s))"\
-                            % (data['text'], data['text'], data['text']))
+            text = data['text']
+            queries.append("(title:(%s)^3 OR text:(%s)^3 OR blob:(%s))"\
+                            % (text,text,text))
         # return
         return self.get_results(" AND ".join(queries))
 

@@ -15,6 +15,7 @@ input, textarea {
 
 h1, h2, h3 {
      line-height: 1.2em;
+     padding-bottom: 10px;
 }
 
 h1 {
@@ -136,6 +137,9 @@ p {
      margin: 0;
 }
 
+a.acct {
+    color: #e65371;
+}
 
 /* Menu */
 
@@ -181,11 +185,11 @@ p {
 }
 
 .secret {
-    padding: 15px 0px;
+    padding: 10px 0px;
 }
 
 .proposal {
-    padding: 15px 0px;
+    padding: 10px 0px;
 }
 
 /* Inline Secrets */
@@ -244,13 +248,17 @@ p {
 /* Main Search */
 
 #main_search {
-     font-size: 24px;
+     
 }
 
 #main_search input.searchquery {
      font-size: 20px;
      padding: 6px;
      width: 320px;
+}
+
+.searchsection{
+    font-size: 24px;
 }
 
 
@@ -261,12 +269,12 @@ p {
 .bottom { padding-bottom:20px; }
 .left { padding-left:20px; }
 .right { padding-right:20px; }
-
+.pad { padding:20px; }
 .tops { padding-top:10px; }
 .bottoms { padding-bottom:10px; }
 .lefts { padding-left:10px; }
 .rights { padding-right:10px; }
-
+.pads { padding: 10px; }
 .chunk { margin:20px; }
 
 .blk { background: transparent url('../images/grey-0.9.png') repeat scroll top left; }
@@ -296,12 +304,13 @@ ul.submenu { list-style: none; font-size: 16px; line-height: 24px; padding: 0px;
 ul.suggestion { list-style: none; font-size: 16px; line-height: 22px; margin: 0px; padding: 0px;}
 
 .header { padding: 4px 8px; }
-.header-selected { background-color: #ed1849; }
+.header-selected { background-color: #333; }
 
 /* Helpers */
 
-span.highlight { 
+.dohighlight em { 
     background-color: #FFFFAA;
+    font-style: normal;
 }
 
 div.paged {
@@ -367,7 +376,7 @@ a.button {
     color: #FFFFFF !important;
     cursor: pointer;
     display: inline-block;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     outline-color: -moz-use-text-color;
     outline-style: none;
@@ -388,6 +397,16 @@ a.button {
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+input.button.small,
+.button.small input,
+a.button.small {
+    font-size: 12px;
+    padding: 3px 8px;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius:4px;
 }
 
 input.button.large,

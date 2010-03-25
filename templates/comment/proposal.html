@@ -1,20 +1,32 @@
 {% with proposal.secret as secret %}
 <div id="proposal-{{proposal.id}}" class="tops">
     <div class="isecret">
+    <div class="float-left rights">
+        {% with "50" as photo_width %}
+            {% include "photo/render/secret_photo.html" %}
+        {% endwith %}
+    </div>
+    <div style="padding-top:5px;">
     <h3><a href="{{secret.get_absolute_url}}" class="dohighlight">{{secret.title}}</a></h3>
     <p class="dohighlight">{{secret.location}}</p> 
+    </div>
+    <div class="clear"></div>
     </div>    
     <div class="comment">        
+        {% if request.user.is_authenticated %}
         {% ifequal user.id proposal.discussion_comment.created_by.id %}        
         {% else %}
         <form id="agree_{{proposal.pk}}" method="POST" action="{{proposal.get_agree_url}}" style="display:inline">
         <a href="#" onclick="$('#agree_{{proposal.pk}}').submit();return false;" class="bold">I agree</a>&nbsp;
     	</form>
     	{% endifequal %}
+    	{% else %}
+        <a href="{% url login %}">Log in</a> to agree &nbsp;
+    	{% endif %}
     	{% with proposal.agreement_count as agreement_count %}
-         ({{agreement_count}} {{agreement_count|pluralize:"person,people"}} agree{{agreement_count|pluralize:"s,"}})
+         {{agreement_count}} {{agreement_count|pluralize:"person,people"}} agree{{agreement_count|pluralize:"s,"}}
         {% endwith %}
-    	&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;
     	<a href="{{secret.get_absolute_url}}#add-photo" class="bold">Add a photo</a>
 	</div>	
 	{% with proposal.comments as comments %}

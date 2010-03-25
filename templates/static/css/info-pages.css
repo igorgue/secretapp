@@ -8,8 +8,11 @@ ul.info-links li a {text-transform:none; font-size:1.2em; font-weight: 400; padd
 
 div.left_sidebar {padding:20px; width:120px;}
 
-.page_content {padding:0px 20px 200px 20px; width:740px;}
-div.page_content p {padding:0px; width:700px;}
+.page_content {padding:0px 20px 200px 20px;}
+div.page_content p {padding:0px; }
+
+#body { background-color: #fff;}
+
 
 
 #about_page .page_content {padding-bottom:400px; background:white url('../images/illustrations/FlowersLarge4-about.jpg') no-repeat bottom left;}
@@ -27,7 +30,7 @@ div.page_content p {padding:0px; width:700px;}
 #team_page .page_content p { padding: 0 30px; }
 #team_page #image_holder {display: block; background: url('../images/crew_colored.jpg') 0 0 no-repeat; width: 780px; height: 582px;}
 
-#about_page .page_content p {font-size: 1.6em; margin: 5px 0;}
+#about_page .page_content p {font-size: 1.6em; line-height: 1.7em; margin: 5px 0;}
 #about_page .page_content {padding-bottom: 450px;}
 #about_page .page_content a:link, #about_page .page_content a:visited, #about_page .page_content a:hover {color: #ed1849;}
 #about_page .top_content p {font-size: 2em; padding-top: 0px; margin-top: 0;}
@@ -81,3 +84,5 @@ div.page_content p {padding:0px; width:700px;}
 .filler13 { width: 600px; }
 .filler14 { width: 650px; }
 .filler15 { width: 700px; }
+.menuu { padding:20px;  padding-bottom: 35px; text-align: center; }
+.menuu a { font-size: 16px; padding: 0px 10px;}

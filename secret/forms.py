@@ -14,19 +14,19 @@ SECRET_RENDER_TEMPLATES = ('list', 'photo', 'location')
 SECRET_RENDER_FOLDER = 'secret/render/%s.html'
 
 SORT_ORDER = (
+                ('score desc', 'Most Relevant'),
                 ('created desc', 'Newest'),
-                ('created asc', 'Oldest'),
-                ('comments desc', 'Most Popular'),
-                ('comments asc', 'Least Popular'),
+                ('created asc', 'Oldest')
             )
 
-SORT_MAPPING = {'latest':'updated desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
+SORT_MAPPING = {'relevance':'score desc', 'latest':'created desc', 'popular':'comments desc', 'undiscovered':"comments asc" }
 
-         
+  
 USER_SORT_ORDER = (
+                ('relevance', 'Most Relevant'),
                 ('latest', 'Latest'),
-                ('popular', 'Popular'),
-                ('undiscovered', 'Undiscovered'),
+                #('popular', 'Popular'),
+                #('undiscovered', 'Undiscovered'),
             )
             
 class SecretSearchForm(SearchForm):
@@ -63,7 +63,8 @@ class SecretSearchForm(SearchForm):
             usort = self.data['usort']
             if usort in SORT_MAPPING:
                 data = SORT_MAPPING[usort]
-
+            else:
+                data = self.Meta.default_sort
         return data
     
     def template_url(self, template):
@@ -72,6 +73,9 @@ class SecretSearchForm(SearchForm):
         q['template'] = template
         return "?%s" % q.urlencode()
     
+    def get_available_sort_orders(self):
+        return USER_SORT_ORDER
+        
     def save(self):
         # build vars
         data = self.cleaned_data
@@ -80,14 +84,20 @@ class SecretSearchForm(SearchForm):
         # searching only the title field
         if 'title' in data and data['title']:
             # Turns "Cemetery in soh" -> "+(Cemetery Cemetery*) +(in in*) +(soh soh*)"
-            plus_title = ' '.join(['+(%s* %s)' % (x, x) for x in data['title'].split(' ')])
-            queries.append("(title:(%s))" % plus_title)
+            #plus_title = ' '.join(['+(%s* %s)' % (x, x) for x in data['title'].split(' ')])
+            #queries.append("(title:(%s))" % plus_title)
+            queries.append("(title:(%s))" % data['title'])
         
         # searching any text field's (may extend to comments)
         if 'text' in data and data['text']:
             text = data['text']
             queries.append("(title:(%s)^2 OR location:(%s) OR description:(%s))"\
                                                                 % (text, text, text))
+        
+        # searching any text field's (may extend to comments)
+        if 'location' in data and data['location']:
+            location = data['location']
+            queries.append("(location:(%s) OR description:(%s))" % (location, location))
         
         # do quick check has all fields (ugly)
         if 'south' in data and data['south'] \
@@ -100,6 +110,7 @@ class SecretSearchForm(SearchForm):
         # if on photo view, only show secrets with photos
         if hasattr(self, 'chosen_template') and self.chosen_template == 'photo':
             queries.append("(photocount:[1 TO *])")
+            self.Meta.results_per_page = 24
         
         # return
         return self.get_results(" AND ".join(queries))
@@ -109,10 +120,45 @@ class SecretSearchForm(SearchForm):
 class SecretForm(UserContentForm):
     title = forms.CharField(label="Secret")
     url = forms.URLField(label="Website", required=False)
+    secrets = forms.IntegerField(required=False)
+    image = forms.ImageField(required=False)
     class Meta:
         model = Secret
         fields = ('title', 'location', 'latitude', 'longitude', 'description', 'url', 'google_reff')
         id = 'secret'
+    
+    def save(self, request):        
+        is_existing_secret = False
+        if self.cleaned_data['secrets']:
+            #adding something to an existing secret
+            try:
+                the_secret = Secret.viewable.get(pk=self.cleaned_data['secrets'])
+            except:
+                the_secret = None   
+            is_existing_secret = True
+        else:        
+            #adding a brand new secret
+            the_secret = super(SecretForm, self).save(request)
+            the_secret.save()
+
+        if not the_secret is None:           
+            if self.cleaned_data['image']:
+                from photo.models import UploadedPhoto
+                new_photo = UploadedPhoto(secret=the_secret, created_by=request.user)
+                new_photo.caption = self.cleaned_data['description']
+                new_photo.save()
+                try:
+                    new_photo.save_files(self.cleaned_data['image'])
+                except:
+                    # If save fails, delete image
+                    new_photo.deleted = True
+                    new_photo.save()
+            elif self.cleaned_data['description'] and is_existing_secret:
+                from comment.models import SecretComment
+                new_comment = SecretComment(secret=the_secret, created_by=request.user)
+                new_comment.text = self.cleaned_data['description']
+                new_comment.save()           
+        return the_secret
     
     def set_url(self, secret=None):
         # handling data input

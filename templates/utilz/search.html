@@ -3,12 +3,14 @@
 {% block pagemedia %}
 <script type="text/javascript" src="{{MEDIA_URL}}/js/jquery.scrollto-min.js"></script>
 <script type="text/javascript" charset="utf-8">
-    SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
-    QUERY = "{{CURRENT_QUERY}}";
-    SORT = "{{CURRENT_SORT}}";
-    NEXT_PAGE = {{NEXT_PAGE}};   
+    var DEFAULT_TEXT = "Search...";
+    var SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
+    var QUERY = "{{CURRENT_QUERY}}";
+    var SORT = "{{CURRENT_SORT}}";
+    var NEXT_PAGE = {{NEXT_PAGE}};   
     
     function do_highlight(){ 
+        return false;
         if(SEARCH_PERFORMED){
             var area = $('.dohighlight');
             area.removeHighlight()
@@ -18,6 +20,7 @@
     function load_more_results()
     {
         swap("#do_load","#loading");
+        if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
         $.post(
             '/{{CITY}}/search/',
             $('#main_search').serialize(),
@@ -66,7 +69,7 @@
         );
         do_highlight();
         $("#load_next").click(function(){return load_more_results();})
-        var DEFAULT_TEXT = "Search...";
+        
         $("#query-input").defaultText(DEFAULT_TEXT);
         $("#main_search").submit(function() { 
             if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
@@ -77,73 +80,89 @@
 {% endblock %}
 
 {% block content %}
+<form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="main_search">
 <div id="top" class="g12 blk rtop">
-<div class="center bottom top">
-    <form action="/{{CITY}}/search/" method="GET"  accept-charset="utf-8" id="main_search">
+<div class="center bottom top searchsection">    
         <input id="page-input" type="hidden" name="page" value="{{NEXT_PAGE}}"/>
         <input id="page-input" type="hidden" name="usort" value="{{CURRENT_SORT}}"/>
         <input id="page-input" type="hidden" name="type" value="{{CURRENT_TYPE}}"/>
-        <input id="query-input" type="text" value="{{CURRENT_QUERY}}" name="title" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
-        <!--<div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?title=museum">museum</a> &nbsp;&nbsp; <a href="?title=east end">East End</a> &nbsp;&nbsp; <a href="?title=best pizza in london&type=discussions">Best restaurants in London?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>-->
-    </form>
+        <input id="query-input" type="text" value="{{CURRENT_QUERY}}" name="text" class="searchquery"/>&nbsp;<input class="button" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
+        <div style="font-size:12px;padding-top:5px;" class="subtle"> <a href="?text=afternoon tea">afternoon tea</a> &nbsp;&nbsp; <a href="?text=%22days%20out%22&type=discussions&usort=popular">days out</a> &nbsp;&nbsp; <a href="?text=vegetarian&type=discussions&usort=popular">vegetarian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
 </div>
 </div>
 <div class="clear"></div>
 <div class="g12 center blk rbot">
     <ul class="tabs">
     <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=discussions" class="rtop menubar{% ifequal CURRENT_TYPE 'discussions' %}-selected{% endifequal %}">discussions</a>
+        <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type=discussions" class="rtop menubar{% ifequal CURRENT_TYPE 'discussions' %}-selected{% endifequal %}">discussions</a>
     </li>
     <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=secrets" class="rtop menubar{% ifequal CURRENT_TYPE 'secrets' %}-selected{% endifequal %}">secret places</a>
+        <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type=secrets" class="rtop menubar{% ifequal CURRENT_TYPE 'secrets' %}-selected{% endifequal %}">secret places</a>
     </li>
     <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type=photos" class="rtop menubar{% ifequal CURRENT_TYPE 'photos' %}-selected{% endifequal %}">photos</a>
+        <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&type=photos" class="rtop menubar{% ifequal CURRENT_TYPE 'photos' %}-selected{% endifequal %}">photos</a>
     </li>
     </ul>
     <div class="clear"></div>
-    <!--<h2 class="subtle caps">Showing {{CURRENT_TYPE}} {% if CURRENT_QUERY %}matching <span class="highlight">{{CURRENT_QUERY}}</span>{% endif %} sorted by {{CURRENT_SORT}} </h2>-->
 </div>
-{% if num_results %}
-<div class="g8">    
-    <div id="results" class="chunk">        
-        {{rendered_results|safe}}
+
+<div class="{% if photo_browse %}g12{% else %}g8{% endif %}">    
+    <div id="results" class="chunk {% if photo_browse %}center{% endif %}">        
+        {% if num_results %}
+            {{rendered_results|safe}}
+        {% else %}
+            <div style="padding:40px 0px;" class="center">        
+                <h3 class="">No {{CURRENT_TYPE}} found</h3>
+            </div>
+        {% endif %}
     </div>
     <div class="clear"></div>
 </div>  
-<div class="g4">
+{% if not photo_browse %}
+<div class="g4 top">
+    {% ifequal CURRENT_TYPE "secrets" %}
     <div class="chunk">
-    <ul class="submenu">
-        <li>
-        <b class="">Sort by</b>
-    </li>
-    <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=latest" class="submenubar{% ifequal CURRENT_SORT 'latest' %}-selected{% endifequal %}">latest</a>
-    </li>
-    <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=popular" class="submenubar{% ifequal CURRENT_SORT 'popular' %}-selected{% endifequal %}">popularity</a>
-    </li>
-    <li>
-        <a href="/{{CITY}}/search/?title={{CURRENT_QUERY}}&type={{CURRENT_TYPE}}&usort=undiscovered" class="submenubar{% ifequal CURRENT_SORT 'undiscovered' %}-selected{% endifequal %}">undiscovered</a>
-    </li>
-    </ul>
-    </div>
-</div>
-<div class="clear"></div>
-{% if HAS_MORE_RESULTS %}
-<div class="g12 center">
-    <div class="chunk">
-        <div id="do_load" class="">
-            <a id="load_next" href="#" class="button">Load more results</a>        
+        <a href="/secret/new/" class="button">Share a secret</a>
+        <div class="tops">
+        <a href="/secret/new/?t=photo" class="button">Upload a photo</a>
         </div>
-        <img id="loading" src="{{MEDIA_URL}}/images/loading.gif" class="hidden"/>
+    </div>
+    {% endifequal %}
+    {% ifequal CURRENT_TYPE "discussions" %}
+    <div class="chunk">
+        <a href="/discussion/new/" class="button">Start a new discussion</a>
+    </div>
+    {% endifequal %}
+    {% ifequal CURRENT_TYPE "secrets" %}
+    <div class="chunk">
+        <strong style="font-size:16px;">Location</strong> (e.g., Soho, Shoreditch)<br/>
+        <input type="text" name="location" value="{{CURRENT_LOCATION}}"/><input class="button small" type="submit" value="GO" onclick="$('#page-input').val(1);"/>
+    </div>
+    {% endifequal %}
+    <div class="chunk">
+        <ul class="submenu">
+            <li>
+                <b class="">Browse</b>
+            </li>
+            {% for sort, sort_title in available_sorts %}
+            <li>
+                <a href="/{{CITY}}/search/?text={{CURRENT_QUERY}}&location={{CURRENT_LOCATION}}&type={{CURRENT_TYPE}}&usort={{sort}}" class="submenubar{% ifequal CURRENT_SORT sort %}-selected{% endifequal %}">{{sort_title}}</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endif %}
-{% else %}
-<div class="g12 center">    
-    <div style="padding:40px 0px;">        
-        <h4 class="">No {{CURRENT_TYPE}} found</h4>
+<div class="clear"></div>
+</form>
+{% if HAS_MORE_RESULTS %}
+<div class="g12">
+    <div class="tops bottom center">
+        <div id="do_load" class="">
+            <a id="load_next" href="#" class="button">More results</a>        
+        </div>
+        <img id="loading" src="{{MEDIA_URL}}/images/loading.gif" class="hidden"/>
     </div>
 </div>
 {% endif %}
@@ -152,7 +171,10 @@
     <div class="chunk">
     <h3>Didn't find what you were looking for?</h3>
     <div class="tops">
-        <a href="/discussion/new/" class="button" style="font-size:14px;">Ask the community</a>
+        <a href="/discussion/new/" class="button">Ask Secret {{CITY}}</a>
+        {% ifequal CURRENT_TYPE "photos" %}
+            &nbsp;&nbsp;<a href="/secret/new/?t=photo" class="button">Upload a photo</a>
+        {% endifequal %}
     </div>
     </div>
 </div>

@@ -8,6 +8,7 @@ def globals(request):
         'MEMBER_LEVEL':     member_level(request),
         'CITY':             city(request),
         'DOMAIN':           conf.BASE_DOMAIN,
+        'COUNTRY':          country(request)
     }
 
 
@@ -20,6 +21,13 @@ def city(request):
         return request.session[CITY_SESSION_NAME]
     else:
         return 'london'
+
+def country(request):
+    """
+        Returns the Country which is the user is looking at
+        TODO
+    """
+    return 'UK'
 
 
 def member_level(request):

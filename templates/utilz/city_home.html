@@ -1,124 +1,60 @@
 {% extends 'layout/base.html' %}
 {# inpage css #}
-{% block pagemedia %}
-<script type="text/javascript" src="{{MEDIA_URL}}/js/jquery.scrollto-min.js"></script>
-<script type="text/javascript" charset="utf-8">
-    SEARCH_PERFORMED = {% if CURRENT_QUERY %}true{% else %}false{% endif %};
-    QUERY = "{{CURRENT_QUERY}}";
-    SORT = "{{CURRENT_SORT}}";
-    NEXT_PAGE = {{NEXT_PAGE}};   
-    
-    function do_highlight(){ 
-        if(SEARCH_PERFORMED){
-            var area = $('.dohighlight');
-            area.removeHighlight()
-            $.each(QUERY.split(" "), function(idx, val) { area.highlight(val); })
-        }
-    }
-    function load_more_results()
-    {
-        swap("#do_load","#loading");
-        $.post(
-            '/{{CITY}}/',
-            $('#main_search').serialize(),
-            function(data) {
-                if (data.num_results > 0){
-                    $('#results').append(data.rendered_results);
-                    do_highlight();
-                    NEXT_PAGE = NEXT_PAGE + 1;
-                    $('#page-input').val(NEXT_PAGE);
-                    if (data.has_more_results)
-                    {
-                        swap("#loading","#do_load");
-                    }
-                    else
-                    {
-                        swap("#loading","#no_more_results");
-                    }                    
-                }
-                else
-                {
-                    swap("#loading","#no_more_results");
-                }
-            },
-            "json"
-        );
-        return false;
-    }
-        
-    function select_choice(select, choice){
-        $('#the-'+select).html(choice);
-        $('#'+select+'-input').val(choice);
-        $('#choose-'+select).hide();                            
-        return false;
-    }
-    function select_type(choice){ return select_choice('type',choice); }
-    function select_sort(choice){ return select_choice('sort',choice); }
-    
-    $(document).ready(function(){    
-        $("#li-sort").hover(
-          function () { $("#choose-sort").show(); }, 
-          function () { $("#choose-sort").hide(); }
-        );
-        $("#li-type").hover(
-          function () { $("#choose-type").show(); }, 
-          function () { $("#choose-type").hide(); }
-        );
-        do_highlight();
-        $("#load_next").click(function(){return load_more_results();})
-        var DEFAULT_TEXT = "Search...";
-        $("#query-input").defaultText(DEFAULT_TEXT);
-        $("#main_search").submit(function() { 
-            if($('#query-input').val()==DEFAULT_TEXT){$('#query-input').val('');}
-        });
-        $('#header_{{CURRENT_TYPE}}').addClass('header-selected');
-    });
-</script>
-{% endblock %}
 
 {# welcome notice #}
 {% block content %}
 <div class="g12 blk rtop rbot">
     <div class="chunk center">
-        <h3 style="color:#fff;">Secret London exists to inspire Londoners. Join the discussion to share your experiences of the city.</h3>
+        <h3 style="color:#fff;padding:0px;">Secret London exists to inspire Londoners. <a href="{% url search city=CITY %}?type=discussions">Join the discussion</a> to share your experiences of the city.</h3>
     </div>
 </div>
 <div class="g7">
     <div class="chunk">
-        <h2 class="caps">Latest Discussions</h2>
+        <div class="float-right">
+            <a href="/discussion/new/" class="button small">Start a new discussion</a>
+        </div>
+        <h2 class="caps subtle">Latest Discussions</h2>
         {% for discussion in discussions %}
+            {% with "1" as show_image %}
             {% include "discussion/render/singular.html" %}
+            {% endwith %}
         {% endfor %}
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=discussions" class="button" style="font-size:14px;">Browse all discussions</a>
+        <a href="{% url search city=CITY %}?type=discussions" class="button small">Browse all discussions</a>
         </div>
     </div>
 </div>
 <div class="g5">
     <div class="chunk">
-        <h2 class="caps">Latest Photos</h2>
+        <div class="float-right">
+            <a href="/secret/new/?t=photo" class="button small">Upload a photo</a>
+        </div>
+        <h2 class="caps subtle">Latest Photos</h2>
+        <div class="tops">
         {% for photo in photos %}
             <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{photo.thumb.url}}" alt="{{photo.caption}}" /></a>
         {% endfor %}
+        </div>
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=photos" class="button" style="font-size:14px;">Browse all photos</a>
+        <a href="{% url search city=CITY %}?type=photos" class="button small">Browse all photos</a>
         </div>
     </div>    
-    <div class="chunk">
-        <h2 class="caps">Latest Secrets</h2>
+    <div class="chunk" style="padding-top:45px;">
+        <div class="float-right">
+            <a href="/secret/new/" class="button small">Share a secret</a>
+        </div>
+        <h2 class="caps subtle">Latest Secrets</h2>
         {% for secret in secrets %}
-            {% with "1" as hide_photo %}
             {% include "secret/render/singular.html" %}
-            {% endwith %}
         {% endfor %}
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=secrets" class="button" style="font-size:14px;">Browse all secrets</a>
+        <a href="{% url search city=CITY %}?type=secrets" class="button small">Browse all secrets</a>
         </div>
     </div>    
 </div>
 <div class="g12">
     <div class="chunk">
-        <h2 class="caps">Latest Visitors</h2>
+        <h2 class="caps subtle">Latest Visitors</h2>
         <div class="center">
         {% for profile in profiles %}
             {% include "accounts/render/singular.html" %}

@@ -8,7 +8,7 @@ class DiscussionDocument(SearchDocument):
     # title / text
     title       = solango.fields.TextField(indexed=True, stored=True)
     text        = solango.fields.TextField(indexed=True, stored=True)
-    blob        = solango.fields.TextField(indexed=True, stored=False)
+    blob        = solango.fields.TextField(indexed=True, stored=True)
     
     # stats
     comments    = solango.fields.IntegerField(indexed=True, stored=True)
@@ -32,7 +32,9 @@ class DiscussionDocument(SearchDocument):
         " Saves all the discussion content "
         output = ""
         for c in instance.comments():
-            output += "\n\n\n%s\n\n\n" % c.text
+            output += "\n\n\n%s\n\n\n" % (c.text)
+            for s in c.secrets.all():
+                output += "\n\n\n%s\n\n\n" % (s.title)
         return output
     
     def transform_comments(self, instance):
@@ -49,7 +51,7 @@ class DiscussionDocument(SearchDocument):
     
     def transform_updated(self, instance):
         " Last time the discussion was commented on - or falls back to when it was created "
-        return instance.latest_comment().created_at
+        return instance.updated_at
 
 
 solango.register(Discussion, DiscussionDocument)

@@ -8,7 +8,7 @@ from secret.models import Secret
 
 class AbstractComment(UserContent):
     """ Helper abstract model. Pretty useless now. May add more later. """
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
     
     # see perm.models for details
     edit_permission = 'Keeper'
@@ -26,7 +26,7 @@ class AbstractComment(UserContent):
             return self.text[:nchars] + "..."
 
 class SecretComment(AbstractComment):
-    """ A comment on a secret. Could be assosiciated with a discussion. """
+    """ A comment on a secret. Could be associated with a discussion. """
     secret      = models.ForeignKey(Secret)
 
     def get_edit_url(self):
@@ -68,6 +68,9 @@ class Proposal(models.Model):
     viewable    = ProposalManager()
     objects     = models.Manager() 
     
+    def get_absolute_url(self):
+        return self.discussion_comment.get_absolute_url()
+    
     def get_agree_url(self):
         return reverse('agree_with_proposal', kwargs={'proposal_id':self.pk})
     
@@ -91,7 +94,7 @@ class Proposal(models.Model):
         return ProposalComment.viewable.filter(proposal=self).count()
     
     def comment_form(self):
-        from forms import *
+        from forms import ProposalCommentForm
         return ProposalCommentForm().set_url(self)
 
 

@@ -16,6 +16,8 @@ class Discussion(UserContent):
     comments_per_page = 5
     page = 1
     
+    highlighted_body = ""
+    
     # PAGES
     @property
     def pages(self):
@@ -43,7 +45,7 @@ class Discussion(UserContent):
         if not hasattr(self, '_comments'):
             from comment.models import DiscussionComment
             # TODO: cache this
-            self._comments = DiscussionComment.viewable.filter(discussion=self).select_related()
+            self._comments = DiscussionComment.viewable.filter(discussion=self).select_related().order_by("created_at")
         return self._comments
     
     @property

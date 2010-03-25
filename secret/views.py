@@ -77,7 +77,7 @@ def edit(request, pk=None, from_discussion=False):
     secret = get_editable_or_raise(Secret, user, pk=pk) if pk else Secret()
     
     if request.method == 'POST':
-        form = SecretForm(request.POST, instance=secret, permission_level=request.user.permission_level)
+        form = SecretForm(request.POST, request.FILES, instance=secret, permission_level=request.user.permission_level)
         if form.is_valid():
             secret = form.save(request)
             # success and ajax
