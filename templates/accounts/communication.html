@@ -1,9 +1,10 @@
-{% extends 'layout/generic.html' %}
+{% extends 'layout/base.html' %}
 
-{% block left %}Communication settings{% endblock %}
-
-{% block right %}
-
+{% block content %}
+    <div class="g8 prefix_2 suffix_2 top bottom">
+        <div class="bottom">
+        <h3>Communication Settings</h3>
+    </div>
     {% form form %}
         {% for f in form %}
         <p class="cl">
@@ -16,5 +17,9 @@
         
         {% endfor %}
     {% endform %}
-
+    
+    <div class="top">
+        <a href="{{user.get_absolute_url}}">Back to my profile</a>
+    </div>
+    </div>
 {% endblock %}

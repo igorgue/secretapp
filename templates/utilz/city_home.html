@@ -32,7 +32,11 @@
         <h2 class="caps subtle">Latest Photos</h2>
         <div class="tops">
         {% for photo in photos %}
-            <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{photo.thumb.url}}" alt="{{photo.caption}}" /></a>
+            {% with photo.thumb as thumb %}
+            {% if thumb %}
+                <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{thumb.url}}" alt="{{photo.caption}}" /></a>
+            {% endif %}
+            {% endwith %}
         {% endfor %}
         </div>
         <div class="tops">

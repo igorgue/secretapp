@@ -21,7 +21,7 @@
     	</form>
     	{% endifequal %}
     	{% else %}
-        <a href="{% url login %}">Log in</a> to agree &nbsp;
+        <a href="{% url render_template template='login' %}">Log in</a> to agree &nbsp;
     	{% endif %}
     	{% with proposal.agreement_count as agreement_count %}
          {{agreement_count}} {{agreement_count|pluralize:"person,people"}} agree{{agreement_count|pluralize:"s,"}}

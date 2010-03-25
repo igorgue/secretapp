@@ -13,6 +13,7 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from photo.models import UploadedPhoto
 from shortcuts import context_response
+from utilz.shortcuts import login_required
 import datetime
 import random
 
@@ -117,25 +118,19 @@ def search(request, city):
         return context_response(request, 'utilz/search.html', locals(), tabs=['home'])
 
 
+@login_required
 def alt_home(request):
-    START_DATE = datetime.datetime(*settings.START_DATE)
-    NOW = datetime.datetime.now()
+    if not request.user.is_superuser or not request.user.is_staff:
+        return HttpResponseRedirect("/")
     
-    # TODO: cache this and randomize
-    context = {
-        #'secrets': Secret.viewable.select_related().order_by('-created_at')[:20],
-        'discussions': Discussion.viewable.select_related().order_by('-created_at')[:5],
-        #'photos'
-        'users': User.objects.order_by('-last_login')[:5],
-        #'count' : {
-        #    'users': User.objects.count(),
-        #    'discussions': Discussion.viewable.count(),
-        #    'secrets': Secret.viewable.count(),
-        #    'posts': DiscussionComment.viewable.count(),
-        #    'days': (NOW - START_DATE).days - 1,
-        #}
-    }
-    return context_response(request, 'utilz/alt_home.html', context, tabs=['home'])
+    user_count = User.objects.count()
+    user_with_email_count = User.objects.exclude(email="").count()
+    secret_count = Secret.viewable.count()
+    discussion_count = Discussion.viewable.count()
+    post_count = DiscussionComment.viewable.count()
+    photo_count = UploadedPhoto.viewable.count()
+    
+    return context_response(request, 'utilz/alt_home.html', locals(), tabs=['home'])
     
 
 
