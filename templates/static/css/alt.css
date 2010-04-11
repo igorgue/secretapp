@@ -83,13 +83,17 @@ h3 {
 }
 
 #headliner {
-     background: transparent url('../images/grey-0.9.png') repeat scroll top left;
-     border-bottom: 1px solid #333;
-     padding: 7px 0px 6px 0px;
+     background-color: #ddd;
+     font-size:13px;
      line-height: 1em;
-     margin: 0px 150px;
-     text-align: center;     
-     color: #e5e5e5;
+     margin: 0px 50px; 
+     text-align: center;
+     color: #000;
+     cursor: pointer;
+}
+
+#oneliner { 
+    padding: 8px 10px 7px 10px;
 }
 
 #intro {

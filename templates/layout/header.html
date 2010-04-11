@@ -1,8 +1,72 @@
-<!--<div id="headliner" class="rbot">
-    <strong>Today's Deal</strong> &nbsp; <a href="" style="color:#ed1849;">Great deal at great place</a>
-</div>-->
+<link href="http://dealer.heroku.com/jquery.fancybox-1.3.1/jquery.fancybox-1.3.1.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://dealer.heroku.com/jquery.fancybox-1.3.1/jquery.fancybox-1.3.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var secsleft = 5000;
+        $('#headliner').hover(function(){$('#slidedown').show();$('#headliner').css('opacity','1.0');}, function(){$('#slidedown').hide();$('#headliner').css('opacity','.7');});
+        
+        $('#headliner').fancybox({
+        	'width'				: 785,
+        	'height'			: 470,
+            'autoScale'     	: false,
+            'transitionIn'		: 'none',
+        	'transitionOut'		: 'none',
+        	'type'				: 'iframe',
+        	'href'              : "http://dealer.heroku.com/ads/samples"
+        });
+        
+        
+        
+        function sec_to_str(secs)
+        {
+            var str = "";
+            if(secs>3600)
+            {
+                str += "" + Math.floor(secs/3600) + "h "
+                secs = secs % 3600
+            }
+            if(secs>60)
+            {
+                str += "" + Math.floor(secs/60) + "m "
+                secs = secs % 60
+            }
+            str += (secs > 9 ? "" : "0") + (secs) + "s "
+            return str + "remaining";
+        }
+        function run_countdown()
+        {
+            secsleft -= 1;
+            $('#deal_time_remaining').text(sec_to_str(secsleft));
+            setTimeout(run_countdown, 1000);
+        }
+        
+        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=?", 
+        function(data){
+          data.has_deal = true;
+          if(data.has_deal)
+          {
+              data.deal_title = "Great deal at great place Great deal at great place Great deal at great place";
+              data.deal_available = "10 left";
+              $('#deal_title').text(data.deal_title);
+              $('#deal_available').text(data.deal_available);
+              $('#headliner').fadeIn();
+              run_countdown();
+          }
+        });
+        
+        $('#slidedown').click(function(){})
+    });
+</script>
+<div style="min-height:32px;position:fixed;z-index:1000;top:0px;">
+    <div id="headliner" class="rbot hidden">
+        <div id="oneliner" class="">
+            <span class="subtle">Sponsored Deal</span> &nbsp;&nbsp; <span id="deal_title" style="font-weight:bold;"></span> &nbsp;&nbsp; <span id="deal_available"></span> &nbsp;&middot;&nbsp; <span id="deal_time_remaining"></span>
+        </div>
+        <div id="slidedown" class="hidden" style="font-size:10px;padding-bottom:3px;margin-top:-2px;"><img src="{{MEDIA_URL}}/images/show_details.png"/></div>
+    </div>
+</div>
 
-<div class="text-right rights tops">
+<div class="text-right rights tops" style="padding-top:40px;">
     {% if user.is_anonymous %}
         {% include 'accounts/fb_button.html' %}
     {% else %}
