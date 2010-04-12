@@ -7,7 +7,7 @@ from models import *
 @login_required
 def upload(request, secret_id):
     """ Upload an image and attach it to a secret """
-    secret = get_editable_or_raise(Secret, request.user, pk=secret_id)
+    secret = get_viewable_or_raise(Secret, request.user, pk=secret_id)
     
     if request.method == 'POST':
         form = UploadPhotoForm(request.POST, request.FILES)
