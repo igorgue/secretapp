@@ -64,19 +64,22 @@ class ClaimFacebookBackend:
             return None
             #print unicode(e)
         
-        if fb_data:        
-            profile.user.email = fb_data['email']
-            profile.user.save()
-            
-            profile.profile_image_url = fb_data['pic']
-            profile.profile_image_url_big = fb_data['pic_big']
-            profile.profile_image_url_small = fb_data['pic_square']
-            profile.location = unicode(fb_data['current_location'])
-            profile.about_me = unicode(fb_data['about_me'])[:100]
-            profile.url = unicode(fb_data['profile_url'])
-            profile.save()        
+        user = profile.user
         
-        return profile.user
+        if user.is_active:
+            if fb_data:        
+                user.email = fb_data['email']
+                user.save()
+                profile.profile_image_url = fb_data['pic']
+                profile.profile_image_url_big = fb_data['pic_big']
+                profile.profile_image_url_small = fb_data['pic_square']
+                profile.location = unicode(fb_data['current_location'])
+                profile.about_me = unicode(fb_data['about_me'])[:100]
+                profile.url = unicode(fb_data['profile_url'])
+                profile.save()        
+            return user
+        else:
+            return None
 
     
     def get_user(self, user_id):
