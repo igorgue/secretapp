@@ -24,4 +24,20 @@ class PermissionUserMiddleware(object):
             request.session[PERMISSION_SESSION_NAME] = level
             request.session.modified = True
         
+        from urllib import urlopen
+        from datetime import datetime, timedelta
+        from django.utils import simplejson
+        request.has_deal = False
+        
+        try:
+            daily_deal = simplejson.loads(urlopen("http://dealer.heroku.com/ads/1/61733ff7.json").read())
+            request.has_deal = daily_deal['active_now']
+            request.daily_deal = daily_deal['deal']
+            request.daily_deal['expires_at_date'] = datetime.strptime(request.daily_deal['expires_at'][:-6], "%Y-%m-%dT%H:%M:%S")
+            request.daily_deal['seconds_left'] = max(0,(request.daily_deal['expires_at_date'] - datetime.now()).seconds)
+            if request.daily_deal['seconds_left'] == 0:
+                request.has_deal = False
+        except:
+            pass        
+        
         return None
