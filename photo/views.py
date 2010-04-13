@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from secret.models import Secret
-from utilz.shortcuts import context_response, get_editable_or_raise, login_required
+from utilz.shortcuts import context_response, get_editable_or_raise, login_required, get_viewable_or_raise
 from forms import *
 from models import *
 
