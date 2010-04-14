@@ -49,9 +49,7 @@
         //$('#slidedown').click(function(){})
     });
 </script>
-{% endif %}
 
-{% if request.has_deal %}
 <div style="min-height:32px;position:fixed;z-index:1000;top:0px;">
     <div id="headliner" class="rbot">
         <div id="oneliner" class="">
@@ -61,6 +59,7 @@
     </div>
 </div>
 {% endif %}
+
 
 <div class="text-right rights tops" style="padding-top:40px;">
     {% if user.is_anonymous %}
