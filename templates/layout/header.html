@@ -24,6 +24,11 @@
         function sec_to_str(secs)
         {
             var str = "";
+            if(secs>86400)
+            {
+                str += "" + Math.floor(secs/86400) + "d "
+                secs = secs % 86400
+            }
             if(secs>3600)
             {
                 str += "" + Math.floor(secs/3600) + "h "
@@ -37,6 +42,7 @@
             str += (secs > 9 ? "" : "0") + (secs) + "s "
             return str + "remaining";
         }
+        
         function run_countdown()
         {
             secsleft -= 1;
