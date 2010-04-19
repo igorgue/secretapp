@@ -24,6 +24,11 @@
         function sec_to_str(secs)
         {
             var str = "";
+            if(secs>86400)
+            {
+                str += "" + Math.floor(secs/86400) + "d "
+                secs = secs % 86400
+            }
             if(secs>3600)
             {
                 str += "" + Math.floor(secs/3600) + "h "
@@ -37,6 +42,7 @@
             str += (secs > 9 ? "" : "0") + (secs) + "s "
             return str + "remaining";
         }
+        
         function run_countdown()
         {
             secsleft -= 1;
@@ -61,7 +67,7 @@
 {% endif %}
 
 
-<div class="text-right rights tops" style="padding-top:40px;">
+<div class="text-right rights tops" {% if request.has_deal %}style="padding-top:40px;"{% endif %}>
     {% if user.is_anonymous %}
         {% include 'accounts/fb_button.html' %}
     {% else %}
