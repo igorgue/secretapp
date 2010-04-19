@@ -140,8 +140,8 @@ class SecretForm(UserContentForm):
             #adding a brand new secret
             the_secret = super(SecretForm, self).save(request)
             the_secret.save()
-
-        if not the_secret is None:           
+        
+        if not the_secret is None:
             if self.cleaned_data['image']:
                 from photo.models import UploadedPhoto
                 new_photo = UploadedPhoto(secret=the_secret, created_by=request.user)

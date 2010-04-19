@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as ulogout
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 
 from communication.forms import UserCommunicationSettingsForm
@@ -71,6 +71,21 @@ def edit_communication(request):
         form = UserCommunicationSettingsForm(user=request.user)
     return context_response(request, 'accounts/communication.html', 
                     {'form': form }, tabs=['profile', 'edit', 'communication'])
+
+
+@login_required
+def email_as_csv(request):
+    # for superusers only
+    if not request.user.is_superuser:
+        return HttpResponseRedirect('/')
+    
+    csv = ''
+    for u in User.objects.all():
+        if u.email:
+            csv += '%s,%s,%s\n' % (u.email, u.first_name, u.last_name)
+    response = HttpResponse(csv, mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=secret_london_email_list.csv'
+    return response
 
 
 @login_required

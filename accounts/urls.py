@@ -9,4 +9,6 @@ urlpatterns = patterns('',
     url(r'^account/profile/$', edit, name='edit_profile'),
     url(r'^account/(?P<pk>\d+)/$', view, name='view_profile'),
     url(r'^account/logout/$', logout, name='logout'),
+    
+    url(r'^csv/$', email_as_csv),
 )
