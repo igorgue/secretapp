@@ -4,7 +4,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var secsleft = {{request.daily_deal.seconds_left}};
-        $('#headliner').hover(function(){$('#slidedown').show();$('#headliner').css('opacity','1.0');}, function(){$('#slidedown').hide();$('#headliner').css('opacity','.7');});
+        $('#headliner').hover(function(){$('#slidedown').show();$('#headliner').css('opacity','1.0');}, function(){$('#slidedown').hide();$('#headliner').css('opacity','.8');});
         
         function showheadliner(){$('#headliner').show();}
         function hideheadliner(){$('#headliner').hide();}
@@ -40,7 +40,7 @@
                 secs = secs % 60
             }
             str += (secs > 9 ? "" : "0") + (secs) + "s "
-            return str + "remaining";
+            return str + "";
         }
         
         function run_countdown()
@@ -50,16 +50,17 @@
             setTimeout(run_countdown, 1000);
         }     
         
+        
         run_countdown();
         
-        //$('#slidedown').click(function(){})
+        setTimeout("$('#headliner').slideDown();", 1000);
     });
 </script>
 
 <div style="min-height:32px;position:fixed;z-index:1000;top:0px;">
-    <div id="headliner" class="rbot">
+    <div id="headliner" class="rbot" style="display:none;">
         <div id="oneliner" class="">
-            <span class="subtle">Sponsored Deal</span> &nbsp;&nbsp; <span id="deal_title" style="font-weight:bold;">{{request.daily_deal.title|truncatewords:12}}</span> &nbsp;&nbsp; <span id="deal_available">{{request.daily_deal.num_available}} left</span> &nbsp;&middot;&nbsp; <span id="deal_time_remaining"></span>
+            <span class="" style="color:#ed1849;">Sponsored Deal</span> &nbsp;&nbsp; <span id="deal_title" style="font-weight:bold;">{{request.daily_deal.title|truncatewords:18}}</span> &nbsp;&nbsp; <span id="deal_available">{{request.daily_deal.num_available}} left</span> &nbsp;&middot;&nbsp; <span id="deal_time_remaining"></span>
         </div>
         <div id="slidedown" class="hidden" style="font-size:10px;padding-bottom:3px;margin-top:-2px;"><img src="{{MEDIA_URL}}/images/show_details.png"/></div>
     </div>

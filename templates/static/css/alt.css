@@ -86,11 +86,13 @@ h3 {
      background-color: #ddd;
      font-size:13px;
      line-height: 1em;
-     margin: 0px 25px; 
+     margin: 0px 0px; 
      text-align: center;
      color: #000;
      cursor: pointer;
-     width: 850px;
+     width: 900px;
+     opacity:0.8;
+     filter:alpha(opacity=80);
 }
 
 #oneliner { 
