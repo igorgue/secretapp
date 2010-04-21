@@ -21,6 +21,8 @@
         	'href'              : "{{request.daily_deal.url}}"
         });
         
+        if (document.location.href.match('#offer')){ $('#headliner').trigger('click') }
+        
         function sec_to_str(secs)
         {
             var str = "";
