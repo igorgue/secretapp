@@ -20,7 +20,7 @@
             {% endwith %}
         {% endfor %}
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=discussions" class="button small">Browse all discussions</a>
+        <a href="{% url search city=CITY %}?type=discussions&usort=latest" class="button small">Browse all discussions</a>
         </div>
     </div>
 </div>
@@ -30,14 +30,23 @@
             <a href="/secret/new/?t=photo" class="button small">Upload a photo</a>
         </div>
         <h2 class="caps subtle">Latest Photos</h2>
-        <div class="tops">
+        <div class="top">
         {% for photo in photos %}
             {% with photo.thumb as thumb %}
             {% if thumb %}
-                <a href="{{photo.secret.get_absolute_url}}" class=""><img src="{{thumb.url}}" alt="{{photo.caption}}" /></a>
+                <div class="float-left" style="padding:1px;">
+                <div style="position:relative">
+                <a href="{{photo.secret.get_absolute_url}}" class="nohover"><img src="{{thumb.url}}" alt="{{photo.caption}}" />
+                <div class='imgtag'>
+                    by {{photo.created_by.name}}            
+                </div>
+                </a>
+                </div>
+                </div>
             {% endif %}
             {% endwith %}
         {% endfor %}
+            <div class="clear"></div>
         </div>
         <div class="tops">
         <a href="{% url search city=CITY %}?type=photos" class="button small">Browse all photos</a>
@@ -52,7 +61,7 @@
             {% include "secret/render/singular.html" %}
         {% endfor %}
         <div class="tops">
-        <a href="{% url search city=CITY %}?type=secrets" class="button small">Browse all secrets</a>
+        <a href="{% url search city=CITY %}?type=secrets&usort=latest" class="button small">Browse all secrets</a>
         </div>
     </div>    
 </div>

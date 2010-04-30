@@ -367,6 +367,14 @@ div.paged {
      
 }
 
+.imgtag {
+    position:absolute;bottom:0px;left:0px;padding:2px 5px;background-color:#000;opacity:0.8;color:#fff;font-size:10px;
+}
+
+.nohover:hover { 
+    text-decoration: none;
+}
+
 .bold {
     font-weight: bold;
 }

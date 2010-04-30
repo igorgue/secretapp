@@ -83,8 +83,8 @@
         <a href="{% url home city=CITY %}"><img src="{{MEDIA_URL}}/images/logo.png" width="195"/></a>
     </div>
     <div class="g6 links">        
-        <a href="/{{CITY}}/search/?type=discussions" id="header_discussions" class="header rtop rbot">Discussions</a>
-        <a href="/{{CITY}}/search/?type=secrets" id="header_secrets" class="header rtop rbot">Secret Places</a>
+        <a href="/{{CITY}}/search/?type=discussions&usort=latest" id="header_discussions" class="header rtop rbot">Discussions</a>
+        <a href="/{{CITY}}/search/?type=secrets&usort=latest" id="header_secrets" class="header rtop rbot">Secret Places</a>
         <a href="/{{CITY}}/search/?type=photos" id="header_photos" class="header rtop rbot">Photos</a>
         <!--<a href="/inspire/">Random</a> &nbsp;-->       
     </div>
