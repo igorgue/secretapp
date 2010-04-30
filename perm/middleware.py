@@ -30,7 +30,7 @@ class PermissionUserMiddleware(object):
         request.has_deal = False
         
         try:
-            daily_deal = simplejson.loads(urlopen("http://dealer.heroku.com/ads/1/61733ff7.json").read())
+            daily_deal = simplejson.loads(urlopen("http://grpbuys.com/ads/1/61733ff7.json").read())
             request.has_deal = daily_deal['active_now']
             request.daily_deal = daily_deal['deal']
             request.daily_deal['expires_at_date'] = datetime.strptime(request.daily_deal['expires_at'][:-6], "%Y-%m-%dT%H:%M:%S")
